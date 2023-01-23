@@ -1,8 +1,18 @@
 package main
 
-// My first Golang code. Generates a screen full of random char passwords of a 
-// specified. ChatGPT wrote the stub, I grabbed a gist for the column size 
-// stuff, but had to tweak both to get things working.
+// My first Golang code. It generates a screen full of random char passwords 
+// of a specified length. ChatGPT wrote the stub for me after this input:
+
+//    please write me a command line tool, written in golang, that generates 
+//    passwords of random characters. The command line tool should allow the 
+//    user to request a specific length of the generated passwords. The 
+//    command line tool's output should generate exactly enough passwords to 
+//    fill the screen but not any further. For example, if the command line 
+//    tool is run in a terminal screen that is 30 rows high then the command 
+//    line tool should generate 29 passwords.
+
+// I then grabbed a gist for the column size stuff. The url is inline, below. 
+// But I had to tweak both the ChatGPT code and the gist to get things working.
 
 import (
     "fmt"
