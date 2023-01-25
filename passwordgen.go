@@ -29,13 +29,15 @@ import (
 
 func main() {
 	if len(os.Args) != 2 {
-		fmt.Println("Please provide a password length as an argument")
+		// fmt.Println("Please provide a password length as an argument")
+		color.Red("Please provide a password length as an argument")
 		return
 	}
 
 	n, err := strconv.Atoi(os.Args[1])
 	if err != nil {
-		fmt.Println("Invalid password length argument")
+		// fmt.Println("Invalid password length argument")
+		color.Red("Invalid password length argument")
 		return
 	}
 
@@ -52,7 +54,7 @@ func main() {
 
 	for i := 0; i < rows-1; i++ {
 		fmt.Println(randString(n))
-		color.Red("We have red")
+		// color.Red("We have red")
 	}
 }
 
