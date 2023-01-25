@@ -29,22 +29,19 @@ import (
 
 func main() {
 	if len(os.Args) != 2 {
-		// fmt.Println("Please provide a password length as an argument")
 		color.Red("Please provide a password length as an argument")
 		return
 	}
 
-	n, err := strconv.Atoi(os.Args[1])
+	// Convert the requested length from string to int
+	random_int, err := strconv.Atoi(os.Args[1])
+
 	if err != nil {
-		// fmt.Println("Invalid password length argument")
 		color.Red("Invalid password length argument")
 		return
 	}
 
 	rand.Seed(time.Now().UnixNano())
-
-	// rows, _ := strconv.Atoi(os.Getenv("LINES"))
-	// fmt.Println("LINES == ", rows)
 
 	var rows_columns [2]int
 	rows_columns[0], rows_columns[1] = consoleSize()
@@ -52,9 +49,8 @@ func main() {
 	var rows int
 	rows = rows_columns[0]
 
-	for i := 0; i < rows-1; i++ {
-		fmt.Println(randString(n))
-		// color.Red("We have red")
+	for each_row := 0; each_row < rows-1; each_row++ {
+		fmt.Println(randString(random_int))
 	}
 }
 
@@ -71,7 +67,7 @@ func consoleSize() (int, int) {
 	s = strings.TrimSpace(s)
 	sArr := strings.Split(s, " ")
 
-	heigth, err := strconv.Atoi(sArr[0])
+	height, err := strconv.Atoi(sArr[0])
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -80,7 +76,7 @@ func consoleSize() (int, int) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	return heigth, width
+	return height, width
 }
 
 func randString(n int) string {
