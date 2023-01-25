@@ -16,6 +16,8 @@ package main
 
 import (
 	"fmt"
+	"github.com/fatih/color"
+	_ "github.com/fatih/color"
 	"log"
 	"math/rand"
 	"os"
@@ -50,6 +52,7 @@ func main() {
 
 	for i := 0; i < rows-1; i++ {
 		fmt.Println(randString(n))
+		color.Red("We have red")
 	}
 }
 
