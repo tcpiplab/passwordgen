@@ -34,7 +34,7 @@ func main() {
 	}
 
 	// Convert the requested length from string to int
-	random_int, err := strconv.Atoi(os.Args[1])
+	requested_password_length, err := strconv.Atoi(os.Args[1])
 
 	if err != nil {
 		color.Red("Invalid password length argument")
@@ -50,7 +50,20 @@ func main() {
 	rows = rows_columns[0]
 
 	for each_row := 0; each_row < rows-1; each_row++ {
-		fmt.Println(randString(random_int))
+		//fmt.Println(randString(requested_password_length))
+		//color.Red(randString(requested_password_length))
+
+		password := randString(requested_password_length)
+
+		for i := 0; i < requested_password_length-1; i++ {
+			character := password[i]
+
+			color_object := color.New(color.FgCyan, color.Bold)
+			color_object.Printf("%s", character)
+			color_object.Printf("%s", string(character))
+			fmt.Printf("\n")
+		}
+		//fmt.Printf("\n")
 	}
 }
 
@@ -79,11 +92,11 @@ func consoleSize() (int, int) {
 	return height, width
 }
 
-func randString(n int) string {
-	var letterRunes = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#%^&*()")
-	b := make([]rune, n)
+func randString(length_of_rand_string int) string {
+	var allowed_characters = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#%^&*()")
+	b := make([]rune, length_of_rand_string)
 	for i := range b {
-		b[i] = letterRunes[rand.Intn(len(letterRunes))]
+		b[i] = allowed_characters[rand.Intn(len(allowed_characters))]
 	}
 	return string(b)
 }
