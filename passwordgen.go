@@ -15,6 +15,7 @@ package main
 // But I had to tweak both the ChatGPT code and the gist to get things working.
 
 import (
+	"fmt"
 	"github.com/fatih/color"
 	_ "github.com/fatih/color"
 	"log"
@@ -55,58 +56,55 @@ func main() {
 		password := randString(requested_password_length)
 
 		for i := 0; i < requested_password_length-1; i++ {
-			character := password[i]
+			character := int32(password[i])
 
-			//cyan_char := color.New(color.FgCyan, color.Bold)
-			//red_char := color.New(color.FgRed, color.Bold)
-			//green_char := color.New(color.FgGreen, color.Bold)
-			//blue_char := color.New(color.FgBlue, color.Bold)
+			//if len(string(character)) > 2 {
+			// fmt.Print(character)
+			//}
 
-			//cyan_char.Printf("%s", character)
-			//cyan_char.Printf("%s", string(character))
-
-			// Assign a color to uppercase characters
 			if character >= 65 && character <= 90 {
-				color.Red(string(character))
-				break
-			}
-			// Assign a color to lowercase characters
-			if character >= 97 && character <= 122 {
-				color.Blue(string(character))
-				break
-			}
-			// Assign a color to number characters
-			if character >= 48 && character <= 57 {
-				color.Green(string(character))
-				break
-			}
-			// Assign a color to special characters, first range
-			if character >= 33 && character <= 47 {
-				color.Magenta(string(character))
-				break
-			}
-			// Assign a color to special characters, second range
-			if character >= 58 && character <= 64 {
-				color.Magenta(string(character))
-				break
-			}
-			// Assign a color to special characters, third range
-			if character >= 91 && character <= 96 {
-				color.Magenta(string(character))
-				break
-			}
-			// Assign a color to special characters, fourth range
-			if character >= 123 && character <= 126 {
-				color.Magenta(string(character))
-				break
+				// Assign a color to uppercase characters
+				//color.Red(string(character))
+				fmt.Printf(strings.TrimRight(color.RedString(string(character)), "\n"))
+			} else if character >= 97 && character <= 122 {
+				// Assign a color to lowercase characters
+				//color.Blue(string(character))
+				fmt.Printf(strings.TrimRight(color.BlueString(string(character)), "\n"))
+			} else if character >= 48 && character <= 57 {
+				// Assign a color to number characters
+				//color.Green(string(character))
+				fmt.Printf(strings.TrimRight(color.GreenString(string(character)), "\n"))
+			} else if character >= 33 && character <= 47 {
+				if character == 37 {
+					// Double the % sign or printf thinks it is a formatting symbol
+					fmt.Printf(strings.TrimRight(color.MagentaString("%%"), "\n"))
+				} else {
+					// Assign a color to special characters, first range
+					//color.Magenta(string(character))
+					fmt.Printf(strings.TrimRight(color.MagentaString(string(character)), "\n"))
+				}
+
+			} else if character >= 58 && character <= 64 {
+				// Assign a color to special characters, second range
+				//color.Magenta(string(character))
+				fmt.Printf(strings.TrimRight(color.MagentaString(string(character)), "\n"))
+			} else if character >= 91 && character <= 96 {
+				// Assign a color to special characters, third range
+				//color.Magenta(string(character))
+				fmt.Printf(strings.TrimRight(color.MagentaString(string(character)), "\n"))
+			} else if character >= 123 && character <= 126 {
+				// Assign a color to special characters, fourth range
+				//color.Magenta(string(character))
+				fmt.Printf(strings.TrimRight(color.MagentaString(string(character)), "\n"))
 			} else {
 				// Assign a color to any character not represented above
-				color.Yellow(string(character))
+				//color.Yellow(string(character))
+				fmt.Printf(strings.TrimRight(color.YellowString(string(character)), "\n"))
 			}
 
 			//fmt.Printf("\n")
 		}
-		//fmt.Printf("\n")
+		fmt.Printf("\n")
 	}
 }
 
@@ -136,7 +134,7 @@ func consoleSize() (int, int) {
 }
 
 func randString(length_of_rand_string int) string {
-	var allowed_characters = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#%^&*()")
+	var allowed_characters = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#^&*()[]{}%")
 	b := make([]rune, length_of_rand_string)
 	for i := range b {
 		b[i] = allowed_characters[rand.Intn(len(allowed_characters))]
