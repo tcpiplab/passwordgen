@@ -15,7 +15,6 @@ package main
 // But I had to tweak both the ChatGPT code and the gist to get things working.
 
 import (
-	"fmt"
 	"github.com/fatih/color"
 	_ "github.com/fatih/color"
 	"log"
@@ -58,10 +57,54 @@ func main() {
 		for i := 0; i < requested_password_length-1; i++ {
 			character := password[i]
 
-			color_object := color.New(color.FgCyan, color.Bold)
-			color_object.Printf("%s", character)
-			color_object.Printf("%s", string(character))
-			fmt.Printf("\n")
+			//cyan_char := color.New(color.FgCyan, color.Bold)
+			//red_char := color.New(color.FgRed, color.Bold)
+			//green_char := color.New(color.FgGreen, color.Bold)
+			//blue_char := color.New(color.FgBlue, color.Bold)
+
+			//cyan_char.Printf("%s", character)
+			//cyan_char.Printf("%s", string(character))
+
+			// Assign a color to uppercase characters
+			if character >= 65 && character <= 90 {
+				color.Red(string(character))
+				break
+			}
+			// Assign a color to lowercase characters
+			if character >= 97 && character <= 122 {
+				color.Blue(string(character))
+				break
+			}
+			// Assign a color to number characters
+			if character >= 48 && character <= 57 {
+				color.Green(string(character))
+				break
+			}
+			// Assign a color to special characters, first range
+			if character >= 33 && character <= 47 {
+				color.Magenta(string(character))
+				break
+			}
+			// Assign a color to special characters, second range
+			if character >= 58 && character <= 64 {
+				color.Magenta(string(character))
+				break
+			}
+			// Assign a color to special characters, third range
+			if character >= 91 && character <= 96 {
+				color.Magenta(string(character))
+				break
+			}
+			// Assign a color to special characters, fourth range
+			if character >= 123 && character <= 126 {
+				color.Magenta(string(character))
+				break
+			} else {
+				// Assign a color to any character not represented above
+				color.Yellow(string(character))
+			}
+
+			//fmt.Printf("\n")
 		}
 		//fmt.Printf("\n")
 	}
