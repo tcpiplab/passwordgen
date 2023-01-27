@@ -1,56 +1,111 @@
 package main
 
-// My first Golang code. It generates a screen full of random char passwords 
+// My first Golang code. It generates a screen full of random char passwords
 // of a specified length. ChatGPT wrote the stub for me after this input:
 
-//    please write me a command line tool, written in golang, that generates 
-//    passwords of random characters. The command line tool should allow the 
-//    user to request a specific length of the generated passwords. The 
-//    command line tool's output should generate exactly enough passwords to 
-//    fill the screen but not any further. For example, if the command line 
-//    tool is run in a terminal screen that is 30 rows high then the command 
+//    please write me a command line tool, written in golang, that generates
+//    passwords of random characters. The command line tool should allow the
+//    user to request a specific length of the generated passwords. The
+//    command line tool's output should generate exactly enough passwords to
+//    fill the screen but not any further. For example, if the command line
+//    tool is run in a terminal screen that is 30 rows high then the command
 //    line tool should generate 29 passwords.
 
-// I then grabbed a gist for the column size stuff. The url is inline, below. 
+// I then grabbed a gist for the column size stuff. The url is inline, below.
 // But I had to tweak both the ChatGPT code and the gist to get things working.
 
 import (
-    "fmt"
-    "log"
-    "math/rand"
-    "os"
-    "os/exec"
-    "strconv"
-    "strings"
-    "time"
+	"fmt"
+	"github.com/fatih/color"
+	_ "github.com/fatih/color"
+	"log"
+	"math/rand"
+	"os"
+	"os/exec"
+	"strconv"
+	"strings"
+	"time"
 )
 
 func main() {
-    if len(os.Args) != 2 {
-        fmt.Println("Please provide a password length as an argument")
-        return
-    }
+	if len(os.Args) != 2 {
+		color.Red("Please provide a password length as an argument")
+		return
+	}
 
-    n, err := strconv.Atoi(os.Args[1])
-    if err != nil {
-        fmt.Println("Invalid password length argument")
-        return
-    }
+	// Convert the requested length from string to int
+	requested_password_length, err := strconv.Atoi(os.Args[1])
 
-    rand.Seed(time.Now().UnixNano())
+	if err != nil {
+		color.Red("Invalid password length argument")
+		return
+	}
 
-    // rows, _ := strconv.Atoi(os.Getenv("LINES"))
-    // fmt.Println("LINES == ", rows)
+	rand.Seed(time.Now().UnixNano())
 
-    var rows_columns [2]int 
-    rows_columns[0], rows_columns[1] = consoleSize()
+	var rows_columns [2]int
+	rows_columns[0], rows_columns[1] = consoleSize()
 
-    var rows int
-    rows = rows_columns[0]
+	var rows int
+	rows = rows_columns[0]
 
-    for i := 0; i < rows-1; i++ {
-        fmt.Println(randString(n))
-    }
+	for each_row := 0; each_row < rows-1; each_row++ {
+		//fmt.Println(randString(requested_password_length))
+		//color.Red(randString(requested_password_length))
+
+		password := randString(requested_password_length)
+
+		for i := 0; i < requested_password_length-1; i++ {
+			character := int32(password[i])
+
+			//if len(string(character)) > 2 {
+			// fmt.Print(character)
+			//}
+
+			if character >= 65 && character <= 90 {
+				// Assign a color to uppercase characters
+				//color.Red(string(character))
+				fmt.Printf(strings.TrimRight(color.RedString(string(character)), "\n"))
+			} else if character >= 97 && character <= 122 {
+				// Assign a color to lowercase characters
+				//color.Blue(string(character))
+				fmt.Printf(strings.TrimRight(color.BlueString(string(character)), "\n"))
+			} else if character >= 48 && character <= 57 {
+				// Assign a color to number characters
+				//color.Green(string(character))
+				fmt.Printf(strings.TrimRight(color.GreenString(string(character)), "\n"))
+			} else if character >= 33 && character <= 47 {
+				if character == 37 {
+					// Double the % sign or printf thinks it is a formatting symbol
+					fmt.Printf(strings.TrimRight(color.MagentaString("%%"), "\n"))
+				} else {
+					// Assign a color to special characters, first range
+					//color.Magenta(string(character))
+					fmt.Printf(strings.TrimRight(color.MagentaString(string(character)), "\n"))
+				}
+
+			} else if character >= 58 && character <= 64 {
+				// Assign a color to special characters, second range
+				//color.Magenta(string(character))
+				fmt.Printf(strings.TrimRight(color.MagentaString(string(character)), "\n"))
+			} else if character >= 91 && character <= 96 {
+				// Assign a color to special characters, third range
+				//color.Magenta(string(character))
+				fmt.Printf(strings.TrimRight(color.MagentaString(string(character)), "\n"))
+			} else if character >= 123 && character <= 126 {
+				// Assign a color to special characters, fourth range
+				//color.Magenta(string(character))
+				fmt.Printf(strings.TrimRight(color.MagentaString(string(character)), "\n"))
+			} else {
+				// Assign a color to any character not represented above
+				//color.Yellow(string(character))
+				fmt.Printf(strings.TrimRight(color.YellowString(string(character)), "\n"))
+			}
+
+			//fmt.Printf("\n")
+		}
+		fmt.Printf("\n")
+	}
 }
 
 func consoleSize() (int, int) {
@@ -66,7 +121,7 @@ func consoleSize() (int, int) {
 	s = strings.TrimSpace(s)
 	sArr := strings.Split(s, " ")
 
-	heigth, err := strconv.Atoi(sArr[0])
+	height, err := strconv.Atoi(sArr[0])
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -75,15 +130,14 @@ func consoleSize() (int, int) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	return heigth, width
+	return height, width
 }
 
-func randString(n int) string {
-    var letterRunes = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#%^&*()")
-    b := make([]rune, n)
-    for i := range b {
-        b[i] = letterRunes[rand.Intn(len(letterRunes))]
-    }
-    return string(b)
+func randString(length_of_rand_string int) string {
+	var allowed_characters = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#^&*()[]{}%")
+	b := make([]rune, length_of_rand_string)
+	for i := range b {
+		b[i] = allowed_characters[rand.Intn(len(allowed_characters))]
+	}
+	return string(b)
 }
-
