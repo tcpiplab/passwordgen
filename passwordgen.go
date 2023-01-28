@@ -15,6 +15,7 @@ package main
 // But I had to tweak both the ChatGPT code and the gist to get things working.
 
 import (
+	"flag"
 	"fmt"
 	"github.com/fatih/color"
 	_ "github.com/fatih/color"
@@ -28,16 +29,31 @@ import (
 )
 
 func main() {
+
+	help := flag.Bool("help", false, "./passwordgen n\n\nWhere n is the length of the password.")
+	flag.Parse()
+
+	if *help {
+		flag.Usage()
+		return
+	}
+
 	if len(os.Args) != 2 {
-		color.Red("Please provide a password length as an argument")
+		color.HiRed("\nPlease provide a password length as an argument\nOr -h for help.\n\n")
 		return
 	}
 
 	// Convert the requested length from string to int
 	requested_password_length, err := strconv.Atoi(os.Args[1])
 
+	if int(requested_password_length) < 10 {
+
+		color.HiRed("\nPassword length must be 10 or longer.\n\n")
+		return
+	}
+
 	if err != nil {
-		color.Red("Invalid password length argument")
+		color.HiRed("Invalid password length argument")
 		return
 	}
 
