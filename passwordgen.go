@@ -50,94 +50,117 @@ func main() {
 	rows = rows_columns[0]
 
 	for each_row := 0; each_row < rows-1; each_row++ {
-		//fmt.Println(randString(requested_password_length))
-		//color.Red(randString(requested_password_length))
 
 		password := randString(requested_password_length)
 
 		for i := 0; i < requested_password_length-1; i++ {
+
 			character := int32(password[i])
 
-			//if len(string(character)) > 2 {
-			// fmt.Print(character)
-			//}
-
 			if character >= 65 && character <= 90 {
+
 				// Assign a color to uppercase characters
-				//color.Red(string(character))
-				fmt.Printf(strings.TrimRight(color.RedString(string(character)), "\n"))
+				fmt.Printf(strings.TrimRight(color.WhiteString(string(character)), "\n"))
+
 			} else if character >= 97 && character <= 122 {
+
 				// Assign a color to lowercase characters
-				//color.Blue(string(character))
-				fmt.Printf(strings.TrimRight(color.BlueString(string(character)), "\n"))
+				fmt.Printf(strings.TrimRight(color.HiWhiteString(string(character)), "\n"))
+
 			} else if character >= 48 && character <= 57 {
+
 				// Assign a color to number characters
-				//color.Green(string(character))
-				fmt.Printf(strings.TrimRight(color.GreenString(string(character)), "\n"))
+				fmt.Printf(strings.TrimRight(color.CyanString(string(character)), "\n"))
+
 			} else if character >= 33 && character <= 47 {
+
 				if character == 37 {
+
 					// Double the % sign or printf thinks it is a formatting symbol
-					fmt.Printf(strings.TrimRight(color.MagentaString("%%"), "\n"))
+					fmt.Printf(strings.TrimRight(color.HiBlueString("%%"), "\n"))
+
 				} else {
+
 					// Assign a color to special characters, first range
-					//color.Magenta(string(character))
-					fmt.Printf(strings.TrimRight(color.MagentaString(string(character)), "\n"))
+					fmt.Printf(strings.TrimRight(color.HiBlueString(string(character)), "\n"))
 				}
 
 			} else if character >= 58 && character <= 64 {
-				// Assign a color to special characters, second range
-				//color.Magenta(string(character))
-				fmt.Printf(strings.TrimRight(color.MagentaString(string(character)), "\n"))
-			} else if character >= 91 && character <= 96 {
-				// Assign a color to special characters, third range
-				//color.Magenta(string(character))
-				fmt.Printf(strings.TrimRight(color.MagentaString(string(character)), "\n"))
-			} else if character >= 123 && character <= 126 {
-				// Assign a color to special characters, fourth range
-				//color.Magenta(string(character))
-				fmt.Printf(strings.TrimRight(color.MagentaString(string(character)), "\n"))
-			} else {
-				// Assign a color to any character not represented above
-				//color.Yellow(string(character))
-				fmt.Printf(strings.TrimRight(color.YellowString(string(character)), "\n"))
-			}
 
-			//fmt.Printf("\n")
+				// Assign a color to special characters, second range
+				fmt.Printf(strings.TrimRight(color.HiBlueString(string(character)), "\n"))
+
+			} else if character >= 91 && character <= 96 {
+
+				// Assign a color to special characters, third range
+
+				fmt.Printf(strings.TrimRight(color.HiBlueString(string(character)), "\n"))
+
+			} else if character >= 123 && character <= 126 {
+
+				// Assign a color to special characters, fourth range
+
+				fmt.Printf(strings.TrimRight(color.HiBlueString(string(character)), "\n"))
+
+			} else {
+
+				// Assign a color to any character not represented above
+				fmt.Printf(strings.TrimRight(color.HiYellowString(string(character)), "\n"))
+			}
 		}
+
 		fmt.Printf("\n")
 	}
 }
 
 func consoleSize() (int, int) {
+
 	// https://gist.github.com/steinelu/aa9a5f402b584bc967eb216e054ceefb
+
 	cmd := exec.Command("stty", "size")
+
 	cmd.Stdin = os.Stdin
+
 	out, err := cmd.Output()
+
 	if err != nil {
+
 		log.Fatal(err)
 	}
 
 	s := string(out)
+
 	s = strings.TrimSpace(s)
+
 	sArr := strings.Split(s, " ")
 
 	height, err := strconv.Atoi(sArr[0])
+
 	if err != nil {
+
 		log.Fatal(err)
 	}
 
 	width, err := strconv.Atoi(sArr[1])
+
 	if err != nil {
+
 		log.Fatal(err)
 	}
+
 	return height, width
 }
 
 func randString(length_of_rand_string int) string {
+
 	var allowed_characters = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#^&*()[]{}%")
+
 	b := make([]rune, length_of_rand_string)
+
 	for i := range b {
+
 		b[i] = allowed_characters[rand.Intn(len(allowed_characters))]
 	}
+
 	return string(b)
 }
