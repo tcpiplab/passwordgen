@@ -169,14 +169,18 @@ func consoleSize() (int, int) {
 
 func randString(lengthOfRandString int) string {
 
-	var allowedCharacters = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#^&*()[]{}%")
+	// Set allowed characters
+	var allowedCharacters = []int32("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#^&*()[]{}%")
 
-	b := make([]rune, lengthOfRandString)
+	// Make a list of type int32 of the length the user requested their passwords should be
+	listOfInt32Characters := make([]int32, lengthOfRandString)
 
-	for i := range b {
+	for i := range listOfInt32Characters {
 
-		b[i] = allowedCharacters[rand.Intn(len(allowedCharacters))]
+		// Grab random chars and put them in the list. But only from the set of allowed characters
+		listOfInt32Characters[i] = allowedCharacters[rand.Intn(len(allowedCharacters))]
 	}
 
-	return string(b)
+	// Return a new random password string
+	return string(listOfInt32Characters)
 }
