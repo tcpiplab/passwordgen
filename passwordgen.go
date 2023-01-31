@@ -131,27 +131,34 @@ func main() {
 
 func consoleSize() (int, int) {
 
-	// https://gist.github.com/steinelu/aa9a5f402b584bc967eb216e054ceefb
+	// Originally from https://gist.github.com/steinelu/aa9a5f402b584bc967eb216e054ceefb
 
-	cmd := exec.Command("stty", "size")
+	// Execute the shell command `stty size` which returns two integers: height and width of the user'heightAndWidthString terminal
+	sttyCommand := exec.Command("stty", "size")
 
-	cmd.Stdin = os.Stdin
+	// Specify the shell'heightAndWidthString STDIN so that Executing `stty size` will work
+	sttyCommand.Stdin = os.Stdin
 
-	out, err := cmd.Output()
+	// Execute the `stty size` command and save the output and any resulting error.
+	heightAndWidthBytes, err := sttyCommand.Output()
 
+	// If it errored heightAndWidthBytes, log to the screen and exit
 	if err != nil {
 
 		log.Fatal(err)
 	}
 
-	s := string(out)
+	// Save the height and width values as a string
+	heightAndWidthString := string(heightAndWidthBytes)
 
-	s = strings.TrimSpace(s)
+	// Remove extra whitespace
+	heightAndWidthString = strings.TrimSpace(heightAndWidthString)
 
-	sArr := strings.Split(s, " ")
+	sArr := strings.Split(heightAndWidthString, " ")
 
 	height, err := strconv.Atoi(sArr[0])
 
+	// If it errored heightAndWidthBytes, log to the screen and exit
 	if err != nil {
 
 		log.Fatal(err)
