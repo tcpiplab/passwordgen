@@ -44,9 +44,9 @@ func main() {
 	}
 
 	// Convert the requested length from string to int
-	requested_password_length, err := strconv.Atoi(os.Args[1])
+	requestedPasswordLength, err := strconv.Atoi(os.Args[1])
 
-	if int(requested_password_length) < 10 {
+	if int(requestedPasswordLength) < 10 {
 
 		color.HiRed("\nPassword length must be 10 or longer.\n\n")
 		return
@@ -59,17 +59,17 @@ func main() {
 
 	rand.Seed(time.Now().UnixNano())
 
-	var rows_columns [2]int
-	rows_columns[0], rows_columns[1] = consoleSize()
+	var rowsColumns [2]int
+	rowsColumns[0], rowsColumns[1] = consoleSize()
 
 	var rows int
-	rows = rows_columns[0]
+	rows = rowsColumns[0]
 
-	for each_row := 0; each_row < rows-1; each_row++ {
+	for eachRow := 0; eachRow < rows-1; eachRow++ {
 
-		password := randString(requested_password_length)
+		password := randString(requestedPasswordLength)
 
-		for i := 0; i < requested_password_length-1; i++ {
+		for i := 0; i < requestedPasswordLength-1; i++ {
 
 			character := int32(password[i])
 
@@ -167,15 +167,15 @@ func consoleSize() (int, int) {
 	return height, width
 }
 
-func randString(length_of_rand_string int) string {
+func randString(lengthOfRandString int) string {
 
-	var allowed_characters = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#^&*()[]{}%")
+	var allowedCharacters = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#^&*()[]{}%")
 
-	b := make([]rune, length_of_rand_string)
+	b := make([]rune, lengthOfRandString)
 
 	for i := range b {
 
-		b[i] = allowed_characters[rand.Intn(len(allowed_characters))]
+		b[i] = allowedCharacters[rand.Intn(len(allowedCharacters))]
 	}
 
 	return string(b)
