@@ -65,9 +65,11 @@ func main() {
 	var rows int
 	rows = rowsColumns[0]
 
-	for eachRow := 0; eachRow < rows-1; eachRow++ {
+	for rowNumber := 0; rowNumber < rows-1; rowNumber++ {
 
 		password := randString(requestedPasswordLength)
+
+		fmt.Printf("%02d ", rowNumber)
 
 		for i := 0; i < requestedPasswordLength-1; i++ {
 
