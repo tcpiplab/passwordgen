@@ -43,8 +43,20 @@ func main() {
 
 	if *interactive {
 
-		fmt.Printf("Interactive mode is %T", interactive)
-		//flag.Usage()
+		// fmt.Printf("Interactive mode is %T", interactive)
+		//var input int
+
+		// This is broken. Change it all per this URL:
+		// https://stackoverflow.com/questions/55193141/how-can-i-take-input-from-user-in-golang-fmt-scan
+
+		fmt.Print("Enter an integer: ")
+		number, err := fmt.Scanln()
+		if err != nil {
+			fmt.Printf("Error is %d", err)
+			return
+		}
+		fmt.Printf("You entered: %d", number)
+
 		return
 	}
 
