@@ -31,10 +31,20 @@ import (
 func main() {
 
 	help := flag.Bool("help", false, "./passwordgen n\n\nWhere n is the length of the password.")
-	flag.Parse()
+	//flag.Parse()
 
 	if *help {
 		flag.Usage()
+		return
+	}
+
+	interactive := flag.Bool("interactive", false, "./passwordgen -interactive\n\n")
+	flag.Parse()
+
+	if *interactive {
+
+		fmt.Printf("Interactive mode is %T", interactive)
+		//flag.Usage()
 		return
 	}
 
