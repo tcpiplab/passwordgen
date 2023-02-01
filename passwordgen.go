@@ -109,13 +109,11 @@ func main() {
 			} else if character >= 91 && character <= 96 {
 
 				// Assign a color to special characters, third range
-
 				fmt.Printf(strings.TrimRight(color.HiBlueString(string(character)), "\n"))
 
 			} else if character >= 123 && character <= 126 {
 
 				// Assign a color to special characters, fourth range
-
 				fmt.Printf(strings.TrimRight(color.HiBlueString(string(character)), "\n"))
 
 			} else {
@@ -154,18 +152,23 @@ func consoleSize() (int, int) {
 	// Remove extra whitespace
 	heightAndWidthString = strings.TrimSpace(heightAndWidthString)
 
-	sArr := strings.Split(heightAndWidthString, " ")
+	// Split height and width into an array of two strings
+	heightAndWidthArray := strings.Split(heightAndWidthString, " ")
 
-	height, err := strconv.Atoi(sArr[0])
+	// Convert height to an integer
+	// Atoi is equivalent to ParseInt(s, 10, 0), converted to type int.
+	height, err := strconv.Atoi(heightAndWidthArray[0])
 
-	// If it errored heightAndWidthBytes, log to the screen and exit
+	// If the conversion to int errored out, log to the screen and exit
 	if err != nil {
 
 		log.Fatal(err)
 	}
 
-	width, err := strconv.Atoi(sArr[1])
+	// Convert width to an integer
+	width, err := strconv.Atoi(heightAndWidthArray[1])
 
+	// If the conversion to int errored out, log to the screen and exit
 	if err != nil {
 
 		log.Fatal(err)
