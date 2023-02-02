@@ -91,22 +91,30 @@ func main() {
 		return
 	}
 
+	// Seed the randomness
 	rand.Seed(time.Now().UnixNano())
 
+	// Get the height and width of the console
 	var rowsColumns [2]int
 	rowsColumns[0], rowsColumns[1] = consoleSize()
 
+	// We only need the number of rows
 	var rows int
 	rows = rowsColumns[0]
 
+	// Fill the screen with passwords
 	for rowNumber := 0; rowNumber < rows-1; rowNumber++ {
 
+		// Fetch a new randomized password string of the specified length
 		password := randString(requestedPasswordLength)
 
+		// Print an index number for each printed password
 		fmt.Printf("%02d ", rowNumber)
 
+		// Check each character's ascii value and colorize according to category
 		for i := 0; i < requestedPasswordLength-1; i++ {
 
+			// Convert the character back to ascii value for the color assignment
 			character := int32(password[i])
 
 			if character >= 65 && character <= 90 {
