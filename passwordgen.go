@@ -49,18 +49,30 @@ func main() {
 		// This is broken. Change it all per this URL:
 		// https://stackoverflow.com/questions/55193141/how-can-i-take-input-from-user-in-golang-fmt-scan
 
+		// Declare a variable to store the user's choice of which password they select
+		var passwordNumber int
+
+		// Prompt the user to choose a password from the list
 		fmt.Print("Enter an integer: ")
-		number, err := fmt.Scanln()
+
+		// Accept user input and save it to passwordNumber
+		_, err := fmt.Scan(&passwordNumber)
+
+		// Print error and exit
 		if err != nil {
+
 			fmt.Printf("Error is %d", err)
 			return
 		}
-		fmt.Printf("You entered: %d", number)
+
+		// Print the user's chosen number
+		fmt.Printf("You entered number: %d", passwordNumber)
 
 		return
 	}
 
 	if len(os.Args) != 2 {
+
 		color.HiRed("\nPlease provide a password length as an argument\nOr -h for help.\n\n")
 		return
 	}
