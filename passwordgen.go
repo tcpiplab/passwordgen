@@ -81,61 +81,7 @@ func main() {
 		// Print an index number for each printed password
 		fmt.Printf("%02d ", rowNumber)
 
-		// Check each character's ascii value and colorize according to category
-		for i := 0; i < requestedPasswordLength-1; i++ {
-
-			// Convert the character back to ascii value for the color assignment
-			character := int32(password[i])
-
-			if character >= 65 && character <= 90 {
-
-				// Assign a color to uppercase characters
-				fmt.Printf(strings.TrimRight(color.WhiteString(string(character)), "\n"))
-
-			} else if character >= 97 && character <= 122 {
-
-				// Assign a color to lowercase characters
-				fmt.Printf(strings.TrimRight(color.HiWhiteString(string(character)), "\n"))
-
-			} else if character >= 48 && character <= 57 {
-
-				// Assign a color to number characters
-				fmt.Printf(strings.TrimRight(color.CyanString(string(character)), "\n"))
-
-			} else if character >= 33 && character <= 47 {
-
-				if character == 37 {
-
-					// Double the % sign or printf thinks it is a formatting symbol
-					fmt.Printf(strings.TrimRight(color.HiBlueString("%%"), "\n"))
-
-				} else {
-
-					// Assign a color to special characters, first range
-					fmt.Printf(strings.TrimRight(color.HiBlueString(string(character)), "\n"))
-				}
-
-			} else if character >= 58 && character <= 64 {
-
-				// Assign a color to special characters, second range
-				fmt.Printf(strings.TrimRight(color.HiBlueString(string(character)), "\n"))
-
-			} else if character >= 91 && character <= 96 {
-
-				// Assign a color to special characters, third range
-				fmt.Printf(strings.TrimRight(color.HiBlueString(string(character)), "\n"))
-
-			} else if character >= 123 && character <= 126 {
-
-				// Assign a color to special characters, fourth range
-				fmt.Printf(strings.TrimRight(color.HiBlueString(string(character)), "\n"))
-
-			} else {
-
-				// Assign a color to any character not represented above
-				fmt.Printf(strings.TrimRight(color.HiYellowString(string(character)), "\n"))
-			}
-		}
+		colorizeCharacters(requestedPasswordLength, password)
 
 		fmt.Printf("\n")
 
@@ -145,14 +91,66 @@ func main() {
 	}
 }
 
+func colorizeCharacters(requestedPasswordLength int, password string) {
+	// Check each character's ascii value and colorize according to category
+	for i := 0; i < requestedPasswordLength-1; i++ {
+
+		// Convert the character back to ascii value for the color assignment
+		character := int32(password[i])
+
+		if character >= 65 && character <= 90 {
+
+			// Assign a color to uppercase characters
+			fmt.Printf(strings.TrimRight(color.WhiteString(string(character)), "\n"))
+
+		} else if character >= 97 && character <= 122 {
+
+			// Assign a color to lowercase characters
+			fmt.Printf(strings.TrimRight(color.HiWhiteString(string(character)), "\n"))
+
+		} else if character >= 48 && character <= 57 {
+
+			// Assign a color to number characters
+			fmt.Printf(strings.TrimRight(color.CyanString(string(character)), "\n"))
+
+		} else if character >= 33 && character <= 47 {
+
+			if character == 37 {
+
+				// Double the % sign or printf thinks it is a formatting symbol
+				fmt.Printf(strings.TrimRight(color.HiBlueString("%%"), "\n"))
+
+			} else {
+
+				// Assign a color to special characters, first range
+				fmt.Printf(strings.TrimRight(color.HiBlueString(string(character)), "\n"))
+			}
+
+		} else if character >= 58 && character <= 64 {
+
+			// Assign a color to special characters, second range
+			fmt.Printf(strings.TrimRight(color.HiBlueString(string(character)), "\n"))
+
+		} else if character >= 91 && character <= 96 {
+
+			// Assign a color to special characters, third range
+			fmt.Printf(strings.TrimRight(color.HiBlueString(string(character)), "\n"))
+
+		} else if character >= 123 && character <= 126 {
+
+			// Assign a color to special characters, fourth range
+			fmt.Printf(strings.TrimRight(color.HiBlueString(string(character)), "\n"))
+
+		} else {
+
+			// Assign a color to any character not represented above
+			fmt.Printf(strings.TrimRight(color.HiYellowString(string(character)), "\n"))
+		}
+	}
+}
+
 func ifInteractive(interactive *bool) bool {
 	if *interactive {
-
-		// fmt.Printf("Interactive mode is %T", interactive)
-		//var input int
-
-		// This is broken. Change it all per this URL:
-		// https://stackoverflow.com/questions/55193141/how-can-i-take-input-from-user-in-golang-fmt-scan
 
 		// Declare a variable to store the user's choice of which password they select
 		var passwordNumber int
