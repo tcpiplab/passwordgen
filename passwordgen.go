@@ -28,6 +28,8 @@ import (
 	"time"
 )
 
+var selectedPasswordNumber int
+
 func main() {
 
 	help := flag.Bool("help", false, "./passwordgen n\n\nWhere n is the length of the password.")
@@ -89,7 +91,13 @@ func main() {
 		fmt.Printf("\n")
 
 	}
-	if ifInteractive(interactive) {
+
+	if ifInteractive(interactive, selectedPasswordNumber) {
+
+		//fmt.Print(selectedPasswordNumber)
+
+		fmt.Print(arrayPasswords[selectedPasswordNumber])
+
 		return
 	}
 
@@ -170,7 +178,7 @@ func colorizeCharacters(requestedPasswordLength int, password string) {
 	}
 }
 
-func ifInteractive(interactive *bool) bool {
+func ifInteractive(interactive *bool, selectedPasswordInt int) bool {
 	if *interactive {
 
 		// Declare a variable to store the user's choice of which password they select
@@ -190,7 +198,10 @@ func ifInteractive(interactive *bool) bool {
 		}
 
 		// Print the user's chosen number
-		fmt.Printf("You entered number: %d", passwordNumber)
+		//fmt.Printf("You entered number: %d", passwordNumber)
+
+		// Set the global var to the entered number
+		selectedPasswordNumber = passwordNumber
 
 		return true
 	}
