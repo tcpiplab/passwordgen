@@ -41,44 +41,14 @@ func main() {
 	interactive := flag.Bool("interactive", false, "./passwordgen -interactive\n\n")
 	flag.Parse()
 
-	if *interactive {
-
-		// fmt.Printf("Interactive mode is %T", interactive)
-		//var input int
-
-		// This is broken. Change it all per this URL:
-		// https://stackoverflow.com/questions/55193141/how-can-i-take-input-from-user-in-golang-fmt-scan
-
-		// Declare a variable to store the user's choice of which password they select
-		var passwordNumber int
-
-		// Prompt the user to choose a password from the list
-		fmt.Print("Enter an integer: ")
-
-		// Accept user input and save it to passwordNumber
-		_, err := fmt.Scan(&passwordNumber)
-
-		// Print error and exit
-		if err != nil {
-
-			fmt.Printf("Error is %d", err)
-			return
-		}
-
-		// Print the user's chosen number
-		fmt.Printf("You entered number: %d", passwordNumber)
-
-		return
-	}
-
-	if len(os.Args) != 2 {
+	if len(os.Args) != 3 {
 
 		color.HiRed("\nPlease provide a password length as an argument\nOr -h for help.\n\n")
 		return
 	}
 
 	// Convert the requested length from string to int
-	requestedPasswordLength, err := strconv.Atoi(os.Args[1])
+	requestedPasswordLength, err := strconv.Atoi(os.Args[2])
 
 	if int(requestedPasswordLength) < 10 {
 
@@ -168,7 +138,44 @@ func main() {
 		}
 
 		fmt.Printf("\n")
+
 	}
+	if ifInteractive(interactive) {
+		return
+	}
+}
+
+func ifInteractive(interactive *bool) bool {
+	if *interactive {
+
+		// fmt.Printf("Interactive mode is %T", interactive)
+		//var input int
+
+		// This is broken. Change it all per this URL:
+		// https://stackoverflow.com/questions/55193141/how-can-i-take-input-from-user-in-golang-fmt-scan
+
+		// Declare a variable to store the user's choice of which password they select
+		var passwordNumber int
+
+		// Prompt the user to choose a password from the list
+		fmt.Print("Enter an integer: ")
+
+		// Accept user input and save it to passwordNumber
+		_, err := fmt.Scan(&passwordNumber)
+
+		// Print error and exit
+		if err != nil {
+
+			fmt.Printf("Error is %d", err)
+			return true
+		}
+
+		// Print the user's chosen number
+		fmt.Printf("You entered number: %d", passwordNumber)
+
+		return true
+	}
+	return false
 }
 
 func consoleSize() (int, int) {
