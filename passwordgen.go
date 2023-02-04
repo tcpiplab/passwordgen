@@ -50,14 +50,7 @@ func main() {
 	// Convert the requested length from string to int
 	requestedPasswordLength, err := strconv.Atoi(os.Args[2])
 
-	if int(requestedPasswordLength) < 10 {
-
-		color.HiRed("\nPassword length must be 10 or longer.\n\n")
-		return
-	}
-
-	if err != nil {
-		color.HiRed("Invalid password length argument")
+	if checkPasswordLength(requestedPasswordLength, err) {
 		return
 	}
 
@@ -89,6 +82,20 @@ func main() {
 	if ifInteractive(interactive) {
 		return
 	}
+}
+
+func checkPasswordLength(requestedPasswordLength int, err error) bool {
+	if int(requestedPasswordLength) < 10 {
+
+		color.HiRed("\nPassword length must be 10 or longer.\n\n")
+		return true
+	}
+
+	if err != nil {
+		color.HiRed("Invalid password length argument")
+		return true
+	}
+	return false
 }
 
 func colorizeCharacters(requestedPasswordLength int, password string) {
