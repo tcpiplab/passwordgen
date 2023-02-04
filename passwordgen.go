@@ -65,6 +65,10 @@ func main() {
 	var rows int
 	rows = rowsColumns[0]
 
+	//var arrayPasswords [10]string
+
+	arrayPasswords := make([]string, rows)
+
 	// Fill the screen with passwords
 	for rowNumber := 0; rowNumber < rows-1; rowNumber++ {
 
@@ -74,7 +78,13 @@ func main() {
 		// Print an index number for each printed password
 		fmt.Printf("%02d ", rowNumber)
 
-		colorizeCharacters(requestedPasswordLength, password)
+		arrayPasswords[rowNumber] = password
+
+		//passwordColorized = colorizeCharacters(requestedPasswordLength, password)
+
+		fmt.Printf("%s", arrayPasswords[rowNumber])
+
+		//colorizeCharacters(requestedPasswordLength, password)
 
 		fmt.Printf("\n")
 
@@ -82,6 +92,8 @@ func main() {
 	if ifInteractive(interactive) {
 		return
 	}
+
+	//fmt.Print(arrayPasswords)
 }
 
 func checkPasswordLength(requestedPasswordLength int, err error) bool {
@@ -109,6 +121,8 @@ func colorizeCharacters(requestedPasswordLength int, password string) {
 
 			// Assign a color to uppercase characters
 			fmt.Printf(strings.TrimRight(color.WhiteString(string(character)), "\n"))
+			//character = strings.TrimRight(color.WhiteString(string(character)), "\n")
+			//return color.WhiteString(string(character))
 
 		} else if character >= 97 && character <= 122 {
 
