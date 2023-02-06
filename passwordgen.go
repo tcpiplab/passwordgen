@@ -86,7 +86,7 @@ func main() {
 
 		fmt.Printf("%s", arrayPasswords[rowNumber])
 
-		//colorizeCharacters(requestedPasswordLength, password)
+		colorizeCharacters(requestedPasswordLength, password)
 
 		fmt.Printf("\n")
 
@@ -94,14 +94,11 @@ func main() {
 
 	if ifInteractive(interactive, selectedPasswordNumber) {
 
-		//fmt.Print(selectedPasswordNumber)
-
 		fmt.Print(arrayPasswords[selectedPasswordNumber])
 
 		return
 	}
 
-	//fmt.Print(arrayPasswords)
 }
 
 func checkPasswordLength(requestedPasswordLength int, err error) bool {
@@ -119,8 +116,9 @@ func checkPasswordLength(requestedPasswordLength int, err error) bool {
 }
 
 func colorizeCharacters(requestedPasswordLength int, password string) {
+
 	// Check each character's ascii value and colorize according to category
-	for i := 0; i < requestedPasswordLength-1; i++ {
+	for i := 0; i < requestedPasswordLength; i++ {
 
 		// Convert the character back to ascii value for the color assignment
 		character := int32(password[i])
@@ -212,10 +210,12 @@ func consoleSize() (int, int) {
 
 	// Originally from https://gist.github.com/steinelu/aa9a5f402b584bc967eb216e054ceefb
 
-	// Execute the shell command `stty size` which returns two integers: height and width of the user'heightAndWidthString terminal
+	// Execute the shell command `stty size` which returns two integers:
+	// height and width of the user's heightAndWidthString terminal
 	sttyCommand := exec.Command("stty", "size")
 
-	// Specify the shell'heightAndWidthString STDIN so that Executing `stty size` will work
+	// Specify the shell's heightAndWidthString STDIN so that executing
+	// `stty size` will work
 	sttyCommand.Stdin = os.Stdin
 
 	// Execute the `stty size` command and save the output and any resulting error.
