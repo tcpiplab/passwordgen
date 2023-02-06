@@ -20,7 +20,7 @@ TaQd32(N6CHI
 0Hr#t!v@LZXe
 k0Ywcgi2B(al
 78THj%APPSkJ
-s*Uq34fLH%4#
+heightAndWidthString*Uq34fLH%4#
 42O40r6YNuT7
 aizZ7oWI9Dl7
 sgHQFn!T7aWO

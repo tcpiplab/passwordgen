@@ -28,137 +28,244 @@ import (
 	"time"
 )
 
+var selectedPasswordNumber int
+
 func main() {
 
 	help := flag.Bool("help", false, "./passwordgen n\n\nWhere n is the length of the password.")
-	flag.Parse()
+	//flag.Parse()
 
 	if *help {
 		flag.Usage()
 		return
 	}
 
-	if len(os.Args) != 2 {
+	interactive := flag.Bool("interactive", false, "./passwordgen -interactive\n\n")
+	flag.Parse()
+
+	if len(os.Args) != 3 {
+
 		color.HiRed("\nPlease provide a password length as an argument\nOr -h for help.\n\n")
 		return
 	}
 
 	// Convert the requested length from string to int
-	requested_password_length, err := strconv.Atoi(os.Args[1])
+	requestedPasswordLength, err := strconv.Atoi(os.Args[2])
 
-	if int(requested_password_length) < 10 {
+	if checkPasswordLength(requestedPasswordLength, err) {
+		return
+	}
+
+	// Seed the randomness
+	rand.Seed(time.Now().UnixNano())
+
+	// Get the height and width of the console
+	var rowsColumns [2]int
+	rowsColumns[0], rowsColumns[1] = consoleSize()
+
+	// We only need the number of rows
+	var rows int
+	rows = rowsColumns[0]
+
+	//var arrayPasswords [10]string
+
+	arrayPasswords := make([]string, rows)
+
+	// Fill the screen with passwords
+	for rowNumber := 0; rowNumber < rows-1; rowNumber++ {
+
+		// Fetch a new randomized password string of the specified length
+		password := randString(requestedPasswordLength)
+
+		// Print an index number for each printed password
+		fmt.Printf("%02d ", rowNumber)
+
+		arrayPasswords[rowNumber] = password
+
+		//passwordColorized = colorizeCharacters(requestedPasswordLength, password)
+
+		// TEMP print the non-colorized version of each password
+		//fmt.Printf("%s", arrayPasswords[rowNumber])
+
+		colorizeCharacters(requestedPasswordLength, password)
+
+		fmt.Printf("\n")
+
+	}
+
+	if ifInteractive(interactive, selectedPasswordNumber) {
+
+		// TEMP print out the selected password
+		fmt.Print(arrayPasswords[selectedPasswordNumber])
+
+		return
+	}
+
+}
+
+func checkPasswordLength(requestedPasswordLength int, err error) bool {
+	if int(requestedPasswordLength) < 10 {
 
 		color.HiRed("\nPassword length must be 10 or longer.\n\n")
-		return
+		return true
 	}
 
 	if err != nil {
 		color.HiRed("Invalid password length argument")
-		return
+		return true
 	}
+	return false
+}
 
-	rand.Seed(time.Now().UnixNano())
+func colorizeCharacters(requestedPasswordLength int, password string) {
 
-	var rows_columns [2]int
-	rows_columns[0], rows_columns[1] = consoleSize()
+	var coloredCharsString string
+	//coloredCharsString = string(' ')
 
-	var rows int
-	rows = rows_columns[0]
+	// Check each character's ascii value and colorize according to category
+	for i := 0; i < requestedPasswordLength; i++ {
 
-	for each_row := 0; each_row < rows-1; each_row++ {
+		// Convert the character back to ascii value for the color assignment
+		character := int32(password[i])
 
-		password := randString(requested_password_length)
+		if character >= 65 && character <= 90 {
 
-		for i := 0; i < requested_password_length-1; i++ {
+			// Assign a color to uppercase characters
+			//fmt.Printf(strings.TrimRight(color.WhiteString(string(character)), "\n"))
+			//character = strings.TrimRight(color.WhiteString(string(character)), "\n")
+			//return color.WhiteString(string(character))
+			coloredCharsString += string(color.WhiteString(string(character)))
 
-			character := int32(password[i])
+		} else if character >= 97 && character <= 122 {
 
-			if character >= 65 && character <= 90 {
+			// Assign a color to lowercase characters
+			//fmt.Printf(strings.TrimRight(color.HiWhiteString(string(character)), "\n"))
+			coloredCharsString += string(color.HiWhiteString(string(character)))
 
-				// Assign a color to uppercase characters
-				fmt.Printf(strings.TrimRight(color.WhiteString(string(character)), "\n"))
+		} else if character >= 48 && character <= 57 {
 
-			} else if character >= 97 && character <= 122 {
+			// Assign a color to number characters
+			//fmt.Printf(strings.TrimRight(color.CyanString(string(character)), "\n"))
+			coloredCharsString += string(color.CyanString(string(character)))
 
-				// Assign a color to lowercase characters
-				fmt.Printf(strings.TrimRight(color.HiWhiteString(string(character)), "\n"))
+		} else if character >= 33 && character <= 47 {
 
-			} else if character >= 48 && character <= 57 {
+			if character == 37 {
 
-				// Assign a color to number characters
-				fmt.Printf(strings.TrimRight(color.CyanString(string(character)), "\n"))
-
-			} else if character >= 33 && character <= 47 {
-
-				if character == 37 {
-
-					// Double the % sign or printf thinks it is a formatting symbol
-					fmt.Printf(strings.TrimRight(color.HiBlueString("%%"), "\n"))
-
-				} else {
-
-					// Assign a color to special characters, first range
-					fmt.Printf(strings.TrimRight(color.HiBlueString(string(character)), "\n"))
-				}
-
-			} else if character >= 58 && character <= 64 {
-
-				// Assign a color to special characters, second range
-				fmt.Printf(strings.TrimRight(color.HiBlueString(string(character)), "\n"))
-
-			} else if character >= 91 && character <= 96 {
-
-				// Assign a color to special characters, third range
-
-				fmt.Printf(strings.TrimRight(color.HiBlueString(string(character)), "\n"))
-
-			} else if character >= 123 && character <= 126 {
-
-				// Assign a color to special characters, fourth range
-
-				fmt.Printf(strings.TrimRight(color.HiBlueString(string(character)), "\n"))
+				// Double the % sign or printf thinks it is a formatting symbol
+				//fmt.Printf(strings.TrimRight(color.HiBlueString("%%"), "\n"))
+				// TODO figure out how make the % char print down below
+				coloredCharsString += string(color.HiBlueString(string(character)))
 
 			} else {
 
-				// Assign a color to any character not represented above
-				fmt.Printf(strings.TrimRight(color.HiYellowString(string(character)), "\n"))
+				// Assign a color to special characters, first range
+				//fmt.Printf(strings.TrimRight(color.HiBlueString(string(character)), "\n"))
+				coloredCharsString += string(color.HiBlueString(string(character)))
 			}
+
+		} else if character >= 58 && character <= 64 {
+
+			// Assign a color to special characters, second range
+			//fmt.Printf(strings.TrimRight(color.HiBlueString(string(character)), "\n"))
+			coloredCharsString += string(color.HiBlueString(string(character)))
+		} else if character >= 91 && character <= 96 {
+
+			// Assign a color to special characters, third range
+			//fmt.Printf(strings.TrimRight(color.HiBlueString(string(character)), "\n"))
+			coloredCharsString += string(color.HiBlueString(string(character)))
+
+		} else if character >= 123 && character <= 126 {
+
+			// Assign a color to special characters, fourth range
+			//fmt.Printf(strings.TrimRight(color.HiBlueString(string(character)), "\n"))
+			coloredCharsString += string(color.HiBlueString(string(character)))
+
+		} else {
+
+			// Assign a color to any character not represented above
+			//fmt.Printf(strings.TrimRight(color.HiYellowString(string(character)), "\n"))
+			coloredCharsString += string(color.HiYellowString(string(character)))
+		}
+	}
+
+	fmt.Print(coloredCharsString)
+}
+
+func ifInteractive(interactive *bool, selectedPasswordInt int) bool {
+	if *interactive {
+
+		// Declare a variable to store the user's choice of which password they select
+		var passwordNumber int
+
+		// Prompt the user to choose a password from the list
+		fmt.Print("Enter an integer: ")
+
+		// Accept user input and save it to passwordNumber
+		_, err := fmt.Scan(&passwordNumber)
+
+		// Print error and exit
+		if err != nil {
+
+			fmt.Printf("Error is %d", err)
+			return true
 		}
 
-		fmt.Printf("\n")
+		// Print the user's chosen number
+		//fmt.Printf("You entered number: %d", passwordNumber)
+
+		// Set the global var to the entered number
+		selectedPasswordNumber = passwordNumber
+
+		return true
 	}
+	return false
 }
 
 func consoleSize() (int, int) {
 
-	// https://gist.github.com/steinelu/aa9a5f402b584bc967eb216e054ceefb
+	// Originally from https://gist.github.com/steinelu/aa9a5f402b584bc967eb216e054ceefb
 
-	cmd := exec.Command("stty", "size")
+	// Execute the shell command `stty size` which returns two integers:
+	// height and width of the user's heightAndWidthString terminal
+	sttyCommand := exec.Command("stty", "size")
 
-	cmd.Stdin = os.Stdin
+	// Specify the shell's heightAndWidthString STDIN so that executing
+	// `stty size` will work
+	sttyCommand.Stdin = os.Stdin
 
-	out, err := cmd.Output()
+	// Execute the `stty size` command and save the output and any resulting error.
+	heightAndWidthBytes, err := sttyCommand.Output()
 
+	// If it errored heightAndWidthBytes, log to the screen and exit
 	if err != nil {
 
 		log.Fatal(err)
 	}
 
-	s := string(out)
+	// Save the height and width values as a string
+	heightAndWidthString := string(heightAndWidthBytes)
 
-	s = strings.TrimSpace(s)
+	// Remove extra whitespace
+	heightAndWidthString = strings.TrimSpace(heightAndWidthString)
 
-	sArr := strings.Split(s, " ")
+	// Split height and width into an array of two strings
+	heightAndWidthArray := strings.Split(heightAndWidthString, " ")
 
-	height, err := strconv.Atoi(sArr[0])
+	// Convert height to an integer
+	// Atoi is equivalent to ParseInt(s, 10, 0), converted to type int.
+	height, err := strconv.Atoi(heightAndWidthArray[0])
 
+	// If the conversion to int errored out, log to the screen and exit
 	if err != nil {
 
 		log.Fatal(err)
 	}
 
-	width, err := strconv.Atoi(sArr[1])
+	// Convert width to an integer
+	width, err := strconv.Atoi(heightAndWidthArray[1])
 
+	// If the conversion to int errored out, log to the screen and exit
 	if err != nil {
 
 		log.Fatal(err)
@@ -167,16 +274,20 @@ func consoleSize() (int, int) {
 	return height, width
 }
 
-func randString(length_of_rand_string int) string {
+func randString(lengthOfRandString int) string {
 
-	var allowed_characters = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#^&*()[]{}%")
+	// Set allowed characters
+	var allowedCharacters = []int32("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#^&*()[]{}%")
 
-	b := make([]rune, length_of_rand_string)
+	// Make a list of type int32 of the length the user requested their passwords should be
+	listOfInt32Characters := make([]int32, lengthOfRandString)
 
-	for i := range b {
+	for i := range listOfInt32Characters {
 
-		b[i] = allowed_characters[rand.Intn(len(allowed_characters))]
+		// Grab random chars and put them in the list. But only from the set of allowed characters
+		listOfInt32Characters[i] = allowedCharacters[rand.Intn(len(allowedCharacters))]
 	}
 
-	return string(b)
+	// Return a new random password string
+	return string(listOfInt32Characters)
 }
