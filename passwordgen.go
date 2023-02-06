@@ -84,7 +84,8 @@ func main() {
 
 		//passwordColorized = colorizeCharacters(requestedPasswordLength, password)
 
-		fmt.Printf("%s", arrayPasswords[rowNumber])
+		// TEMP print the non-colorized version of each password
+		//fmt.Printf("%s", arrayPasswords[rowNumber])
 
 		colorizeCharacters(requestedPasswordLength, password)
 
@@ -94,6 +95,7 @@ func main() {
 
 	if ifInteractive(interactive, selectedPasswordNumber) {
 
+		// TEMP print out the selected password
 		fmt.Print(arrayPasswords[selectedPasswordNumber])
 
 		return
@@ -117,6 +119,9 @@ func checkPasswordLength(requestedPasswordLength int, err error) bool {
 
 func colorizeCharacters(requestedPasswordLength int, password string) {
 
+	var coloredCharsString string
+	//coloredCharsString = string(' ')
+
 	// Check each character's ascii value and colorize according to category
 	for i := 0; i < requestedPasswordLength; i++ {
 
@@ -126,54 +131,65 @@ func colorizeCharacters(requestedPasswordLength int, password string) {
 		if character >= 65 && character <= 90 {
 
 			// Assign a color to uppercase characters
-			fmt.Printf(strings.TrimRight(color.WhiteString(string(character)), "\n"))
+			//fmt.Printf(strings.TrimRight(color.WhiteString(string(character)), "\n"))
 			//character = strings.TrimRight(color.WhiteString(string(character)), "\n")
 			//return color.WhiteString(string(character))
+			coloredCharsString += string(color.WhiteString(string(character)))
 
 		} else if character >= 97 && character <= 122 {
 
 			// Assign a color to lowercase characters
-			fmt.Printf(strings.TrimRight(color.HiWhiteString(string(character)), "\n"))
+			//fmt.Printf(strings.TrimRight(color.HiWhiteString(string(character)), "\n"))
+			coloredCharsString += string(color.HiWhiteString(string(character)))
 
 		} else if character >= 48 && character <= 57 {
 
 			// Assign a color to number characters
-			fmt.Printf(strings.TrimRight(color.CyanString(string(character)), "\n"))
+			//fmt.Printf(strings.TrimRight(color.CyanString(string(character)), "\n"))
+			coloredCharsString += string(color.CyanString(string(character)))
 
 		} else if character >= 33 && character <= 47 {
 
 			if character == 37 {
 
 				// Double the % sign or printf thinks it is a formatting symbol
-				fmt.Printf(strings.TrimRight(color.HiBlueString("%%"), "\n"))
+				//fmt.Printf(strings.TrimRight(color.HiBlueString("%%"), "\n"))
+				// TODO figure out how make the % char print down below
+				coloredCharsString += string(color.HiBlueString(string(character)))
 
 			} else {
 
 				// Assign a color to special characters, first range
-				fmt.Printf(strings.TrimRight(color.HiBlueString(string(character)), "\n"))
+				//fmt.Printf(strings.TrimRight(color.HiBlueString(string(character)), "\n"))
+				coloredCharsString += string(color.HiBlueString(string(character)))
 			}
 
 		} else if character >= 58 && character <= 64 {
 
 			// Assign a color to special characters, second range
-			fmt.Printf(strings.TrimRight(color.HiBlueString(string(character)), "\n"))
-
+			//fmt.Printf(strings.TrimRight(color.HiBlueString(string(character)), "\n"))
+			coloredCharsString += string(color.HiBlueString(string(character)))
 		} else if character >= 91 && character <= 96 {
 
 			// Assign a color to special characters, third range
-			fmt.Printf(strings.TrimRight(color.HiBlueString(string(character)), "\n"))
+			//fmt.Printf(strings.TrimRight(color.HiBlueString(string(character)), "\n"))
+			coloredCharsString += string(color.HiBlueString(string(character)))
 
 		} else if character >= 123 && character <= 126 {
 
 			// Assign a color to special characters, fourth range
-			fmt.Printf(strings.TrimRight(color.HiBlueString(string(character)), "\n"))
+			//fmt.Printf(strings.TrimRight(color.HiBlueString(string(character)), "\n"))
+			coloredCharsString += string(color.HiBlueString(string(character)))
 
 		} else {
 
 			// Assign a color to any character not represented above
-			fmt.Printf(strings.TrimRight(color.HiYellowString(string(character)), "\n"))
+			//fmt.Printf(strings.TrimRight(color.HiYellowString(string(character)), "\n"))
+			coloredCharsString += string(color.HiYellowString(string(character)))
 		}
 	}
+
+	fmt.Print(coloredCharsString)
 }
 
 func ifInteractive(interactive *bool, selectedPasswordInt int) bool {
