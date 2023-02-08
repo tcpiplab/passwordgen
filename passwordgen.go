@@ -43,6 +43,7 @@ func main() {
 	interactive := flag.Bool("interactive", false, "./passwordgen -interactive\n\n")
 	flag.Parse()
 
+	// TODO: For now the length must be the last arg and the number of args is hardcoded at 3.
 	if len(os.Args) != 3 {
 
 		color.HiRed("\nPlease provide a password length as an argument\nOr -h for help.\n\n")
@@ -52,6 +53,7 @@ func main() {
 	// Convert the requested length from string to int
 	requestedPasswordLength, err := strconv.Atoi(os.Args[2])
 
+	// Check for password length and return errors if needed
 	if checkPasswordLength(requestedPasswordLength, err) {
 		return
 	}
@@ -82,17 +84,13 @@ func main() {
 
 		arrayPasswords[rowNumber] = password
 
-		//passwordColorized = colorizeCharacters(requestedPasswordLength, password)
-
-		// TEMP print the non-colorized version of each password
-		//fmt.Printf("%s", arrayPasswords[rowNumber])
-
 		colorizeCharacters(requestedPasswordLength, password)
 
 		fmt.Printf("\n")
 
 	}
 
+	// TODO: Make interactive the default.
 	if ifInteractive(interactive, selectedPasswordNumber) {
 
 		// TEMP print out the selected password
@@ -104,6 +102,7 @@ func main() {
 }
 
 func checkPasswordLength(requestedPasswordLength int, err error) bool {
+	// TODO: Make 10 the default if no length arg given.
 	if int(requestedPasswordLength) < 10 {
 
 		color.HiRed("\nPassword length must be 10 or longer.\n\n")
@@ -192,7 +191,9 @@ func colorizeCharacters(requestedPasswordLength int, password string) {
 	fmt.Print(coloredCharsString)
 }
 
+// TODO: remove unused parameter selectedPasswordInt
 func ifInteractive(interactive *bool, selectedPasswordInt int) bool {
+
 	if *interactive {
 
 		// Declare a variable to store the user's choice of which password they select
@@ -202,6 +203,7 @@ func ifInteractive(interactive *bool, selectedPasswordInt int) bool {
 		fmt.Print("Enter an integer: ")
 
 		// Accept user input and save it to passwordNumber
+		// TODO: Strip off leading zero otherwise it selects the 0th password.
 		_, err := fmt.Scan(&passwordNumber)
 
 		// Print error and exit
@@ -210,9 +212,6 @@ func ifInteractive(interactive *bool, selectedPasswordInt int) bool {
 			fmt.Printf("Error is %d", err)
 			return true
 		}
-
-		// Print the user's chosen number
-		//fmt.Printf("You entered number: %d", passwordNumber)
 
 		// Set the global var to the entered number
 		selectedPasswordNumber = passwordNumber
