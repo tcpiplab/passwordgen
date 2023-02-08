@@ -91,7 +91,7 @@ func main() {
 	}
 
 	// TODO: Make interactive the default.
-	if ifInteractive(interactive, selectedPasswordNumber) {
+	if ifInteractive(interactive) {
 
 		// TEMP print out the selected password
 		fmt.Print(arrayPasswords[selectedPasswordNumber])
@@ -143,17 +143,8 @@ func colorizeCharacters(requestedPasswordLength int, password string) {
 
 		} else if character >= 33 && character <= 47 {
 
-			// TODO Collapse back to a normal if because we no longer need special logic for % symbol
-			if character == 37 {
-
-				// Double the % sign or printf thinks it is a formatting symbol
-				coloredCharsString += color.HiBlueString(string(character))
-
-			} else {
-
-				// Assign a color to special characters, first range
-				coloredCharsString += color.HiBlueString(string(character))
-			}
+			// Assign a color to special characters, first range
+			coloredCharsString += color.HiBlueString(string(character))
 
 		} else if character >= 58 && character <= 64 {
 
@@ -179,8 +170,7 @@ func colorizeCharacters(requestedPasswordLength int, password string) {
 	fmt.Print(coloredCharsString)
 }
 
-// TODO: remove unused parameter selectedPasswordInt
-func ifInteractive(interactive *bool, selectedPasswordInt int) bool {
+func ifInteractive(interactive *bool) bool {
 
 	if *interactive {
 
