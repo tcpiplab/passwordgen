@@ -122,6 +122,22 @@ func copyToClipboard(arrayPasswords []string) bool {
 
 	fmt.Println("Input has been copied to clipboard.")
 
+	fmt.Println("Waiting for 60 seconds before clearing the clipboard.")
+
+	time.Sleep(60 * time.Second)
+
+	// Clear the contents of the clipboard
+	err = clipboard.WriteAll("")
+
+	if err != nil {
+
+		fmt.Println("Error:", err)
+
+		return false
+	}
+
+	fmt.Println("Clipboard has been cleared.")
+
 	return false
 }
 
