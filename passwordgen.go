@@ -17,6 +17,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"github.com/atotto/clipboard"
 	"github.com/fatih/color"
 	_ "github.com/fatih/color"
 	"log"
@@ -94,10 +95,16 @@ func main() {
 	if ifInteractive(interactive) {
 
 		// TEMP print out the selected password
-		fmt.Print(arrayPasswords[selectedPasswordNumber])
+		//fmt.Print(arrayPasswords[selectedPasswordNumber])
 
-		// TODO: copy to clipboard
+		// Copy the input string to the clipboard
+		err := clipboard.WriteAll(arrayPasswords[selectedPasswordNumber])
+		if err != nil {
+			fmt.Println("Error:", err)
+			return
+		}
 
+		fmt.Println("Input has been copied to clipboard.")
 		return
 	}
 
