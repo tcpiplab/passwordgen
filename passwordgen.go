@@ -97,17 +97,32 @@ func main() {
 		// TEMP print out the selected password
 		//fmt.Print(arrayPasswords[selectedPasswordNumber])
 
-		// Copy the input string to the clipboard
-		err := clipboard.WriteAll(arrayPasswords[selectedPasswordNumber])
-		if err != nil {
-			fmt.Println("Error:", err)
+		// Copy the selected password to the clipboard
+		if copyToClipboard(arrayPasswords) {
+
 			return
 		}
 
-		fmt.Println("Input has been copied to clipboard.")
 		return
 	}
 
+}
+
+func copyToClipboard(arrayPasswords []string) bool {
+
+	// Copy the selected password to the clipboard
+	err := clipboard.WriteAll(arrayPasswords[selectedPasswordNumber])
+
+	if err != nil {
+
+		fmt.Println("Error:", err)
+
+		return true
+	}
+
+	fmt.Println("Input has been copied to clipboard.")
+
+	return false
 }
 
 func checkPasswordLength(requestedPasswordLength int, err error) bool {
