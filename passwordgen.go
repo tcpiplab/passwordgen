@@ -96,6 +96,8 @@ func main() {
 		// TEMP print out the selected password
 		fmt.Print(arrayPasswords[selectedPasswordNumber])
 
+		// TODO: copy to clipboard
+
 		return
 	}
 
