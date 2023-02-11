@@ -33,7 +33,11 @@ var selectedPasswordNumber int
 
 func main() {
 
-	help := flag.Bool("help", false, "./passwordgen n\n\nWhere n is the length of the password.")
+	help := flag.Bool(
+		"help",
+		false,
+		"./passwordgen n\nWhere n is the length of the password.\nLength must be the last argument.",
+	)
 	//flag.Parse()
 
 	if *help {
@@ -41,18 +45,23 @@ func main() {
 		return
 	}
 
-	interactive := flag.Bool("interactive", false, "./passwordgen -interactive\n\n")
+	// Interactive mode is the default
+	interactive := flag.Bool(
+		"interactive",
+		true,
+		"./passwordgen -interactive[=false]\n")
 	flag.Parse()
 
-	// TODO: For now the length must be the last arg and the number of args is hardcoded at 3.
-	if len(os.Args) != 3 {
+	// For now the length is mandatory and must be the last arg
+	if len(os.Args) < 2 {
 
-		color.HiRed("\nPlease provide a password length as an argument\nOr -h for help.\n\n")
+		color.HiRed("\nPlease provide a password length as an argument\nOr -h for help.\n")
 		return
 	}
 
 	// Convert the requested length from string to int
-	requestedPasswordLength, err := strconv.Atoi(os.Args[2])
+	// Length must be the last argument
+	requestedPasswordLength, err := strconv.Atoi(os.Args[len(os.Args)-1])
 
 	// Check for password length and return errors if needed
 	if checkPasswordLength(requestedPasswordLength, err) {
@@ -91,7 +100,6 @@ func main() {
 
 	}
 
-	// TODO: Make interactive the default.
 	if ifInteractive(interactive) {
 
 		// TEMP print out the selected password
@@ -124,6 +132,7 @@ func copyToClipboard(arrayPasswords []string) bool {
 
 	fmt.Println("Waiting for 60 seconds before clearing the clipboard.")
 
+	// TODO: make this optional with a command line flag
 	time.Sleep(60 * time.Second)
 
 	// Clear the contents of the clipboard
@@ -142,7 +151,7 @@ func copyToClipboard(arrayPasswords []string) bool {
 }
 
 func checkPasswordLength(requestedPasswordLength int, err error) bool {
-	// TODO: Make 10 the default if no length arg given.
+
 	if int(requestedPasswordLength) < 10 {
 
 		color.HiRed("\nPassword length must be 10 or longer.\n\n")
