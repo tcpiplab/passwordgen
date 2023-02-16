@@ -50,6 +50,12 @@ func main() {
 		"interactive",
 		true,
 		"./passwordgen -interactive[=false]\n")
+
+	erase := flag.Bool(
+		"erase",
+		true,
+		"./passwordgen -erase[=false]\n")
+
 	flag.Parse()
 
 	// For now the length is mandatory and must be the last arg
@@ -106,7 +112,7 @@ func main() {
 		//fmt.Print(arrayPasswords[selectedPasswordNumber])
 
 		// Copy the selected password to the clipboard
-		if copyToClipboard(arrayPasswords) {
+		if copyToClipboard(erase, arrayPasswords) {
 
 			return
 		}
@@ -116,7 +122,7 @@ func main() {
 
 }
 
-func copyToClipboard(arrayPasswords []string) bool {
+func copyToClipboard(erase *bool, arrayPasswords []string) bool {
 
 	// Copy the selected password to the clipboard
 	err := clipboard.WriteAll(arrayPasswords[selectedPasswordNumber])
@@ -130,24 +136,40 @@ func copyToClipboard(arrayPasswords []string) bool {
 
 	fmt.Println("Input has been copied to clipboard.")
 
-	fmt.Println("Waiting for 60 seconds before clearing the clipboard.")
+	if *erase {
 
-	// TODO: make this optional with a command line flag
-	time.Sleep(60 * time.Second)
-
-	// Clear the contents of the clipboard
-	err = clipboard.WriteAll("")
-
-	if err != nil {
-
-		fmt.Println("Error:", err)
-
-		return false
+		b, done := eraseClipboard(true, err)
+		if done {
+			return b
+		}
 	}
 
-	fmt.Println("Clipboard has been cleared.")
-
 	return false
+}
+
+func eraseClipboard(erase bool, err error) (bool, bool) {
+
+	if erase {
+
+		fmt.Println("Waiting for 60 seconds before clearing the clipboard.")
+
+		// TODO: make this optional with a command line flag
+		time.Sleep(60 * time.Second)
+
+		// Clear the contents of the clipboard
+		err = clipboard.WriteAll("")
+
+		if err != nil {
+
+			fmt.Println("Error:", err)
+
+			return false, true
+		}
+
+		fmt.Println("Clipboard has been cleared.")
+
+	}
+	return false, false
 }
 
 func checkPasswordLength(requestedPasswordLength int, err error) bool {
@@ -230,7 +252,6 @@ func ifInteractive(interactive *bool) bool {
 		fmt.Print("Enter an integer: ")
 
 		// Accept user input and save it to passwordNumber
-		// TODO: Strip off leading zero otherwise it selects the 0th password.
 		_, err := fmt.Scan(&passwordNumber)
 
 		// Print error and exit
