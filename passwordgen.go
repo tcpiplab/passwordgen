@@ -138,22 +138,34 @@ func copyToClipboard(erase *bool, arrayPasswords []string) bool {
 
 	if *erase {
 
-		b, done := eraseClipboard(true, err)
-		if done {
-			return b
+		clipboardData, clipboardCleared := eraseClipboard(true, err)
+
+		if clipboardCleared {
+			return clipboardData
+
 		}
 	}
 
 	return false
 }
 
-func eraseClipboard(erase bool, err error) (bool, bool) {
+// eraseClipboard clears the contents of the clipboard if the erase parameter is true.
+// The function takes two input parameters:
+//
+//	erase - a boolean value indicating whether the clipboard should be cleared
+//	err - an error value that will be updated during the clearing process
+//
+// The function returns two boolean values:
+//
+//	success - indicating whether the clipboard was cleared successfully
+//	hasError - indicating whether an error occurred during the clearing process
+func eraseClipboard(erase bool, err error) (success bool, hasError bool) {
 
+	// If the value of the erase parameter is true
 	if erase {
 
 		fmt.Println("Waiting for 60 seconds before clearing the clipboard.")
 
-		// TODO: make this optional with a command line flag
 		time.Sleep(60 * time.Second)
 
 		// Clear the contents of the clipboard
@@ -163,12 +175,18 @@ func eraseClipboard(erase bool, err error) (bool, bool) {
 
 			fmt.Println("Error:", err)
 
+			// If there is an error during the clearing process, the function returns false
+			// and true to indicate that the operation was not successful and that an error
+			// occurred.
 			return false, true
 		}
 
 		fmt.Println("Clipboard has been cleared.")
 
 	}
+
+	// If the erase parameter is false, the function simply returns
+	// false and false, indicating that no action was taken.
 	return false, false
 }
 
