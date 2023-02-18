@@ -122,14 +122,24 @@ func main() {
 
 }
 
-func copyToClipboard(erase *bool, arrayPasswords []string) bool {
+// copyToClipboard copies the selected password to the system clipboard and
+// optionally erases the clipboard contents based on the value of the erase parameter.
+// The function takes two input parameters:
+//
+//	erase - a pointer to a boolean value indicating whether the clipboard should be cleared
+//	arrayPasswords - a string array containing the available passwords to choose from
+//
+// The function returns a boolean value indicating whether an error occurred during the process:
+//   - if an error occurs, the function returns true.
+//   - if the operation is successful, the function returns false.
+func copyToClipboard(erase *bool, arrayPasswords []string) (copyErroredOut bool) {
 
 	// Copy the selected password to the clipboard
 	err := clipboard.WriteAll(arrayPasswords[selectedPasswordNumber])
 
 	if err != nil {
 
-		fmt.Println("Error:", err)
+		fmt.Println("Error: copying password to clipboard:", err)
 
 		return true
 	}
@@ -141,6 +151,7 @@ func copyToClipboard(erase *bool, arrayPasswords []string) bool {
 		clipboardData, clipboardCleared := eraseClipboard(true, err)
 
 		if clipboardCleared {
+
 			return clipboardData
 
 		}
@@ -173,7 +184,7 @@ func eraseClipboard(erase bool, err error) (success bool, hasError bool) {
 
 		if err != nil {
 
-			fmt.Println("Error:", err)
+			fmt.Println("Error: Unable to clear the clipboard:", err)
 
 			// If there is an error during the clearing process, the function returns false
 			// and true to indicate that the operation was not successful and that an error
@@ -270,12 +281,15 @@ func ifInteractive(interactive *bool) bool {
 		fmt.Print("Enter an integer: ")
 
 		// Accept user input and save it to passwordNumber
+		// We don't need the number of args, which is the first returned value,
+		// so just put that in '_'
+		// TODO: Check if input is an integer. If not, re-prompt the user.
 		_, err := fmt.Scan(&passwordNumber)
 
 		// Print error and exit
 		if err != nil {
 
-			fmt.Printf("Error is %d", err)
+			fmt.Printf("Error: Expected input to be an integer: %s", err)
 			return true
 		}
 
@@ -305,7 +319,7 @@ func consoleSize() (int, int) {
 	// If it errored heightAndWidthBytes, log to the screen and exit
 	if err != nil {
 
-		log.Fatal(err)
+		log.Fatal("Error trying to get the size of the terminal:", err)
 	}
 
 	// Save the height and width values as a string
@@ -324,7 +338,7 @@ func consoleSize() (int, int) {
 	// If the conversion to int errored out, log to the screen and exit
 	if err != nil {
 
-		log.Fatal(err)
+		log.Fatal("Error trying to convert terminal height to an integer:", err)
 	}
 
 	// Convert width to an integer
@@ -333,7 +347,7 @@ func consoleSize() (int, int) {
 	// If the conversion to int errored out, log to the screen and exit
 	if err != nil {
 
-		log.Fatal(err)
+		log.Fatal("Error trying to convert terminal width to an integer:", err)
 	}
 
 	return height, width
