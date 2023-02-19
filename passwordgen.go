@@ -280,17 +280,20 @@ func ifInteractive(interactive *bool) bool {
 		// Prompt the user to choose a password from the list
 		fmt.Print("Enter an integer: ")
 
-		// Accept user input and save it to passwordNumber
-		// We don't need the number of args, which is the first returned value,
-		// so just put that in '_'
-		// TODO: Check if input is an integer. If not, re-prompt the user.
-		_, err := fmt.Scan(&passwordNumber)
+		for {
+			// Accept user input and save it to passwordNumber
+			// We don't need the number of args, which is the first returned value,
+			// so just put that in '_'
+			_, err := fmt.Scan(&passwordNumber)
 
-		// Print error and exit
-		if err != nil {
+			// Check if input is an integer. If not, re-prompt the user
+			if err != nil {
 
-			fmt.Printf("Error: Expected input to be an integer: %s", err)
-			return true
+				fmt.Printf("Error: Expected input to be an integer: %s", err)
+				fmt.Printf("\nEnter an integer: ")
+				continue
+			}
+			break
 		}
 
 		// Set the global var to the entered number
