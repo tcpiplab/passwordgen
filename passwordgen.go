@@ -177,10 +177,17 @@ func eraseClipboard(erase bool, err error) (success bool, hasError bool) {
 
 		fmt.Println("Waiting for 60 seconds before clearing the clipboard.")
 
+		// Start the progress bar goroutine
+		progressBarStartStopChannel := make(chan bool)
+		go progressBar(progressBarStartStopChannel)
+
 		time.Sleep(60 * time.Second)
 
 		// Clear the contents of the clipboard
 		err = clipboard.WriteAll("")
+
+		// Send a value to the channel to stop the progress bar
+		progressBarStartStopChannel <- true
 
 		if err != nil {
 
@@ -372,4 +379,38 @@ func randString(lengthOfRandString int) string {
 
 	// Return a new random password string
 	return string(listOfInt32Characters)
+}
+
+// progressBar displays a progress bar in the terminal by printing a period
+// every 500 milliseconds until it receives a value on the given channel. The
+// function runs in a separate goroutine, so it can be executed concurrently
+// with other parts of a Go program. The progress bar can be stopped by sending
+// a value on the channel.
+//
+// Parameters:
+// progressBarChannel - the channel to listen for stop signal on.
+//
+// Example:
+//
+//	progressBarChannel := make(chan bool)
+//	go progressBar(progressBarChannel)
+//
+//	// Do some work
+//	time.Sleep(60 * time.Second)
+//
+//	// Send a value to the channel to stop the progress bar
+//	progressBarChannel <- true
+func progressBar(progressBarChannel chan bool) {
+	for {
+		select {
+		case <-progressBarChannel:
+			// Stop the progress bar when the channel receives a value
+			fmt.Printf("\n")
+			return
+		default:
+			// Display the progress bar
+			fmt.Printf(".")
+			time.Sleep(500 * time.Millisecond)
+		}
+	}
 }
