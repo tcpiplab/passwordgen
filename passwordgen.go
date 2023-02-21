@@ -408,9 +408,22 @@ func progressBar(progressBarChannel chan bool) {
 			fmt.Printf("\n")
 			return
 		default:
-			// Display the progress bar
-			fmt.Printf(".")
-			time.Sleep(500 * time.Millisecond)
+
+			// Display a progress bar with 60 steps, each step taking 1 second.
+			for i := 0; i <= 60; i++ {
+
+				// For each step,
+				//   1. Print a solid block character █ (Unicode \u2588).
+				//   2. Then print the remaining-seconds countdown number (zero-padded
+				//      to two digits with %02d).
+				//   3. Then move the cursor back two spaces using the ASCII control sequence
+				//      \u001B[2D which moves the cursor two characters to the left to overwrite
+				//      the number that was printed in the previous step.
+				// We stay on one line the whole time.
+				fmt.Printf("\u2588%02d\u001B[2D", i)
+
+				time.Sleep(1 * time.Second)
+			}
 		}
 	}
 }
