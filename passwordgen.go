@@ -85,9 +85,9 @@ func main() {
 	var rows int
 	rows = rowsColumns[0]
 
-	//var arrayPasswords [10]string
-
 	arrayPasswords := make([]string, rows)
+
+	// TODO: Print a box around the password table
 
 	// Fill the screen with passwords
 	for rowNumber := 0; rowNumber < rows-1; rowNumber++ {
@@ -106,7 +106,7 @@ func main() {
 
 	}
 
-	if ifInteractive(interactive) {
+	if ifInteractive(interactive, rows) {
 
 		// TEMP print out the selected password
 		//fmt.Print(arrayPasswords[selectedPasswordNumber])
@@ -277,7 +277,7 @@ func colorizeCharacters(requestedPasswordLength int, password string) {
 	fmt.Print(coloredCharsString)
 }
 
-func ifInteractive(interactive *bool) bool {
+func ifInteractive(interactive *bool, rows int) bool {
 
 	if *interactive {
 
@@ -300,7 +300,16 @@ func ifInteractive(interactive *bool) bool {
 				fmt.Printf("\nEnter an integer: ")
 				continue
 			}
+
+			// Check if selected password number is in range
+			if passwordNumber < 0 || passwordNumber >= (rows-1) {
+
+				fmt.Printf("Error: Your selection is out of range")
+				fmt.Printf("\nEnter an integer: ")
+				continue
+			}
 			break
+
 		}
 
 		// Set the global var to the entered number
