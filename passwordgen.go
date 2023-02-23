@@ -104,7 +104,7 @@ func main() {
 }
 
 func printPasswordTable(rows int, requestedPasswordLength int, arrayPasswords []string) {
-	for rowNumber := 0; rowNumber < rows-1; rowNumber++ {
+	for rowNumber := 0; rowNumber < ((rows / 2) - 1); rowNumber++ {
 
 		// Fetch a new randomized password string of the specified length
 		password := randString(requestedPasswordLength)
@@ -123,8 +123,14 @@ func printPasswordTable(rows int, requestedPasswordLength int, arrayPasswords []
 		// Newline at end of row
 		fmt.Printf("\n")
 
-		// Beginning of row line
-		fmt.Print("├")
+		// If it's the final line we're printing
+		if rowNumber == (len(arrayPasswords) - 9) {
+			fmt.Print("└")
+		} else if rowNumber >= 0 {
+
+			// Beginning of row line, middle of table
+			fmt.Print("├")
+		}
 
 		underline := "─"
 
