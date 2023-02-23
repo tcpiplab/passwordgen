@@ -96,11 +96,25 @@ func main() {
 		password := randString(requestedPasswordLength)
 
 		// Print an index number for each printed password
-		fmt.Printf("%02d ", rowNumber)
+		fmt.Printf("│%02d│ ", rowNumber)
 
 		arrayPasswords[rowNumber] = password
 
 		colorizeCharacters(requestedPasswordLength, password)
+
+		fmt.Printf(" %s", "│")
+
+		fmt.Printf("\n")
+
+		fmt.Print("\u251c")
+
+		underline := "─"
+
+		fmt.Printf("%s%s", strings.Repeat(underline, 2), "\u253c")
+
+		fmt.Printf("%s", strings.Repeat(underline, requestedPasswordLength+2))
+
+		fmt.Printf("%s", "\u2524")
 
 		fmt.Printf("\n")
 
