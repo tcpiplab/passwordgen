@@ -87,43 +87,10 @@ func main() {
 
 	arrayPasswords := make([]string, rows)
 
-	// TODO: Print a box around the password table
-
 	// Fill the screen with passwords
-	for rowNumber := 0; rowNumber < rows-1; rowNumber++ {
-
-		// Fetch a new randomized password string of the specified length
-		password := randString(requestedPasswordLength)
-
-		// Print an index number for each printed password
-		fmt.Printf("│%02d│ ", rowNumber)
-
-		arrayPasswords[rowNumber] = password
-
-		colorizeCharacters(requestedPasswordLength, password)
-
-		fmt.Printf(" %s", "│")
-
-		fmt.Printf("\n")
-
-		fmt.Print("\u251c")
-
-		underline := "─"
-
-		fmt.Printf("%s%s", strings.Repeat(underline, 2), "\u253c")
-
-		fmt.Printf("%s", strings.Repeat(underline, requestedPasswordLength+2))
-
-		fmt.Printf("%s", "\u2524")
-
-		fmt.Printf("\n")
-
-	}
+	printPasswordTable(rows, requestedPasswordLength, arrayPasswords)
 
 	if ifInteractive(interactive, rows) {
-
-		// TEMP print out the selected password
-		//fmt.Print(arrayPasswords[selectedPasswordNumber])
 
 		// Copy the selected password to the clipboard
 		if copyToClipboard(erase, arrayPasswords) {
@@ -134,6 +101,46 @@ func main() {
 		return
 	}
 
+}
+
+func printPasswordTable(rows int, requestedPasswordLength int, arrayPasswords []string) {
+	for rowNumber := 0; rowNumber < rows-1; rowNumber++ {
+
+		// Fetch a new randomized password string of the specified length
+		password := randString(requestedPasswordLength)
+
+		// Print an index number for each printed password
+		fmt.Printf("│%02d│ ", rowNumber)
+
+		arrayPasswords[rowNumber] = password
+
+		// Colorize and print the password
+		colorizeCharacters(requestedPasswordLength, password)
+
+		// Vertical line after the password
+		fmt.Printf(" %s", "│")
+
+		// Newline at end of row
+		fmt.Printf("\n")
+
+		// Beginning of row line
+		fmt.Print("├")
+
+		underline := "─"
+
+		// Line under password index number, then cross line character
+		fmt.Printf("%s%s", strings.Repeat(underline, 2), "┼")
+
+		// Line between rows
+		fmt.Printf("%s", strings.Repeat(underline, requestedPasswordLength+2))
+
+		// End of row line
+		fmt.Printf("%s", "┤")
+
+		// Newline at end of row line
+		fmt.Printf("\n")
+
+	}
 }
 
 // copyToClipboard copies the selected password to the system clipboard and
