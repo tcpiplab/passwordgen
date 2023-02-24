@@ -105,9 +105,22 @@ func main() {
 
 func printPasswordTable(rows int, requestedPasswordLength int, arrayPasswords []string) {
 
-	underline := "─"
+	//underline := "─"
+	//underline := color.CyanString("─")
+	//underline := color.CyanString("─")
 
-	fmt.Printf("+────+%s+\n", strings.Repeat(underline, requestedPasswordLength+2))
+	grey := color.New(color.FgCyan, color.Faint).SprintfFunc()
+
+	//underline := color.New(color.FgCyan, color.Faint).Sprintf("─")
+
+	underline := grey("─")
+
+	fmt.Printf(
+		"%s%s%s\n",
+		grey("+────+"),
+		strings.Repeat(underline, requestedPasswordLength+2),
+		grey("+"),
+	)
 
 	for rowNumber := 0; rowNumber < ((rows / 2) - 1); rowNumber++ {
 
@@ -121,7 +134,7 @@ func printPasswordTable(rows int, requestedPasswordLength int, arrayPasswords []
 
 		rowNumberString := fmt.Sprintf("%02d", rowNumber)
 
-		fmt.Printf("│ %s │ ", red(rowNumberString))
+		fmt.Printf("%s %s %s ", grey("│"), red(rowNumberString), grey("│"))
 
 		arrayPasswords[rowNumber] = password
 
@@ -129,7 +142,7 @@ func printPasswordTable(rows int, requestedPasswordLength int, arrayPasswords []
 		colorizeCharacters(requestedPasswordLength, password)
 
 		// Vertical line after the password
-		fmt.Printf(" %s", "│")
+		fmt.Printf(" %s", grey("│"))
 
 		// Newline at end of row
 		fmt.Printf("\n")
@@ -140,21 +153,21 @@ func printPasswordTable(rows int, requestedPasswordLength int, arrayPasswords []
 		if rowNumber == (len(arrayPasswords) - 9) {
 
 			// └
-			fmt.Print("+")
+			fmt.Print(grey("+"))
 		} else if rowNumber >= 0 {
 
 			// Beginning of row line, middle of table ├
-			fmt.Print("+")
+			fmt.Print(grey("+"))
 		}
 
 		// Line under password index number, then cross line character ┼
-		fmt.Printf("%s%s", strings.Repeat(underline, 4), "+")
+		fmt.Printf("%s%s", strings.Repeat(underline, 4), grey("+"))
 
 		// Line between rows
 		fmt.Printf("%s", strings.Repeat(underline, requestedPasswordLength+2))
 
 		// End of row line ┤
-		fmt.Printf("%s", "+")
+		fmt.Printf("%s", grey("+"))
 
 		// Newline at end of row line
 		fmt.Printf("\n")
