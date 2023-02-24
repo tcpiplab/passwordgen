@@ -104,13 +104,18 @@ func main() {
 }
 
 func printPasswordTable(rows int, requestedPasswordLength int, arrayPasswords []string) {
+
+	underline := "─"
+
+	fmt.Printf("+────+%s+\n", strings.Repeat(underline, requestedPasswordLength+2))
+
 	for rowNumber := 0; rowNumber < ((rows / 2) - 1); rowNumber++ {
 
 		// Fetch a new randomized password string of the specified length
 		password := randString(requestedPasswordLength)
 
 		// Print an index number for each printed password
-		fmt.Printf("│%02d│ ", rowNumber)
+		fmt.Printf("│ %02d │ ", rowNumber)
 
 		arrayPasswords[rowNumber] = password
 
@@ -123,25 +128,27 @@ func printPasswordTable(rows int, requestedPasswordLength int, arrayPasswords []
 		// Newline at end of row
 		fmt.Printf("\n")
 
+		//fmt.Printf("%s of %s %s\n", rowNumber, rows, len(arrayPasswords))
+
 		// If it's the final line we're printing
 		if rowNumber == (len(arrayPasswords) - 9) {
-			fmt.Print("└")
+
+			// └
+			fmt.Print("+")
 		} else if rowNumber >= 0 {
 
-			// Beginning of row line, middle of table
-			fmt.Print("├")
+			// Beginning of row line, middle of table ├
+			fmt.Print("+")
 		}
 
-		underline := "─"
-
-		// Line under password index number, then cross line character
-		fmt.Printf("%s%s", strings.Repeat(underline, 2), "┼")
+		// Line under password index number, then cross line character ┼
+		fmt.Printf("%s%s", strings.Repeat(underline, 4), "+")
 
 		// Line between rows
 		fmt.Printf("%s", strings.Repeat(underline, requestedPasswordLength+2))
 
-		// End of row line
-		fmt.Printf("%s", "┤")
+		// End of row line ┤
+		fmt.Printf("%s", "+")
 
 		// Newline at end of row line
 		fmt.Printf("\n")
