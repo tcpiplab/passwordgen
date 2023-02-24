@@ -103,15 +103,22 @@ func main() {
 
 }
 
+// printPasswordTable prints a table of randomized passwords with index numbers to the terminal screen.
+//
+// The function takes in the number of rows to print, the requested length of each password,
+// and an array of passwords to populate. The function prints an index number for each password
+// and colors each character of the password string. The table is bordered with a horizontal
+// line and cross line characters, and each row is separated with a vertical line. The password
+// array is populated with the generated passwords.
+//
+// Parameters:
+// - rows: an int specifying the number of rows to print
+// - requestedPasswordLength: an int specifying the length of each password to generate
+// - arrayPasswords: a slice of strings representing the passwords to be populated
+// Returns: nothing
 func printPasswordTable(rows int, requestedPasswordLength int, arrayPasswords []string) {
 
-	//underline := "─"
-	//underline := color.CyanString("─")
-	//underline := color.CyanString("─")
-
 	grey := color.New(color.FgCyan, color.Faint).SprintfFunc()
-
-	//underline := color.New(color.FgCyan, color.Faint).Sprintf("─")
 
 	underline := grey("─")
 
@@ -122,18 +129,17 @@ func printPasswordTable(rows int, requestedPasswordLength int, arrayPasswords []
 		grey("+"),
 	)
 
+	// Loop to print rows of index numbers and passwords to the terminal screen
 	for rowNumber := 0; rowNumber < ((rows / 2) - 1); rowNumber++ {
 
 		// Fetch a new randomized password string of the specified length
 		password := randString(requestedPasswordLength)
 
-		// Print an index number for each printed password
-		//fmt.Printf("│ %02d │ ", rowNumber)
-
 		red := color.New(color.FgRed).SprintFunc()
 
 		rowNumberString := fmt.Sprintf("%02d", rowNumber)
 
+		// Print an index number for each printed password
 		fmt.Printf("%s %s %s ", grey("│"), red(rowNumberString), grey("│"))
 
 		arrayPasswords[rowNumber] = password
