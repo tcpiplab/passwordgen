@@ -87,29 +87,10 @@ func main() {
 
 	arrayPasswords := make([]string, rows)
 
-	// TODO: Print a box around the password table
-
 	// Fill the screen with passwords
-	for rowNumber := 0; rowNumber < rows-1; rowNumber++ {
-
-		// Fetch a new randomized password string of the specified length
-		password := randString(requestedPasswordLength)
-
-		// Print an index number for each printed password
-		fmt.Printf("%02d ", rowNumber)
-
-		arrayPasswords[rowNumber] = password
-
-		colorizeCharacters(requestedPasswordLength, password)
-
-		fmt.Printf("\n")
-
-	}
+	printPasswordTable(rows, requestedPasswordLength, arrayPasswords)
 
 	if ifInteractive(interactive, rows) {
-
-		// TEMP print out the selected password
-		//fmt.Print(arrayPasswords[selectedPasswordNumber])
 
 		// Copy the selected password to the clipboard
 		if copyToClipboard(erase, arrayPasswords) {
@@ -120,6 +101,78 @@ func main() {
 		return
 	}
 
+}
+
+func printPasswordTable(rows int, requestedPasswordLength int, arrayPasswords []string) {
+
+	//underline := "─"
+	//underline := color.CyanString("─")
+	//underline := color.CyanString("─")
+
+	grey := color.New(color.FgCyan, color.Faint).SprintfFunc()
+
+	//underline := color.New(color.FgCyan, color.Faint).Sprintf("─")
+
+	underline := grey("─")
+
+	fmt.Printf(
+		"%s%s%s\n",
+		grey("+────+"),
+		strings.Repeat(underline, requestedPasswordLength+2),
+		grey("+"),
+	)
+
+	for rowNumber := 0; rowNumber < ((rows / 2) - 1); rowNumber++ {
+
+		// Fetch a new randomized password string of the specified length
+		password := randString(requestedPasswordLength)
+
+		// Print an index number for each printed password
+		//fmt.Printf("│ %02d │ ", rowNumber)
+
+		red := color.New(color.FgRed).SprintFunc()
+
+		rowNumberString := fmt.Sprintf("%02d", rowNumber)
+
+		fmt.Printf("%s %s %s ", grey("│"), red(rowNumberString), grey("│"))
+
+		arrayPasswords[rowNumber] = password
+
+		// Colorize and print the password
+		colorizeCharacters(requestedPasswordLength, password)
+
+		// Vertical line after the password
+		fmt.Printf(" %s", grey("│"))
+
+		// Newline at end of row
+		fmt.Printf("\n")
+
+		//fmt.Printf("%s of %s %s\n", rowNumber, rows, len(arrayPasswords))
+
+		// If it's the final line we're printing
+		if rowNumber == (len(arrayPasswords) - 9) {
+
+			// └
+			fmt.Print(grey("+"))
+		} else if rowNumber >= 0 {
+
+			// Beginning of row line, middle of table ├
+			fmt.Print(grey("+"))
+		}
+
+		// Line under password index number, then cross line character ┼
+		fmt.Printf("%s%s", strings.Repeat(underline, 4), grey("+"))
+
+		// Line between rows
+		fmt.Printf("%s", strings.Repeat(underline, requestedPasswordLength+2))
+
+		// End of row line ┤
+		fmt.Printf("%s", grey("+"))
+
+		// Newline at end of row line
+		fmt.Printf("\n")
+
+	}
 }
 
 // copyToClipboard copies the selected password to the system clipboard and
