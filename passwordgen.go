@@ -115,7 +115,13 @@ func printPasswordTable(rows int, requestedPasswordLength int, arrayPasswords []
 		password := randString(requestedPasswordLength)
 
 		// Print an index number for each printed password
-		fmt.Printf("│ %02d │ ", rowNumber)
+		//fmt.Printf("│ %02d │ ", rowNumber)
+
+		red := color.New(color.FgRed).SprintFunc()
+
+		rowNumberString := fmt.Sprintf("%02d", rowNumber)
+
+		fmt.Printf("│ %s │ ", red(rowNumberString))
 
 		arrayPasswords[rowNumber] = password
 
