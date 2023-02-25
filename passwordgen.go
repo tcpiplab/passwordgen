@@ -15,7 +15,6 @@ package main
 // But I had to tweak both the ChatGPT code and the gist to get things working.
 
 import (
-	"fmt"
 	_ "github.com/fatih/color"
 	"math/rand"
 	"os"
@@ -31,7 +30,7 @@ func main() {
 
 	OS = detectOS()
 
-	fmt.Printf(OS)
+	//fmt.Printf(OS)
 
 	interactive, erase, done := argsHandler()
 	if done {
