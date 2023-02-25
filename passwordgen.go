@@ -267,21 +267,6 @@ func eraseClipboard(erase bool, err error) (success bool, hasError bool) {
 	return false, false
 }
 
-func checkPasswordLength(requestedPasswordLength int, err error) bool {
-
-	if int(requestedPasswordLength) < 10 {
-
-		color.HiRed("\nPassword length must be 10 or longer.\n\n")
-		return true
-	}
-
-	if err != nil {
-		color.HiRed("Invalid password length argument")
-		return true
-	}
-	return false
-}
-
 func colorizeCharacters(requestedPasswordLength int, password string) {
 
 	var coloredCharsString string
