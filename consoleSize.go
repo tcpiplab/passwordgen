@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+	"golang.org/x/term"
 	"log"
 	"os"
 	"os/exec"
@@ -8,14 +10,14 @@ import (
 	"strings"
 )
 
-// consoleSize returns the height and width of the user's terminal console in number of characters.
+// consoleSizeUnix returns the height and width of the user's terminal console in number of characters.
 // It executes the shell command `stty size` and reads its output to get the console size.
 // If any errors occur during this process, it will log an error message to the screen and exit.
 //
 // Returns:
 // - an integer representing the height of the console in number of characters
 // - an integer representing the width of the console in number of characters
-func consoleSize() (int, int) {
+func consoleSizeUnix() (int, int) {
 
 	// Originally from https://gist.github.com/steinelu/aa9a5f402b584bc967eb216e054ceefb
 
@@ -65,4 +67,24 @@ func consoleSize() (int, int) {
 	}
 
 	return height, width
+}
+
+// Get windows terminal dimensions
+func consoleSizeWindows() (int, int) {
+
+	width, height, err := term.GetSize(0)
+
+	if err != nil {
+
+		// Handle the error
+		fmt.Println("Error getting terminal size:", err)
+
+		// If error, return default size of a windows cmd window
+		return 25, 80
+
+	} else {
+
+		return height, width
+	}
+
 }
