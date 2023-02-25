@@ -26,6 +26,8 @@ var selectedPasswordNumber int
 
 var OS string
 
+var NO_COLOR string
+
 func main() {
 
 	OS = detectOS()
@@ -59,6 +61,9 @@ func main() {
 	} else if OS == "windows" {
 
 		rowsColumns[0], rowsColumns[1] = consoleSizeWindows()
+
+		// Disable color output on windows
+		NO_COLOR = "true"
 	}
 
 	// We only need the number of rows
