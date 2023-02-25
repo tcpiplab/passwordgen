@@ -51,7 +51,15 @@ func main() {
 
 	// Get the height and width of the console
 	var rowsColumns [2]int
-	rowsColumns[0], rowsColumns[1] = consoleSize()
+
+	if OS == "darwin" || OS == "linux" || OS == "unix" {
+
+		rowsColumns[0], rowsColumns[1] = consoleSizeUnix()
+
+	} else if OS == "windows" {
+
+		rowsColumns[0], rowsColumns[1] = consoleSizeWindows()
+	}
 
 	// We only need the number of rows
 	var rows int
