@@ -12,13 +12,13 @@ type Words struct {
 	Score int    `json:"score"`
 }
 
-func main() {
+func callWordApi() string {
 	// Set up the HTTP client and request
 	client := http.Client{}
 	req, err := http.NewRequest("GET", "https://api.datamuse.com/sug", nil)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return ""
 	}
 
 	searchString := randomWordStem()
@@ -35,7 +35,7 @@ func main() {
 	resp, err := client.Do(req)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return ""
 	}
 	defer func(Body io.ReadCloser) {
 		err := Body.Close()
@@ -49,12 +49,22 @@ func main() {
 	err = json.NewDecoder(resp.Body).Decode(&words)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return ""
 	}
 
 	// Print the response data
+	//for _, word := range words {
+	//	fmt.Printf("Word: %s\nScore: %d\n\n", word.Word, word.Score)
+	//}
+
+	longestWord := ""
 	for _, word := range words {
-		fmt.Printf("Word: %s\nScore: %d\n\n", word.Word, word.Score)
+		if len(word.Word) > len(longestWord) {
+			longestWord = word.Word
+		}
 	}
 
+	//fmt.Println("Longest word:", longestWord)
+
+	return longestWord
 }
