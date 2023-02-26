@@ -1,6 +1,10 @@
 package main
 
-import "math/rand"
+import (
+	"math/rand"
+	"strings"
+	"time"
+)
 
 func randString(lengthOfRandString int) string {
 
@@ -18,4 +22,25 @@ func randString(lengthOfRandString int) string {
 
 	// Return a new random password string
 	return string(listOfInt32Characters)
+}
+
+func randomWordStem() string {
+
+	rand.Seed(time.Now().UnixNano())
+
+	const vowels = "AEIOU"
+	const consonants = "BCDFGHJKLMNPQRSTVWXYZ"
+	var result string
+	for {
+		// Generate a random letter from the vowels or consonants string
+		if rand.Intn(2) == 0 {
+			result += string(vowels[rand.Intn(len(vowels))])
+		} else {
+			result += string(consonants[rand.Intn(len(consonants))])
+		}
+		// If the string contains at least one vowel and one consonant, return it
+		if strings.ContainsAny(result, vowels) && strings.ContainsAny(result, consonants) {
+			return result
+		}
+	}
 }
