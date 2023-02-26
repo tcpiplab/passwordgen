@@ -25,8 +25,15 @@ func eraseClipboard(erase bool, err error) (success bool, hasError bool) {
 
 		// Start the progress bar goroutine
 		progressBarStartStopChannel := make(chan bool)
-		go progressBar(progressBarStartStopChannel)
 
+		if OS == "darwin" || OS == "linux" || OS == "unix" {
+
+			go progressBarUnix(progressBarStartStopChannel)
+
+		} else if OS == "windows" {
+
+			go progressBarWindows(progressBarStartStopChannel)
+		}
 		time.Sleep(60 * time.Second)
 
 		// Clear the contents of the clipboard
