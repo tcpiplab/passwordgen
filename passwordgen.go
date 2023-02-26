@@ -15,6 +15,7 @@ package main
 // But I had to tweak both the ChatGPT code and the gist to get things working.
 
 import (
+	"github.com/fatih/color"
 	_ "github.com/fatih/color"
 	"math/rand"
 	"os"
@@ -26,7 +27,7 @@ var selectedPasswordNumber int
 
 var OS string
 
-var NO_COLOR string
+//var NO_COLOR string
 
 func main() {
 
@@ -63,7 +64,8 @@ func main() {
 		rowsColumns[0], rowsColumns[1] = consoleSizeWindows()
 
 		// Disable color output on windows
-		NO_COLOR = "true"
+		//NO_COLOR = "true"
+		color.NoColor = true // disables colorized output
 	}
 
 	// We only need the number of rows
