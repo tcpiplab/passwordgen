@@ -9,8 +9,13 @@ import (
 func main() {
 	//inputStr := "Hello World"
 	inputStr := callWordApi()
+
 	paddedStr := padString(inputStr)
 	fmt.Println(paddedStr) // Output: "[Hello World]"
+
+	surroundedStr := surroundString(inputStr)
+	fmt.Println(surroundedStr) // Output: "_Hello World_"
+
 }
 
 func padString(s string) string {
@@ -56,4 +61,26 @@ func matchCharacterPair(leftChar rune, rightChar rune) rune {
 		rightChar = rightMostChars[rand.Intn(len(rightMostChars))]
 	}
 	return rightChar
+}
+
+func surroundString(input string) string {
+
+	// Initialize a slice containing the valid surrounding characters
+	chars := []rune{'_', '-', '*', '&', '^', '%', '$', '#', '@', '!', '~', '?', '.'}
+
+	// Call the surroundString function with an input string
+	//input := "hello"
+
+	// Seed the random number generator
+	rand.Seed(time.Now().UnixNano())
+
+	// Randomly select a character from the slice of valid characters
+	randChar := chars[rand.Intn(len(chars))]
+
+	// Surround the input string with the randomly selected character
+	output := string(randChar) + input + string(randChar)
+
+	fmt.Printf("Input string: %s\nOutput string: %s\n", input, output)
+
+	return output
 }
