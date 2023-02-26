@@ -20,6 +20,11 @@ func main() {
 	randomCaseStr := randomCase(inputStr)
 	fmt.Println(randomCaseStr)
 
+	// Call the randPadString function with an integer and a string
+	length := 32
+	randomPadStr := randPadString(length, inputStr)
+	println(randomPadStr)
+
 }
 
 func padString(s string) string {
@@ -107,5 +112,46 @@ func randomCase(input string) string {
 
 	// Convert the slice of runes back to a string and return it
 	output := string(inputRunes)
+	return output
+}
+
+const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
+
+func randomString(length int) string {
+	// Seed the random number generator
+	rand.Seed(time.Now().UnixNano())
+
+	// Generate a random string of the specified length
+	b := make([]byte, length)
+	for i := range b {
+		b[i] = charset[rand.Intn(len(charset))]
+	}
+
+	return string(b)
+}
+
+// 	// Call the randPadString function with an integer and a string
+//	length := 10
+//	input := "hello"
+//	output := randPadString(length, input)
+//
+//	println("Input string:", input)
+//	println("Output string:", output)
+
+func randPadString(length int, input string) string {
+	// Determine the number of characters to pad
+	numPadding := length - len(input)
+
+	// If the input string is already longer than the desired length, return the input string
+	if numPadding <= 0 {
+		return input
+	}
+
+	// Generate random strings for the left and right padding
+	leftPadding := randomString(numPadding / 2)
+	rightPadding := randomString(numPadding - len(leftPadding))
+
+	// Concatenate the left and right padding with the input string and return the result
+	output := leftPadding + input + rightPadding
 	return output
 }
