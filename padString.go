@@ -7,24 +7,51 @@ import (
 	"time"
 )
 
+var requestedPasswordLength = 20
+
 func main() {
 	//inputStr := "Hello World"
 	inputStr := callWordApi()
 
-	paddedStr := padString(inputStr)
-	fmt.Println(paddedStr) // Output: "[Hello World]"
+	//paddedStr := padString(inputStr)
+	//fmt.Println(paddedStr) // Output: "[Hello World]"
+	//
+	//surroundedStr := surroundString(inputStr)
+	//fmt.Println(surroundedStr) // Output: "_Hello World_"
+	//
+	//randomCaseStr := randomCase(inputStr)
+	//fmt.Println(randomCaseStr)
+	//
+	//// Call the randPadString function with an integer and a string
+	//length := 32
+	//randomPadStr := randPadString(length, inputStr)
+	//println(randomPadStr)
 
-	surroundedStr := surroundString(inputStr)
-	fmt.Println(surroundedStr) // Output: "_Hello World_"
+	fmt.Printf("%s", processString(inputStr))
 
-	randomCaseStr := randomCase(inputStr)
-	fmt.Println(randomCaseStr)
+}
 
-	// Call the randPadString function with an integer and a string
-	length := 32
-	randomPadStr := randPadString(length, inputStr)
-	println(randomPadStr)
+func processString(str string) string {
+	// create a slice of functions
+	listOfFunctions := []func(string) string{
+		padString,
+		surroundString,
+		randomCase,
+		randPadString,
+	}
 
+	// shuffle the slice using a random permutation
+	rand.Seed(time.Now().UnixNano())
+	rand.Shuffle(len(listOfFunctions), func(i, j int) {
+		listOfFunctions[i], listOfFunctions[j] = listOfFunctions[j], listOfFunctions[i]
+	})
+
+	// apply each function to the string in the shuffled order
+	for _, f := range listOfFunctions {
+		str = f(str)
+	}
+
+	return str
 }
 
 func padString(s string) string {
@@ -138,9 +165,11 @@ func randomString(length int) string {
 //	println("Input string:", input)
 //	println("Output string:", output)
 
-func randPadString(length int, input string) string {
+func randPadString(input string) string {
 	// Determine the number of characters to pad
-	numPadding := length - len(input)
+	//numPadding := length - len(input)
+
+	numPadding := requestedPasswordLength - len(input)
 
 	// If the input string is already longer than the desired length, return the input string
 	if numPadding <= 0 {
