@@ -7,6 +7,7 @@ import (
 	"io"
 	"math/rand"
 	"net/http"
+	"strings"
 	"time"
 )
 
@@ -62,25 +63,33 @@ func callWordApi() string {
 		}
 	}
 
-	return longestWord
+	output := strings.ReplaceAll(longestWord, " ", "_")
+
+	return output
 }
 
 func randomWordChain() string {
-	// Generate a random number between 2 and 5
+	// Generate a random number between 2 and 6
 	rand.Seed(time.Now().UnixNano())
-	numWords := rand.Intn(4) + 2
+	numWords := rand.Intn(5) + 2
 
 	// Call callWordApi() and concatenate the returned words into a string
 	var buffer bytes.Buffer
+
+	// Choose a single delimiter to place between the words
+	delimiters := "-_=+/\\|~^$#@&*:."
+	delimiter := string(delimiters[rand.Intn(len(delimiters))])
+
 	for i := 0; i < numWords; i++ {
 		word := callWordApi()
 		buffer.WriteString(word)
 		if i != numWords-1 {
 			// Add a delimiter between the words except for the last word
-			delimiters := "-_=+/\\|~^$#@&*:."
-			delimiter := string(delimiters[rand.Intn(len(delimiters))])
 			buffer.WriteString(delimiter)
 		}
 	}
-	return buffer.String()
+
+	output := strings.ReplaceAll(buffer.String(), " ", "_")
+
+	return output
 }

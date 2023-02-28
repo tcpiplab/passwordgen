@@ -29,6 +29,8 @@ func main() {
 
 	fmt.Printf("%s", processString(inputStr))
 
+	fmt.Printf("\n%s", randomWordChain())
+
 }
 
 func processString(str string) string {
