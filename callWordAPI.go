@@ -108,5 +108,8 @@ func randomWordChain(requestedPasswordLength int) string {
 		output = strings.TrimSpace(output[:requestedPasswordLength])
 	}
 
+	// Colorize word-chain output
+	colorizeCharacters(requestedPasswordLength, output)
+
 	return output
 }

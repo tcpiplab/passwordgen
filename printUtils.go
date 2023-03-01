@@ -60,11 +60,11 @@ func printPasswordTable(
 
 		} else if wordChains {
 
-			//inputStr := callWordApi()
-
-			password = randomWordChain(requestedPasswordLength)
-
-			fmt.Printf(password)
+			// TODO: word-chain is never copied to clipboard. See line 54
+			// Instead a random string is copied to clipboard. See line 45
+			// Both lines need to move into the randPasswords conditional
+			// and both need to be replicated for the wordChains conditional
+			randomWordChain(requestedPasswordLength)
 		}
 
 		// Vertical line after the password
@@ -119,7 +119,7 @@ func colorizeCharacters(requestedPasswordLength int, password string) {
 		} else if character >= 97 && character <= 122 {
 
 			// Assign a color to lowercase characters
-			coloredCharsString += color.HiWhiteString(string(character))
+			coloredCharsString += color.HiGreenString(string(character))
 
 		} else if character >= 48 && character <= 57 {
 
