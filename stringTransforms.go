@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"math/rand"
 	"strings"
 	"time"
@@ -9,29 +8,29 @@ import (
 
 var requestedPasswordLength = 20
 
-func main() {
-	//inputStr := "Hello World"
-	inputStr := callWordApi()
-
-	//paddedStr := padString(inputStr)
-	//fmt.Println(paddedStr) // Output: "[Hello World]"
-	//
-	//surroundedStr := surroundString(inputStr)
-	//fmt.Println(surroundedStr) // Output: "_Hello World_"
-	//
-	//randomCaseStr := randomCase(inputStr)
-	//fmt.Println(randomCaseStr)
-	//
-	//// Call the randPadString function with an integer and a string
-	//length := 32
-	//randomPadStr := randPadString(length, inputStr)
-	//println(randomPadStr)
-
-	fmt.Printf("%s", processString(inputStr))
-
-	fmt.Printf("\n%s", randomWordChain())
-
-}
+//func main() {
+//	//inputStr := "Hello World"
+//	inputStr := callWordApi()
+//
+//	//paddedStr := padString(inputStr)
+//	//fmt.Println(paddedStr) // Output: "[Hello World]"
+//	//
+//	//surroundedStr := surroundString(inputStr)
+//	//fmt.Println(surroundedStr) // Output: "_Hello World_"
+//	//
+//	//randomCaseStr := randomCase(inputStr)
+//	//fmt.Println(randomCaseStr)
+//	//
+//	//// Call the randPadString function with an integer and a string
+//	//length := 32
+//	//randomPadStr := randPadString(length, inputStr)
+//	//println(randomPadStr)
+//
+//	fmt.Printf("%s", processString(inputStr))
+//
+//	fmt.Printf("\n%s", randomWordChain())
+//
+//}
 
 func processString(str string) string {
 	// create a slice of functions

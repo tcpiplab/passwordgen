@@ -27,15 +27,11 @@ var selectedPasswordNumber int
 
 var OS string
 
-//var NO_COLOR string
-
 func main() {
 
 	OS = detectOS()
 
-	//fmt.Printf(OS)
-
-	interactive, erase, done := argsHandler()
+	interactive, erase, randomPasswords, done := argsHandler()
 	if done {
 		return
 	}
@@ -75,7 +71,7 @@ func main() {
 	arrayPasswords := make([]string, rows)
 
 	// Fill the screen with passwords
-	printPasswordTable(rows, requestedPasswordLength, arrayPasswords)
+	printPasswordTable(rows, requestedPasswordLength, arrayPasswords, *randomPasswords)
 
 	if ifInteractive(interactive, rows) {
 
