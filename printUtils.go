@@ -19,7 +19,13 @@ import (
 // - requestedPasswordLength: an int specifying the length of each password to generate
 // - arrayPasswords: a slice of strings representing the passwords to be populated
 // Returns: nothing
-func printPasswordTable(rows int, requestedPasswordLength int, arrayPasswords []string, randomPasswords bool) {
+func printPasswordTable(
+	rows int,
+	requestedPasswordLength int,
+	arrayPasswords []string,
+	randomPasswords bool,
+	wordChains bool,
+) {
 
 	grey := color.New(color.FgCyan, color.Faint).SprintfFunc()
 
@@ -52,6 +58,13 @@ func printPasswordTable(rows int, requestedPasswordLength int, arrayPasswords []
 			// Colorize and print the password
 			colorizeCharacters(requestedPasswordLength, password)
 
+		} else if wordChains {
+
+			//inputStr := callWordApi()
+
+			randomWordChain()
+
+			fmt.Printf(randomWordChain())
 		}
 
 		// Vertical line after the password

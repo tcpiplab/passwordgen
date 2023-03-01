@@ -31,10 +31,10 @@ func main() {
 
 	OS = detectOS()
 
-	interactive, erase, randomPasswords, done := argsHandler()
-	if done {
-		return
-	}
+	interactive, erase, randomPasswords, wordChains, _ := argsHandler()
+	//if *done {
+	//	return
+	//}
 
 	// Convert the requested length from string to int
 	// Length must be the last argument
@@ -71,7 +71,7 @@ func main() {
 	arrayPasswords := make([]string, rows)
 
 	// Fill the screen with passwords
-	printPasswordTable(rows, requestedPasswordLength, arrayPasswords, *randomPasswords)
+	printPasswordTable(rows, requestedPasswordLength, arrayPasswords, *randomPasswords, *wordChains)
 
 	if ifInteractive(interactive, rows) {
 

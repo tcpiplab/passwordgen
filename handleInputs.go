@@ -7,8 +7,8 @@ import (
 	"os"
 )
 
-func argsHandler() (*bool, *bool, *bool, bool) {
-	help := flag.Bool(
+func argsHandler() (interactive *bool, erase *bool, randomPasswords *bool, wordChains *bool, help *bool) {
+	help = flag.Bool(
 		"help",
 		false,
 		"./passwordgen n\nWhere n is the length of the password.\nLength must be the last argument.",
@@ -17,24 +17,29 @@ func argsHandler() (*bool, *bool, *bool, bool) {
 
 	if *help {
 		flag.Usage()
-		return nil, nil, nil, true
+		return nil, nil, nil, nil, nil
 	}
 
 	// Interactive mode is the default
-	interactive := flag.Bool(
+	interactive = flag.Bool(
 		"interactive",
 		true,
 		"./passwordgen -interactive[=false]\n")
 
-	erase := flag.Bool(
+	erase = flag.Bool(
 		"erase",
 		true,
 		"./passwordgen -erase[=false]\n")
 
-	randomPasswords := flag.Bool(
+	randomPasswords = flag.Bool(
 		"random",
 		true,
 		"./passwordgen -random\n")
+
+	wordChains = flag.Bool(
+		"word-chains",
+		false,
+		"./passwordgen -word-chains\n")
 
 	flag.Parse()
 
@@ -42,9 +47,9 @@ func argsHandler() (*bool, *bool, *bool, bool) {
 	if len(os.Args) < 2 {
 
 		color.HiRed("\nPlease provide a password length as an argument\nOr -h for help.\n")
-		return nil, nil, nil, false
+		return nil, nil, nil, nil, nil
 	}
-	return interactive, erase, randomPasswords, false
+	return interactive, erase, randomPasswords, wordChains, nil
 }
 
 func ifInteractive(interactive *bool, rows int) bool {
