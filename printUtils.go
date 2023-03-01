@@ -62,9 +62,9 @@ func printPasswordTable(
 
 			//inputStr := callWordApi()
 
-			randomWordChain()
+			password = randomWordChain(requestedPasswordLength)
 
-			fmt.Printf(randomWordChain())
+			fmt.Printf(password)
 		}
 
 		// Vertical line after the password

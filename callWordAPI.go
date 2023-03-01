@@ -8,7 +8,6 @@ import (
 	"math/rand"
 	"net/http"
 	"strings"
-	"time"
 )
 
 type Words struct {
@@ -68,10 +67,10 @@ func callWordApi() string {
 	return output
 }
 
-func randomWordChain() string {
-	// Generate a random number between 2 and 6
-	rand.Seed(time.Now().UnixNano())
-	numWords := rand.Intn(5) + 2
+func randomWordChain(requestedPasswordLength int) string {
+	//// Generate a random number between 2 and 6
+	//rand.Seed(time.Now().UnixNano())
+	//numWords := rand.Intn(5) + 2
 
 	// Call callWordApi() and concatenate the returned words into a string
 	var buffer bytes.Buffer
@@ -80,16 +79,34 @@ func randomWordChain() string {
 	delimiters := "-_=+/\\|~^$#@&*:."
 	delimiter := string(delimiters[rand.Intn(len(delimiters))])
 
-	for i := 0; i < numWords; i++ {
-		word := callWordApi()
-		buffer.WriteString(word)
-		if i != numWords-1 {
-			// Add a delimiter between the words except for the last word
-			buffer.WriteString(delimiter)
+	var word string
+
+	for i := 0; i < requestedPasswordLength; i += len(word) {
+		word = callWordApi()
+
+		if len(word) > 2 {
+
+			buffer.WriteString(word)
+
+			if i != requestedPasswordLength {
+				// Add a delimiter between the words except for the last word
+				if i != requestedPasswordLength-1 {
+
+					buffer.WriteString(delimiter)
+				}
+			}
 		}
 	}
 
+	// Replace spaces with an underscore character
 	output := strings.ReplaceAll(buffer.String(), " ", "_")
+
+	// Truncate the resulting word-chain password to the specified length
+	// by removing characters from the right side
+	if len(output) > requestedPasswordLength {
+
+		output = strings.TrimSpace(output[:requestedPasswordLength])
+	}
 
 	return output
 }
