@@ -60,11 +60,9 @@ func printPasswordTable(
 
 		} else if wordChains {
 
-			// TODO: word-chain is never copied to clipboard. See line 54
-			// Instead a random string is copied to clipboard. See line 45
-			// Both lines need to move into the randPasswords conditional
-			// and both need to be replicated for the wordChains conditional
-			randomWordChain(requestedPasswordLength)
+			password := randomWordChain(requestedPasswordLength)
+
+			arrayPasswords[rowNumber] = password
 		}
 
 		// Vertical line after the password
