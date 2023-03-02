@@ -7,6 +7,7 @@ import (
 	"io"
 	"math/rand"
 	"net/http"
+	"os"
 	"strings"
 )
 
@@ -112,4 +113,40 @@ func randomWordChain(requestedPasswordLength int) string {
 	colorizeCharacters(requestedPasswordLength, output)
 
 	return output
+}
+
+func fileExists(filename string) (bool, error) {
+	_, err := os.Stat(filename)
+	if err != nil {
+		if os.IsNotExist(err) {
+			return false, nil
+		}
+		return false, err
+	}
+	return true, nil
+}
+
+func checkForWordList() {
+	//OS := runtime.GOOS
+
+	if OS == "darwin" || OS == "linux" || OS == "unix" {
+		// Check if wordlist exists
+		wordlistExists, err := fileExists("/usr/share/dict/words")
+		if err != nil {
+			// handle error
+			fmt.Println("Error:", err)
+			return
+		}
+		if wordlistExists {
+			// file exists
+			fmt.Println("Wordlist file exists.")
+		} else {
+			// file does not exist
+			fmt.Println("Wordlist file does not exist.")
+		}
+	} else if OS == "windows" {
+
+		fmt.Println("Wordlist file does not exist.")
+		fmt.Println("word-chains are not yet implemented for Windows.")
+	}
 }
