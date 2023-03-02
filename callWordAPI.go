@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"bytes"
 	"encoding/json"
 	"fmt"
@@ -9,6 +10,7 @@ import (
 	"net/http"
 	"os"
 	"strings"
+	"time"
 )
 
 type Words struct {
@@ -126,7 +128,7 @@ func fileExists(filename string) (bool, error) {
 	return true, nil
 }
 
-func checkForWordList() {
+func checkForWordList(rows int) {
 	//OS := runtime.GOOS
 
 	if OS == "darwin" || OS == "linux" || OS == "unix" {
@@ -139,7 +141,12 @@ func checkForWordList() {
 		}
 		if wordlistExists {
 			// file exists
-			fmt.Println("Wordlist file exists.")
+			//fmt.Println("Wordlist file exists.")
+			passwordRows := rows / 2
+
+			// TODO: Grab the resulting array and call the api for words it triggers
+			selectSeedWords(passwordRows)
+
 		} else {
 			// file does not exist
 			fmt.Println("Wordlist file does not exist.")
@@ -149,4 +156,37 @@ func checkForWordList() {
 		fmt.Println("Wordlist file does not exist.")
 		fmt.Println("word-chains are not yet implemented for Windows.")
 	}
+}
+
+func selectSeedWords(numPasswordRows int) []string {
+
+	// open the file for reading
+	file, err := os.Open("/usr/share/dict/words")
+
+	if err != nil {
+		panic(err)
+	}
+	defer file.Close()
+
+	// read all the lines into memory
+	var lines []string
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		lines = append(lines, scanner.Text())
+	}
+
+	// seed the random number generator
+	rand.Seed(time.Now().UnixNano())
+
+	// select numPasswordRows random words of at least three characters in length
+	var arrSeedWords []string
+	for i := 0; i < numPasswordRows; i++ {
+		password := ""
+		for len(password) < 3 {
+			password = lines[rand.Intn(len(lines))]
+		}
+		arrSeedWords = append(arrSeedWords, password)
+	}
+
+	return arrSeedWords
 }

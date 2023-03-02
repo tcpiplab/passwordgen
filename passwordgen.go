@@ -45,13 +45,6 @@ func main() {
 		return
 	}
 
-	// If the user wants word-chain passwords, check to see if we have
-	// an available wordlist on their OS for seeding the API queries
-	if *wordChains {
-
-		checkForWordList()
-	}
-
 	// Seed the randomness
 	rand.Seed(time.Now().UnixNano())
 
@@ -74,6 +67,13 @@ func main() {
 	// We only need the number of rows
 	var rows int
 	rows = rowsColumns[0]
+
+	// If the user wants word-chain passwords, check to see if we have
+	// an available wordlist on their OS for seeding the API queries
+	if *wordChains {
+
+		checkForWordList(rows)
+	}
 
 	arrayPasswords := make([]string, rows)
 
