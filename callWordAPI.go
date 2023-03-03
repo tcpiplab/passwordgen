@@ -188,7 +188,7 @@ func selectSeedWords(numPasswordRows int) []string {
 	var arrSeedWords []string
 	for i := 0; i < numPasswordRows; i++ {
 		password := ""
-		for len(password) < 3 {
+		for len(password) < 3 || len(password) > 7 {
 			password = lines[rand.Intn(len(lines))]
 		}
 		arrSeedWords = append(arrSeedWords, password)
