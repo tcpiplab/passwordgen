@@ -82,6 +82,13 @@ func randomWordChain(requestedPasswordLength int) string {
 	var word string
 
 	for i := 0; i < requestedPasswordLength; i += len(word) {
+
+		// TODO: Check if the word is obscure or not.
+		// If it doesn't return anything from:
+		// https://api.datamuse.com/words?v=enwiki&max=1&ml=ignominious
+		// then reject it and grab another word.
+		// TODO: If it returned anything used the word returned because it
+		// will tend to be a more common word.
 		word = callWordApi()
 
 		if len(word) > 2 {
@@ -155,6 +162,7 @@ func checkForWordList(rows int) {
 	}
 }
 
+// TODO: If I don't end up using this function then remove it.
 func selectSeedWords(numPasswordRows int) []string {
 
 	// open the file for reading
@@ -198,3 +206,50 @@ func selectSeedWords(numPasswordRows int) []string {
 
 	return arrSeedWords
 }
+
+func getBetterWord(meansLike string) (string, error) {
+	url := fmt.Sprintf("https://api.datamuse.com/words?v=enwiki&max=1&ml=%s", meansLike)
+	response, err := http.Get(url)
+	if err != nil {
+		return "", err
+	}
+	defer func(Body io.ReadCloser) {
+		err := Body.Close()
+		if err != nil {
+			// TODO: Handle error
+		}
+	}(response.Body)
+
+	body, err := io.ReadAll(response.Body)
+	if err != nil {
+		return "", err
+	}
+
+	var words []struct {
+		Word string `json:"word"`
+	}
+
+	err = json.Unmarshal(body, &words)
+	if err != nil {
+		return "", err
+	}
+
+	if len(words) > 0 {
+
+		// Return the more normal word found by the API
+		return words[0].Word, nil
+	}
+
+	return "", fmt.Errorf("No word found for '%s'", meansLike)
+}
+
+// Here is how to call the above function:
+//func main() {
+//	ml := "ignominious"
+//	word, err := getWord(ml)
+//	if err != nil {
+//		fmt.Printf("Error getting word for '%s': %s\n", ml, err)
+//		return
+//	}
+//	fmt.Printf("Word for '%s': %s\n", ml, word)
+//}
