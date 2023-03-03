@@ -31,6 +31,7 @@ func progressBarUnix(progressBarChannel chan bool) {
 			// Stop the progress bar when the channel receives a value
 			fmt.Printf("\n")
 			return
+			//goland:noinspection GrazieInspection
 		default:
 
 			// Display a progress bar with 60 steps, each step taking 1 second.
