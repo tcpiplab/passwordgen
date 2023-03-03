@@ -71,9 +71,6 @@ func callWordApi() string {
 }
 
 func randomWordChain(requestedPasswordLength int) string {
-	//// Generate a random number between 2 and 6
-	//rand.Seed(time.Now().UnixNano())
-	//numWords := rand.Intn(5) + 2
 
 	// Call callWordApi() and concatenate the returned words into a string
 	var buffer bytes.Buffer
@@ -163,10 +160,19 @@ func selectSeedWords(numPasswordRows int) []string {
 	// open the file for reading
 	file, err := os.Open("/usr/share/dict/words")
 
+	// Handle any error from opening.
 	if err != nil {
 		panic(err)
 	}
-	defer file.Close()
+
+	// Wrap the file.Close() function in a closure to handle any error that might occur.
+	defer func(file *os.File) {
+
+		err := file.Close()
+		if err != nil {
+			panic(err)
+		}
+	}(file)
 
 	// read all the lines into memory
 	var lines []string
@@ -187,6 +193,8 @@ func selectSeedWords(numPasswordRows int) []string {
 		}
 		arrSeedWords = append(arrSeedWords, password)
 	}
+
+	//fmt.Printf("%s", arrSeedWords)
 
 	return arrSeedWords
 }
