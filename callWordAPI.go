@@ -91,6 +91,8 @@ func randomWordChain(requestedPasswordLength int) string {
 		// will tend to be a more common word.
 		word = callWordApi()
 
+		word, _ = getBetterWord(word)
+
 		if len(word) > 2 {
 
 			buffer.WriteString(word)
@@ -207,8 +209,9 @@ func selectSeedWords(numPasswordRows int) []string {
 	return arrSeedWords
 }
 
-func getBetterWord(meansLike string) (string, error) {
-	url := fmt.Sprintf("https://api.datamuse.com/words?v=enwiki&max=1&ml=%s", meansLike)
+func getBetterWord(oldTimeyWord string) (string, error) {
+
+	url := fmt.Sprintf("https://api.datamuse.com/words?v=enwiki&max=1&ml=%s", oldTimeyWord)
 	response, err := http.Get(url)
 	if err != nil {
 		return "", err
@@ -240,7 +243,7 @@ func getBetterWord(meansLike string) (string, error) {
 		return words[0].Word, nil
 	}
 
-	return "", fmt.Errorf("No word found for '%s'", meansLike)
+	return "", fmt.Errorf("No word found for '%s'", oldTimeyWord)
 }
 
 // Here is how to call the above function:
