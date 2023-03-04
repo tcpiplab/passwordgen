@@ -209,13 +209,22 @@ func selectSeedWords(numPasswordRows int) []string {
 	return arrSeedWords
 }
 
+// getBetterWord() solves a problem that is caused by grabbing words from
+// out of copyright dictionaries: most of the words are odd, obscure, or
+// outdated.
 func getBetterWord(oldTimeyWord string) (string, error) {
 
+	// API call:
+	//   - v: The vocabulary database to use. "enwiki" is the largest.
+	//   - max: We only want one word.
+	//   - ml: "means like". Specify the word we want near synonyms for.
 	url := fmt.Sprintf("https://api.datamuse.com/words?v=enwiki&max=1&ml=%s", oldTimeyWord)
+
 	response, err := http.Get(url)
 	if err != nil {
 		return "", err
 	}
+
 	defer func(Body io.ReadCloser) {
 		err := Body.Close()
 		if err != nil {
@@ -228,6 +237,9 @@ func getBetterWord(oldTimeyWord string) (string, error) {
 		return "", err
 	}
 
+	// Typical JSON response from the API:
+	//   [{"word":"disgraceful","score":30050217,"tags":["syn","adj","results_type:primary_rel"]}]
+	// All we need is the word
 	var words []struct {
 		Word string `json:"word"`
 	}
@@ -237,6 +249,7 @@ func getBetterWord(oldTimeyWord string) (string, error) {
 		return "", err
 	}
 
+	// Sometimes, if the oldTimeyWord is obscure enough, the API will respond with "[]".
 	if len(words) > 0 {
 
 		// Return the more normal word found by the API
