@@ -69,7 +69,7 @@ func consoleSizeUnix() (int, int) {
 	return height, width
 }
 
-// Get windows terminal dimensions
+// Get the Windows terminal dimensions
 func consoleSizeWindows() (int, int) {
 
 	width, height, err := term.GetSize(0)

@@ -27,18 +27,14 @@ var selectedPasswordNumber int
 
 var OS string
 
-//var NO_COLOR string
-
 func main() {
 
 	OS = detectOS()
 
-	//fmt.Printf(OS)
-
-	interactive, erase, done := argsHandler()
-	if done {
-		return
-	}
+	interactive, erase, randomPasswords, wordChains, _ := argsHandler()
+	//if *done {
+	//	return
+	//}
 
 	// Convert the requested length from string to int
 	// Length must be the last argument
@@ -72,10 +68,17 @@ func main() {
 	var rows int
 	rows = rowsColumns[0]
 
+	// If the user wants word-chain passwords, check to see if we have
+	// an available wordlist on their OS for seeding the API queries
+	if *wordChains {
+
+		checkForWordList(rows)
+	}
+
 	arrayPasswords := make([]string, rows)
 
 	// Fill the screen with passwords
-	printPasswordTable(rows, requestedPasswordLength, arrayPasswords)
+	printPasswordTable(rows, requestedPasswordLength, arrayPasswords, *randomPasswords, *wordChains)
 
 	if ifInteractive(interactive, rows) {
 

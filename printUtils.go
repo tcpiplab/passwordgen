@@ -19,7 +19,13 @@ import (
 // - requestedPasswordLength: an int specifying the length of each password to generate
 // - arrayPasswords: a slice of strings representing the passwords to be populated
 // Returns: nothing
-func printPasswordTable(rows int, requestedPasswordLength int, arrayPasswords []string) {
+func printPasswordTable(
+	rows int,
+	requestedPasswordLength int,
+	arrayPasswords []string,
+	randomPasswords bool,
+	wordChains bool,
+) {
 
 	grey := color.New(color.FgCyan, color.Faint).SprintfFunc()
 
@@ -35,9 +41,6 @@ func printPasswordTable(rows int, requestedPasswordLength int, arrayPasswords []
 	// Loop to print rows of index numbers and passwords to the terminal screen
 	for rowNumber := 0; rowNumber < ((rows / 2) - 1); rowNumber++ {
 
-		// Fetch a new randomized password string of the specified length
-		password := randString(requestedPasswordLength)
-
 		red := color.New(color.FgRed).SprintFunc()
 
 		rowNumberString := fmt.Sprintf("%02d", rowNumber)
@@ -45,10 +48,22 @@ func printPasswordTable(rows int, requestedPasswordLength int, arrayPasswords []
 		// Print an index number for each printed password
 		fmt.Printf("%s %s %s ", grey("│"), red(rowNumberString), grey("│"))
 
-		arrayPasswords[rowNumber] = password
+		if randomPasswords {
 
-		// Colorize and print the password
-		colorizeCharacters(requestedPasswordLength, password)
+			// Fetch a new randomized password string of the specified length
+			password := randString(requestedPasswordLength)
+
+			arrayPasswords[rowNumber] = password
+
+			// Colorize and print the password
+			colorizeCharacters(requestedPasswordLength, password)
+
+		} else if wordChains {
+
+			password := randomWordChain(requestedPasswordLength)
+
+			arrayPasswords[rowNumber] = password
+		}
 
 		// Vertical line after the password
 		fmt.Printf(" %s", grey("│"))
@@ -102,7 +117,7 @@ func colorizeCharacters(requestedPasswordLength int, password string) {
 		} else if character >= 97 && character <= 122 {
 
 			// Assign a color to lowercase characters
-			coloredCharsString += color.HiWhiteString(string(character))
+			coloredCharsString += color.HiGreenString(string(character))
 
 		} else if character >= 48 && character <= 57 {
 
