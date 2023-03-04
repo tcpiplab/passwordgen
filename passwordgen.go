@@ -72,7 +72,11 @@ func main() {
 	// an available wordlist on their OS for seeding the API queries
 	if *wordChains {
 
+		// TODO: Use this word list or remove this function
 		checkForWordList(rows)
+
+		// Also need to do this for word-chains to work
+		*randomPasswords = false
 	}
 
 	arrayPasswords := make([]string, rows)
