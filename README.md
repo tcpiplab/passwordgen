@@ -61,13 +61,10 @@ Waiting for 60 seconds before clearing the clipboard.
          (default true)
   -word-chains
         ./passwordgen -word-chains
-
-
-
-
-
 ```
 ## Password Chains
+
+Password chains only work on Mac, Linux, and Unix.
 
 ```shell
 ./passwordgen -word-chains 32
