@@ -134,7 +134,7 @@ func fileExists(filename string) (bool, error) {
 	return true, nil
 }
 
-func checkForWordList(rows int) {
+func checkForWordList(rows int) bool {
 	//OS := runtime.GOOS
 
 	if OS == "darwin" || OS == "linux" || OS == "unix" {
@@ -143,25 +143,34 @@ func checkForWordList(rows int) {
 		if err != nil {
 			// handle error
 			fmt.Println("Error:", err)
-			return
+			return false
 		}
 		if wordlistExists {
 			// file exists
 			//fmt.Println("Wordlist file exists.")
-			passwordRows := rows / 2
+			//passwordRows := rows / 2
 
 			// TODO: Grab the resulting array and call the api for words it triggers
-			selectSeedWords(passwordRows)
+			//selectSeedWords(passwordRows)
+
+			return true
 
 		} else {
 			// file does not exist
 			fmt.Println("Wordlist file does not exist.")
+
+			return false
 		}
 	} else if OS == "windows" {
 
-		fmt.Println("Wordlist file does not exist.")
-		fmt.Println("word-chains are not yet implemented for Windows.")
+		fmt.Println("wordlist file does not exist.")
+		fmt.Println("word-chains and mixed passwords are not yet implemented for Windows.")
+
+		return false
 	}
+
+	// We shouldn't ever get here
+	return false
 }
 
 // TODO: If I don't end up using this function then remove it.

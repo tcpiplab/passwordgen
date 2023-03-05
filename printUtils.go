@@ -25,7 +25,7 @@ func printPasswordTable(
 	arrayPasswords []string,
 	randomPasswords bool,
 	wordChains bool,
-) {
+	mixedPasswords bool) {
 
 	grey := color.New(color.FgCyan, color.Faint).SprintfFunc()
 
@@ -63,6 +63,19 @@ func printPasswordTable(
 			password := randomWordChain(requestedPasswordLength)
 
 			arrayPasswords[rowNumber] = password
+
+		} else if mixedPasswords {
+
+			password := ifMixedPasswords(mixedPasswords, randomPasswords, rows)
+
+			//fmt.Printf(password)
+
+			arrayPasswords[rowNumber] = password
+
+			//fmt.Printf(arrayPasswords[rowNumber])
+
+			// Colorize and print the password
+			colorizeCharacters(requestedPasswordLength, password)
 		}
 
 		// Vertical line after the password
@@ -102,6 +115,9 @@ func printPasswordTable(
 func colorizeCharacters(requestedPasswordLength int, password string) {
 
 	var coloredCharsString string
+
+	// TODO: Trim the password down to the requestedPasswordLength
+	password = trimPassword(password, requestedPasswordLength)
 
 	// Check each character's ascii value and colorize according to category
 	for i := 0; i < requestedPasswordLength; i++ {
