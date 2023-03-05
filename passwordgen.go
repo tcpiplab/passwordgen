@@ -25,23 +25,25 @@ import (
 
 var selectedPasswordNumber int
 
+var requestedPasswordLength int
+
 var OS string
 
 func main() {
 
 	OS = detectOS()
 
-	interactive, erase, randomPasswords, wordChains, _ := argsHandler()
+	interactive, erase, randomPasswords, wordChains, mixedPasswords, _ := argsHandler()
 	//if *done {
 	//	return
 	//}
 
 	// Convert the requested length from string to int
 	// Length must be the last argument
-	requestedPasswordLength, err := strconv.Atoi(os.Args[len(os.Args)-1])
+	requestedPasswordLength, _ = strconv.Atoi(os.Args[len(os.Args)-1])
 
 	// Check for password length and return errors if needed
-	if checkPasswordLength(requestedPasswordLength, err) {
+	if checkPasswordLength(requestedPasswordLength) {
 		return
 	}
 
@@ -72,17 +74,25 @@ func main() {
 	// an available wordlist on their OS for seeding the API queries
 	if *wordChains {
 
-		// TODO: Use this word list or remove this function
-		checkForWordList(rows)
+		// Need to do this for word-chains to work
+		*randomPasswords = false
+	}
+	if *mixedPasswords {
 
-		// Also need to do this for word-chains to work
+		// Need to do this for mixed passwords to work
 		*randomPasswords = false
 	}
 
 	arrayPasswords := make([]string, rows)
 
 	// Fill the screen with passwords
-	printPasswordTable(rows, requestedPasswordLength, arrayPasswords, *randomPasswords, *wordChains)
+	printPasswordTable(
+		rows,
+		requestedPasswordLength,
+		arrayPasswords,
+		*randomPasswords,
+		*wordChains,
+		*mixedPasswords)
 
 	if ifInteractive(interactive, rows) {
 
@@ -95,4 +105,47 @@ func main() {
 		return
 	}
 
+}
+
+func ifMixedPasswords(mixedPasswords bool, randomPasswords bool, rows int) string {
+
+	var outputStr string
+
+	if mixedPasswords {
+
+		// Need to do this for mixed passwords to work
+		randomPasswords = false
+
+		if checkForWordList() {
+
+			arrWords := selectSeedWords(rows / 2)
+
+			var inputStr string
+
+			if requestedPasswordLength < 12 {
+
+				// For now just grab the first word in the array
+				inputStr = randomCase(arrWords[0])
+
+			} else if requestedPasswordLength <= 20 {
+
+				inputStr = surroundString(
+					surroundString(
+						surroundString(
+							arrWords[0]) + "-" + arrWords[1]))
+
+			} else if requestedPasswordLength > 20 {
+
+				inputStr = surroundString(
+					surroundString(
+						surroundString(
+							arrWords[0])+"-"+arrWords[1]) + "-" + arrWords[2])
+			}
+
+			outputStr = createMixedPassword(inputStr)
+
+		}
+
+	}
+	return outputStr
 }

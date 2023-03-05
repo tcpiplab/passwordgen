@@ -15,7 +15,7 @@ import "github.com/fatih/color"
 //
 // Returns:
 // - a boolean value indicating if the password length is valid or not
-func checkPasswordLength(requestedPasswordLength int, err error) bool {
+func checkPasswordLength(requestedPasswordLength int) bool {
 
 	if int(requestedPasswordLength) < 10 {
 
@@ -23,9 +23,9 @@ func checkPasswordLength(requestedPasswordLength int, err error) bool {
 		return true
 	}
 
-	if err != nil {
-		color.HiRed("Invalid password length argument")
-		return true
-	}
+	//if err != nil {
+	//	color.HiRed("Invalid password length argument")
+	//	return true
+	//}
 	return false
 }

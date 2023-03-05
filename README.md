@@ -39,7 +39,9 @@ Waiting for 60 seconds before clearing the clipboard.
 █████████████████████████████████████████████████████████████60
 ```
 
-# Usage
+# Examples
+
+## Usage
 
 ```shell
   -erase
@@ -52,5 +54,64 @@ Waiting for 60 seconds before clearing the clipboard.
   -interactive
         ./passwordgen -interactive[=false]
          (default true)
-         Note that `false` behavior is not yet implemented.
+  -mixed
+        ./passwordgen -mixed        
+  -random
+        ./passwordgen -random
+         (default true)
+  -word-chains
+        ./passwordgen -word-chains
+
+
+
+
+
+```
+## Password Chains
+
+```shell
+./passwordgen -word-chains 32
++────+──────────────────────────────────+
+│ 00 │ methaqualone:auction:malicious:d │
++────+──────────────────────────────────+
+│ 01 │ supernatural\productivity\rein\s │
++────+──────────────────────────────────+
+│ 02 │ bbeg:outrageous:quondam:kaph:wis │
++────+──────────────────────────────────+
+│ 03 │ oceanic/mercantile/allah/jury_ri │
++────+──────────────────────────────────+
+│ 04 │ oasthouse*gain*rainmeter*barbari │
++────+──────────────────────────────────+
+│ 05 │ rein$jupiter$xizang$uvulopalatop │
++────+──────────────────────────────────+
+│ 06 │ nonetheless|fidelity|adapt|lingo │
++────+──────────────────────────────────+
+│ 07 │ a_lot-accord-beestings-audiomete │
++────+──────────────────────────────────+
+```
+
+## Mixed Passwords
+
+Mixed passwords only work on Mac, Linux, and Unix.
+
+```shell
+./passwordgen -mixed 25
++────+───────────────────────────+
+│ 00 │ *lemnad-oxysalt-choreus*) │
++────+───────────────────────────+
+│ 01 │ recco_-fissive_-Giansar>~ │
++────+───────────────────────────+
+│ 02 │ 0{@iffy-Marconi@-patent}3 │
++────+───────────────────────────+
+│ 03 │ [aflush-hurty-worth]h]319 │
++────+───────────────────────────+
+│ 04 │ $Striges$-cashew-dumple)% │
++────+───────────────────────────+
+│ 05 │ $[-#$upcrane$-Nona#-sonic │
++────+───────────────────────────+
+│ 06 │ #{@putois-gharial@-newel} │
++────+───────────────────────────+
+│ 07 │ {Gnatho-murga-chuhra}a}27 │
++────+───────────────────────────+
+
 ```
