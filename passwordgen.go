@@ -113,13 +113,10 @@ func ifMixedPasswords(mixedPasswords bool, randomPasswords bool, rows int) strin
 
 	if mixedPasswords {
 
-		// Also need to do this for mixed passwords to work
+		// Need to do this for mixed passwords to work
 		randomPasswords = false
 
-		// TODO: Use this word list or remove this function
-		if checkForWordList(rows) {
-			// TODO: Create a function for mixed passwords
-			//createMixedPassword("hello_world")
+		if checkForWordList() {
 
 			arrWords := selectSeedWords(rows / 2)
 
@@ -145,10 +142,8 @@ func ifMixedPasswords(mixedPasswords bool, randomPasswords bool, rows int) strin
 							arrWords[0])+"-"+arrWords[1]) + "-" + arrWords[2])
 			}
 
-			//fmt.Printf("%s", createMixedPassword(inputStr))
 			outputStr = createMixedPassword(inputStr)
 
-			//fmt.Printf(outputStr)
 		}
 
 	}
