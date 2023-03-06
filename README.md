@@ -10,6 +10,10 @@ $ cd passwordgen
 $ go build passwordgen.go
 ```
 
+## Or just download a binary for your platform
+
+See the [latest release binaries](https://github.com/tcpiplab/passwordgen/releases/latest) for Mac (Intel or ARM), Linux, or Windows.
+
 ## Run
 
 ```shell
@@ -111,4 +115,13 @@ Mixed passwords only work on Mac, Linux, and Unix.
 │ 07 │ {Gnatho-murga-chuhra}a}27 │
 +────+───────────────────────────+
 
+```
+
+# Building releases for multiple platforms
+
+```shell
+GOOS=darwin GOARCH=arm64 go build -o passwordgen-v1.1.0-darwin-arm64
+GOOS=darwin GOARCH=amd64 go build -o passwordgen-v1.1.0-darwin-amd64
+GOOS=windows GOARCH=amd64 go build -o passwordgen-v1.1.0-windows-amd64.exe
+GOOS=linux GOARCH=amd64 go build -o passwordgen-v1.1.0-linux-amd64
 ```
