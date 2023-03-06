@@ -81,6 +81,13 @@ func main() {
 
 		// Need to do this for mixed passwords to work
 		*randomPasswords = false
+
+		if OS == "windows" {
+
+			color.NoColor = false
+			color.Red("Mixed passwords are not yet implemented on Windows.")
+			os.Exit(1)
+		}
 	}
 
 	arrayPasswords := make([]string, rows)
