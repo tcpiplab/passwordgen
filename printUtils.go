@@ -41,6 +41,7 @@ func printPasswordTable(
 	// Loop to print rows of index numbers and passwords to the terminal screen
 	for rowNumber := 0; rowNumber < ((rows / 2) - 1); rowNumber++ {
 
+		// TODO: Get colors working on Windows
 		red := color.New(color.FgRed).SprintFunc()
 
 		rowNumberString := fmt.Sprintf("%02d", rowNumber)

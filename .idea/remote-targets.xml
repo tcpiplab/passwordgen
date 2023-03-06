@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="RemoteTargetsManager">
+    <option name="projectDefaultTargetUuid" value="03f26858-17ed-4060-9ede-82d5c406530c" />
+    <targets>
+      <target name="sec560@192.168.1.46:22" type="ssh/sftp" uuid="03f26858-17ed-4060-9ede-82d5c406530c">
+        <config>
+          <option name="projectRootOnTarget" value="/C:/Users/sec560/Downloads" />
+          <option name="serverName" value="sec560@192.168.1.46:22 password" />
+        </config>
+        <ContributedStateBase type="GoLanguageRuntime">
+          <config>
+            <option name="goPath" value="/C:/Users/sec560/go" />
+            <option name="goRoot" value="/C:/Program Files/Go/bin/go.exe" />
+          </config>
+        </ContributedStateBase>
+        <ContributedStateBase type="GoLanguageRuntime">
+          <config>
+            <option name="goRoot" value="/C:/Program Files/Go/bin/go.exe" />
+          </config>
+        </ContributedStateBase>
+      </target>
+    </targets>
+  </component>
+</project>
