@@ -92,14 +92,28 @@ func main() {
 
 	arrayPasswords := make([]string, rows)
 
-	// Fill the screen with passwords
-	printPasswordTable(
-		rows,
-		requestedPasswordLength,
-		arrayPasswords,
-		*randomPasswords,
-		*wordChains,
-		*mixedPasswords)
+	if OS == "darwin" || OS == "linux" || OS == "unix" {
+
+		// Fill the screen with passwords
+		printPasswordTableUnix(
+			rows,
+			requestedPasswordLength,
+			arrayPasswords,
+			*randomPasswords,
+			*wordChains,
+			*mixedPasswords)
+
+	} else if OS == "windows" {
+
+		// Fill the screen with passwords
+		printPasswordTableWindows(
+			rows,
+			requestedPasswordLength,
+			arrayPasswords,
+			*randomPasswords,
+			*wordChains,
+			*mixedPasswords)
+	}
 
 	if ifInteractive(interactive, rows) {
 
