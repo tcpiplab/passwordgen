@@ -27,13 +27,13 @@ func printPasswordTableWindows(
 	wordChains bool,
 	mixedPasswords bool) {
 
-	underlineRed := "_"
-
-	color.NoColor = false
-	red := color.New(color.FgHiRed).PrintfFunc()
-	red("Testing colors on Windows")
-	red(strings.Repeat(underlineRed, requestedPasswordLength+2))
-	color.NoColor = true
+	//underlineRed := "_"
+	//
+	//color.NoColor = false
+	//red := color.New(color.FgHiRed).PrintfFunc()
+	//red("Testing colors on Windows")
+	//red(strings.Repeat(underlineRed, requestedPasswordLength+2))
+	//color.NoColor = true
 
 	grey := color.New(color.FgCyan, color.Faint).SprintfFunc()
 
@@ -124,10 +124,6 @@ func colorizeCharactersWindows(requestedPasswordLength int, password string) {
 	// TODO: Trim the password down to the requestedPasswordLength
 	password = trimPassword(password, requestedPasswordLength)
 
-	//color.NoColor = false
-	//red := color.New(color.FgRed).PrintfFunc()
-	//red("warning")
-
 	// Check each character's ascii value and colorize according to category
 	for i := 0; i < requestedPasswordLength; i++ {
 
@@ -137,48 +133,85 @@ func colorizeCharactersWindows(requestedPasswordLength int, password string) {
 		if character >= 65 && character <= 90 {
 
 			// Assign a color to uppercase characters
-			coloredCharsString += color.WhiteString(string(character))
+			//coloredCharsString += color.WhiteString(string(character))
+
+			color.NoColor = false
+			uppercaseColorPrint := color.New(color.FgHiMagenta).PrintfFunc()
+			uppercaseColorPrint(string(character))
+			color.NoColor = true
 
 		} else if character >= 97 && character <= 122 {
 
 			// Assign a color to lowercase characters
-			coloredCharsString += color.HiGreenString(string(character))
+			//coloredCharsString += color.HiGreenString(string(character))
+
+			color.NoColor = false
+			lowercaseColorPrint := color.New(color.FgHiGreen).PrintfFunc()
+			lowercaseColorPrint(string(character))
+			color.NoColor = true
 
 		} else if character >= 48 && character <= 57 {
 
 			// Assign a color to number characters
-			coloredCharsString += color.CyanString(string(character))
+			//coloredCharsString += color.CyanString(string(character))
 
-			// TODO: This works on Windows
-			//color.NoColor = false
-			//red := color.New(color.FgRed).PrintfFunc()
-			//red("%s", string(character))
-			//color.NoColor = true
+			color.NoColor = false
+			numberColorPrint := color.New(color.FgHiCyan).PrintfFunc()
+			numberColorPrint(string(character))
+			color.NoColor = true
 
 		} else if character >= 33 && character <= 47 {
 
 			// Assign a color to special characters, first range
-			coloredCharsString += color.HiBlueString(string(character))
+			//coloredCharsString += color.HiBlueString(string(character))
+
+			color.NoColor = false
+			specialCharColorPrint := color.New(color.FgHiYellow).PrintfFunc()
+			specialCharColorPrint(string(character))
+			color.NoColor = true
 
 		} else if character >= 58 && character <= 64 {
 
 			// Assign a color to special characters, second range
-			coloredCharsString += color.HiBlueString(string(character))
+			//coloredCharsString += color.HiBlueString(string(character))
+
+			color.NoColor = false
+			specialCharColorPrint := color.New(color.FgHiYellow).PrintfFunc()
+			specialCharColorPrint(string(character))
+			color.NoColor = true
+
 		} else if character >= 91 && character <= 96 {
 
 			// Assign a color to special characters, third range
-			coloredCharsString += color.HiBlueString(string(character))
+			//coloredCharsString += color.HiBlueString(string(character))
+
+			color.NoColor = false
+			specialCharColorPrint := color.New(color.FgHiYellow).PrintfFunc()
+			specialCharColorPrint(string(character))
+			color.NoColor = true
 
 		} else if character >= 123 && character <= 126 {
 
 			// Assign a color to special characters, fourth range
-			coloredCharsString += color.HiBlueString(string(character))
+			//coloredCharsString += color.HiBlueString(string(character))
+
+			color.NoColor = false
+			specialCharColorPrint := color.New(color.FgHiYellow).PrintfFunc()
+			specialCharColorPrint(string(character))
+			color.NoColor = true
 
 		} else {
 
 			// Assign a color to any character not represented above
-			coloredCharsString += color.HiYellowString(string(character))
+			//coloredCharsString += color.HiYellowString(string(character))
+
+			color.NoColor = false
+			specialCharColorPrint := color.New(color.FgHiYellow).PrintfFunc()
+			specialCharColorPrint(string(character))
+			color.NoColor = true
+
 		}
+		color.NoColor = true
 	}
 
 	fmt.Print(coloredCharsString)
