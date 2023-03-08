@@ -130,31 +130,27 @@ func colorizeCharactersWindows(requestedPasswordLength int, password string) {
 		// Convert the character back to ascii value for the color assignment
 		character := int32(password[i])
 
+		// TODO: Make uppercase and lowercase Hi colors and others not Hi.
+
 		if character >= 65 && character <= 90 {
 
 			// Assign a color to uppercase characters
-			//coloredCharsString += color.WhiteString(string(character))
-
 			color.NoColor = false
-			uppercaseColorPrint := color.New(color.FgHiMagenta).PrintfFunc()
+			uppercaseColorPrint := color.New(color.FgCyan).PrintfFunc()
 			uppercaseColorPrint(string(character))
 			color.NoColor = true
 
 		} else if character >= 97 && character <= 122 {
 
 			// Assign a color to lowercase characters
-			//coloredCharsString += color.HiGreenString(string(character))
-
 			color.NoColor = false
-			lowercaseColorPrint := color.New(color.FgHiGreen).PrintfFunc()
+			lowercaseColorPrint := color.New(color.FgGreen).PrintfFunc()
 			lowercaseColorPrint(string(character))
 			color.NoColor = true
 
 		} else if character >= 48 && character <= 57 {
 
 			// Assign a color to number characters
-			//coloredCharsString += color.CyanString(string(character))
-
 			color.NoColor = false
 			numberColorPrint := color.New(color.FgHiCyan).PrintfFunc()
 			numberColorPrint(string(character))
@@ -166,7 +162,7 @@ func colorizeCharactersWindows(requestedPasswordLength int, password string) {
 
 				// Double the % sign or printf thinks it is a formatting symbol
 				color.NoColor = false
-				specialCharColorPrint := color.New(color.FgHiYellow).PrintfFunc()
+				specialCharColorPrint := color.New(color.FgHiGreen).PrintfFunc()
 				specialCharColorPrint("%%")
 				color.NoColor = true
 
@@ -174,7 +170,7 @@ func colorizeCharactersWindows(requestedPasswordLength int, password string) {
 
 				// Assign a color to special characters, first range
 				color.NoColor = false
-				specialCharColorPrint := color.New(color.FgHiYellow).PrintfFunc()
+				specialCharColorPrint := color.New(color.FgHiGreen).PrintfFunc()
 				specialCharColorPrint(string(character))
 				color.NoColor = true
 
@@ -182,38 +178,30 @@ func colorizeCharactersWindows(requestedPasswordLength int, password string) {
 		} else if character >= 58 && character <= 64 {
 
 			// Assign a color to special characters, second range
-			//coloredCharsString += color.HiBlueString(string(character))
-
 			color.NoColor = false
-			specialCharColorPrint := color.New(color.FgHiYellow).PrintfFunc()
+			specialCharColorPrint := color.New(color.FgHiGreen).PrintfFunc()
 			specialCharColorPrint(string(character))
 			color.NoColor = true
 
 		} else if character >= 91 && character <= 96 {
 
 			// Assign a color to special characters, third range
-			//coloredCharsString += color.HiBlueString(string(character))
-
 			color.NoColor = false
-			specialCharColorPrint := color.New(color.FgHiYellow).PrintfFunc()
+			specialCharColorPrint := color.New(color.FgHiGreen).PrintfFunc()
 			specialCharColorPrint(string(character))
 			color.NoColor = true
 
 		} else if character >= 123 && character <= 126 {
 
 			// Assign a color to special characters, fourth range
-			//coloredCharsString += color.HiBlueString(string(character))
-
 			color.NoColor = false
-			specialCharColorPrint := color.New(color.FgHiYellow).PrintfFunc()
+			specialCharColorPrint := color.New(color.FgHiGreen).PrintfFunc()
 			specialCharColorPrint(string(character))
 			color.NoColor = true
 
 		} else {
 
 			// Assign a color to any character not represented above
-			//coloredCharsString += color.HiYellowString(string(character))
-
 			color.NoColor = false
 			specialCharColorPrint := color.New(color.FgHiYellow).PrintfFunc()
 			specialCharColorPrint(string(character))
@@ -224,8 +212,4 @@ func colorizeCharactersWindows(requestedPasswordLength int, password string) {
 	}
 
 	fmt.Print(coloredCharsString)
-
-	//color.NoColor = false
-	//
-	//fmt.Printf(coloredCharsString)
 }
