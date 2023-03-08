@@ -162,14 +162,23 @@ func colorizeCharactersWindows(requestedPasswordLength int, password string) {
 
 		} else if character >= 33 && character <= 47 {
 
-			// Assign a color to special characters, first range
-			//coloredCharsString += color.HiBlueString(string(character))
+			if character == 37 {
 
-			color.NoColor = false
-			specialCharColorPrint := color.New(color.FgHiYellow).PrintfFunc()
-			specialCharColorPrint(string(character))
-			color.NoColor = true
+				// Double the % sign or printf thinks it is a formatting symbol
+				color.NoColor = false
+				specialCharColorPrint := color.New(color.FgHiYellow).PrintfFunc()
+				specialCharColorPrint("%%")
+				color.NoColor = true
 
+			} else {
+
+				// Assign a color to special characters, first range
+				color.NoColor = false
+				specialCharColorPrint := color.New(color.FgHiYellow).PrintfFunc()
+				specialCharColorPrint(string(character))
+				color.NoColor = true
+
+			}
 		} else if character >= 58 && character <= 64 {
 
 			// Assign a color to special characters, second range
