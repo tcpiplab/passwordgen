@@ -85,7 +85,7 @@ func main() {
 		if OS == "windows" {
 
 			color.NoColor = false
-			color.Red("Mixed passwords are not yet implemented on Windows.")
+			color.HiRed("Mixed passwords are not yet implemented on Windows.")
 			os.Exit(1)
 		}
 	}
