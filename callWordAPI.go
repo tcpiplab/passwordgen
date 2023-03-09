@@ -118,7 +118,7 @@ func randomWordChain(requestedPasswordLength int) string {
 	}
 
 	// Colorize word-chain output
-	colorizeCharactersUnix(requestedPasswordLength, output)
+	colorizeCharactersWindows(requestedPasswordLength, output)
 
 	return output
 }
