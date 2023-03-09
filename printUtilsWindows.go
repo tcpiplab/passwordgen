@@ -50,12 +50,19 @@ func printPasswordTableWindows(
 	for rowNumber := 0; rowNumber < ((rows / 2) - 1); rowNumber++ {
 
 		// TODO: Get colors working on Windows
-		red := color.New(color.FgRed).SprintFunc()
+		//red := color.New(color.FgHiRed).SprintFunc()
 
 		rowNumberString := fmt.Sprintf("%02d", rowNumber)
 
-		// Print an index number for each printed password
-		fmt.Printf("%s %s %s ", grey("│"), red(rowNumberString), grey("│"))
+		fmt.Printf("%s ", grey("│"))
+
+		// Print index number in HiRed
+		color.NoColor = false
+		redIndexNumberWindows := color.New(color.FgHiRed).PrintfFunc()
+		redIndexNumberWindows(rowNumberString)
+		color.NoColor = true
+
+		fmt.Printf(" %s ", grey("│"))
 
 		if randomPasswords {
 
