@@ -35,6 +35,8 @@ func printPasswordTableUnix(
 	//red(strings.Repeat(underlineRed, requestedPasswordLength+2))
 	//color.NoColor = true
 
+	//fmt.Printf(decompressDictionaryData(dictionaryData))
+
 	grey := color.New(color.FgCyan, color.Faint).SprintfFunc()
 
 	underline := grey("─")

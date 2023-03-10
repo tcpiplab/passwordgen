@@ -1,11 +1,63 @@
 package main
 
 import (
+	"bytes"
 	"compress/gzip"
+	"encoding/base64"
 	"io"
+	"io/ioutil"
+	"math/rand"
 	"os"
 	"strings"
+	"time"
 )
+
+func decompressDictionaryData(dictionaryData string) string {
+
+	// Decode the base64 data.
+	decoded, err := base64.StdEncoding.DecodeString(dictionaryData)
+	if err != nil {
+		panic(err)
+	}
+
+	// Decompress the data.
+	r, err := gzip.NewReader(bytes.NewReader(decoded))
+	if err != nil {
+		panic(err)
+	}
+	defer r.Close()
+
+	uncompressed, err := ioutil.ReadAll(r)
+	if err != nil {
+		panic(err)
+	}
+
+	//// Use the uncompressed dictionary data as needed.
+	//dictionaryString := string(uncompressed)
+	//// ...
+	//
+	//dictionaryString, err := ioutil.ReadAll(r)
+	//if err != nil {
+	//	panic(err)
+	//}
+
+	// Split the uncompressed data into lines.
+	lines := strings.Split(string(uncompressed), "\n")
+
+	// Seed the random number generator.
+	rand.Seed(time.Now().UnixNano())
+
+	// Select a random word.
+	index := rand.Intn(len(lines) - 1)
+
+	randomWordIndexed := lines[index]
+
+	randomWordAlone := strings.Split(randomWordIndexed, "\t")[1]
+
+	output := strings.TrimSpace(randomWordAlone)
+
+	return output
+}
 
 // In this example, inputFile is the path to the dictionary file that you want to
 // compress, and outputFile is the path to the compressed output file. The
