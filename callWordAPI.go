@@ -89,9 +89,12 @@ func randomWordChain(requestedPasswordLength int) string {
 		// then reject it and grab another word.
 		// TODO: If it returned anything used the word returned because it
 		// will tend to be a more common word.
-		word = callWordApi()
+		//word = callWordApi()
 
-		word, _ = getBetterWord(word)
+		//word, _ = getBetterWord(word)
+
+		// TODO: Grab a word from the compressed dictionary instead
+		word = getWordFromCompressedDictionary(dictionaryData)
 
 		if len(word) > 2 {
 

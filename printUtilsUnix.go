@@ -27,16 +27,6 @@ func printPasswordTableUnix(
 	wordChains bool,
 	mixedPasswords bool) {
 
-	//underlineRed := "_"
-
-	//color.NoColor = false
-	//red := color.New(color.FgHiRed).PrintfFunc()
-	//red("warning")
-	//red(strings.Repeat(underlineRed, requestedPasswordLength+2))
-	//color.NoColor = true
-
-	//fmt.Printf(decompressDictionaryData(dictionaryData))
-
 	grey := color.New(color.FgCyan, color.Faint).SprintfFunc()
 
 	underline := grey("─")
@@ -51,7 +41,6 @@ func printPasswordTableUnix(
 	// Loop to print rows of index numbers and passwords to the terminal screen
 	for rowNumber := 0; rowNumber < ((rows / 2) - 1); rowNumber++ {
 
-		// TODO: Get colors working on Windows
 		red := color.New(color.FgRed).SprintFunc()
 
 		rowNumberString := fmt.Sprintf("%02d", rowNumber)
@@ -126,10 +115,6 @@ func colorizeCharactersUnix(requestedPasswordLength int, password string) {
 	// TODO: Trim the password down to the requestedPasswordLength
 	password = trimPassword(password, requestedPasswordLength)
 
-	//color.NoColor = false
-	//red := color.New(color.FgRed).PrintfFunc()
-	//red("warning")
-
 	// Check each character's ascii value and colorize according to category
 	for i := 0; i < requestedPasswordLength; i++ {
 
@@ -150,12 +135,6 @@ func colorizeCharactersUnix(requestedPasswordLength int, password string) {
 
 			// Assign a color to number characters
 			coloredCharsString += color.CyanString(string(character))
-
-			// TODO: This works on Windows
-			//color.NoColor = false
-			//red := color.New(color.FgRed).PrintfFunc()
-			//red("%s", string(character))
-			//color.NoColor = true
 
 		} else if character >= 33 && character <= 47 {
 
@@ -185,7 +164,4 @@ func colorizeCharactersUnix(requestedPasswordLength int, password string) {
 
 	fmt.Print(coloredCharsString)
 
-	//color.NoColor = false
-	//
-	//fmt.Printf(coloredCharsString)
 }

@@ -6,34 +6,6 @@ import (
 	"time"
 )
 
-//var requestedPasswordLength = 20
-
-//func main() {
-//var inputStr string
-//
-//inputStr = callWordApi()
-
-//	//paddedStr := padString(inputStr)
-//	//fmt.Println(paddedStr) // Output: "[Hello World]"
-//	//
-//	//surroundedStr := surroundString(inputStr)
-//	//fmt.Println(surroundedStr) // Output: "_Hello World_"
-//	//
-//	//randomCaseStr := randomCase(inputStr)
-//	//fmt.Println(randomCaseStr)
-//	//
-//	//// Call the randPadString function with an integer and a string
-//	//length := 32
-//	//randomPadStr := randPadString(length, inputStr)
-//	//println(randomPadStr)
-//
-
-//fmt.Printf("%s", createMixedPassword(inputStr))
-//
-//	fmt.Printf("\n%s", randomWordChain())
-//
-//}
-
 func createMixedPassword(str string) string {
 	// create a slice of functions
 	listOfFunctions := []func(string) string{
@@ -42,12 +14,6 @@ func createMixedPassword(str string) string {
 		//randomCase,
 		randPadString,
 	}
-
-	// shuffle the slice using a random permutation
-	//rand.Seed(time.Now().UnixNano())
-	//rand.Shuffle(len(listOfFunctions), func(i, j int) {
-	//	listOfFunctions[i], listOfFunctions[j] = listOfFunctions[j], listOfFunctions[i]
-	//})
 
 	// apply each function to the string in the shuffled order
 	for _, f := range listOfFunctions {
@@ -69,11 +35,6 @@ func padString(s string) string {
 
 	// Randomly select a character from the slice
 	leftChar := leftMostChars[rand.Intn(len(leftMostChars))]
-
-	// Check if the left and right characters are a valid pair
-	//if !matchCharacterPair(leftChar, rightChar) {
-	//	panic("Invalid character pair")
-	//}
 
 	rightChar = matchCharacterPair(leftChar, rightChar)
 
@@ -114,9 +75,6 @@ func surroundString(input string) string {
 
 		// Initialize a slice containing the valid surrounding characters
 		chars := []rune{'_', '-', '*', '&', '^', '%', '$', '#', '@', '!', '~', '?', '.'}
-
-		// Call the surroundString function with an input string
-		//input := "hello"
 
 		// Seed the random number generator
 		rand.Seed(time.Now().UnixNano())
@@ -190,37 +148,7 @@ func randomString(length int) string {
 	return string(b)
 }
 
-// 	// Call the randPadString function with an integer and a string
-//	length := 10
-//	input := "hello"
-//	output := randPadString(length, input)
-//
-//	println("Input string:", input)
-//	println("Output string:", output)
-
-//func randPadString(input string) string {
-//	// Determine the number of characters to pad
-//	//numPadding := length - len(input)
-//
-//	numPadding := requestedPasswordLength - len(input)
-//
-//	// If the input string is already longer than the desired length, return the input string
-//	if numPadding <= 0 {
-//		return input
-//	}
-//
-//	// Generate random strings for the left and right padding
-//	leftPadding := randomString(numPadding / 2)
-//	rightPadding := randomString(numPadding - len(leftPadding))
-//
-//	// Concatenate the left and right padding with the input string and return the result
-//	output := leftPadding + input + rightPadding
-//	return output
-//}
-
 func randPadString(input string) string {
-
-	//fmt.Printf("%d", requestedPasswordLength)
 
 	// Determine the number of characters to pad
 	numPadding := requestedPasswordLength - len(input)
@@ -253,8 +181,6 @@ func trimPassword(password string, requestedPasswordLength int) string {
 
 	rand.Seed(time.Now().UnixNano())
 	trimPosition := rand.Intn(len(password) - requestedPasswordLength + 1)
-
-	//fmt.Printf("trimPosition: %d ", trimPosition)
 
 	switch trimPosition {
 	case 0:
