@@ -93,7 +93,7 @@ func randomWordChain(requestedPasswordLength int) string {
 
 		//word, _ = getBetterWord(word)
 
-		// TODO: Grab a word from the compressed dictionary instead
+		// Grab a word from the compressed dictionary instead
 		word = getWordFromCompressedDictionary(dictionaryData)
 
 		if len(word) > 2 {

@@ -46,6 +46,7 @@ func printPasswordTableUnix(
 		rowNumberString := fmt.Sprintf("%02d", rowNumber)
 
 		// Print an index number for each printed password
+		color.NoColor = false
 		fmt.Printf("%s %s %s ", grey("│"), red(rowNumberString), grey("│"))
 
 		if randomPasswords {
