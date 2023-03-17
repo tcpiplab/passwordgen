@@ -113,7 +113,8 @@ func colorizeCharactersUnix(requestedPasswordLength int, password string) {
 
 	var coloredCharsString string
 
-	// TODO: Trim the password down to the requestedPasswordLength
+	// TODO: Default to making table expand for longer word-chains
+	// TODO: Create flag to trim the password down to the requestedPasswordLength
 	password = trimPassword(password, requestedPasswordLength)
 
 	// Check each character's ascii value and colorize according to category

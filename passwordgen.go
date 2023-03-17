@@ -23,12 +23,15 @@ import (
 	"time"
 )
 
+// Declare global variables
 var selectedPasswordNumber int
-
 var requestedPasswordLength int
-
 var OS string
 
+// main() is the entry point of the application. It handles the command-line
+// arguments, detects the operating system, gets the console size, generates
+// passwords, prints them to the screen, and optionally copies the selected
+// password to the clipboard.
 func main() {
 
 	OS = detectOS()
@@ -128,6 +131,15 @@ func main() {
 
 }
 
+// ifMixedPasswords() generates a mixed password if mixedPasswords is true, and random passwords otherwise.
+//
+//	Parameters:
+//	  mixedPasswords: A boolean indicating whether mixed passwords are requested.
+//	  randomPasswords: A boolean indicating whether random passwords are requested.
+//	  rows: An integer specifying the number of rows in the output.
+//
+//	Returns:
+//	  A string containing the generated password.
 func ifMixedPasswords(mixedPasswords bool, randomPasswords bool, rows int) string {
 
 	var outputStr string

@@ -70,9 +70,15 @@ func callWordApi() string {
 	return output
 }
 
+// randomWordChain() generates a random word-chain password of the specified length.
+//
+//	Parameters:
+//	requestedPasswordLength - the length of the password to generate
+//
+//	Returns:
+//	A string representing the generated password
 func randomWordChain(requestedPasswordLength int) string {
 
-	// Call callWordApi() and concatenate the returned words into a string
 	var buffer bytes.Buffer
 
 	// Choose a single delimiter to place between the words
@@ -83,17 +89,7 @@ func randomWordChain(requestedPasswordLength int) string {
 
 	for i := 0; i < requestedPasswordLength; i += len(word) {
 
-		// TODO: Check if the word is obscure or not.
-		// If it doesn't return anything from:
-		// https://api.datamuse.com/words?v=enwiki&max=1&ml=ignominious
-		// then reject it and grab another word.
-		// TODO: If it returned anything used the word returned because it
-		// will tend to be a more common word.
-		//word = callWordApi()
-
-		//word, _ = getBetterWord(word)
-
-		// Grab a word from the compressed dictionary instead
+		// Grab a word from the compressed dictionary
 		word = getWordFromCompressedDictionary(dictionaryData)
 
 		if len(word) > 2 {
@@ -137,6 +133,10 @@ func fileExists(filename string) (bool, error) {
 	return true, nil
 }
 
+// checkForWordList() checks whether a word list file exists on the system.
+//
+//	Returns:
+//	A boolean value indicating whether the word list file exists.
 func checkForWordList() bool {
 
 	if OS == "darwin" || OS == "linux" || OS == "unix" {
@@ -209,8 +209,6 @@ func selectSeedWords(numPasswordRows int) []string {
 		arrSeedWords = append(arrSeedWords, password)
 	}
 
-	//fmt.Printf("%s", arrSeedWords)
-
 	return arrSeedWords
 }
 
@@ -225,7 +223,7 @@ func getBetterWord(oldTimeyWord string) (string, error) {
 	//   - ml: "means like". Specify the word we want near synonyms for.
 	url := fmt.Sprintf("https://api.datamuse.com/words?v=enwiki&max=1&ml=%s", oldTimeyWord)
 
-	response, err := http.Get(url)
+	httpResponse, err := http.Get(url)
 	if err != nil {
 		return "", err
 	}
@@ -233,23 +231,24 @@ func getBetterWord(oldTimeyWord string) (string, error) {
 	defer func(Body io.ReadCloser) {
 		err := Body.Close()
 		if err != nil {
-			// TODO: Handle error
+			// Don't know how we'd ever get here
+			fmt.Printf("Error closing HTTP response body after reading: %s\n", err)
 		}
-	}(response.Body)
+	}(httpResponse.Body)
 
-	body, err := io.ReadAll(response.Body)
+	httpResponseBodyJSON, err := io.ReadAll(httpResponse.Body)
 	if err != nil {
 		return "", err
 	}
 
-	// Typical JSON response from the API:
+	// Typical JSON httpResponse from the API:
 	//   [{"word":"disgraceful","score":30050217,"tags":["syn","adj","results_type:primary_rel"]}]
 	// All we need is the word
 	var words []struct {
 		Word string `json:"word"`
 	}
 
-	err = json.Unmarshal(body, &words)
+	err = json.Unmarshal(httpResponseBodyJSON, &words)
 	if err != nil {
 		return "", err
 	}
@@ -263,14 +262,3 @@ func getBetterWord(oldTimeyWord string) (string, error) {
 
 	return "", fmt.Errorf("No word found for '%s'", oldTimeyWord)
 }
-
-// Here is how to call the above function:
-//func main() {
-//	ml := "ignominious"
-//	word, err := getWord(ml)
-//	if err != nil {
-//		fmt.Printf("Error getting word for '%s': %s\n", ml, err)
-//		return
-//	}
-//	fmt.Printf("Word for '%s': %s\n", ml, word)
-//}
