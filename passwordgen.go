@@ -34,7 +34,7 @@ func main() {
 
 	OS = detectOS()
 
-	interactive, erase, randomPasswords, wordChains, mixedPasswords, _ := argsHandler()
+	interactive, erase, randomPasswords, wordChains, mixedPasswords, _, passPhrases := argsHandler()
 	//if *done {
 	//	return
 	//}
@@ -78,13 +78,12 @@ func main() {
 
 		// Need to do this for mixed passwords to work
 		*randomPasswords = false
+	}
+	if *passPhrases {
 
-		//if OS == "windows" {
-		//
-		//	color.NoColor = false
-		//	color.HiRed("Mixed passwords are not yet implemented on Windows.")
-		//	os.Exit(1)
-		//}
+		*randomPasswords = false
+
+		//fmt.Print(createPassphrase())
 	}
 
 	arrayPasswords := make([]string, rows)
@@ -98,7 +97,8 @@ func main() {
 			arrayPasswords,
 			*randomPasswords,
 			*wordChains,
-			*mixedPasswords)
+			*mixedPasswords,
+			*passPhrases)
 
 	} else if OS == "windows" {
 
@@ -109,7 +109,8 @@ func main() {
 			arrayPasswords,
 			*randomPasswords,
 			*wordChains,
-			*mixedPasswords)
+			*mixedPasswords,
+			*passPhrases)
 	}
 
 	if ifInteractive(interactive, rows) {
@@ -123,54 +124,4 @@ func main() {
 		return
 	}
 
-}
-
-// ifMixedPasswords() generates a mixed password if mixedPasswords is true, and random passwords otherwise.
-//
-//	Parameters:
-//	  mixedPasswords: A boolean indicating whether mixed passwords are requested.
-//	  randomPasswords: A boolean indicating whether random passwords are requested.
-//	  rows: An integer specifying the number of rows in the output.
-//
-//	Returns:
-//	  A string containing the generated password.
-func ifMixedPasswords(mixedPasswords bool, randomPasswords bool, rows int) string {
-
-	var outputStr string
-
-	if mixedPasswords {
-
-		// Need to do this for mixed passwords to work
-		randomPasswords = false
-
-		arrWords := getArrayFromCompressedDictionary(rows / 2)
-
-		var inputStr string
-
-		if requestedPasswordLength < 12 {
-
-			// For now just grab the first word in the array
-			inputStr = randomCase(arrWords[0])
-
-		} else if requestedPasswordLength <= 20 {
-
-			inputStr = surroundString(
-				surroundString(
-					surroundString(
-						arrWords[0]) + "-" + arrWords[1]))
-
-		} else if requestedPasswordLength > 20 {
-
-			inputStr = surroundString(
-				surroundString(
-					surroundString(
-						arrWords[0])+"-"+arrWords[1]) + "-" + arrWords[2])
-		}
-
-		outputStr = createMixedPassword(inputStr)
-
-		//}
-
-	}
-	return outputStr
 }

@@ -78,30 +78,30 @@ func getWordFromCompressedDictionary(dictionaryData string) string {
 	return output
 }
 
-// getArrayFromCompressedDictionary() generates an array of random strings of at
+// getArrayFromCompressedDictionary() generates an array of random words of at
 // least three characters in length by selecting random words from a compressed
 // dictionary.
 //
 //	Parameters:
-//	  - numPasswordRows: The number of random strings to generate
+//	  - numWordsRequested: The number of words to get from the dictionary
 //
 //	Returns:
-//	  - An array of random strings
-func getArrayFromCompressedDictionary(numPasswordRows int) []string {
+//	  - An array of random words as strings
+func getArrayFromCompressedDictionary(numWordsRequested int) []string {
 
 	// seed the random number generator
 	rand.Seed(time.Now().UnixNano())
 
-	// select numPasswordRows random words of at least three characters in length
-	var arrSeedWords []string
-	for i := 0; i < numPasswordRows; i++ {
+	// select numWordsRequested random words of at least three characters in length
+	var arrOfRandomWords []string
+	for i := 0; i < numWordsRequested; i++ {
 		password := ""
-		for len(password) < 3 || len(password) > 7 {
-			//password = lines[rand.Intn(len(lines))]
+		for len(password) < 3 {
+
 			password = getWordFromCompressedDictionary(dictionaryData)
 		}
-		arrSeedWords = append(arrSeedWords, password)
+		arrOfRandomWords = append(arrOfRandomWords, password)
 	}
 
-	return arrSeedWords
+	return arrOfRandomWords
 }

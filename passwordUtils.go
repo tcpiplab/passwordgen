@@ -116,3 +116,65 @@ func createMixedPassword(str string) string {
 
 	return str
 }
+
+// ifMixedPasswords() generates a mixed password if mixedPasswords is true, and random passwords otherwise.
+//
+//	Parameters:
+//	  mixedPasswords: A boolean indicating whether mixed passwords are requested.
+//	  randomPasswords: A boolean indicating whether random passwords are requested.
+//	  rows: An integer specifying the number of rows in the output.
+//
+//	Returns:
+//	  A string containing the generated password.
+func ifMixedPasswords(mixedPasswords bool, randomPasswords bool, rows int) string {
+
+	var outputStr string
+
+	if mixedPasswords {
+
+		// Need to do this for mixed passwords to work
+		randomPasswords = false
+
+		arrWords := getArrayFromCompressedDictionary(rows / 2)
+
+		var inputStr string
+
+		if requestedPasswordLength < 12 {
+
+			// For now just grab the first word in the array
+			inputStr = randomCase(arrWords[0])
+
+		} else if requestedPasswordLength <= 20 {
+
+			inputStr = surroundString(
+				surroundString(
+					surroundString(
+						arrWords[0]) + "-" + arrWords[1]))
+
+		} else if requestedPasswordLength > 20 {
+
+			inputStr = surroundString(
+				surroundString(
+					surroundString(
+						arrWords[0])+"-"+arrWords[1]) + "-" + arrWords[2])
+		}
+
+		outputStr = createMixedPassword(inputStr)
+
+		//}
+
+	}
+	return outputStr
+}
+
+func createPassphrase() string {
+
+	// TODO: Allow for input for length of passphrases
+	// For now this is hardcoded at 5
+	arrOfRandomWords := getArrayFromCompressedDictionary(5)
+
+	// Join the array into a single string with a comma separator
+	passphrase := strings.Join(arrOfRandomWords[:], " ")
+
+	return passphrase
+}

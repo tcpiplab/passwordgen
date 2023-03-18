@@ -25,7 +25,8 @@ func printPasswordTableWindows(
 	arrayPasswords []string,
 	randomPasswords bool,
 	wordChains bool,
-	mixedPasswords bool) {
+	mixedPasswords bool,
+	passPhrases bool) {
 
 	//underlineRed := "_"
 	//
@@ -240,7 +241,8 @@ func printPasswordTableUnix(
 	arrayPasswords []string,
 	randomPasswords bool,
 	wordChains bool,
-	mixedPasswords bool) {
+	mixedPasswords bool,
+	passPhrases bool) {
 
 	grey := color.New(color.FgCyan, color.Faint).SprintfFunc()
 
@@ -283,6 +285,14 @@ func printPasswordTableUnix(
 		} else if mixedPasswords {
 
 			password := ifMixedPasswords(mixedPasswords, randomPasswords, rows)
+
+			arrayPasswords[rowNumber] = password
+
+			// Colorize and print the password
+			colorizeCharactersUnix(requestedPasswordLength, password)
+		} else if passPhrases {
+
+			password := createPassphrase()
 
 			arrayPasswords[rowNumber] = password
 
