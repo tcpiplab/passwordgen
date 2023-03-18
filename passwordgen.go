@@ -17,10 +17,8 @@ package main
 import (
 	"github.com/fatih/color"
 	_ "github.com/fatih/color"
-	"math/rand"
 	"os"
 	"strconv"
-	"time"
 )
 
 // Declare global variables
@@ -49,9 +47,6 @@ func main() {
 	if checkPasswordLength(requestedPasswordLength) {
 		return
 	}
-
-	// Seed the randomness
-	rand.Seed(time.Now().UnixNano())
 
 	// Get the height and width of the console
 	var rowsColumns [2]int

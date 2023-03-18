@@ -1,9 +1,11 @@
 package main
 
 import (
+	"github.com/fatih/color"
 	"log"
 	"os"
 	"os/exec"
+	"runtime"
 	"strconv"
 	"strings"
 )
@@ -67,9 +69,41 @@ func consoleSizeUnix() (int, int) {
 	return height, width
 }
 
-// Get the Windows terminal dimensions
+// Set the Windows terminal dimensions manually
 func consoleSizeWindows() (int, int) {
 
 	// Set to Windows default values for now
 	return 30, 120
+}
+
+func detectOS() string {
+	//fmt.Printf("Running on %s\n", runtime.GOOS)
+
+	//OS = runtime.GOOS
+
+	return runtime.GOOS
+}
+
+// checkPasswordLength() checks the length of a password and returns a boolean indicating
+// whether the password length is valid or not. If the requested password length is less
+// than 10 characters, it will print a red-colored error message and return true. If an
+// error is passed in as the second argument, it will print a red-colored error message
+// indicating that the password length argument is invalid and return true. Otherwise,
+// it will return false to indicate that the password length is valid.
+//
+//	Parameters:
+//	  - requestedPasswordLength: the length of the password to be checked
+//	  - err: an error indicating if the password length argument is invalid
+//
+//	Returns:
+//	  - a boolean value indicating if the password length is valid or not
+func checkPasswordLength(requestedPasswordLength int) bool {
+
+	if int(requestedPasswordLength) < 10 {
+
+		color.HiRed("\nPassword length must be 10 or longer.\n\n")
+		return true
+	}
+
+	return false
 }

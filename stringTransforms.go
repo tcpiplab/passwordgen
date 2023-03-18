@@ -1,28 +1,10 @@
 package main
 
 import (
-	"bytes"
 	"math/rand"
 	"strings"
 	"time"
 )
-
-func createMixedPassword(str string) string {
-	// create a slice of functions
-	listOfFunctions := []func(string) string{
-		padString,
-		surroundString,
-		//randomCase,
-		randPadString,
-	}
-
-	// apply each function to the string in the shuffled order
-	for _, f := range listOfFunctions {
-		str = f(str)
-	}
-
-	return str
-}
 
 func padString(s string) string {
 	//leftChar := '['
@@ -136,7 +118,7 @@ func randomCase(input string) string {
 // const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
 const charset = "1234567890"
 
-func randomString(length int) string {
+func randomStringNumbers(length int) string {
 	// Seed the random number generator
 	rand.Seed(time.Now().UnixNano())
 
@@ -160,8 +142,8 @@ func randPadString(input string) string {
 	}
 
 	// Generate random strings for the left and right padding
-	leftPadding := randomString(numPadding / 2)
-	rightPadding := randomString(numPadding - len(leftPadding))
+	leftPadding := randomStringNumbers(numPadding / 2)
+	rightPadding := randomStringNumbers(numPadding - len(leftPadding))
 
 	// Concatenate the left and right padding with the input string
 	output := leftPadding + input + rightPadding
@@ -172,77 +154,5 @@ func randPadString(input string) string {
 
 	// Insert the input string at the random position and return the result
 	output = output[:insertPos] + input + output[insertPos+len(input):]
-	return output
-}
-
-func trimPassword(password string, requestedPasswordLength int) string {
-	if requestedPasswordLength >= len(password) {
-		return password
-	}
-
-	rand.Seed(time.Now().UnixNano())
-	trimPosition := rand.Intn(len(password) - requestedPasswordLength + 1)
-
-	switch trimPosition {
-	case 0:
-		return password[:requestedPasswordLength]
-	case len(password) - requestedPasswordLength:
-		return password[len(password)-requestedPasswordLength:]
-	default:
-		trimStart := trimPosition / 2
-		trimEnd := trimStart + requestedPasswordLength
-		return password[trimStart:trimEnd]
-	}
-}
-
-// randomWordChain() generates a random word-chain password of the specified length.
-//
-//	Parameters:
-//	requestedPasswordLength - the length of the password to generate
-//
-//	Returns:
-//	A string representing the generated password
-func randomWordChain(requestedPasswordLength int) string {
-
-	var buffer bytes.Buffer
-
-	// Choose a single delimiter to place between the words
-	delimiters := "-_=+/\\|~^$#@&*:."
-	delimiter := string(delimiters[rand.Intn(len(delimiters))])
-
-	var word string
-
-	for i := 0; i < requestedPasswordLength; i += len(word) {
-
-		// Grab a word from the compressed dictionary
-		word = getWordFromCompressedDictionary(dictionaryData)
-
-		if len(word) > 2 {
-
-			buffer.WriteString(word)
-
-			if i != requestedPasswordLength {
-				// Add a delimiter between the words except for the last word
-				if i != requestedPasswordLength-1 {
-
-					buffer.WriteString(delimiter)
-				}
-			}
-		}
-	}
-
-	// Replace spaces with an underscore character
-	output := strings.ReplaceAll(buffer.String(), " ", "_")
-
-	// Truncate the resulting word-chain password to the specified length
-	// by removing characters from the right side
-	if len(output) > requestedPasswordLength {
-
-		output = strings.TrimSpace(output[:requestedPasswordLength])
-	}
-
-	// Colorize word-chain output
-	colorizeCharactersWindows(requestedPasswordLength, output)
-
 	return output
 }
