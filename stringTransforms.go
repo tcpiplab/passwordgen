@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"math/rand"
 	"strings"
 	"time"
@@ -192,4 +193,56 @@ func trimPassword(password string, requestedPasswordLength int) string {
 		trimEnd := trimStart + requestedPasswordLength
 		return password[trimStart:trimEnd]
 	}
+}
+
+// randomWordChain() generates a random word-chain password of the specified length.
+//
+//	Parameters:
+//	requestedPasswordLength - the length of the password to generate
+//
+//	Returns:
+//	A string representing the generated password
+func randomWordChain(requestedPasswordLength int) string {
+
+	var buffer bytes.Buffer
+
+	// Choose a single delimiter to place between the words
+	delimiters := "-_=+/\\|~^$#@&*:."
+	delimiter := string(delimiters[rand.Intn(len(delimiters))])
+
+	var word string
+
+	for i := 0; i < requestedPasswordLength; i += len(word) {
+
+		// Grab a word from the compressed dictionary
+		word = getWordFromCompressedDictionary(dictionaryData)
+
+		if len(word) > 2 {
+
+			buffer.WriteString(word)
+
+			if i != requestedPasswordLength {
+				// Add a delimiter between the words except for the last word
+				if i != requestedPasswordLength-1 {
+
+					buffer.WriteString(delimiter)
+				}
+			}
+		}
+	}
+
+	// Replace spaces with an underscore character
+	output := strings.ReplaceAll(buffer.String(), " ", "_")
+
+	// Truncate the resulting word-chain password to the specified length
+	// by removing characters from the right side
+	if len(output) > requestedPasswordLength {
+
+		output = strings.TrimSpace(output[:requestedPasswordLength])
+	}
+
+	// Colorize word-chain output
+	colorizeCharactersWindows(requestedPasswordLength, output)
+
+	return output
 }
