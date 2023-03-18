@@ -170,6 +170,21 @@ func checkForWordList() bool {
 	return false
 }
 
+// selectSeedWords() opens a file containing a dictionary of words, reads all its lines into
+// memory, and selects a given number of random words of at least three characters in length.
+// It returns a slice of strings with the selected random words.
+//
+//	Arguments:
+//	  - numPasswordRows: an integer with the number of random words to select.
+//
+//	Returns:
+//	  - a slice of strings with numPasswordRows random words of at least three characters in length.
+//
+//	Example:
+//	  seedWords := selectSeedWords(4)
+//
+//	fmt.Println(seedWords)
+//	Output: [passage freedom border galaxy]
 func selectSeedWords(numPasswordRows int) []string {
 
 	// open the file for reading
@@ -205,6 +220,25 @@ func selectSeedWords(numPasswordRows int) []string {
 		password := ""
 		for len(password) < 3 || len(password) > 7 {
 			password = lines[rand.Intn(len(lines))]
+		}
+		arrSeedWords = append(arrSeedWords, password)
+	}
+
+	return arrSeedWords
+}
+
+func getArrayFromCompressedDictionary(numPasswordRows int) []string {
+
+	// seed the random number generator
+	rand.Seed(time.Now().UnixNano())
+
+	// select numPasswordRows random words of at least three characters in length
+	var arrSeedWords []string
+	for i := 0; i < numPasswordRows; i++ {
+		password := ""
+		for len(password) < 3 || len(password) > 7 {
+			//password = lines[rand.Intn(len(lines))]
+			password = getWordFromCompressedDictionary(dictionaryData)
 		}
 		arrSeedWords = append(arrSeedWords, password)
 	}

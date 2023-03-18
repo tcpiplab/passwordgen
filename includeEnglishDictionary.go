@@ -11,6 +11,17 @@ import (
 	"time"
 )
 
+// getWordFromCompressedDictionary() decodes, decompresses, and selects a random word
+// from a compressed dictionary data string that contains words separated by newline
+// characters and tab-separated indices and words. It returns a string with the selected
+// random word. If there is an error decoding, decompressing, or selecting a random word,
+// the function panics with the corresponding error message.
+//
+//	Arguments:
+//	  - dictionaryData: a string with base64-encoded and gzip-compressed data of the dictionary.
+//
+//	Returns:
+//	  - a string with the selected random word from the dictionary, without leading or trailing spaces.
 func getWordFromCompressedDictionary(dictionaryData string) string {
 
 	// Decode the base64 data.
@@ -35,15 +46,6 @@ func getWordFromCompressedDictionary(dictionaryData string) string {
 	if err != nil {
 		panic(err)
 	}
-
-	//// Use the uncompressed dictionary data as needed.
-	//dictionaryString := string(uncompressed)
-	//// ...
-	//
-	//dictionaryString, err := ioutil.ReadAll(readerGzip)
-	//if err != nil {
-	//	panic(err)
-	//}
 
 	// Split the uncompressed data into lines.
 	lines := strings.Split(string(uncompressed), "\n")

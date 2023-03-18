@@ -64,8 +64,7 @@ func main() {
 
 		rowsColumns[0], rowsColumns[1] = consoleSizeWindows()
 
-		// Disable color output on windows
-		//NO_COLOR = "true"
+		// Temporarily disable color output on Windows
 		color.NoColor = true // disables colorized output
 	}
 
@@ -85,12 +84,12 @@ func main() {
 		// Need to do this for mixed passwords to work
 		*randomPasswords = false
 
-		if OS == "windows" {
-
-			color.NoColor = false
-			color.HiRed("Mixed passwords are not yet implemented on Windows.")
-			os.Exit(1)
-		}
+		//if OS == "windows" {
+		//
+		//	color.NoColor = false
+		//	color.HiRed("Mixed passwords are not yet implemented on Windows.")
+		//	os.Exit(1)
+		//}
 	}
 
 	arrayPasswords := make([]string, rows)
@@ -149,35 +148,33 @@ func ifMixedPasswords(mixedPasswords bool, randomPasswords bool, rows int) strin
 		// Need to do this for mixed passwords to work
 		randomPasswords = false
 
-		if checkForWordList() {
+		arrWords := getArrayFromCompressedDictionary(rows / 2)
 
-			arrWords := selectSeedWords(rows / 2)
+		var inputStr string
 
-			var inputStr string
+		if requestedPasswordLength < 12 {
 
-			if requestedPasswordLength < 12 {
+			// For now just grab the first word in the array
+			inputStr = randomCase(arrWords[0])
 
-				// For now just grab the first word in the array
-				inputStr = randomCase(arrWords[0])
+		} else if requestedPasswordLength <= 20 {
 
-			} else if requestedPasswordLength <= 20 {
-
-				inputStr = surroundString(
+			inputStr = surroundString(
+				surroundString(
 					surroundString(
-						surroundString(
-							arrWords[0]) + "-" + arrWords[1]))
+						arrWords[0]) + "-" + arrWords[1]))
 
-			} else if requestedPasswordLength > 20 {
+		} else if requestedPasswordLength > 20 {
 
-				inputStr = surroundString(
+			inputStr = surroundString(
+				surroundString(
 					surroundString(
-						surroundString(
-							arrWords[0])+"-"+arrWords[1]) + "-" + arrWords[2])
-			}
-
-			outputStr = createMixedPassword(inputStr)
-
+						arrWords[0])+"-"+arrWords[1]) + "-" + arrWords[2])
 		}
+
+		outputStr = createMixedPassword(inputStr)
+
+		//}
 
 	}
 	return outputStr
