@@ -71,55 +71,52 @@ Waiting for 60 seconds before clearing the clipboard.
 ```shell
 ./passwordgen -word-chains 32
 +────+──────────────────────────────────+
-│ 00 │ methaqualone:auction:malicious:d │
+│ 00 │ afterlife_roundworm_winnings_div │
 +────+──────────────────────────────────+
-│ 01 │ supernatural\productivity\rein\s │
+│ 01 │ posture*routing*browse*turbofan* │
 +────+──────────────────────────────────+
-│ 02 │ bbeg:outrageous:quondam:kaph:wis │
+│ 02 │ earflap=action=take=coil=constru │
 +────+──────────────────────────────────+
-│ 03 │ oceanic/mercantile/allah/jury_ri │
+│ 03 │ cognitive&nutty&cork&renewal&sit │
 +────+──────────────────────────────────+
-│ 04 │ oasthouse*gain*rainmeter*barbari │
+│ 04 │ viscous\showman\finale\abrasion\ │
 +────+──────────────────────────────────+
-│ 05 │ rein$jupiter$xizang$uvulopalatop │
+│ 05 │ snowplow#launch#unaltered#refill │
 +────+──────────────────────────────────+
-│ 06 │ nonetheless|fidelity|adapt|lingo │
+│ 06 │ tamper/unloved/quickly/spoilage/ │
 +────+──────────────────────────────────+
-│ 07 │ a_lot-accord-beestings-audiomete │
+│ 07 │ shifty=regular=unscrew=confused= │
 +────+──────────────────────────────────+
 ```
 
 ## Mixed Passwords
 
-Mixed passwords only work on Mac, Linux, and Unix.
-
 ```shell
 ./passwordgen -mixed 25
 +────+───────────────────────────+
-│ 00 │ *lemnad-oxysalt-choreus*) │
+│ 00 │ (rocky-outer-gliding)g)02 │
 +────+───────────────────────────+
-│ 01 │ recco_-fissive_-Giansar>~ │
+│ 01 │ {&&reunion-payee&-playpen │
 +────+───────────────────────────+
-│ 02 │ 0{@iffy-Marconi@-patent}3 │
+│ 02 │ <<!batboy-atlas-unmoved!> │
 +────+───────────────────────────+
-│ 03 │ [aflush-hurty-worth]h]319 │
+│ 03 │ &{.uncloak-pond.-finch}&8 │
 +────+───────────────────────────+
-│ 04 │ $Striges$-cashew-dumple)% │
+│ 04 │ 12{b{bluff-stand-trance}4 │
 +────+───────────────────────────+
-│ 05 │ $[-#$upcrane$-Nona#-sonic │
+│ 05 │ &!?coma?-waged!-urgency&} │
 +────+───────────────────────────+
-│ 06 │ #{@putois-gharial@-newel} │
+│ 06 │ [quit-faction-bubble]e]12 │
 +────+───────────────────────────+
-│ 07 │ {Gnatho-murga-chuhra}a}27 │
+│ 07 │ (?sizable-trial-squeeze?) │
 +────+───────────────────────────+
-
 ```
 
 # Building releases for multiple platforms
 
 ```shell
-GOOS=darwin GOARCH=arm64 go build -o passwordgen-v1.1.0-darwin-arm64
-GOOS=darwin GOARCH=amd64 go build -o passwordgen-v1.1.0-darwin-amd64
-GOOS=windows GOARCH=amd64 go build -o passwordgen-v1.1.0-windows-amd64.exe
-GOOS=linux GOARCH=amd64 go build -o passwordgen-v1.1.0-linux-amd64
+GOOS=darwin GOARCH=arm64 go build -o Release-Binaries/v1.2.x/passwordgen-v1.2.0-darwin-arm64
+GOOS=darwin GOARCH=amd64 go build -o Release-Binaries/v1.2.x/passwordgen-v1.2.0-darwin-amd64
+GOOS=windows GOARCH=amd64 go build -o Release-Binaries/v1.2.x/passwordgen-v1.2.0-windows-amd64.exe
+GOOS=linux GOARCH=amd64 go build -o Release-Binaries/v1.2.x/passwordgen-v1.2.0-linux-amd64
 ```

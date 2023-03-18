@@ -17,18 +17,19 @@ package main
 import (
 	"github.com/fatih/color"
 	_ "github.com/fatih/color"
-	"math/rand"
 	"os"
 	"strconv"
-	"time"
 )
 
+// Declare global variables
 var selectedPasswordNumber int
-
 var requestedPasswordLength int
-
 var OS string
 
+// main() is the entry point of the application. It handles the command-line
+// arguments, detects the operating system, gets the console size, generates
+// passwords, prints them to the screen, and optionally copies the selected
+// password to the clipboard.
 func main() {
 
 	OS = detectOS()
@@ -47,9 +48,6 @@ func main() {
 		return
 	}
 
-	// Seed the randomness
-	rand.Seed(time.Now().UnixNano())
-
 	// Get the height and width of the console
 	var rowsColumns [2]int
 
@@ -61,8 +59,7 @@ func main() {
 
 		rowsColumns[0], rowsColumns[1] = consoleSizeWindows()
 
-		// Disable color output on windows
-		//NO_COLOR = "true"
+		// Temporarily disable color output on Windows
 		color.NoColor = true // disables colorized output
 	}
 
@@ -82,12 +79,12 @@ func main() {
 		// Need to do this for mixed passwords to work
 		*randomPasswords = false
 
-		if OS == "windows" {
-
-			color.NoColor = false
-			color.HiRed("Mixed passwords are not yet implemented on Windows.")
-			os.Exit(1)
-		}
+		//if OS == "windows" {
+		//
+		//	color.NoColor = false
+		//	color.HiRed("Mixed passwords are not yet implemented on Windows.")
+		//	os.Exit(1)
+		//}
 	}
 
 	arrayPasswords := make([]string, rows)
@@ -128,6 +125,15 @@ func main() {
 
 }
 
+// ifMixedPasswords() generates a mixed password if mixedPasswords is true, and random passwords otherwise.
+//
+//	Parameters:
+//	  mixedPasswords: A boolean indicating whether mixed passwords are requested.
+//	  randomPasswords: A boolean indicating whether random passwords are requested.
+//	  rows: An integer specifying the number of rows in the output.
+//
+//	Returns:
+//	  A string containing the generated password.
 func ifMixedPasswords(mixedPasswords bool, randomPasswords bool, rows int) string {
 
 	var outputStr string
@@ -137,35 +143,33 @@ func ifMixedPasswords(mixedPasswords bool, randomPasswords bool, rows int) strin
 		// Need to do this for mixed passwords to work
 		randomPasswords = false
 
-		if checkForWordList() {
+		arrWords := getArrayFromCompressedDictionary(rows / 2)
 
-			arrWords := selectSeedWords(rows / 2)
+		var inputStr string
 
-			var inputStr string
+		if requestedPasswordLength < 12 {
 
-			if requestedPasswordLength < 12 {
+			// For now just grab the first word in the array
+			inputStr = randomCase(arrWords[0])
 
-				// For now just grab the first word in the array
-				inputStr = randomCase(arrWords[0])
+		} else if requestedPasswordLength <= 20 {
 
-			} else if requestedPasswordLength <= 20 {
-
-				inputStr = surroundString(
+			inputStr = surroundString(
+				surroundString(
 					surroundString(
-						surroundString(
-							arrWords[0]) + "-" + arrWords[1]))
+						arrWords[0]) + "-" + arrWords[1]))
 
-			} else if requestedPasswordLength > 20 {
+		} else if requestedPasswordLength > 20 {
 
-				inputStr = surroundString(
+			inputStr = surroundString(
+				surroundString(
 					surroundString(
-						surroundString(
-							arrWords[0])+"-"+arrWords[1]) + "-" + arrWords[2])
-			}
-
-			outputStr = createMixedPassword(inputStr)
-
+						arrWords[0])+"-"+arrWords[1]) + "-" + arrWords[2])
 		}
+
+		outputStr = createMixedPassword(inputStr)
+
+		//}
 
 	}
 	return outputStr
