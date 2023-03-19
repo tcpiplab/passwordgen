@@ -103,7 +103,7 @@ func main() {
 	} else if OS == "windows" {
 
 		// Fill the screen with passwords
-		printPasswordTableWindows(
+		arrayPasswords = printPasswordTableWindows(
 			rows,
 			requestedPasswordLength,
 			arrayPasswords,
