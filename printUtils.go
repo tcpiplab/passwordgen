@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	"github.com/fatih/color"
+	"github.com/jedib0t/go-pretty/v6/table"
+	"os"
 	"strings"
 )
 
@@ -26,44 +28,38 @@ func printPasswordTableWindows(
 	randomPasswords bool,
 	wordChains bool,
 	mixedPasswords bool,
-	passPhrases bool) {
-
-	//underlineRed := "_"
-	//
-	//color.NoColor = false
-	//red := color.New(color.FgHiRed).PrintfFunc()
-	//red("Testing colors on Windows")
-	//red(strings.Repeat(underlineRed, requestedPasswordLength+2))
-	//color.NoColor = true
+	passPhrases bool) []string {
 
 	grey := color.New(color.FgCyan, color.Faint).SprintfFunc()
 
 	underline := grey("─")
 
-	fmt.Printf(
-		"%s%s%s\n",
-		grey("+────+"),
-		strings.Repeat(underline, requestedPasswordLength+2),
-		grey("+"),
-	)
-
 	// Loop to print rows of index numbers and passwords to the terminal screen
 	for rowNumber := 0; rowNumber < ((rows / 2) - 1); rowNumber++ {
 
-		// TODO: Get colors working on Windows
-		//red := color.New(color.FgHiRed).SprintFunc()
+		if !passPhrases {
+			fmt.Printf(
+				"%s%s%s\n",
+				grey("+────+"),
+				strings.Repeat(underline, requestedPasswordLength+2),
+				grey("+"),
+			)
+			// TODO: Get colors working on Windows
+			//red := color.New(color.FgHiRed).SprintFunc()
 
-		rowNumberString := fmt.Sprintf("%02d", rowNumber)
+			rowNumberString := fmt.Sprintf("%02d", rowNumber)
 
-		fmt.Printf("%s ", grey("│"))
+			fmt.Printf("%s ", grey("│"))
 
-		// Print index number in HiRed
-		color.NoColor = false
-		redIndexNumberWindows := color.New(color.FgHiRed).PrintfFunc()
-		redIndexNumberWindows(rowNumberString)
-		color.NoColor = true
+			// Print index number in HiRed
+			color.NoColor = false
+			redIndexNumberWindows := color.New(color.FgHiRed).PrintfFunc()
+			redIndexNumberWindows(rowNumberString)
+			color.NoColor = true
 
-		fmt.Printf(" %s ", grey("│"))
+			fmt.Printf(" %s ", grey("│"))
+
+		}
 
 		if randomPasswords {
 
@@ -89,6 +85,13 @@ func printPasswordTableWindows(
 
 			// Colorize and print the password
 			colorizeCharactersWindows(requestedPasswordLength, password)
+		} else if passPhrases {
+
+			password := createPassphrase()
+
+			arrayPasswords[rowNumber] = password
+
+			break
 		}
 
 		// Vertical line after the password
@@ -123,6 +126,12 @@ func printPasswordTableWindows(
 		fmt.Printf("\n")
 
 	}
+	if passPhrases {
+
+		arrayPasswords = printPassphraseTable()
+	}
+
+	return arrayPasswords
 }
 
 func colorizeCharactersWindows(requestedPasswordLength int, password string) {
@@ -242,29 +251,29 @@ func printPasswordTableUnix(
 	randomPasswords bool,
 	wordChains bool,
 	mixedPasswords bool,
-	passPhrases bool) {
+	passPhrases bool) []string {
 
 	grey := color.New(color.FgCyan, color.Faint).SprintfFunc()
-
 	underline := grey("─")
-
-	fmt.Printf(
-		"%s%s%s\n",
-		grey("+────+"),
-		strings.Repeat(underline, requestedPasswordLength+2),
-		grey("+"),
-	)
 
 	// Loop to print rows of index numbers and passwords to the terminal screen
 	for rowNumber := 0; rowNumber < ((rows / 2) - 1); rowNumber++ {
 
-		red := color.New(color.FgRed).SprintFunc()
+		if !passPhrases {
 
-		rowNumberString := fmt.Sprintf("%02d", rowNumber)
+			fmt.Printf(
+				"%s%s%s\n",
+				grey("+────+"),
+				strings.Repeat(underline, requestedPasswordLength+2),
+				grey("+"),
+			)
+			red := color.New(color.FgRed).SprintFunc()
+			rowNumberString := fmt.Sprintf("%02d", rowNumber)
 
-		// Print an index number for each printed password
-		color.NoColor = false
-		fmt.Printf("%s %s %s ", grey("│"), red(rowNumberString), grey("│"))
+			// Print an index number for each printed password
+			color.NoColor = false
+			fmt.Printf("%s %s %s ", grey("│"), red(rowNumberString), grey("│"))
+		}
 
 		if randomPasswords {
 
@@ -296,8 +305,7 @@ func printPasswordTableUnix(
 
 			arrayPasswords[rowNumber] = password
 
-			// Colorize and print the password
-			colorizeCharactersUnix(requestedPasswordLength, password)
+			break
 		}
 
 		// Vertical line after the password
@@ -332,6 +340,12 @@ func printPasswordTableUnix(
 		fmt.Printf("\n")
 
 	}
+	if passPhrases {
+
+		arrayPasswords = printPassphraseTable()
+	}
+
+	return arrayPasswords
 }
 
 func colorizeCharactersUnix(requestedPasswordLength int, password string) {
@@ -340,10 +354,11 @@ func colorizeCharactersUnix(requestedPasswordLength int, password string) {
 
 	// TODO: Default to making table expand for longer word-chains
 	// TODO: Create flag to trim the password down to the requestedPasswordLength
-	password = trimPassword(password, requestedPasswordLength)
+	//password = trimPassword(password, requestedPasswordLength)
 
 	// Check each character's ascii value and colorize according to category
-	for i := 0; i < requestedPasswordLength; i++ {
+	//for i := 0; i < requestedPasswordLength; i++ {
+	for i := 0; i < len(password); i++ {
 
 		// Convert the character back to ascii value for the color assignment
 		character := int32(password[i])
@@ -391,4 +406,52 @@ func colorizeCharactersUnix(requestedPasswordLength int, password string) {
 
 	fmt.Print(coloredCharsString)
 
+}
+
+// printPassphraseTable() generates an array of random passphrases and prints them
+// in a table format to the console output.
+//
+// The function first determines the
+// height of the console window and divides it by two to determine the number of
+// passphrases to generate. It then generates each passphrase using the
+// createPassphrase() function, populates an array with them, and prints the array
+// in a table format to the console output. The function returns the array of
+// passphrases that was generated.
+//
+//	Returns:
+//	 - An array of strings
+func printPassphraseTable() []string {
+
+	var consoleHeight int
+
+	if OS == "darwin" || OS == "linux" || OS == "unix" {
+
+		consoleHeight, _ = consoleSizeUnix()
+
+	} else if OS == "windows" {
+
+		consoleHeight, _ = consoleSizeWindows()
+
+	}
+
+	t := table.NewWriter()
+	t.SetOutputMirror(os.Stdout)
+
+	// create a new empty array with the same length as the original array
+	arrayOfPassphrases := make([]string, (consoleHeight/2)-1)
+
+	for i := 0; i < (consoleHeight/2)-1; i++ {
+
+		passphrase := createPassphrase()
+
+		arrayOfPassphrases[i] = passphrase
+
+		// print the current element of the array
+		t.AppendRow([]interface{}{i, passphrase})
+		t.AppendSeparator()
+	}
+	t.SetStyle(table.StyleLight)
+	t.Render()
+
+	return arrayOfPassphrases
 }

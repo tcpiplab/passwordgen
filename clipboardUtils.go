@@ -73,6 +73,10 @@ func eraseClipboard(erase bool, err error) (success bool, hasError bool) {
 //   - if the operation is successful, the function returns false.
 func copyToClipboard(erase *bool, arrayPasswords []string) (copyErroredOut bool) {
 
+	//fmt.Printf("Selected password number is: %d\n", selectedPasswordNumber)
+	//
+	//fmt.Printf("Array is: %s\n", arrayPasswords)
+
 	// Copy the selected password to the clipboard
 	err := clipboard.WriteAll(arrayPasswords[selectedPasswordNumber])
 
