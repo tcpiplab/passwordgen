@@ -91,7 +91,7 @@ func main() {
 	if OS == "darwin" || OS == "linux" || OS == "unix" {
 
 		// Fill the screen with passwords
-		printPasswordTableUnix(
+		arrayPasswords = printPasswordTableUnix(
 			rows,
 			requestedPasswordLength,
 			arrayPasswords,

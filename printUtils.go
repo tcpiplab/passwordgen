@@ -244,7 +244,7 @@ func printPasswordTableUnix(
 	randomPasswords bool,
 	wordChains bool,
 	mixedPasswords bool,
-	passPhrases bool) {
+	passPhrases bool) []string {
 
 	grey := color.New(color.FgCyan, color.Faint).SprintfFunc()
 	underline := grey("─")
@@ -338,8 +338,10 @@ func printPasswordTableUnix(
 	}
 	if passPhrases {
 
-		printPassphraseTable()
+		arrayPasswords = printPassphraseTable()
 	}
+
+	return arrayPasswords
 }
 
 func printTopOfTable(arrayPasswords []string) (func(format string, a ...interface{}) string, string) {
@@ -427,31 +429,28 @@ func colorizeCharactersUnix(requestedPasswordLength int, password string) {
 
 }
 
-func printPassphraseTable() {
-	t := table.NewWriter()
-	t.SetOutputMirror(os.Stdout)
-	//t.AppendHeader(table.Row{"#", "First Name", "Last Name", "Salary"})
-	//t.AppendRows([]table.Row{
-	//	{1, "Arya", "Stark", 3000},
-	//	{20, "Jon", "Snow", 2000, "You know nothing, Jon Snow!"},
-	//})
-	//t.AppendSeparator()
-	//t.AppendRow([]interface{}{300, "Tyrion", "Lannister", 5000})
-	//t.AppendFooter(table.Row{"", "", "Total", 10000})
-
-	// loop through the array using a for loop
+func printPassphraseTable() []string {
 
 	consoleHeight, _ := consoleSizeUnix()
+
+	t := table.NewWriter()
+	t.SetOutputMirror(os.Stdout)
+
+	// create a new empty array with the same length as the original array
+	arrayOfPassphrases := make([]string, (consoleHeight/2)-1)
 
 	for i := 0; i < (consoleHeight/2)-1; i++ {
 
 		passphrase := createPassphrase()
 
+		arrayOfPassphrases[i] = passphrase
+
 		// print the current element of the array
 		t.AppendRow([]interface{}{i, passphrase})
 		t.AppendSeparator()
-		//fmt.Println(arrOfPassphrases[i])
 	}
-
+	t.SetStyle(table.StyleLight)
 	t.Render()
+
+	return arrayOfPassphrases
 }
