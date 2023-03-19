@@ -112,6 +112,43 @@ Waiting for 60 seconds before clearing the clipboard.
 +────+───────────────────────────+
 ```
 
+## Passphrases
+
+The example below shows use of the `-passphrases` feature as well as the optional feature `-interactive=false` so that a list of passphrases is simply printed to the screen and the program exits. This example is run in Powershell on Windows 10 but works on all platforms.
+
+```shell
+PS C:\Users\somebody\Downloads> .\passwordgen-v1.3.0-windows-amd64.exe -passphrases -interactive=false
+┌────┬───────────────────────────────────────────────┐
+│  0 │ active stalling dubbed almighty entity        │
+├────┼───────────────────────────────────────────────┤
+│  1 │ tying wireless relish levitate outwit         │
+├────┼───────────────────────────────────────────────┤
+│  2 │ unreeling angelic camper augmented hardhat    │
+├────┼───────────────────────────────────────────────┤
+│  3 │ had humble polish legume external             │
+├────┼───────────────────────────────────────────────┤
+│  4 │ regime twilight risk outburst overarch        │
+├────┼───────────────────────────────────────────────┤
+│  5 │ hazing move uncle clustered dehydrate         │
+├────┼───────────────────────────────────────────────┤
+│  6 │ sizzling singer predict surplus debtor        │
+├────┼───────────────────────────────────────────────┤
+│  7 │ division imprudent tapeless unbounded console │
+├────┼───────────────────────────────────────────────┤
+│  8 │ replica cabbage regress detector purifier     │
+├────┼───────────────────────────────────────────────┤
+│  9 │ denote ancient customize tidal puppy          │
+├────┼───────────────────────────────────────────────┤
+│ 10 │ sworn scraggly sandstorm crayon untapped      │
+├────┼───────────────────────────────────────────────┤
+│ 11 │ deceiver bunny subpanel decathlon lifting     │
+├────┼───────────────────────────────────────────────┤
+│ 12 │ unvalued could easter polymer unlimited       │
+├────┼───────────────────────────────────────────────┤
+│ 13 │ legroom caretaker reference frantic genetics  │
+└────┴───────────────────────────────────────────────┘
+```
+
 # Building releases for multiple platforms
 
 ```shell
