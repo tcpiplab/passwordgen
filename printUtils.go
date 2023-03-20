@@ -143,6 +143,7 @@ func printPasswordTableWindows(
 	return arrayPasswords
 }
 
+// colorizeCharactersWindows() prints and does not return anything
 func colorizeCharactersWindows(requestedPasswordLength int, password string) {
 
 	var coloredCharsString string
@@ -301,7 +302,7 @@ func printPasswordTableUnix(
 			arrayPasswords[rowNumber] = password
 
 			// Colorize and print the password
-			colorizeCharactersUnix(requestedPasswordLength, password)
+			colorizeCharactersUnix(requestedPasswordLength, password, true)
 
 		} else if wordChains {
 
@@ -316,7 +317,8 @@ func printPasswordTableUnix(
 			arrayPasswords[rowNumber] = password
 
 			// Colorize and print the password
-			colorizeCharactersUnix(requestedPasswordLength, password)
+			colorizeCharactersUnix(requestedPasswordLength, password, true)
+
 		} else if passPhrases {
 
 			password := createPassphrase()
@@ -366,7 +368,7 @@ func printPasswordTableUnix(
 	return arrayPasswords
 }
 
-func colorizeCharactersUnix(requestedPasswordLength int, password string) {
+func colorizeCharactersUnix(requestedPasswordLength int, password string, print bool) string {
 
 	var coloredCharsString string
 
@@ -422,8 +424,12 @@ func colorizeCharactersUnix(requestedPasswordLength int, password string) {
 		}
 	}
 
-	fmt.Print(coloredCharsString)
+	if print == true {
 
+		fmt.Print(coloredCharsString)
+	}
+
+	return coloredCharsString
 }
 
 // printPassphraseTable() generates an array of random passphrases and prints them
@@ -442,38 +448,42 @@ func printPassphraseTable() []string {
 
 	var consoleHeight int
 
-	if OS == "darwin" || OS == "linux" || OS == "unix" {
+	// Set the console height
+	consoleHeight = funcName(consoleHeight)
 
-		consoleHeight, _ = consoleSizeUnix()
+	// Instantiate a new table writer object
+	tableWriter := table.NewWriter()
+	tableWriter.SetOutputMirror(os.Stdout)
 
-	} else if OS == "windows" {
-
-		consoleHeight, _ = consoleSizeWindows()
-
-	}
-
-	t := table.NewWriter()
-	t.SetOutputMirror(os.Stdout)
-
-	// create a new empty array with the same length as the original array
+	// Create a new empty array with the same length as the original array
+	// This avoids leftover empty array elements causing clipboard copy
+	// failures later on.
 	arrayOfPassphrases := make([]string, (consoleHeight/2)-1)
 
+	// Loop through the console screen height and print a table of passphrases
 	for i := 0; i < (consoleHeight/2)-1; i++ {
 
 		passphrase := createPassphrase()
 
+		// Colorize the passphrase that we're saving to the array
+		// The following works on all platforms but no color renders on Windows
+		passphrase = colorizeCharactersUnix(len(passphrase), passphrase, false)
+
+		// Append the passphrase to the array
 		arrayOfPassphrases[i] = passphrase
 
-		// Prepare color for the next row
+		// Prepare color for the index number
 		red := color.New(color.FgHiRed).SprintfFunc()
 
 		// Print the index number and current element of the array
-		t.AppendRow([]interface{}{red("%d", i), passphrase})
+		tableWriter.AppendRow([]interface{}{red("%d", i), passphrase})
 
-		t.AppendSeparator()
+		tableWriter.AppendSeparator()
 	}
-	t.SetStyle(table.StyleLight)
-	t.Render()
+	tableWriter.SetStyle(table.StyleLight)
+	tableWriter.Render()
 
+	// Return the array because it's needed for the
+	// clipboard functions if we're in interactive mode.
 	return arrayOfPassphrases
 }

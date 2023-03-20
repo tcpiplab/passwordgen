@@ -76,6 +76,19 @@ func consoleSizeWindows() (int, int) {
 	return 30, 120
 }
 
+func funcName(consoleHeight int) int {
+	if OS == "darwin" || OS == "linux" || OS == "unix" {
+
+		consoleHeight, _ = consoleSizeUnix()
+
+	} else if OS == "windows" {
+
+		consoleHeight, _ = consoleSizeWindows()
+
+	}
+	return consoleHeight
+}
+
 func detectOS() string {
 	//fmt.Printf("Running on %s\n", runtime.GOOS)
 
