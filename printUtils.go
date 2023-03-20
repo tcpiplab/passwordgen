@@ -435,12 +435,15 @@ func colorizeCharactersUnix(requestedPasswordLength int, password string, print 
 // printPassphraseTable() generates an array of random passphrases and prints them
 // in a table format to the console output.
 //
-// The function first determines the
-// height of the console window and divides it by two to determine the number of
-// passphrases to generate. It then generates each passphrase using the
-// createPassphrase() function, populates an array with them, and prints the array
-// in a table format to the console output. The function returns the array of
-// passphrases that was generated.
+// printPassphraseTable generates and prints a table of passphrases with
+// colorized characters. The function sets the console height, instantiates a new
+// table writer object, creates a new empty array with the same length as the
+// original array, and loops through the console screen height and prints a table
+// of passphrases. Each row of the table contains an index number and the
+// passphrase. The function returns an array of passphrases because it's needed
+// for the clipboard functions if the program is in interactive mode. Note: The
+// colorization of characters works on all platforms but no color renders on
+// Windows.
 //
 //	Returns:
 //	 - An array of strings
