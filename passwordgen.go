@@ -39,13 +39,17 @@ func main() {
 	//	return
 	//}
 
-	// Convert the requested length from string to int
-	// Length must be the last argument
-	requestedPasswordLength, _ = strconv.Atoi(os.Args[len(os.Args)-1])
+	if !*passPhrases {
 
-	// Check for password length and return errors if needed
-	if checkPasswordLength(requestedPasswordLength) {
-		return
+		// Convert the requested length from string to int
+		// Length must be the last argument
+		requestedPasswordLength, _ = strconv.Atoi(os.Args[len(os.Args)-1])
+
+		// Check for password length and return errors if needed
+		// For now the length is mandatory and must be the last arg
+		if checkPasswordLength(requestedPasswordLength) {
+			return
+		}
 	}
 
 	// Get the height and width of the console
