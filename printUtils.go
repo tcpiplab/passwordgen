@@ -34,16 +34,25 @@ func printPasswordTableWindows(
 
 	underline := grey("─")
 
+	if !passPhrases {
+		fmt.Printf(
+			"%s%s%s\n",
+			grey("+────+"),
+			strings.Repeat(underline, requestedPasswordLength+2),
+			grey("+"),
+		)
+	}
+
 	// Loop to print rows of index numbers and passwords to the terminal screen
 	for rowNumber := 0; rowNumber < ((rows / 2) - 1); rowNumber++ {
 
 		if !passPhrases {
-			fmt.Printf(
-				"%s%s%s\n",
-				grey("+────+"),
-				strings.Repeat(underline, requestedPasswordLength+2),
-				grey("+"),
-			)
+			//fmt.Printf(
+			//	"%s%s%s\n",
+			//	grey("+────+"),
+			//	strings.Repeat(underline, requestedPasswordLength+2),
+			//	grey("+"),
+			//)
 			// TODO: Get colors working on Windows
 			//red := color.New(color.FgHiRed).SprintFunc()
 
