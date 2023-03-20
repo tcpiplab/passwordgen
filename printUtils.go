@@ -464,8 +464,12 @@ func printPassphraseTable() []string {
 
 		arrayOfPassphrases[i] = passphrase
 
-		// print the current element of the array
-		t.AppendRow([]interface{}{i, passphrase})
+		// Prepare color for the next row
+		red := color.New(color.FgHiRed).SprintfFunc()
+
+		// Print the index number and current element of the array
+		t.AppendRow([]interface{}{red("%d", i), passphrase})
+
 		t.AppendSeparator()
 	}
 	t.SetStyle(table.StyleLight)
