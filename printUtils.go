@@ -34,7 +34,7 @@ func printPasswordTableWindows(
 
 	underline := grey("─")
 
-	if !passPhrases {
+	if !passPhrases && !wordChains {
 		fmt.Printf(
 			"%s%s%s\n",
 			grey("+────+"),
@@ -46,13 +46,8 @@ func printPasswordTableWindows(
 	// Loop to print rows of index numbers and passwords to the terminal screen
 	for rowNumber := 0; rowNumber < ((rows / 2) - 1); rowNumber++ {
 
-		if !passPhrases {
-			//fmt.Printf(
-			//	"%s%s%s\n",
-			//	grey("+────+"),
-			//	strings.Repeat(underline, requestedPasswordLength+2),
-			//	grey("+"),
-			//)
+		if !passPhrases && !wordChains {
+
 			// TODO: Get colors working on Windows
 			//red := color.New(color.FgHiRed).SprintFunc()
 
@@ -82,9 +77,11 @@ func printPasswordTableWindows(
 
 		} else if wordChains {
 
-			password := randomWordChain(requestedPasswordLength)
+			//password := createWordChain(requestedPasswordLength)
+			//
+			//arrayPasswords[rowNumber] = password
 
-			arrayPasswords[rowNumber] = password
+			break
 
 		} else if mixedPasswords {
 
@@ -138,6 +135,10 @@ func printPasswordTableWindows(
 	if passPhrases {
 
 		arrayPasswords = printPassphraseTable()
+
+	} else if wordChains {
+
+		arrayPasswords = printWordChainsTable()
 	}
 
 	return arrayPasswords
@@ -148,8 +149,8 @@ func colorizeCharactersWindows(requestedPasswordLength int, password string) {
 
 	var coloredCharsString string
 
-	// TODO: Trim the password down to the requestedPasswordLength
-	password = trimPassword(password, requestedPasswordLength)
+	// Trim the password down to the requestedPasswordLength
+	//password = trimPassword(password, requestedPasswordLength)
 
 	// Check each character's ascii value and colorize according to category
 	for i := 0; i < requestedPasswordLength; i++ {
@@ -266,7 +267,7 @@ func printPasswordTableUnix(
 	grey := color.New(color.FgCyan, color.Faint).SprintfFunc()
 	underline := grey("─")
 
-	if !passPhrases {
+	if !passPhrases && !wordChains {
 
 		fmt.Printf(
 			"%s%s%s\n",
@@ -278,7 +279,7 @@ func printPasswordTableUnix(
 	// Loop to print rows of index numbers and passwords to the terminal screen
 	for rowNumber := 0; rowNumber < ((rows / 2) - 1); rowNumber++ {
 
-		if !passPhrases {
+		if !passPhrases && !wordChains {
 
 			red := color.New(color.FgRed).SprintFunc()
 			rowNumberString := fmt.Sprintf("%02d", rowNumber)
@@ -300,9 +301,7 @@ func printPasswordTableUnix(
 
 		} else if wordChains {
 
-			password := randomWordChain(requestedPasswordLength)
-
-			arrayPasswords[rowNumber] = password
+			break
 
 		} else if mixedPasswords {
 
@@ -357,6 +356,10 @@ func printPasswordTableUnix(
 	if passPhrases {
 
 		arrayPasswords = printPassphraseTable()
+
+	} else if wordChains {
+
+		arrayPasswords = printWordChainsTable()
 	}
 
 	return arrayPasswords
@@ -483,4 +486,64 @@ func printPassphraseTable() []string {
 	// Return the array because it's needed for the
 	// clipboard functions if we're in interactive mode.
 	return arrayOfPassphrases
+}
+
+// printWordChainsTable() prints a table of word chains to the console screen and returns an array of word chains.
+// The console screen height is determined by the funcName function, which is called to set the consoleHeight variable.
+// An array of word chains is created with the same length as the original array to avoid leftover empty array elements
+// causing clipboard copy failures later on.
+//
+// The function loops through the console screen height and prints a table of word chains by appending each word chain
+// to the arrayOfWordChains array and displaying it with its corresponding index number in a table using the table writer object.
+// The function also colorizes the word chain and its index number for better readability and uses the colorizeCharactersUnix function
+// to colorize the word chain, which works on all platforms except Windows. The function then sets the table style to Light and
+// renders the table.
+//
+// The function finally returns the arrayOfWordChains array because it's needed for the clipboard functions
+// if the program is in interactive mode.
+//
+//	Returns:
+//	  - An array of strings
+func printWordChainsTable() []string {
+
+	var consoleHeight int
+
+	// Set the console height
+	consoleHeight = funcName(consoleHeight)
+
+	// Instantiate a new table writer object
+	tableWriter := table.NewWriter()
+	tableWriter.SetOutputMirror(os.Stdout)
+
+	// Create a new empty array with the same length as the original array
+	// This avoids leftover empty array elements causing clipboard copy
+	// failures later on.
+	arrayOfWordChains := make([]string, (consoleHeight/2)-1)
+
+	// Loop through the console screen height and print a table of word chains
+	for i := 0; i < (consoleHeight/2)-1; i++ {
+
+		wordChainNoColor := createWordChain(requestedPasswordLength)
+
+		// Colorize the word chain that we're saving to the array
+		// The following works on all platforms but no color renders on Windows
+		wordChainColorized := colorizeCharactersUnix(len(wordChainNoColor), wordChainNoColor, false)
+
+		// Append the word chain to the array to be used by the clipboard if in interactive mode
+		arrayOfWordChains[i] = wordChainNoColor
+
+		// Prepare color for the index number
+		red := color.New(color.FgHiRed).SprintfFunc()
+
+		// Print the index number and current element of the array
+		tableWriter.AppendRow([]interface{}{red("%d", i), wordChainColorized})
+
+		tableWriter.AppendSeparator()
+	}
+	tableWriter.SetStyle(table.StyleLight)
+	tableWriter.Render()
+
+	// Return the array because it's needed for the
+	// clipboard functions if we're in interactive mode.
+	return arrayOfWordChains
 }

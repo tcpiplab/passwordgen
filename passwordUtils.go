@@ -48,14 +48,14 @@ func trimPassword(password string, requestedPasswordLength int) string {
 	}
 }
 
-// randomWordChain() generates a random word-chain password of the specified length.
+// createWordChain() generates a random word-chain password of the specified length.
 //
 //	Parameters:
 //	requestedPasswordLength - the length of the password to generate
 //
 //	Returns:
 //	A string representing the generated password
-func randomWordChain(requestedPasswordLength int) string {
+func createWordChain(requestedPasswordLength int) string {
 
 	var buffer bytes.Buffer
 
@@ -85,19 +85,20 @@ func randomWordChain(requestedPasswordLength int) string {
 	}
 
 	// Replace spaces with an underscore character
-	output := strings.ReplaceAll(buffer.String(), " ", "_")
+	wordChain := strings.ReplaceAll(buffer.String(), " ", "_")
 
 	// Truncate the resulting word-chain password to the specified length
 	// by removing characters from the right side
-	if len(output) > requestedPasswordLength {
+	//if len(wordChain) > requestedPasswordLength {
+	//
+	//	wordChain = strings.TrimSpace(wordChain[:requestedPasswordLength])
+	//}
 
-		output = strings.TrimSpace(output[:requestedPasswordLength])
-	}
+	// TODO: this is commented out but will it fail on Windows?
+	// Colorize word-chain wordChain
+	//colorizeCharactersWindows(requestedPasswordLength, wordChain)
 
-	// Colorize word-chain output
-	colorizeCharactersWindows(requestedPasswordLength, output)
-
-	return output
+	return wordChain
 }
 
 func createMixedPassword(str string) string {
