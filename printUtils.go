@@ -280,12 +280,6 @@ func printPasswordTableUnix(
 
 		if !passPhrases {
 
-			//fmt.Printf(
-			//	"%s%s%s\n",
-			//	grey("+────+"),
-			//	strings.Repeat(underline, requestedPasswordLength+2),
-			//	grey("+"),
-			//)
 			red := color.New(color.FgRed).SprintFunc()
 			rowNumberString := fmt.Sprintf("%02d", rowNumber)
 
