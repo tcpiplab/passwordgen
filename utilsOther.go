@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/fatih/color"
 	"log"
+	"math"
 	"os"
 	"os/exec"
 	"runtime"
@@ -124,4 +125,32 @@ func checkPasswordLength(requestedPasswordLength int) bool {
 	//}
 
 	return false
+}
+
+func isHighEntropy(s string) bool {
+	entropy := 0.0
+	counts := make(map[rune]int)
+
+	// Count the number of occurrences of each character
+	for _, r := range s {
+		counts[r]++
+	}
+
+	// Calculate the entropy of the string
+	for _, count := range counts {
+		p := float64(count) / float64(len(s))
+		entropy -= p * math.Log2(p)
+	}
+
+	// Check if the entropy is high enough
+	return entropy >= math.Log2(float64(len(s)))-1
+}
+
+func testForEntropy() {
+	s := "123123123" // Replace with the string you want to test
+	if isHighEntropy(s) {
+		println("The string has high entropy")
+	} else {
+		println("The string does not have high entropy")
+	}
 }
