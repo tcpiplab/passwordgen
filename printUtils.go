@@ -518,7 +518,7 @@ func printWordChainsTable() []string {
 	// Create a new empty array with the same length as the original array
 	// This avoids leftover empty array elements causing clipboard copy
 	// failures later on.
-	arrayOfWordChains := make([]string, (consoleHeight/2)-1)
+	arrayOfWordChains := make([]string, consoleHeight/2)
 
 	// Loop through the console screen height and print a table of word chains
 	for i := 0; i < (consoleHeight/2)-1; i++ {
