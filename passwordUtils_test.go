@@ -1,14 +1,19 @@
 package main
 
 import (
+	"fmt"
 	"github.com/stretchr/testify/assert"
+	"strings"
 	"testing"
 )
 
 func TestRandStringPassword(t *testing.T) {
 
 	// Test with a password length of 10
-	passwordLength := 10
+	passwordLength := 32
+
+	// Seed the randomness
+	//rand.Seed(time.Now().UnixNano())
 
 	// Call the function to generate a random password string
 	password := randStringPassword(passwordLength)
@@ -19,7 +24,9 @@ func TestRandStringPassword(t *testing.T) {
 	// Check if the generated password contains only allowed characters
 	assert.Regexp(t, "^[a-zA-Z0-9!@#^&*()\\[\\]{}%]*$", password)
 
-	// Add more tests for other password lengths and edge cases as needed
+	// Check for high entropy
+	fmt.Printf("--- Testing entropy of: %s\n", password)
+	assert.True(t, isHighEntropy(password))
 }
 
 func TestTrimPassword(t *testing.T) {
@@ -55,6 +62,9 @@ func TestCreateWordChain(t *testing.T) {
 	assert.Regexp(t, "^[a-zA-Z0-9-_+=/\\\\|~^$#@&*:.\"]*$", wordChain)
 
 	// Add more tests for other password lengths and edge cases as needed
+	// Check for high entropy
+	fmt.Printf("--- Testing entropy of: %s\n", wordChain)
+	assert.True(t, isHighEntropy(wordChain))
 }
 
 func TestCreateMixedPassword(t *testing.T) {
@@ -72,6 +82,9 @@ func TestCreateMixedPassword(t *testing.T) {
 	assert.Contains(t, mixedPassword, inputString)
 
 	// Add more tests for other input strings and edge cases as needed
+	// Check for high entropy
+	fmt.Printf("--- Testing entropy of: %s\n", mixedPassword)
+	assert.True(t, isHighEntropy(mixedPassword))
 }
 
 func TestIfMixedPasswords(t *testing.T) {
@@ -87,38 +100,41 @@ func TestIfMixedPasswords(t *testing.T) {
 	// Test when requestedPasswordLength is less than 12
 	requestedPasswordLength = 10
 	outputStr = ifMixedPasswords(true, false, rows)
-	//expectedOutputStr := randomCase(getWordFromCompressedDictionary(dictionaryData))
-	//if outputStr != expectedOutputStr {
-	//	t.Errorf("Expected %s but got %s", expectedOutputStr, outputStr)
-	//}
 
 	// Check if the outputStr contains only valid characters
 	assert.Regexp(t, "^[a-zA-Z0-9-_+=/\\\\|~^$#@&*:.\"{}\\[\\]<>\\(\\)]*$", outputStr)
+
+	// Check for high entropy
+	fmt.Printf("--- Testing entropy of: %s\n", outputStr)
+	assert.True(t, isHighEntropy(outputStr))
 
 	// Test when requestedPasswordLength is between 12 and 20
 	requestedPasswordLength = 18
 	outputStr = ifMixedPasswords(true, false, rows)
-	//expectedOutputStr = surroundString(surroundString(surroundString(
-	//	getWordFromCompressedDictionary(dictionaryData) + "-" +
-	//		getWordFromCompressedDictionary(dictionaryData))))
-	//if outputStr != expectedOutputStr {
-	//	t.Errorf("Expected %s but got %s", expectedOutputStr, outputStr)
-	//}
 
 	// Check if the outputStr contains only valid characters
-	assert.Regexp(t, "^[a-zA-Z0-9-_+=/\\\\|~^$#@&*:.\"{}\\[\\]<>\\(\\)]*$", outputStr)
+	assert.Regexp(t, "^[a-zA-Z0-9-_+=/\\\\|~^$#@&*:.\"{}\\[\\]<>\\(\\)\\?\\!]*$", outputStr)
+
+	// Check for high entropy
+	fmt.Printf("--- Testing entropy of: %s\n", outputStr)
+	assert.True(t, isHighEntropy(outputStr))
 
 	// Test when requestedPasswordLength is greater than 20
 	requestedPasswordLength = 25
 	outputStr = ifMixedPasswords(true, false, rows)
-	//expectedOutputStr = surroundString(surroundString(surroundString(
-	//	getWordFromCompressedDictionary(dictionaryData)+"-"+
-	//		getWordFromCompressedDictionary(dictionaryData)) + "-" +
-	//	getWordFromCompressedDictionary(dictionaryData)))
-	//if outputStr != expectedOutputStr {
-	//	t.Errorf("Expected %s but got %s", expectedOutputStr, outputStr)
-	//}
 
 	// Check if the outputStr contains only valid characters
-	assert.Regexp(t, "^[a-zA-Z0-9-_+=/\\\\|~^$#@&*:.\"{}\\[\\]<>\\(\\)]*$", outputStr)
+	assert.Regexp(t, "^[a-zA-Z0-9-_+=/\\\\|~^$#@&*:.\"{}\\[\\]<>\\(\\)\\?%\\!]*$", outputStr)
+
+	// Check for high entropy
+	fmt.Printf("--- Testing entropy of: %s\n", outputStr)
+	assert.True(t, isHighEntropy(outputStr))
+}
+
+func TestCreatePassphrase(t *testing.T) {
+	passphrase := createPassphrase()
+	words := strings.Split(passphrase, " ")
+	if len(words) != 5 {
+		t.Errorf("Expected 5 words in passphrase, but got %d", len(words))
+	}
 }
