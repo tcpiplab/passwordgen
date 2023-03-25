@@ -34,7 +34,7 @@ func printPasswordTableWindows(
 
 	underline := grey("─")
 
-	if !passPhrases && !wordChains && !mixedPasswords {
+	if !passPhrases && !wordChains && !mixedPasswords && !randomPasswords {
 		fmt.Printf(
 			"%s%s%s\n",
 			grey("+────+"),
@@ -46,7 +46,7 @@ func printPasswordTableWindows(
 	// Loop to print rows of index numbers and passwords to the terminal screen
 	for rowNumber := 0; rowNumber < ((rows / 2) - 1); rowNumber++ {
 
-		if !passPhrases && !wordChains && !mixedPasswords {
+		if !passPhrases && !wordChains && !mixedPasswords && !randomPasswords {
 
 			// TODO: Get colors working on Windows
 			//red := color.New(color.FgHiRed).SprintFunc()
@@ -67,13 +67,15 @@ func printPasswordTableWindows(
 
 		if randomPasswords {
 
-			// Fetch a new randomized password string of the specified length
-			password := randStringPassword(requestedPasswordLength)
+			break
 
-			arrayPasswords[rowNumber] = password
-
-			// Colorize and print the password
-			colorizeCharactersWindows(requestedPasswordLength, password)
+			//// Fetch a new randomized password string of the specified length
+			//password := randStringPassword(requestedPasswordLength)
+			//
+			//arrayPasswords[rowNumber] = password
+			//
+			//// Colorize and print the password
+			//colorizeCharactersWindows(requestedPasswordLength, password)
 
 		} else if wordChains {
 
@@ -150,6 +152,11 @@ func printPasswordTableWindows(
 	} else if mixedPasswords {
 
 		arrayPasswords = printMixedPasswordsTable(mixedPasswords, randomPasswords)
+
+	} else if randomPasswords {
+
+		arrayPasswords = printRandomPasswordsTable()
+
 	}
 
 	return arrayPasswords

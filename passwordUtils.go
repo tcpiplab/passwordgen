@@ -2,6 +2,8 @@ package main
 
 import (
 	"bytes"
+	crand "crypto/rand"
+	"encoding/binary"
 	"math/rand"
 	"strings"
 	"time"
@@ -16,7 +18,20 @@ func randStringPassword(lengthOfRandString int) string {
 	listOfInt32Characters := make([]int32, lengthOfRandString)
 
 	// Seed the randomness
-	rand.Seed(time.Now().UnixNano())
+	if OS == "linux" || OS == "darwin" || OS == "unix" {
+
+		rand.Seed(time.Now().UnixNano())
+
+	} else if OS == "windows" {
+
+		var seed int64
+		err := binary.Read(crand.Reader, binary.LittleEndian, &seed)
+		if err != nil {
+			panic(err)
+		}
+		//fmt.Println(seed)
+		rand.Seed(seed)
+	}
 
 	for i := range listOfInt32Characters {
 
