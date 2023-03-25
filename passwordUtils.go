@@ -101,7 +101,7 @@ func createWordChain(requestedPasswordLength int) string {
 	return wordChain
 }
 
-func createMixedPassword(str string) string {
+func shuffleStringTransforms(str string) string {
 	// create a slice of functions
 	listOfFunctions := []func(string) string{
 		padString,
@@ -118,7 +118,7 @@ func createMixedPassword(str string) string {
 	return str
 }
 
-// ifMixedPasswords() generates a mixed password if mixedPasswords is true, and random passwords otherwise.
+// createMixedPassword() generates a mixed password if mixedPasswords is true, and random passwords otherwise.
 //
 //	Parameters:
 //	  mixedPasswords: A boolean indicating whether mixed passwords are requested.
@@ -127,9 +127,10 @@ func createMixedPassword(str string) string {
 //
 //	Returns:
 //	  A string containing the generated password.
-func ifMixedPasswords(mixedPasswords bool, randomPasswords bool, rows int) string {
+func createMixedPassword(mixedPasswords bool, randomPasswords bool, rows int) string {
 
-	var outputStr string
+	// TODO: Improve the mixed password algorithm
+	var mixedPassword string
 
 	if mixedPasswords {
 
@@ -160,12 +161,10 @@ func ifMixedPasswords(mixedPasswords bool, randomPasswords bool, rows int) strin
 						arrWords[0])+"-"+arrWords[1]) + "-" + arrWords[2])
 		}
 
-		outputStr = createMixedPassword(inputStr)
-
-		//}
+		mixedPassword = shuffleStringTransforms(inputStr)
 
 	}
-	return outputStr
+	return mixedPassword
 }
 
 func createPassphrase() string {

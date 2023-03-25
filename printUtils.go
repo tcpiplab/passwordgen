@@ -85,7 +85,7 @@ func printPasswordTableWindows(
 
 		} else if mixedPasswords {
 
-			password := ifMixedPasswords(mixedPasswords, randomPasswords, rows)
+			password := createMixedPassword(mixedPasswords, randomPasswords, rows)
 
 			arrayPasswords[rowNumber] = password
 
@@ -305,7 +305,7 @@ func printPasswordTableUnix(
 
 		} else if mixedPasswords {
 
-			password := ifMixedPasswords(mixedPasswords, randomPasswords, rows)
+			password := createMixedPassword(mixedPasswords, randomPasswords, rows)
 
 			arrayPasswords[rowNumber] = password
 

@@ -73,7 +73,7 @@ func TestCreateMixedPassword(t *testing.T) {
 	inputString := "password"
 
 	// Call the function to create a mixed password
-	mixedPassword := createMixedPassword(inputString)
+	mixedPassword := shuffleStringTransforms(inputString)
 
 	// Check if the length of the mixed password matches the length of the input string
 	//assert.Equal(t, len(inputString), len(mixedPassword))
@@ -92,14 +92,14 @@ func TestIfMixedPasswords(t *testing.T) {
 	//requestedPasswordLength := 15
 
 	// Test when mixedPasswords is false
-	outputStr := ifMixedPasswords(false, true, rows)
+	outputStr := createMixedPassword(false, true, rows)
 	if outputStr != "" {
 		t.Errorf("Expected empty string when mixedPasswords is false, but got %s", outputStr)
 	}
 
 	// Test when requestedPasswordLength is less than 12
 	requestedPasswordLength = 10
-	outputStr = ifMixedPasswords(true, false, rows)
+	outputStr = createMixedPassword(true, false, rows)
 
 	// Check if the outputStr contains only valid characters
 	assert.Regexp(t, "^[a-zA-Z0-9-_+=/\\\\|~^$#@&*:.\"{}\\[\\]<>\\(\\)]*$", outputStr)
@@ -110,7 +110,7 @@ func TestIfMixedPasswords(t *testing.T) {
 
 	// Test when requestedPasswordLength is between 12 and 20
 	requestedPasswordLength = 18
-	outputStr = ifMixedPasswords(true, false, rows)
+	outputStr = createMixedPassword(true, false, rows)
 
 	// Check if the outputStr contains only valid characters
 	assert.Regexp(t, "^[a-zA-Z0-9-_+=/\\\\|~^$#@&*:.\"{}\\[\\]<>\\(\\)\\?\\!]*$", outputStr)
@@ -121,7 +121,7 @@ func TestIfMixedPasswords(t *testing.T) {
 
 	// Test when requestedPasswordLength is greater than 20
 	requestedPasswordLength = 25
-	outputStr = ifMixedPasswords(true, false, rows)
+	outputStr = createMixedPassword(true, false, rows)
 
 	// Check if the outputStr contains only valid characters
 	assert.Regexp(t, "^[a-zA-Z0-9-_+=/\\\\|~^$#@&*:.\"{}\\[\\]<>\\(\\)\\?%\\!]*$", outputStr)
