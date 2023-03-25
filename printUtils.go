@@ -267,7 +267,7 @@ func printPasswordTableUnix(
 	grey := color.New(color.FgCyan, color.Faint).SprintfFunc()
 	underline := grey("─")
 
-	if !passPhrases && !wordChains {
+	if !passPhrases && !wordChains && !mixedPasswords {
 
 		fmt.Printf(
 			"%s%s%s\n",
@@ -279,7 +279,7 @@ func printPasswordTableUnix(
 	// Loop to print rows of index numbers and passwords to the terminal screen
 	for rowNumber := 0; rowNumber < ((rows / 2) - 1); rowNumber++ {
 
-		if !passPhrases && !wordChains {
+		if !passPhrases && !wordChains && !mixedPasswords {
 
 			red := color.New(color.FgRed).SprintFunc()
 			rowNumberString := fmt.Sprintf("%02d", rowNumber)
@@ -309,8 +309,9 @@ func printPasswordTableUnix(
 
 			arrayPasswords[rowNumber] = password
 
+			break
 			// Colorize and print the password
-			colorizeCharactersUnix(requestedPasswordLength, password, true)
+			//colorizeCharactersUnix(requestedPasswordLength, password, true)
 
 		} else if passPhrases {
 
@@ -360,6 +361,10 @@ func printPasswordTableUnix(
 	} else if wordChains {
 
 		arrayPasswords = printWordChainsTable()
+
+	} else if mixedPasswords {
+
+		arrayPasswords = printMixedPasswordsTable(mixedPasswords, randomPasswords)
 	}
 
 	return arrayPasswords
@@ -546,4 +551,48 @@ func printWordChainsTable() []string {
 	// Return the array because it's needed for the
 	// clipboard functions if we're in interactive mode.
 	return arrayOfWordChains
+}
+
+func printMixedPasswordsTable(mixedPasswords bool, randomPasswords bool) []string {
+
+	var consoleHeight int
+
+	// Set the console height
+	consoleHeight = funcName(consoleHeight)
+
+	// Instantiate a new table writer object
+	tableWriter := table.NewWriter()
+	tableWriter.SetOutputMirror(os.Stdout)
+
+	// Create a new empty array with the same length as the original array
+	// This avoids leftover empty array elements causing clipboard copy
+	// failures later on.
+	arrayOfMixedPasswords := make([]string, consoleHeight/2)
+
+	// Loop through the console screen height and print a table of mixed passwords
+	for i := 0; i < (consoleHeight/2)-1; i++ {
+
+		mixedPasswordNoColor := createMixedPassword(mixedPasswords, randomPasswords, consoleHeight)
+
+		// Colorize the mixed password that we're saving to the array
+		// The following works on all platforms but no color renders on Windows
+		mixedPasswordColorized := colorizeCharactersUnix(len(mixedPasswordNoColor), mixedPasswordNoColor, false)
+
+		// Append the mixed password to the array to be used by the clipboard if in interactive mode
+		arrayOfMixedPasswords[i] = mixedPasswordNoColor
+
+		// Prepare color for the index number
+		red := color.New(color.FgHiRed).SprintfFunc()
+
+		// Print the index number and current element of the array
+		tableWriter.AppendRow([]interface{}{red("%d", i), mixedPasswordColorized})
+
+		tableWriter.AppendSeparator()
+	}
+	tableWriter.SetStyle(table.StyleLight)
+	tableWriter.Render()
+
+	// Return the array because it's needed for the
+	// clipboard functions if we're in interactive mode.
+	return arrayOfMixedPasswords
 }
