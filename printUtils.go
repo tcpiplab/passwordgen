@@ -34,7 +34,7 @@ func printPasswordTableWindows(
 
 	underline := grey("─")
 
-	if !passPhrases && !wordChains && !mixedPasswords {
+	if !passPhrases && !wordChains && !mixedPasswords && !randomPasswords {
 		fmt.Printf(
 			"%s%s%s\n",
 			grey("+────+"),
@@ -46,7 +46,7 @@ func printPasswordTableWindows(
 	// Loop to print rows of index numbers and passwords to the terminal screen
 	for rowNumber := 0; rowNumber < ((rows / 2) - 1); rowNumber++ {
 
-		if !passPhrases && !wordChains && !mixedPasswords {
+		if !passPhrases && !wordChains && !mixedPasswords && !randomPasswords {
 
 			// TODO: Get colors working on Windows
 			//red := color.New(color.FgHiRed).SprintFunc()
@@ -67,13 +67,15 @@ func printPasswordTableWindows(
 
 		if randomPasswords {
 
-			// Fetch a new randomized password string of the specified length
-			password := randStringPassword(requestedPasswordLength)
+			break
 
-			arrayPasswords[rowNumber] = password
-
-			// Colorize and print the password
-			colorizeCharactersWindows(requestedPasswordLength, password)
+			//// Fetch a new randomized password string of the specified length
+			//password := randStringPassword(requestedPasswordLength)
+			//
+			//arrayPasswords[rowNumber] = password
+			//
+			//// Colorize and print the password
+			//colorizeCharactersWindows(requestedPasswordLength, password)
 
 		} else if wordChains {
 
@@ -150,6 +152,11 @@ func printPasswordTableWindows(
 	} else if mixedPasswords {
 
 		arrayPasswords = printMixedPasswordsTable(mixedPasswords, randomPasswords)
+
+	} else if randomPasswords {
+
+		arrayPasswords = printRandomPasswordsTable()
+
 	}
 
 	return arrayPasswords
@@ -278,7 +285,7 @@ func printPasswordTableUnix(
 	grey := color.New(color.FgCyan, color.Faint).SprintfFunc()
 	underline := grey("─")
 
-	if !passPhrases && !wordChains && !mixedPasswords {
+	if !passPhrases && !wordChains && !mixedPasswords && !randomPasswords {
 
 		fmt.Printf(
 			"%s%s%s\n",
@@ -290,7 +297,7 @@ func printPasswordTableUnix(
 	// Loop to print rows of index numbers and passwords to the terminal screen
 	for rowNumber := 0; rowNumber < ((rows / 2) - 1); rowNumber++ {
 
-		if !passPhrases && !wordChains && !mixedPasswords {
+		if !passPhrases && !wordChains && !mixedPasswords && !randomPasswords {
 
 			red := color.New(color.FgRed).SprintFunc()
 			rowNumberString := fmt.Sprintf("%02d", rowNumber)
@@ -302,13 +309,15 @@ func printPasswordTableUnix(
 
 		if randomPasswords {
 
-			// Fetch a new randomized password string of the specified length
-			password := randStringPassword(requestedPasswordLength)
+			break
 
-			arrayPasswords[rowNumber] = password
-
-			// Colorize and print the password
-			colorizeCharactersUnix(requestedPasswordLength, password, true)
+			//// Fetch a new randomized password string of the specified length
+			//password := randStringPassword(requestedPasswordLength)
+			//
+			//arrayPasswords[rowNumber] = password
+			//
+			//// Colorize and print the password
+			//colorizeCharactersUnix(requestedPasswordLength, password, true)
 
 		} else if wordChains {
 
@@ -376,6 +385,11 @@ func printPasswordTableUnix(
 	} else if mixedPasswords {
 
 		arrayPasswords = printMixedPasswordsTable(mixedPasswords, randomPasswords)
+
+	} else if randomPasswords {
+
+		arrayPasswords = printRandomPasswordsTable()
+
 	}
 
 	return arrayPasswords
@@ -606,4 +620,48 @@ func printMixedPasswordsTable(mixedPasswords bool, randomPasswords bool) []strin
 	// Return the array because it's needed for the
 	// clipboard functions if we're in interactive mode.
 	return arrayOfMixedPasswords
+}
+
+func printRandomPasswordsTable() []string {
+
+	var consoleHeight int
+
+	// Set the console height
+	consoleHeight = funcName(consoleHeight)
+
+	// Instantiate a new table writer object
+	tableWriter := table.NewWriter()
+	tableWriter.SetOutputMirror(os.Stdout)
+
+	// Create a new empty array with the same length as the original array
+	// This avoids leftover empty array elements causing clipboard copy
+	// failures later on.
+	arrayOfRandomPasswords := make([]string, consoleHeight/2)
+
+	// Loop through the console screen height and print a table of random passwords
+	for i := 0; i < (consoleHeight/2)-1; i++ {
+
+		randomPasswordNoColor := randStringPassword(requestedPasswordLength)
+
+		// Colorize the random password that we're saving to the array
+		// The following works on all platforms but no color renders on Windows
+		randomPasswordColorized := colorizeCharactersUnix(len(randomPasswordNoColor), randomPasswordNoColor, false)
+
+		// Append the random password to the array to be used by the clipboard if in interactive mode
+		arrayOfRandomPasswords[i] = randomPasswordNoColor
+
+		// Prepare color for the index number
+		red := color.New(color.FgHiRed).SprintfFunc()
+
+		// Print the index number and current element of the array
+		tableWriter.AppendRow([]interface{}{red("%d", i), randomPasswordColorized})
+
+		tableWriter.AppendSeparator()
+	}
+	tableWriter.SetStyle(table.StyleLight)
+	tableWriter.Render()
+
+	// Return the array because it's needed for the
+	// clipboard functions if we're in interactive mode.
+	return arrayOfRandomPasswords
 }
