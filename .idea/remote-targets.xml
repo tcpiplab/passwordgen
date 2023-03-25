@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="RemoteTargetsManager">
-    <option name="projectDefaultTargetUuid" value="03f26858-17ed-4060-9ede-82d5c406530c" />
     <targets>
       <target name="sec560@192.168.1.46:22" type="ssh/sftp" uuid="03f26858-17ed-4060-9ede-82d5c406530c">
         <config>
