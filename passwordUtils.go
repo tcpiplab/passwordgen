@@ -90,6 +90,7 @@ func createWordChain(requestedPasswordLength int) string {
 			buffer.WriteString(word)
 
 			if i != requestedPasswordLength {
+
 				// Add a delimiter between the words except for the last word
 				if i != requestedPasswordLength-1 {
 
@@ -113,7 +114,18 @@ func createWordChain(requestedPasswordLength int) string {
 	// Colorize word-chain wordChain
 	//colorizeCharactersWindows(requestedPasswordLength, wordChain)
 
+	// Fix bug with trailing delimiter in word chains
+	wordChain = removeTrailingSpecialChar(wordChain)
+
 	return wordChain
+}
+
+func removeTrailingSpecialChar(s string) string {
+	lastChar := s[len(s)-1:]
+	if lastChar >= "a" && lastChar <= "z" {
+		return s
+	}
+	return s[:len(s)-1]
 }
 
 func shuffleStringTransforms(str string) string {
