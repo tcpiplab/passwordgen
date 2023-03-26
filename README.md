@@ -1,5 +1,7 @@
 # passwordgen
 
+A command line password generator written in Golang. Works on Mac, Linux, Unix, or Windows. For now colors don't work on Windows.
+
 ## Build
 
 ```shell
@@ -18,25 +20,25 @@ See the [latest release binaries](https://github.com/tcpiplab/passwordgen/releas
 
 ```shell
 $ ./passwordgen 20
-+────+──────────────────────+
-│ 00 │ l[TB(15k&6H3RU55iC11 │
-+────+──────────────────────+
-│ 01 │ Mt6Zy0Q)s@&V3w2o#0aA │
-+────+──────────────────────+
-│ 02 │ xkTKxfRpGAfHUTCxEqZB │
-+────+──────────────────────+
-│ 03 │ @DJvj!jGgG5w8uwwGtS1 │
-+────+──────────────────────+
-│ 04 │ {EpREgvQguP[i]7!x2OV │
-+────+──────────────────────+
-│ 05 │ S%cKxii2@01r1cHt8^(k │
-+────+──────────────────────+
-│ 06 │ ^dAK33@0NS(OWepX*#u7 │
-+────+──────────────────────+
-│ 07 │ 8H^8m&ifDl9KghtaymKx │
-+────+──────────────────────+
-│ 08 │ [dkq2#Qu6g44FdBt8f@D │
-+────+──────────────────────+
+┌───┬──────────────────────┐
+│ 0 │ ]Be6ITzc%*ZpZe{]XWvY │
+├───┼──────────────────────┤
+│ 1 │ 3E1zUVaSw4CtU13NE]H) │
+├───┼──────────────────────┤
+│ 2 │ %l2VuZSt8Iu96CEB#Phm │
+├───┼──────────────────────┤
+│ 3 │ mkEBj!t0oW5[xU[sDSad │
+├───┼──────────────────────┤
+│ 4 │ hF[tKgW!QXpzUvSDt8r( │
+├───┼──────────────────────┤
+│ 5 │ WWTh%6fEbSm5su^JDn6b │
+├───┼──────────────────────┤
+│ 6 │ }oHBNXgX5FKIVE@yU8uK │
+├───┼──────────────────────┤
+│ 7 │ 2Lw@Z8oXq@*JxV}mI9[k │
+├───┼──────────────────────┤
+│ 8 │ n5NQ35DJYr3QU7*J7q8z │
+└───┴──────────────────────┘
 Enter an integer: 5
 Input has been copied to clipboard.
 Waiting for 60 seconds before clearing the clipboard.
@@ -49,67 +51,78 @@ Waiting for 60 seconds before clearing the clipboard.
 
 ```shell
   -erase
-        ./passwordgen -erase[=false]
+        ./passwordgen --erase[=false]
          (default true)
   -help
         ./passwordgen n
         Where n is the length of the password.
         Length must be the last argument.
+        
   -interactive
-        ./passwordgen -interactive[=false]
-         (default true)
+        ./passwordgen --interactive[=false]
+        (default true)
+        
   -mixed
-        ./passwordgen -mixed        
+        ./passwordgen --mixed
+        
+  -passphrases
+        ./passwordgen --passphrases
+        
   -random
-        ./passwordgen -random
+        ./passwordgen --random
          (default true)
+         
   -word-chains
-        ./passwordgen -word-chains
+        ./passwordgen --word-chains
 ```
 ## Password Chains
 
 ```shell
 ./passwordgen -word-chains 32
-+────+──────────────────────────────────+
-│ 00 │ afterlife_roundworm_winnings_div │
-+────+──────────────────────────────────+
-│ 01 │ posture*routing*browse*turbofan* │
-+────+──────────────────────────────────+
-│ 02 │ earflap=action=take=coil=constru │
-+────+──────────────────────────────────+
-│ 03 │ cognitive&nutty&cork&renewal&sit │
-+────+──────────────────────────────────+
-│ 04 │ viscous\showman\finale\abrasion\ │
-+────+──────────────────────────────────+
-│ 05 │ snowplow#launch#unaltered#refill │
-+────+──────────────────────────────────+
-│ 06 │ tamper/unloved/quickly/spoilage/ │
-+────+──────────────────────────────────+
-│ 07 │ shifty=regular=unscrew=confused= │
-+────+──────────────────────────────────+
+┌───┬──────────────────────────────────────────────┐
+│ 0 │ washable_breeder_plexiglas_savage_fritter    │
+├───┼──────────────────────────────────────────────┤
+│ 1 │ panther^repossess^shifter^gopher^yield       │
+├───┼──────────────────────────────────────────────┤
+│ 2 │ bleep+footprint+culminate+cavalier+factsheet │
+├───┼──────────────────────────────────────────────┤
+│ 3 │ conform#powwow#flashback#acronym#reburial    │
+├───┼──────────────────────────────────────────────┤
+│ 4 │ unexpired|glutinous|grape|fructose|comic     │
+├───┼──────────────────────────────────────────────┤
+│ 5 │ aeration$finisher$unmade$naturist$paradox    │
+├───┼──────────────────────────────────────────────┤
+│ 6 │ wistful&translate&sherry&selection&engulf    │
+├───┼──────────────────────────────────────────────┤
+│ 7 │ anatomy/slicing/upfront/engraved/haunt       │
+├───┼──────────────────────────────────────────────┤
+│ 8 │ yield\grant\myspace\dusk\skylight\subsoil    │
+└───┴──────────────────────────────────────────────┘
 ```
 
 ## Mixed Passwords
 
 ```shell
 ./passwordgen -mixed 25
-+────+───────────────────────────+
-│ 00 │ (rocky-outer-gliding)g)02 │
-+────+───────────────────────────+
-│ 01 │ {&&reunion-payee&-playpen │
-+────+───────────────────────────+
-│ 02 │ <<!batboy-atlas-unmoved!> │
-+────+───────────────────────────+
-│ 03 │ &{.uncloak-pond.-finch}&8 │
-+────+───────────────────────────+
-│ 04 │ 12{b{bluff-stand-trance}4 │
-+────+───────────────────────────+
-│ 05 │ &!?coma?-waged!-urgency&} │
-+────+───────────────────────────+
-│ 06 │ [quit-faction-bubble]e]12 │
-+────+───────────────────────────+
-│ 07 │ (?sizable-trial-squeeze?) │
-+────+───────────────────────────+
+┌───┬──────────────────────────────────┐
+│ 0 │ @{*&^approach^-marshy&-voice*}@  │
+├───┼──────────────────────────────────┤
+│ 1 │ .{~#flagship#-pebbly-power~}.    │
+├───┼──────────────────────────────────┤
+│ 2 │ [-seldom--rendering-survival]    │
+├───┼──────────────────────────────────┤
+│ 3 │ [*@scored@-unpaved-phrasing*]    │
+├───┼──────────────────────────────────┤
+│ 4 │ ^<^-carport--flatbed-discover^>^ │
+├───┼──────────────────────────────────┤
+│ 5 │ <^boaster-engraving^-email>      │
+├───┼──────────────────────────────────┤
+│ 6 │ 1<e<endorphin-muck-grimy>        │
+├───┼──────────────────────────────────┤
+│ 7 │ (residual-duplicity-reprogram)   │
+├───┼──────────────────────────────────┤
+│ 8 │ (outback-unlighted-aflutter)     │
+└───┴──────────────────────────────────┘
 ```
 
 ## Passphrases

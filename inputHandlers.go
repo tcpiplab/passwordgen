@@ -19,9 +19,8 @@ func argsHandler() (
 	help = flag.Bool(
 		"help",
 		false,
-		"./passwordgen n\nWhere n is the length of the password.\nLength must be the last argument.",
+		"./passwordgen n\nWhere n is the length of the password.\nLength must be the last argument.\n",
 	)
-	//flag.Parse()
 
 	if *help {
 		flag.Usage()
@@ -32,32 +31,32 @@ func argsHandler() (
 	interactive = flag.Bool(
 		"interactive",
 		true,
-		"./passwordgen -interactive[=false]\n")
+		"./passwordgen --interactive[=false]\n")
 
 	erase = flag.Bool(
 		"erase",
 		true,
-		"./passwordgen -erase[=false]\n")
+		"./passwordgen --erase[=false]\n")
 
 	randomPasswords = flag.Bool(
 		"random",
 		true,
-		"./passwordgen -random\n")
+		"./passwordgen --random\n")
 
 	wordChains = flag.Bool(
 		"word-chains",
 		false,
-		"./passwordgen -word-chains\n")
+		"./passwordgen --word-chains\n")
 
 	mixedPasswords = flag.Bool(
 		"mixed",
 		false,
-		"./passwordgen -mixed\n")
+		"./passwordgen --mixed\n")
 
 	passPhrases = flag.Bool(
 		"passphrases",
 		false,
-		"./passwordgen -passphrases\n")
+		"./passwordgen --passphrases\n")
 
 	flag.Parse()
 
