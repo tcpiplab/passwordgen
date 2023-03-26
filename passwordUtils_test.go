@@ -58,12 +58,36 @@ func TestCreateWordChain(t *testing.T) {
 	//assert.Equal(t, passwordLength, len(wordChain))
 
 	// Check if the generated word chain contains only valid characters
-	assert.Regexp(t, "^[a-zA-Z0-9-_+=/\\\\|~^$#@&*:.\"]*$", wordChain)
+	// https://regex101.com/r/sQ9g6T/1
+	assert.Regexp(t, "^([a-z]+[-_=+/\\|~^$#@&*:.]{1})+[a-z]+$", wordChain)
 
 	// Add more tests for other password lengths and edge cases as needed
 	// Check for high entropy
 	//fmt.Printf("--- Testing entropy of: %s\n", wordChain)
 	assert.True(t, isHighEntropy(wordChain))
+}
+
+func TestRemoveTrailingSpecialChar(t *testing.T) {
+	// Test with a string ending with lowercase letter
+	s1 := "hello world"
+	expected1 := "hello world"
+	if res := removeTrailingSpecialChar(s1); res != expected1 {
+		t.Errorf("checkLastChar(%s) = %s; want %s", s1, res, expected1)
+	}
+
+	// Test with a string ending with a special character
+	s2 := "test string$"
+	expected2 := "test string"
+	if res := removeTrailingSpecialChar(s2); res != expected2 {
+		t.Errorf("checkLastChar(%s) = %s; want %s", s2, res, expected2)
+	}
+
+	// Test with a single-character string
+	s3 := "x"
+	expected3 := "x"
+	if res := removeTrailingSpecialChar(s3); res != expected3 {
+		t.Errorf("checkLastChar(%s) = %s; want %s", s3, res, expected3)
+	}
 }
 
 func TestCreateMixedPassword(t *testing.T) {

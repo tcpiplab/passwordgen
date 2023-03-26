@@ -120,6 +120,16 @@ func createWordChain(requestedPasswordLength int) string {
 	return wordChain
 }
 
+// removeTrailingSpecialChar removes the trailing special character from a string,
+// if it exists. If the last character of the input string is a lowercase letter,
+// the function returns the original string unchanged.
+//
+//	Args:
+//	  s (string): The input string to remove the trailing special character from.
+//
+//	Returns:
+//	  string: The updated string with the trailing special character removed, or
+//	  the original string if the last character is a lowercase letter.
 func removeTrailingSpecialChar(s string) string {
 	lastChar := s[len(s)-1:]
 	if lastChar >= "a" && lastChar <= "z" {
