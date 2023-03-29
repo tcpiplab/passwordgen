@@ -11,14 +11,14 @@ import (
 func RandomYear() string {
 	// Seed the random number generator with the current Unix timestamp
 	rand.Seed(time.Now().UnixNano())
-	minYear := 1800
+	minYear := 0
 	maxYear := 2000
 	randomYear := rand.Intn(maxYear-minYear+1) + minYear
 
 	return strconv.Itoa(randomYear)
 }
 
-func generateMemorablePassword(requestedPasswordLength int) string {
+func createMemorablePassword(requestedPasswordLength int) string {
 
 	var memorablePassword string
 	//randomWord := getWordFromCompressedDictionary(dictionaryData)

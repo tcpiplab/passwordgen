@@ -34,7 +34,7 @@ func main() {
 
 	OS = detectOS()
 
-	interactive, erase, randomPasswords, wordChains, mixedPasswords, _, passPhrases := argsHandler()
+	interactive, erase, randomPasswords, wordChains, mixedPasswords, _, passPhrases, memorable := argsHandler()
 	//if *done {
 	//	return
 	//}
@@ -71,23 +71,21 @@ func main() {
 	var rows int
 	rows = rowsColumns[0]
 
-	// If the user wants word-chain passwords, check to see if we have
-	// an available wordlist on their OS for seeding the API queries
 	if *wordChains {
 
-		// Need to do this for word-chains to work
 		*randomPasswords = false
 	}
 	if *mixedPasswords {
 
-		// Need to do this for mixed passwords to work
 		*randomPasswords = false
 	}
 	if *passPhrases {
 
 		*randomPasswords = false
+	}
+	if *memorable {
 
-		//fmt.Print(createPassphrase())
+		*randomPasswords = false
 	}
 
 	arrayPasswords := make([]string, rows)
@@ -95,7 +93,7 @@ func main() {
 	if OS == "darwin" || OS == "linux" || OS == "unix" {
 
 		// Fill the screen with passwords
-		arrayPasswords = printPasswordTableUnix(arrayPasswords, *randomPasswords, *wordChains, *mixedPasswords, *passPhrases)
+		arrayPasswords = printPasswordTableUnix(arrayPasswords, *randomPasswords, *wordChains, *mixedPasswords, *passPhrases, *memorable)
 
 	} else if OS == "windows" {
 
