@@ -22,47 +22,49 @@ func createMemorablePassword(requestedPasswordLength int) string {
 
 	var memorablePassword string
 
-	if requestedPasswordLength <= 15 {
+	memorablePassword = chooseMemorableTransform(memorablePassword, requestedPasswordLength)
 
-		memorablePassword = chooseMemorableTransform(memorablePassword)
-
-	} else if requestedPasswordLength <= 20 {
-
-		memorablePassword = chooseMemorableTransform(memorablePassword)
-		memorablePassword += chooseMemorableTransform(memorablePassword)
-
-	} else if requestedPasswordLength <= 30 {
-
-		memorablePassword = chooseMemorableTransform(memorablePassword)
-		memorablePassword += chooseMemorableTransform(memorablePassword)
-		memorablePassword += chooseMemorableTransform(memorablePassword)
-
-	} else if requestedPasswordLength > 30 {
-
-		memorablePassword = chooseMemorableTransform(memorablePassword)
-		memorablePassword += chooseMemorableTransform(memorablePassword)
-		memorablePassword += chooseMemorableTransform(memorablePassword)
-		memorablePassword += chooseMemorableTransform(memorablePassword)
-	}
+	//if requestedPasswordLength <= 15 {
+	//
+	//	memorablePassword = chooseMemorableTransform(memorablePassword, requestedPasswordLength)
+	//
+	//}  else if requestedPasswordLength <= 20 {
+	//
+	//	memorablePassword = chooseMemorableTransform(memorablePassword, requestedPasswordLength)
+	//	memorablePassword += chooseMemorableTransform(memorablePassword, requestedPasswordLength)
+	//
+	//} else if requestedPasswordLength <= 30 {
+	//
+	//	memorablePassword = chooseMemorableTransform(memorablePassword, requestedPasswordLength)
+	//	memorablePassword += chooseMemorableTransform(memorablePassword, requestedPasswordLength)
+	//	memorablePassword += chooseMemorableTransform(memorablePassword, requestedPasswordLength)
+	//
+	//} else if requestedPasswordLength > 30 {
+	//
+	//	memorablePassword = chooseMemorableTransform(memorablePassword, requestedPasswordLength)
+	//	memorablePassword += chooseMemorableTransform(memorablePassword, requestedPasswordLength)
+	//	memorablePassword += chooseMemorableTransform(memorablePassword, requestedPasswordLength)
+	//	memorablePassword += chooseMemorableTransform(memorablePassword, requestedPasswordLength)
+	//}
 
 	return memorablePassword
 }
 
-func chooseMemorableTransform(memorablePassword string) string {
+func chooseMemorableTransform(memorablePassword string, requestedPasswordLength int) string {
 	rand.Seed(time.Now().UnixNano())
 
 	randomChoice := rand.Intn(5)
 	switch randomChoice {
 	case 0:
-		memorablePassword = memorableTransformOne(memorablePassword)
+		memorablePassword = memorableTransformOne(memorablePassword, requestedPasswordLength)
 	case 1:
-		memorablePassword = memorableTransformTwo(memorablePassword)
+		memorablePassword = memorableTransformTwo(memorablePassword, requestedPasswordLength)
 	case 2:
-		memorablePassword = memorableTransformThree(memorablePassword)
+		memorablePassword = memorableTransformThree(memorablePassword, requestedPasswordLength)
 	case 3:
-		memorablePassword = memorableTransformFour(memorablePassword)
+		memorablePassword = memorableTransformFour(memorablePassword, requestedPasswordLength)
 	case 4:
-		memorablePassword = memorableTransformFive(memorablePassword)
+		memorablePassword = memorableTransformFive(memorablePassword, requestedPasswordLength)
 	default:
 		// This case should never be reached, but it's here for completeness
 		fmt.Println("Invalid choice.")
@@ -71,24 +73,37 @@ func chooseMemorableTransform(memorablePassword string) string {
 	return memorablePassword
 }
 
-func memorableTransformOne(memorablePassword string) string {
+func memorableTransformOne(memorablePassword string, requestedPasswordLength int) string {
 
 	randomWord := getWordFromCompressedDictionary(dictionaryData)
 	randomYear := RandomYear()
 
-	// Swordfish[1492]
+	if requestedPasswordLength >= 20 {
+
+		// 1492Mhz
+		randomYear = appendRandomUnit(randomYear)
+	}
+
+	// Swordfish[1492] or Swordfish[1492Mhz]
 	memorablePassword = capitalizeFirstLetter(randomWord)
 	memorablePassword += padString(randomYear)
 
 	return memorablePassword
+
 }
 
-func memorableTransformTwo(memorablePassword string) string {
+func memorableTransformTwo(memorablePassword string, requestedPasswordLength int) string {
 
 	randomWord := getWordFromCompressedDictionary(dictionaryData)
 	randomYear := RandomYear()
 
-	// 1492[Swordfish]
+	if requestedPasswordLength >= 20 {
+
+		// 1492Mhz
+		randomYear = appendRandomUnit(randomYear)
+	}
+
+	// 1492[Swordfish] or 1492Mhz[Swordfish]
 	memorablePassword = randomYear
 	memorablePassword += padString(capitalizeFirstLetter(randomWord))
 
@@ -96,38 +111,56 @@ func memorableTransformTwo(memorablePassword string) string {
 
 }
 
-func memorableTransformThree(memorablePassword string) string {
+func memorableTransformThree(memorablePassword string, requestedPasswordLength int) string {
 
 	randomWord := getWordFromCompressedDictionary(dictionaryData)
 	randomYear := RandomYear()
 
-	// [Swordfish]1492
+	if requestedPasswordLength >= 20 {
+
+		// 1492Mhz
+		randomYear = appendRandomUnit(randomYear)
+	}
+
+	// [Swordfish]1492 or [Swordfish]1492Mhz
 	memorablePassword = padString(capitalizeFirstLetter(randomWord))
 	memorablePassword += randomYear
 
 	return memorablePassword
 }
 
-func memorableTransformFour(memorablePassword string) string {
+func memorableTransformFour(memorablePassword string, requestedPasswordLength int) string {
 
 	randomWord := getWordFromCompressedDictionary(dictionaryData)
 	randomYear := RandomYear()
 
-	// [1492]Swordfish
+	if requestedPasswordLength >= 20 {
+
+		// 1492Mhz
+		randomYear = appendRandomUnit(randomYear)
+	}
+
+	// [1492]Swordfish or [1492Mhz]Swordfish
 	memorablePassword = padString(randomYear)
 	memorablePassword += capitalizeFirstLetter(randomWord)
 
 	return memorablePassword
 }
 
-func memorableTransformFive(memorablePassword string) string {
+func memorableTransformFive(memorablePassword string, requestedPasswordLength int) string {
 
 	randomWordOne := getWordFromCompressedDictionary(dictionaryData)
 
 	randomWordTwo := getWordFromCompressedDictionary(dictionaryData)
 	randomYear := RandomYear()
 
-	// [Swordfish-1492-Bankrupt]
+	if requestedPasswordLength > 25 {
+
+		// 1492Mhz
+		randomYear = appendRandomUnit(randomYear)
+	}
+
+	// [Swordfish-1492-Bankrupt] or [Swordfish-1492Mhz-Bankrupt]
 	wordPair := capitalizeFirstLetter(randomWordOne)
 	wordPair += "-" + randomYear + "-"
 	wordPair += capitalizeFirstLetter(randomWordTwo)
@@ -144,3 +177,33 @@ func capitalizeFirstLetter(s string) string {
 	// Convert the first character to uppercase and concatenate with the rest of the string
 	return string(unicode.ToUpper(rune(s[0]))) + s[1:]
 }
+
+// appendRandomUnit appends a random unit from a given list to the input number.
+func appendRandomUnit(number string) string {
+	units := []string{
+		"Mhz", "Ghz", "Mbps", "Mph", "Gbps", "Kbps", "inches", "feet", "miles",
+		"Hz", "kHz", "THz", "nm", "mm", "cm", "m", "km", "yd", "mi", "nmi",
+		"liters", "gallons", "pints", "quarts", "milliliters", "cubic meters",
+		"grams", "kilograms", "pounds", "ounces", "tons", "tonnes",
+		"seconds", "minutes", "hours", "days", "weeks", "months", "years",
+		"degrees Celsius", "degrees Fahrenheit", "Kelvin",
+		"pascals", "bars", "atmospheres", "mmHg", "torr",
+		"volts", "amperes", "watts", "ohms", "farads", "henrys", "teslas", "webers",
+		"Joules", "calories", "BTU", "ergs", "electronvolts",
+		"lumens", "candelas", "lux", "foot-candles",
+		"bits", "bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB",
+		"dpi", "ppi", "pt", "em", "rem", "px",
+	}
+
+	rand.Seed(time.Now().UnixNano())
+	randomUnit := units[rand.Intn(len(units))]
+
+	return number + randomUnit
+}
+
+// TODO: Write unit tests for all these functions
+
+// TODO: Move unit tests to a separate package
+// That will require making all functions in main and in
+// main_test (the test dir name I should use) be exportable,
+// meaning starting with a capital letter.
