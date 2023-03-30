@@ -21,8 +21,6 @@ func RandomYear() string {
 func createMemorablePassword(requestedPasswordLength int) string {
 
 	var memorablePassword string
-	//randomWord := getWordFromCompressedDictionary(dictionaryData)
-	//randomYear := RandomYear()
 
 	if requestedPasswordLength <= 15 {
 
@@ -53,7 +51,7 @@ func createMemorablePassword(requestedPasswordLength int) string {
 func chooseMemorableTransform(memorablePassword string) string {
 	rand.Seed(time.Now().UnixNano())
 
-	randomChoice := rand.Intn(4)
+	randomChoice := rand.Intn(5)
 	switch randomChoice {
 	case 0:
 		memorablePassword = memorableTransformOne(memorablePassword)
@@ -63,6 +61,8 @@ func chooseMemorableTransform(memorablePassword string) string {
 		memorablePassword = memorableTransformThree(memorablePassword)
 	case 3:
 		memorablePassword = memorableTransformFour(memorablePassword)
+	case 4:
+		memorablePassword = memorableTransformFive(memorablePassword)
 	default:
 		// This case should never be reached, but it's here for completeness
 		fmt.Println("Invalid choice.")
@@ -89,8 +89,8 @@ func memorableTransformTwo(memorablePassword string) string {
 	randomYear := RandomYear()
 
 	// 1492[Swordfish]
-	memorablePassword = capitalizeFirstLetter(randomYear)
-	memorablePassword += padString(randomWord)
+	memorablePassword = randomYear
+	memorablePassword += padString(capitalizeFirstLetter(randomWord))
 
 	return memorablePassword
 
@@ -116,6 +116,22 @@ func memorableTransformFour(memorablePassword string) string {
 	// [1492]Swordfish
 	memorablePassword = padString(randomYear)
 	memorablePassword += capitalizeFirstLetter(randomWord)
+
+	return memorablePassword
+}
+
+func memorableTransformFive(memorablePassword string) string {
+
+	randomWordOne := getWordFromCompressedDictionary(dictionaryData)
+
+	randomWordTwo := getWordFromCompressedDictionary(dictionaryData)
+	randomYear := RandomYear()
+
+	// [Swordfish-1492-Bankrupt]
+	wordPair := capitalizeFirstLetter(randomWordOne)
+	wordPair += "-" + randomYear + "-"
+	wordPair += capitalizeFirstLetter(randomWordTwo)
+	memorablePassword += padString(wordPair)
 
 	return memorablePassword
 }
