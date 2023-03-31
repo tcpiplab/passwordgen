@@ -175,7 +175,7 @@ func printPasswordTableWindows(
 // - requestedPasswordLength: an int specifying the length of each password to generate
 // - arrayPasswords: a slice of strings representing the passwords to be populated
 // Returns: nothing
-func printPasswordTableUnix(arrayPasswords []string, randomPasswords bool, wordChains bool, mixedPasswords bool, passPhrases bool) []string {
+func printPasswordTableUnix(arrayPasswords []string, randomPasswords bool, wordChains bool, mixedPasswords bool, passPhrases bool, memorable bool) []string {
 
 	if passPhrases {
 
@@ -193,6 +193,9 @@ func printPasswordTableUnix(arrayPasswords []string, randomPasswords bool, wordC
 
 		arrayPasswords = printRandomPasswordsTable()
 
+	} else if memorable {
+
+		arrayPasswords = printMemorableTable()
 	}
 
 	return arrayPasswords
@@ -467,4 +470,48 @@ func printRandomPasswordsTable() []string {
 	// Return the array because it's needed for the
 	// clipboard functions if we're in interactive mode.
 	return arrayOfRandomPasswords
+}
+
+func printMemorableTable() []string {
+
+	var consoleHeight int
+
+	// Set the console height
+	consoleHeight = funcName(consoleHeight)
+
+	// Instantiate a new table writer object
+	tableWriter := table.NewWriter()
+	tableWriter.SetOutputMirror(os.Stdout)
+
+	// Create a new empty array with the same length as the original array
+	// This avoids leftover empty array elements causing clipboard copy
+	// failures later on.
+	arrayOfMemorablePasswords := make([]string, consoleHeight/2)
+
+	// Loop through the console screen height and print a table of memorable passwords
+	for i := 0; i < (consoleHeight/2)-1; i++ {
+
+		memorablePasswordNoColor := createMemorablePassword(requestedPasswordLength)
+
+		// Colorize the word chain that we're saving to the array
+		// The following works on all platforms but no color renders on Windows
+		memorablePasswordColorized := colorizeCharactersUnix(memorablePasswordNoColor, false)
+
+		// Append the memorable password to the array to be used by the clipboard if in interactive mode
+		arrayOfMemorablePasswords[i] = memorablePasswordNoColor
+
+		// Prepare color for the index number
+		red := color.New(color.FgHiRed).SprintfFunc()
+
+		// Print the index number and current element of the array
+		tableWriter.AppendRow([]interface{}{red("%d", i), memorablePasswordColorized})
+
+		tableWriter.AppendSeparator()
+	}
+	tableWriter.SetStyle(table.StyleLight)
+	tableWriter.Render()
+
+	// Return the array because it's needed for the
+	// clipboard functions if we're in interactive mode.
+	return arrayOfMemorablePasswords
 }
