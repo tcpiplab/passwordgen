@@ -64,7 +64,10 @@ Waiting for 60 seconds before clearing the clipboard.
   -interactive
         ./passwordgen --interactive[=false]
         (default true)
-        
+
+  -memorable
+        ./passwordgen --memorable
+
   -mixed
         ./passwordgen --mixed
         
@@ -78,6 +81,33 @@ Waiting for 60 seconds before clearing the clipboard.
   -word-chains
         ./passwordgen --word-chains
 ```
+
+## Memorable Passwords
+
+```shell
+/passwordgen --memorable 12
+┌───┬───────────────┐
+│ 0 │ [856]Unglue   │
+├───┼───────────────┤
+│ 1 │ 1423(Unfazed) │
+├───┼───────────────┤
+│ 2 │ {Landowner}4  │
+├───┼───────────────┤
+│ 3 │ [552]Juror    │
+├───┼───────────────┤
+│ 4 │ Errand{1796}  │
+├───┼───────────────┤
+│ 5 │ 138[Revenge]  │
+├───┼───────────────┤
+│ 6 │ Groove{1768}  │
+├───┼───────────────┤
+│ 7 │ (Getup)1691   │
+├───┼───────────────┤
+│ 8 │ Cadillac{780} │
+└───┴───────────────┘
+```
+
+
 ## Password Chains
 
 ```shell
@@ -168,8 +198,8 @@ PS C:\Users\somebody\Downloads> .\passwordgen-v1.3.0-windows-amd64.exe -passphra
 # Building releases for multiple platforms
 
 ```shell
-GOOS=darwin GOARCH=arm64 go build -o Release-Binaries/v1.4.x/passwordgen-v1.4.0-darwin-arm64
-GOOS=darwin GOARCH=amd64 go build -o Release-Binaries/v1.4.x/passwordgen-v1.4.0-darwin-amd64
-GOOS=windows GOARCH=amd64 go build -o Release-Binaries/v1.4.x/passwordgen-v1.4.0-windows-amd64.exe
-GOOS=linux GOARCH=amd64 go build -o Release-Binaries/v1.4.x/passwordgen-v1.4.0-linux-amd64
+GOOS=darwin GOARCH=arm64 go build -o Release-Binaries/v1.5.x/passwordgen-v1.5.0-darwin-arm64
+GOOS=darwin GOARCH=amd64 go build -o Release-Binaries/v1.5.x/passwordgen-v1.5.0-darwin-amd64
+GOOS=windows GOARCH=amd64 go build -o Release-Binaries/v1.5.x/passwordgen-v1.5.0-windows-amd64.exe
+GOOS=linux GOARCH=amd64 go build -o Release-Binaries/v1.5.x/passwordgen-v1.5.0-linux-amd64
 ```
