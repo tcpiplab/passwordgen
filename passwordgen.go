@@ -98,14 +98,15 @@ func main() {
 	} else if OS == "windows" {
 
 		// Fill the screen with passwords
-		arrayPasswords = printPasswordTableWindows(
-			rows,
-			requestedPasswordLength,
-			arrayPasswords,
-			*randomPasswords,
-			*wordChains,
-			*mixedPasswords,
-			*passPhrases)
+		arrayPasswords = printPasswordTableUnix(arrayPasswords, *randomPasswords, *wordChains, *mixedPasswords, *passPhrases, *memorable)
+		//arrayPasswords = printPasswordTableWindows(
+		//	rows,
+		//	requestedPasswordLength,
+		//	arrayPasswords,
+		//	*randomPasswords,
+		//	*wordChains,
+		//	*mixedPasswords,
+		//	*passPhrases)
 	}
 
 	if ifInteractive(interactive, rows) {
