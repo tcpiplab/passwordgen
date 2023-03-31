@@ -24,29 +24,6 @@ func createMemorablePassword(requestedPasswordLength int) string {
 
 	memorablePassword = chooseMemorableTransform(memorablePassword, requestedPasswordLength)
 
-	//if requestedPasswordLength <= 15 {
-	//
-	//	memorablePassword = chooseMemorableTransform(memorablePassword, requestedPasswordLength)
-	//
-	//}  else if requestedPasswordLength <= 20 {
-	//
-	//	memorablePassword = chooseMemorableTransform(memorablePassword, requestedPasswordLength)
-	//	memorablePassword += chooseMemorableTransform(memorablePassword, requestedPasswordLength)
-	//
-	//} else if requestedPasswordLength <= 30 {
-	//
-	//	memorablePassword = chooseMemorableTransform(memorablePassword, requestedPasswordLength)
-	//	memorablePassword += chooseMemorableTransform(memorablePassword, requestedPasswordLength)
-	//	memorablePassword += chooseMemorableTransform(memorablePassword, requestedPasswordLength)
-	//
-	//} else if requestedPasswordLength > 30 {
-	//
-	//	memorablePassword = chooseMemorableTransform(memorablePassword, requestedPasswordLength)
-	//	memorablePassword += chooseMemorableTransform(memorablePassword, requestedPasswordLength)
-	//	memorablePassword += chooseMemorableTransform(memorablePassword, requestedPasswordLength)
-	//	memorablePassword += chooseMemorableTransform(memorablePassword, requestedPasswordLength)
-	//}
-
 	return memorablePassword
 }
 
