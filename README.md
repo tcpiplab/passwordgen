@@ -60,6 +60,9 @@ Waiting for 60 seconds before clearing the clipboard.
         Where n is the length of the password.
         Length must be the last argument.
         
+  -hex
+    	./passwordgen --hex
+    	
   -interactive
         ./passwordgen --interactive[=false]
         (default true)
@@ -192,6 +195,33 @@ PS C:\Users\somebody\Downloads> .\passwordgen-v1.3.0-windows-amd64.exe -passphra
 ├────┼───────────────────────────────────────────────┤
 │ 13 │ legroom caretaker reference frantic genetics  │
 └────┴───────────────────────────────────────────────┘
+```
+
+## Hexadecimal PINs
+
+Hex pins may be 4 or more characters long.
+
+```shell
+passwordgen --hex 4
+┌───┬──────┐
+│ 0 │ FC70 │
+├───┼──────┤
+│ 1 │ DA10 │
+├───┼──────┤
+│ 2 │ 2DB6 │
+├───┼──────┤
+│ 3 │ C314 │
+├───┼──────┤
+│ 4 │ D186 │
+├───┼──────┤
+│ 5 │ 5139 │
+├───┼──────┤
+│ 6 │ D760 │
+├───┼──────┤
+│ 7 │ 5B32 │
+├───┼──────┤
+│ 8 │ 48F4 │
+└───┴──────┘
 ```
 
 # Building releases for multiple platforms
