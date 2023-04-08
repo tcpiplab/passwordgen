@@ -4,7 +4,6 @@ A command line password generator written in Golang. Works on Mac, Linux, Unix, 
 
 [![Build Status](https://github.com/tcpiplab/passwordgen/actions/workflows/go.yml/badge.svg)](https://github.com/tcpiplab/passwordgen/actions)
 
-
 ## Build
 
 ```shell
