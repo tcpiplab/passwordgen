@@ -15,7 +15,7 @@ func TestRandStringPassword(t *testing.T) {
 	//rand.Seed(time.Now().UnixNano())
 
 	// Call the function to generate a random password string
-	password := randStringPassword(passwordLength)
+	password := randStringPassword(passwordLength, false)
 
 	// Check if the length of the generated password matches the expected length
 	assert.Equal(t, passwordLength, len(password))

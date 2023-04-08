@@ -9,10 +9,20 @@ import (
 	"time"
 )
 
-func randStringPassword(lengthOfRandString int) string {
+func randStringPassword(lengthOfRandString int, hexOnly bool) string {
+
+	var allowedCharacters []int32
 
 	// Set allowed characters
-	var allowedCharacters = []int32("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#^&*()[]{}%")
+	if !hexOnly {
+
+		allowedCharacters = []int32("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#^&*()[]{}%")
+
+	} else {
+
+		allowedCharacters = []int32("ABCDEF0123456789")
+
+	}
 
 	// Make a list of type int32 of the length the user requested their passwords should be
 	listOfInt32Characters := make([]int32, lengthOfRandString)

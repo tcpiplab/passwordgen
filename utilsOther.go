@@ -111,14 +111,25 @@ func detectOS() string {
 //
 //	Returns:
 //	  - a boolean value indicating if the password length is valid or not
-func checkPasswordLength(requestedPasswordLength int) bool {
+func checkPasswordLength(requestedPasswordLength int, randomHex *bool) bool {
 
-	// Convert requestedPasswordLength to an integer if needed
-	if int(requestedPasswordLength) < 8 {
+	if *randomHex {
 
-		color.HiRed("\nPassword length must be 8 or longer.\n\n")
-		return true
+		if int(requestedPasswordLength) < 4 {
+
+			color.HiRed("\nHex PIN length must be 4 or longer.\n\n")
+			return true
+		}
+
+	} else if !*randomHex {
+
+		if int(requestedPasswordLength) < 8 {
+
+			color.HiRed("\nPassword length must be 8 or longer.\n\n")
+			return true
+		}
 	}
+
 	//else if int(requestedPasswordLength) > 255 {
 	//	// Use passwordLength as an integer
 	//	requestedPasswordLength = 10
