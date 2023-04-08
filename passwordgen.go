@@ -47,7 +47,7 @@ func main() {
 
 		// Check for password length and return errors if needed
 		// For now the length is mandatory and must be the last arg
-		if checkPasswordLength(requestedPasswordLength) {
+		if checkPasswordLength(requestedPasswordLength, randomHex) {
 			return
 		}
 	}
