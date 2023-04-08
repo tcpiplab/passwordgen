@@ -175,7 +175,7 @@ func printPasswordTableWindows(
 // - requestedPasswordLength: an int specifying the length of each password to generate
 // - arrayPasswords: a slice of strings representing the passwords to be populated
 // Returns: nothing
-func printPasswordTableUnix(arrayPasswords []string, randomPasswords bool, wordChains bool, mixedPasswords bool, passPhrases bool, memorable bool) []string {
+func printPasswordTableUnix(arrayPasswords []string, randomPasswords bool, wordChains bool, mixedPasswords bool, passPhrases bool, memorable bool, randomHex bool) []string {
 
 	if passPhrases {
 
@@ -196,6 +196,11 @@ func printPasswordTableUnix(arrayPasswords []string, randomPasswords bool, wordC
 	} else if memorable {
 
 		arrayPasswords = printMemorableTable()
+
+	} else if randomHex {
+
+		arrayPasswords = printRandomHexTable()
+
 	}
 
 	return arrayPasswords
@@ -447,7 +452,7 @@ func printRandomPasswordsTable() []string {
 	// Loop through the console screen height and print a table of random passwords
 	for i := 0; i < (consoleHeight/2)-1; i++ {
 
-		randomPasswordNoColor := randStringPassword(requestedPasswordLength)
+		randomPasswordNoColor := randStringPassword(requestedPasswordLength, false)
 
 		// Colorize the random password that we're saving to the array
 		// The following works on all platforms but no color renders on Windows
@@ -514,4 +519,50 @@ func printMemorableTable() []string {
 	// Return the array because it's needed for the
 	// clipboard functions if we're in interactive mode.
 	return arrayOfMemorablePasswords
+}
+
+func printRandomHexTable() []string {
+	// TODO this function could be combined with printRandomPasswordTable() in some way
+
+	var consoleHeight int
+
+	// Set the console height
+	consoleHeight = funcName(consoleHeight)
+
+	// Instantiate a new table writer object
+	tableWriter := table.NewWriter()
+	tableWriter.SetOutputMirror(os.Stdout)
+
+	// Create a new empty array with the same length as the original array
+	// This avoids leftover empty array elements causing clipboard copy
+	// failures later on.
+	arrayOfRandomHex := make([]string, consoleHeight/2)
+
+	// Loop through the console screen height and print a table of random hex passwords
+	for i := 0; i < (consoleHeight/2)-1; i++ {
+
+		// TODO: Call a new function for randStringHex() here
+		randomHexNoColor := randStringPassword(requestedPasswordLength, true)
+
+		// Colorize the random hex passwords that we're saving to the array
+		// The following works on all platforms but no color renders on Windows
+		randomHexColorized := colorizeCharactersUnix(randomHexNoColor, false)
+
+		// Append the random hex password to the array to be used by the clipboard if in interactive mode
+		arrayOfRandomHex[i] = randomHexNoColor
+
+		// Prepare color for the index number
+		red := color.New(color.FgHiRed).SprintfFunc()
+
+		// Print the index number and current element of the array
+		tableWriter.AppendRow([]interface{}{red("%d", i), randomHexColorized})
+
+		tableWriter.AppendSeparator()
+	}
+	tableWriter.SetStyle(table.StyleLight)
+	tableWriter.Render()
+
+	// Return the array because it's needed for the
+	// clipboard functions if we're in interactive mode.
+	return arrayOfRandomHex
 }
