@@ -90,6 +90,8 @@ func memorableTransformOne(memorablePassword string, requestedPasswordLength int
 
 	} else {
 
+		// TODO: Randomly choose a delimiter from a list
+		// TODO: Modify unit test to accommodate this change
 		// Swordfish_1492
 		memorablePassword += "_" + randomYear
 	}
