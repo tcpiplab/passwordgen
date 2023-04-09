@@ -18,15 +18,15 @@ func TestRandomYear(t *testing.T) {
 
 	// Run the test multiple times to check for randomness
 	for i := 0; i < 100; i++ {
-		randomYearStr := RandomYear()
+		randomYearStr := RandomYearOrFloat()
 		randomYear, err := strconv.Atoi(randomYearStr)
 
 		if err != nil {
-			t.Errorf("RandomYear() returned an invalid number: %s", randomYearStr)
+			t.Errorf("RandomYearOrFloat() returned an invalid number: %s", randomYearStr)
 		}
 
 		if randomYear < minYear || randomYear > maxYear {
-			t.Errorf("RandomYear() returned a number out of range: %d (expected between %d and %d)", randomYear, minYear, maxYear)
+			t.Errorf("RandomYearOrFloat() returned a number out of range: %d (expected between %d and %d)", randomYear, minYear, maxYear)
 		}
 	}
 }

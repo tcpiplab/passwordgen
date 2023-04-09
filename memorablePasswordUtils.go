@@ -8,14 +8,27 @@ import (
 	"unicode"
 )
 
-func RandomYear() string {
+func RandomYearOrFloat() string {
 	// Seed the random number generator with the current Unix timestamp
 	rand.Seed(time.Now().UnixNano())
+
+	// Randomly decide between year (0) or float (1)
+	yearOrFloat := rand.Intn(2)
+
 	minYear := 0
 	maxYear := 2000
-	randomYear := rand.Intn(maxYear-minYear+1) + minYear
 
-	return strconv.Itoa(randomYear)
+	if yearOrFloat == 0 {
+		// Generate and return random year as a string
+		randomYear := rand.Intn(maxYear-minYear+1) + minYear
+		return strconv.Itoa(randomYear)
+	} else {
+		// Generate and return random float as a string
+		minFloat := 0.0
+		maxFloat := 99.99
+		randomFloat := minFloat + rand.Float64()*(maxFloat-minFloat)
+		return fmt.Sprintf("%.2f", randomFloat)
+	}
 }
 
 func createMemorablePassword(requestedPasswordLength int) string {
@@ -53,7 +66,7 @@ func chooseMemorableTransform(memorablePassword string, requestedPasswordLength 
 func memorableTransformOne(memorablePassword string, requestedPasswordLength int) string {
 
 	randomWord := getWordFromCompressedDictionary(dictionaryData)
-	randomYear := RandomYear()
+	randomYear := RandomYearOrFloat()
 
 	if requestedPasswordLength >= 20 {
 
@@ -63,7 +76,23 @@ func memorableTransformOne(memorablePassword string, requestedPasswordLength int
 
 	// Swordfish[1492] or Swordfish[1492Mhz]
 	memorablePassword = capitalizeFirstLetter(randomWord)
-	memorablePassword += padString(randomYear)
+
+	// Seed the random number generator with the current Unix timestamp
+	rand.Seed(time.Now().UnixNano())
+
+	// Randomly decide between wrapping (0) or delimiting (1)
+	wrapOrDelimit := rand.Intn(2)
+
+	if wrapOrDelimit == 0 {
+
+		// Swordfish[1492]
+		memorablePassword += padString(randomYear)
+
+	} else {
+
+		// Swordfish_1492
+		memorablePassword += "_" + randomYear
+	}
 
 	return memorablePassword
 
@@ -72,7 +101,7 @@ func memorableTransformOne(memorablePassword string, requestedPasswordLength int
 func memorableTransformTwo(memorablePassword string, requestedPasswordLength int) string {
 
 	randomWord := getWordFromCompressedDictionary(dictionaryData)
-	randomYear := RandomYear()
+	randomYear := RandomYearOrFloat()
 
 	if requestedPasswordLength >= 20 {
 
@@ -91,7 +120,7 @@ func memorableTransformTwo(memorablePassword string, requestedPasswordLength int
 func memorableTransformThree(memorablePassword string, requestedPasswordLength int) string {
 
 	randomWord := getWordFromCompressedDictionary(dictionaryData)
-	randomYear := RandomYear()
+	randomYear := RandomYearOrFloat()
 
 	if requestedPasswordLength >= 20 {
 
@@ -109,7 +138,7 @@ func memorableTransformThree(memorablePassword string, requestedPasswordLength i
 func memorableTransformFour(memorablePassword string, requestedPasswordLength int) string {
 
 	randomWord := getWordFromCompressedDictionary(dictionaryData)
-	randomYear := RandomYear()
+	randomYear := RandomYearOrFloat()
 
 	if requestedPasswordLength >= 20 {
 
@@ -129,7 +158,7 @@ func memorableTransformFive(memorablePassword string, requestedPasswordLength in
 	randomWordOne := getWordFromCompressedDictionary(dictionaryData)
 
 	randomWordTwo := getWordFromCompressedDictionary(dictionaryData)
-	randomYear := RandomYear()
+	randomYear := RandomYearOrFloat()
 
 	if requestedPasswordLength > 25 {
 

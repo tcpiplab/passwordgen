@@ -35,6 +35,7 @@ func main() {
 	OS = detectOS()
 
 	interactive, erase, randomPasswords, wordChains, mixedPasswords, _, passPhrases, memorable, randomHex := argsHandler()
+
 	//if *done {
 	//	return
 	//}
