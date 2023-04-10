@@ -90,9 +90,8 @@ func memorableTransformOne(memorablePassword string, requestedPasswordLength int
 
 	} else {
 
-		// TODO: Randomly choose a delimiter from a list
 		randomDelimiter := RandomDelimiter()
-		// TODO: Modify unit test to accommodate this change
+
 		// Swordfish_1492
 		memorablePassword += randomDelimiter + randomYear
 	}
@@ -112,9 +111,27 @@ func memorableTransformTwo(memorablePassword string, requestedPasswordLength int
 		randomYear = appendRandomUnit(randomYear)
 	}
 
-	// 1492[Swordfish] or 1492Mhz[Swordfish]
+	// Seed the random number generator with the current Unix timestamp
+	rand.Seed(time.Now().UnixNano())
+
+	// Randomly decide between wrapping (0) or delimiting (1)
+	wrapOrDelimit := rand.Intn(2)
+
 	memorablePassword = randomYear
-	memorablePassword += padString(capitalizeFirstLetter(randomWord))
+
+	if wrapOrDelimit == 0 {
+
+		// 1492[Swordfish] or 1492Mhz[Swordfish]
+		memorablePassword += padString(capitalizeFirstLetter(randomWord))
+
+	} else {
+
+		randomDelimiter := RandomDelimiter()
+
+		// 1492_Swordfish or 1492Mhz_Swordfish
+		memorablePassword += randomDelimiter + capitalizeFirstLetter(randomWord)
+
+	}
 
 	return memorablePassword
 
