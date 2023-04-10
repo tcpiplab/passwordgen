@@ -13,12 +13,13 @@ func RandomYearOrFloat() string {
 	rand.Seed(time.Now().UnixNano())
 
 	// Randomly decide between year (0) or float (1)
-	yearOrFloat := rand.Intn(2)
+	yearOrFloat := rand.Intn(3)
 
 	minYear := 0
 	maxYear := 2000
 
-	if yearOrFloat == 0 {
+	// Return a year 33% of the time
+	if yearOrFloat == 0 || yearOrFloat == 1 {
 		// Generate and return random year as a string
 		randomYear := rand.Intn(maxYear-minYear+1) + minYear
 		return strconv.Itoa(randomYear)
@@ -27,7 +28,7 @@ func RandomYearOrFloat() string {
 		minFloat := 0.0
 		maxFloat := 99.99
 		randomFloat := minFloat + rand.Float64()*(maxFloat-minFloat)
-		return fmt.Sprintf("%.2f", randomFloat)
+		return fmt.Sprintf("%.1f", randomFloat)
 	}
 }
 
@@ -187,8 +188,9 @@ func memorableTransformFive(memorablePassword string, requestedPasswordLength in
 	}
 
 	// [Swordfish-1492-Bankrupt] or [Swordfish-1492Mhz-Bankrupt]
+	randomDelimiter := RandomDelimiter()
 	wordPair := capitalizeFirstLetter(randomWordOne)
-	wordPair += "-" + randomYear + "-"
+	wordPair += randomDelimiter + randomYear + randomDelimiter
 	wordPair += capitalizeFirstLetter(randomWordTwo)
 	memorablePassword += padString(wordPair)
 
@@ -232,7 +234,7 @@ func RandomDelimiter() string {
 	// Seed the random number generator with the current Unix timestamp
 	rand.Seed(time.Now().UnixNano())
 
-	delimiters := []string{"!", "@", "#", "$", "%", "^", "&", "*", "(", ")"}
+	delimiters := []string{"!", "@", "#", "$", "%", "^", "&", "*", "-", "_", "+", "=", "~", "`", ".", "|", ":", "/", "\\"}
 	randomIndex := rand.Intn(len(delimiters))
 	return delimiters[randomIndex]
 }
