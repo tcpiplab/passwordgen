@@ -4,13 +4,14 @@ import (
 	"fmt"
 	"math/rand"
 	"strconv"
-	"time"
 	"unicode"
 )
 
 func RandomYearOrFloat() string {
+
+	// If Seed is not called, the generator is seeded randomly at program startup.
 	// Seed the random number generator with the current Unix timestamp
-	rand.Seed(time.Now().UnixNano())
+	//rand.Seed(time.Now().UnixNano())
 
 	// Randomly decide between year (0) or float (1)
 	yearOrFloat := rand.Intn(3)
@@ -42,7 +43,9 @@ func createMemorablePassword(requestedPasswordLength int) string {
 }
 
 func chooseMemorableTransform(memorablePassword string, requestedPasswordLength int) string {
-	rand.Seed(time.Now().UnixNano())
+
+	// If Seed is not called, the generator is seeded randomly at program startup.
+	//rand.Seed(time.Now().UnixNano())
 
 	randomChoice := rand.Intn(5)
 	switch randomChoice {
@@ -78,8 +81,9 @@ func memorableTransformOne(memorablePassword string, requestedPasswordLength int
 	// Swordfish[1492] or Swordfish[1492Mhz]
 	memorablePassword = capitalizeFirstLetter(randomWord)
 
+	// If Seed is not called, the generator is seeded randomly at program startup.
 	// Seed the random number generator with the current Unix timestamp
-	rand.Seed(time.Now().UnixNano())
+	//rand.Seed(time.Now().UnixNano())
 
 	// Randomly decide between wrapping (0) or delimiting (1)
 	wrapOrDelimit := rand.Intn(2)
@@ -112,8 +116,9 @@ func memorableTransformTwo(memorablePassword string, requestedPasswordLength int
 		randomYear = appendRandomUnit(randomYear)
 	}
 
+	// If Seed is not called, the generator is seeded randomly at program startup.
 	// Seed the random number generator with the current Unix timestamp
-	rand.Seed(time.Now().UnixNano())
+	//rand.Seed(time.Now().UnixNano())
 
 	// Randomly decide between wrapping (0) or delimiting (1)
 	wrapOrDelimit := rand.Intn(2)
@@ -223,7 +228,8 @@ func appendRandomUnit(number string) string {
 		"dpi", "ppi", "pt", "em", "rem", "px",
 	}
 
-	rand.Seed(time.Now().UnixNano())
+	// If Seed is not called, the generator is seeded randomly at program startup.
+	//rand.Seed(time.Now().UnixNano())
 	randomUnit := units[rand.Intn(len(units))]
 
 	return number + randomUnit
@@ -231,8 +237,10 @@ func appendRandomUnit(number string) string {
 
 // RandomDelimiter returns a random delimiter from a list of special characters.
 func RandomDelimiter() string {
+
+	// If Seed is not called, the generator is seeded randomly at program startup.
 	// Seed the random number generator with the current Unix timestamp
-	rand.Seed(time.Now().UnixNano())
+	//rand.Seed(time.Now().UnixNano())
 
 	delimiters := []string{"!", "@", "#", "$", "%", "^", "&", "*", "-", "_", "+", "=", "~", "`", ".", "|", ":", "/", "\\"}
 	randomIndex := rand.Intn(len(delimiters))
