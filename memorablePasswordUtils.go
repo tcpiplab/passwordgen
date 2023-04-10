@@ -91,9 +91,10 @@ func memorableTransformOne(memorablePassword string, requestedPasswordLength int
 	} else {
 
 		// TODO: Randomly choose a delimiter from a list
+		randomDelimiter := RandomDelimiter()
 		// TODO: Modify unit test to accommodate this change
 		// Swordfish_1492
-		memorablePassword += "_" + randomYear
+		memorablePassword += randomDelimiter + randomYear
 	}
 
 	return memorablePassword
@@ -207,6 +208,16 @@ func appendRandomUnit(number string) string {
 	randomUnit := units[rand.Intn(len(units))]
 
 	return number + randomUnit
+}
+
+// RandomDelimiter returns a random delimiter from a list of special characters.
+func RandomDelimiter() string {
+	// Seed the random number generator with the current Unix timestamp
+	rand.Seed(time.Now().UnixNano())
+
+	delimiters := []string{"!", "@", "#", "$", "%", "^", "&", "*", "(", ")"}
+	randomIndex := rand.Intn(len(delimiters))
+	return delimiters[randomIndex]
 }
 
 // TODO: Write unit tests for all these functions
