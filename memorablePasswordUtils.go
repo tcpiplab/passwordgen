@@ -154,8 +154,22 @@ func memorableTransformThree(memorablePassword string, requestedPasswordLength i
 		randomYear = appendRandomUnit(randomYear)
 	}
 
-	// [Swordfish]1492 or [Swordfish]1492Mhz
-	memorablePassword = padString(capitalizeFirstLetter(randomWord))
+	// Randomly decide between wrapping (0) or delimiting (1)
+	wrapOrDelimit := rand.Intn(2)
+
+	if wrapOrDelimit == 0 {
+
+		// [Swordfish]1492 or [Swordfish]1492Mhz
+		memorablePassword = padString(capitalizeFirstLetter(randomWord))
+
+	} else {
+
+		randomDelimiter := RandomDelimiter()
+
+		// [Swordfish_]1492 or [Swordfish_]1492Mhz
+		memorablePassword = padString(capitalizeFirstLetter(randomWord) + randomDelimiter)
+	}
+
 	memorablePassword += randomYear
 
 	return memorablePassword
