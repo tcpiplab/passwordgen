@@ -47,7 +47,7 @@ func chooseMemorableTransform(memorablePassword string, requestedPasswordLength 
 	// If Seed is not called, the generator is seeded randomly at program startup.
 	//rand.Seed(time.Now().UnixNano())
 
-	randomChoice := rand.Intn(6)
+	randomChoice := rand.Intn(7)
 	switch randomChoice {
 	case 0:
 		memorablePassword = memorableTransformOne(memorablePassword, requestedPasswordLength)
@@ -61,6 +61,8 @@ func chooseMemorableTransform(memorablePassword string, requestedPasswordLength 
 		memorablePassword = memorableTransformFive(memorablePassword, requestedPasswordLength)
 	case 5:
 		memorablePassword = memorableTransformSix(memorablePassword, requestedPasswordLength)
+	case 6:
+		memorablePassword = memorableTransformSeven(memorablePassword, requestedPasswordLength)
 	default:
 		// This case should never be reached, but it's here for completeness
 		fmt.Println("Invalid choice.")
@@ -249,6 +251,29 @@ func memorableTransformSix(memorablePassword string, requestedPasswordLength int
 	randomDelimiter := RandomDelimiter()
 	wordPair := capitalizeFirstLetter(randomAdjective)
 	wordPair += randomDelimiter + capitalizeFirstLetter(randomNoun) + randomDelimiter
+	wordPair += randomYear
+	memorablePassword += padString(wordPair)
+
+	return memorablePassword
+}
+
+func memorableTransformSeven(memorablePassword string, requestedPasswordLength int) string {
+
+	randomVerb := getEnglishVocabWord("verb")
+
+	randomAdverb := getEnglishVocabWord("adverb")
+	randomYear := RandomYearOrFloat()
+
+	if requestedPasswordLength > 25 {
+
+		// 1492Mhz
+		randomYear = appendRandomUnit(randomYear)
+	}
+
+	// [Generate-Brightly-1492] or [Generate-Brightly-1492Mhz]
+	randomDelimiter := RandomDelimiter()
+	wordPair := capitalizeFirstLetter(randomVerb)
+	wordPair += randomDelimiter + capitalizeFirstLetter(randomAdverb) + randomDelimiter
 	wordPair += randomYear
 	memorablePassword += padString(wordPair)
 
