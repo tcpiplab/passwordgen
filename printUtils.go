@@ -566,3 +566,78 @@ func printRandomHexTable() []string {
 	// clipboard functions if we're in interactive mode.
 	return arrayOfRandomHex
 }
+
+func printPasswordTypesTable() []string {
+
+	// Define a struct to hold a string pair
+	type PasswordAndCommandFlag struct {
+		PasswordExample string
+		CommandFlag     string
+	}
+
+	// Instantiate a new table writer object
+	tableWriter := table.NewWriter()
+	tableWriter.SetOutputMirror(os.Stdout)
+
+	// Create a slice of PasswordAndCommandFlag structs
+	var arrayOfPasswordTypes []PasswordAndCommandFlag
+
+	// Random non-hex example password
+	randStringPasswordExample := randStringPassword(requestedPasswordLength, false)
+	arrayOfPasswordTypes = append(arrayOfPasswordTypes,
+		PasswordAndCommandFlag{
+			PasswordExample: randStringPasswordExample,
+			CommandFlag:     "--random",
+		})
+
+	// Random hex example password
+	randHexPasswordExample := randStringPassword(requestedPasswordLength, true)
+	arrayOfPasswordTypes = append(arrayOfPasswordTypes,
+		PasswordAndCommandFlag{
+			PasswordExample: randHexPasswordExample,
+			CommandFlag:     "--hex",
+		})
+
+	// Word chain example password
+	wordChainPasswordExample := createWordChain(requestedPasswordLength)
+	arrayOfPasswordTypes = append(arrayOfPasswordTypes,
+		PasswordAndCommandFlag{
+			PasswordExample: wordChainPasswordExample,
+			CommandFlag:     "--word-chains",
+		})
+
+	// TODO: STOPPED HERE
+
+	createMixedPassword(true, false, 1)
+	createPassphrase()
+	var memorablePassword string
+	memorableTransformOne(memorablePassword, requestedPasswordLength)
+
+	// Loop through the console screen height and print a table of all the password types
+	//for i := 0; i < (consoleHeight/2)-1; i++ {
+	//
+	//	randomHexNoColor := randStringPassword(requestedPasswordLength, true)
+	//
+	//	// Colorize the random hex passwords that we're saving to the array
+	//	// The following works on all platforms but no color renders on Windows
+	//	randomHexColorized := colorizeCharactersUnix(randomHexNoColor, false)
+	//
+	//	// Append the random hex password to the array to be used by the clipboard if in interactive mode
+	//	arrayOfRandomHex[i] = randomHexNoColor
+	//
+	//	// Prepare color for the index number
+	//	red := color.New(color.FgHiRed).SprintfFunc()
+	//
+	//	// Print the index number and current element of the array
+	//	tableWriter.AppendRow([]interface{}{red("%d", i), randomHexColorized})
+	//
+	//	tableWriter.AppendSeparator()
+	//}
+	//tableWriter.SetStyle(table.StyleLight)
+	//tableWriter.Render()
+
+	// Return the array because it's needed for the
+	// clipboard functions if we're in interactive mode.
+	//return arrayOfRandomHex
+	return nil
+}
