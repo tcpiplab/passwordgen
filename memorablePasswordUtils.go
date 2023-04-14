@@ -47,7 +47,7 @@ func chooseMemorableTransform(memorablePassword string, requestedPasswordLength 
 	// If Seed is not called, the generator is seeded randomly at program startup.
 	//rand.Seed(time.Now().UnixNano())
 
-	randomChoice := rand.Intn(5)
+	randomChoice := rand.Intn(7)
 	switch randomChoice {
 	case 0:
 		memorablePassword = memorableTransformOne(memorablePassword, requestedPasswordLength)
@@ -59,6 +59,10 @@ func chooseMemorableTransform(memorablePassword string, requestedPasswordLength 
 		memorablePassword = memorableTransformFour(memorablePassword, requestedPasswordLength)
 	case 4:
 		memorablePassword = memorableTransformFive(memorablePassword, requestedPasswordLength)
+	case 5:
+		memorablePassword = memorableTransformSix(memorablePassword, requestedPasswordLength)
+	case 6:
+		memorablePassword = memorableTransformSeven(memorablePassword, requestedPasswordLength)
 	default:
 		// This case should never be reached, but it's here for completeness
 		fmt.Println("Invalid choice.")
@@ -225,6 +229,52 @@ func memorableTransformFive(memorablePassword string, requestedPasswordLength in
 	wordPair := capitalizeFirstLetter(randomWordOne)
 	wordPair += randomDelimiter + randomYear + randomDelimiter
 	wordPair += capitalizeFirstLetter(randomWordTwo)
+	memorablePassword += padString(wordPair)
+
+	return memorablePassword
+}
+
+func memorableTransformSix(memorablePassword string, requestedPasswordLength int) string {
+
+	randomAdjective := getEnglishVocabWord("adjective")
+
+	randomNoun := getEnglishVocabWord("noun")
+	randomYear := RandomYearOrFloat()
+
+	if requestedPasswordLength > 25 {
+
+		// 1492Mhz
+		randomYear = appendRandomUnit(randomYear)
+	}
+
+	// [Swordfish-1492-Bankrupt] or [Swordfish-1492Mhz-Bankrupt]
+	randomDelimiter := RandomDelimiter()
+	wordPair := capitalizeFirstLetter(randomAdjective)
+	wordPair += randomDelimiter + capitalizeFirstLetter(randomNoun) + randomDelimiter
+	wordPair += randomYear
+	memorablePassword += padString(wordPair)
+
+	return memorablePassword
+}
+
+func memorableTransformSeven(memorablePassword string, requestedPasswordLength int) string {
+
+	randomVerb := getEnglishVocabWord("verb")
+
+	randomAdverb := getEnglishVocabWord("adverb")
+	randomYear := RandomYearOrFloat()
+
+	if requestedPasswordLength > 25 {
+
+		// 1492Mhz
+		randomYear = appendRandomUnit(randomYear)
+	}
+
+	// [Generate-Brightly-1492] or [Generate-Brightly-1492Mhz]
+	randomDelimiter := RandomDelimiter()
+	wordPair := capitalizeFirstLetter(randomVerb)
+	wordPair += randomDelimiter + capitalizeFirstLetter(randomAdverb) + randomDelimiter
+	wordPair += randomYear
 	memorablePassword += padString(wordPair)
 
 	return memorablePassword
