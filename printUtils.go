@@ -607,12 +607,12 @@ func printPasswordTypesTable() []string {
 		})
 
 	// Mixed password example password
-	mixedPasswordExample := createMixedPassword(true, false, 1)
-	arrayOfPasswordTypes = append(arrayOfPasswordTypes,
-		PasswordAndCommandFlag{
-			PasswordExample: mixedPasswordExample,
-			CommandFlag:     "--mixed",
-		})
+	//mixedPasswordExample := createMixedPassword(true, false, 1)
+	//arrayOfPasswordTypes = append(arrayOfPasswordTypes,
+	//	PasswordAndCommandFlag{
+	//		PasswordExample: mixedPasswordExample,
+	//		CommandFlag:     "--mixed",
+	//	})
 
 	// Passphrase example password
 	passphraseExample := createPassphrase()
@@ -630,6 +630,8 @@ func printPasswordTypesTable() []string {
 			PasswordExample: memorableOneExample,
 			CommandFlag:     "--mem1",
 		})
+
+	println("hello world")
 
 	// TODO: STOPPED HERE: add the other six mem types
 	memorableTransformTwo(memorablePassword, requestedPasswordLength)
