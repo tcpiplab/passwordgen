@@ -606,6 +606,7 @@ func printPasswordTypesTable() []string {
 			CommandFlag:     "--word-chains",
 		})
 
+	// TODO: This errors out for some reason
 	// Mixed password example password
 	//mixedPasswordExample := createMixedPassword(true, false, 1)
 	//arrayOfPasswordTypes = append(arrayOfPasswordTypes,
@@ -636,31 +637,37 @@ func printPasswordTypesTable() []string {
 	// TODO: STOPPED HERE: add the other six mem types
 	memorableTransformTwo(memorablePassword, requestedPasswordLength)
 
-	// Loop through the console screen height and print a table of all the password types
-	//for i := 0; i < (consoleHeight/2)-1; i++ {
-	//
-	//	randomHexNoColor := randStringPassword(requestedPasswordLength, true)
-	//
-	//	// Colorize the random hex passwords that we're saving to the array
-	//	// The following works on all platforms but no color renders on Windows
-	//	randomHexColorized := colorizeCharactersUnix(randomHexNoColor, false)
-	//
-	//	// Append the random hex password to the array to be used by the clipboard if in interactive mode
-	//	arrayOfRandomHex[i] = randomHexNoColor
-	//
-	//	// Prepare color for the index number
-	//	red := color.New(color.FgHiRed).SprintfFunc()
-	//
-	//	// Print the index number and current element of the array
-	//	tableWriter.AppendRow([]interface{}{red("%d", i), randomHexColorized})
-	//
-	//	tableWriter.AppendSeparator()
-	//}
-	//tableWriter.SetStyle(table.StyleLight)
-	//tableWriter.Render()
+	// Print the slice of string pairs
+	for _, pair := range arrayOfPasswordTypes {
+		fmt.Printf("Password: %s, Generation Strategy: %s\n", pair.PasswordExample, pair.CommandFlag)
+	}
 
-	// Return the array because it's needed for the
-	// clipboard functions if we're in interactive mode.
+	//Loop through the console screen height and print a table of all the password types
+	for i := 0; i < len(arrayOfPasswordTypes); i++ {
+
+		randomHexNoColor := randStringPassword(requestedPasswordLength, true)
+
+		// Colorize the random hex passwords that we're saving to the array
+		// The following works on all platforms but no color renders on Windows
+		randomHexColorized := colorizeCharactersUnix(randomHexNoColor, false)
+
+		// Append the random hex password to the array to be used by the clipboard if in interactive mode
+		//arrayOfRandomHex[i] = randomHexNoColor
+
+		// Prepare color for the index number
+		red := color.New(color.FgHiRed).SprintfFunc()
+
+		// Print the index number and current element of the array
+		tableWriter.AppendRow([]interface{}{red("%d", i), randomHexColorized})
+
+		tableWriter.AppendSeparator()
+	}
+
+	tableWriter.SetStyle(table.StyleLight)
+	tableWriter.Render()
+
+	//Return the array because it's needed for the
+	//clipboard functions if we're in interactive mode.
 	//return arrayOfRandomHex
 	return nil
 }
