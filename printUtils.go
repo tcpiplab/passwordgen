@@ -632,36 +632,44 @@ func printPasswordTypesTable() []string {
 			CommandFlag:     "--mem1",
 		})
 
-	println("hello world")
-
 	// TODO: STOPPED HERE: add the other six mem types
 	memorableTransformTwo(memorablePassword, requestedPasswordLength)
 
 	// Print the slice of string pairs
 	for _, pair := range arrayOfPasswordTypes {
-		fmt.Printf("Password: %s, Generation Strategy: %s\n", pair.PasswordExample, pair.CommandFlag)
-	}
 
-	//Loop through the console screen height and print a table of all the password types
-	for i := 0; i < len(arrayOfPasswordTypes); i++ {
+		//exampleNoColor := pair.PasswordExample
+		exampleColorized := colorizeCharactersUnix(pair.PasswordExample, false)
 
-		randomHexNoColor := randStringPassword(requestedPasswordLength, true)
-
-		// Colorize the random hex passwords that we're saving to the array
-		// The following works on all platforms but no color renders on Windows
-		randomHexColorized := colorizeCharactersUnix(randomHexNoColor, false)
-
-		// Append the random hex password to the array to be used by the clipboard if in interactive mode
-		//arrayOfRandomHex[i] = randomHexNoColor
-
-		// Prepare color for the index number
+		// Prepare color for the command color
 		red := color.New(color.FgHiRed).SprintfFunc()
 
 		// Print the index number and current element of the array
-		tableWriter.AppendRow([]interface{}{red("%d", i), randomHexColorized})
+		tableWriter.AppendRow([]interface{}{red("%s", pair.CommandFlag), exampleColorized})
 
 		tableWriter.AppendSeparator()
 	}
+
+	//Loop through the console screen height and print a table of all the password types
+	//for i := 0; i < len(arrayOfPasswordTypes); i++ {
+	//
+	//	randomHexNoColor := randStringPassword(requestedPasswordLength, true)
+	//
+	//	// Colorize the random hex passwords that we're saving to the array
+	//	// The following works on all platforms but no color renders on Windows
+	//	randomHexColorized := colorizeCharactersUnix(randomHexNoColor, false)
+	//
+	//	// Append the random hex password to the array to be used by the clipboard if in interactive mode
+	//	//arrayOfRandomHex[i] = randomHexNoColor
+	//
+	//	// Prepare color for the index number
+	//	red := color.New(color.FgHiRed).SprintfFunc()
+	//
+	//	// Print the index number and current element of the array
+	//	tableWriter.AppendRow([]interface{}{red("%d", i), randomHexColorized})
+	//
+	//	tableWriter.AppendSeparator()
+	//}
 
 	tableWriter.SetStyle(table.StyleLight)
 	tableWriter.Render()
