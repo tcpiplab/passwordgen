@@ -606,14 +606,14 @@ func printPasswordTypesTable() []string {
 			CommandFlag:     "--word-chains",
 		})
 
-	// TODO: This errors out for some reason
+	// TODO: This errors out if rows is < 4
 	// Mixed password example password
-	//mixedPasswordExample := createMixedPassword(true, false, 1)
-	//arrayOfPasswordTypes = append(arrayOfPasswordTypes,
-	//	PasswordAndCommandFlag{
-	//		PasswordExample: mixedPasswordExample,
-	//		CommandFlag:     "--mixed",
-	//	})
+	mixedPasswordExample := createMixedPassword(true, false, 4)
+	arrayOfPasswordTypes = append(arrayOfPasswordTypes,
+		PasswordAndCommandFlag{
+			PasswordExample: mixedPasswordExample,
+			CommandFlag:     "--mixed",
+		})
 
 	// Passphrase example password
 	passphraseExample := createPassphrase()
@@ -638,38 +638,16 @@ func printPasswordTypesTable() []string {
 	// Print the slice of string pairs
 	for _, pair := range arrayOfPasswordTypes {
 
-		//exampleNoColor := pair.PasswordExample
 		exampleColorized := colorizeCharactersUnix(pair.PasswordExample, false)
 
 		// Prepare color for the command color
 		red := color.New(color.FgHiRed).SprintfFunc()
 
-		// Print the index number and current element of the array
+		// Print the command option and example password
 		tableWriter.AppendRow([]interface{}{red("%s", pair.CommandFlag), exampleColorized})
 
 		tableWriter.AppendSeparator()
 	}
-
-	//Loop through the console screen height and print a table of all the password types
-	//for i := 0; i < len(arrayOfPasswordTypes); i++ {
-	//
-	//	randomHexNoColor := randStringPassword(requestedPasswordLength, true)
-	//
-	//	// Colorize the random hex passwords that we're saving to the array
-	//	// The following works on all platforms but no color renders on Windows
-	//	randomHexColorized := colorizeCharactersUnix(randomHexNoColor, false)
-	//
-	//	// Append the random hex password to the array to be used by the clipboard if in interactive mode
-	//	//arrayOfRandomHex[i] = randomHexNoColor
-	//
-	//	// Prepare color for the index number
-	//	red := color.New(color.FgHiRed).SprintfFunc()
-	//
-	//	// Print the index number and current element of the array
-	//	tableWriter.AppendRow([]interface{}{red("%d", i), randomHexColorized})
-	//
-	//	tableWriter.AppendSeparator()
-	//}
 
 	tableWriter.SetStyle(table.StyleLight)
 	tableWriter.Render()
