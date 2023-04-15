@@ -566,3 +566,145 @@ func printRandomHexTable() []string {
 	// clipboard functions if we're in interactive mode.
 	return arrayOfRandomHex
 }
+
+func printPasswordTypesTable() []string {
+
+	// Define a struct to hold a string pair
+	type PasswordAndCommandFlag struct {
+		PasswordExample string
+		CommandFlag     string
+	}
+
+	// Instantiate a new table writer object
+	tableWriter := table.NewWriter()
+	tableWriter.SetOutputMirror(os.Stdout)
+
+	// Create a slice of PasswordAndCommandFlag structs
+	var arrayOfPasswordTypes []PasswordAndCommandFlag
+
+	// Random non-hex example password
+	randStringPasswordExample := randStringPassword(requestedPasswordLength, false)
+	arrayOfPasswordTypes = append(arrayOfPasswordTypes,
+		PasswordAndCommandFlag{
+			PasswordExample: randStringPasswordExample,
+			CommandFlag:     "--random",
+		})
+
+	// Random hex example password
+	randHexPasswordExample := randStringPassword(requestedPasswordLength, true)
+	arrayOfPasswordTypes = append(arrayOfPasswordTypes,
+		PasswordAndCommandFlag{
+			PasswordExample: randHexPasswordExample,
+			CommandFlag:     "--hex",
+		})
+
+	// Word chain example password
+	wordChainPasswordExample := createWordChain(requestedPasswordLength)
+	arrayOfPasswordTypes = append(arrayOfPasswordTypes,
+		PasswordAndCommandFlag{
+			PasswordExample: wordChainPasswordExample,
+			CommandFlag:     "--word-chains",
+		})
+
+	// TODO: This errors out if rows is < 4
+	// Mixed password example password
+	mixedPasswordExample := createMixedPassword(true, false, 4)
+	arrayOfPasswordTypes = append(arrayOfPasswordTypes,
+		PasswordAndCommandFlag{
+			PasswordExample: mixedPasswordExample,
+			CommandFlag:     "--mixed",
+		})
+
+	// Passphrase example password
+	passphraseExample := createPassphrase()
+	arrayOfPasswordTypes = append(arrayOfPasswordTypes,
+		PasswordAndCommandFlag{
+			PasswordExample: passphraseExample,
+			CommandFlag:     "--passphrases",
+		})
+
+	// Memorable One example password
+	var memorablePassword string
+	memorableOneExample := memorableTransformOne(memorablePassword, requestedPasswordLength)
+	arrayOfPasswordTypes = append(arrayOfPasswordTypes,
+		PasswordAndCommandFlag{
+			PasswordExample: memorableOneExample,
+			CommandFlag:     "--mem1",
+		})
+
+	// Memorable Two example password
+	memorablePassword = ""
+	memorableTwoExample := memorableTransformTwo(memorablePassword, requestedPasswordLength)
+	arrayOfPasswordTypes = append(arrayOfPasswordTypes,
+		PasswordAndCommandFlag{
+			PasswordExample: memorableTwoExample,
+			CommandFlag:     "--mem2",
+		})
+
+	// Memorable Three example password
+	memorablePassword = ""
+	memorableThreeExample := memorableTransformThree(memorablePassword, requestedPasswordLength)
+	arrayOfPasswordTypes = append(arrayOfPasswordTypes,
+		PasswordAndCommandFlag{
+			PasswordExample: memorableThreeExample,
+			CommandFlag:     "--mem3",
+		})
+
+	// Memorable Four example password
+	memorablePassword = ""
+	memorableFourExample := memorableTransformFour(memorablePassword, requestedPasswordLength)
+	arrayOfPasswordTypes = append(arrayOfPasswordTypes,
+		PasswordAndCommandFlag{
+			PasswordExample: memorableFourExample,
+			CommandFlag:     "--mem4",
+		})
+
+	// Memorable Five example password
+	memorablePassword = ""
+	memorableFiveExample := memorableTransformFive(memorablePassword, requestedPasswordLength)
+	arrayOfPasswordTypes = append(arrayOfPasswordTypes,
+		PasswordAndCommandFlag{
+			PasswordExample: memorableFiveExample,
+			CommandFlag:     "--mem5",
+		})
+
+	// Memorable Six example password
+	memorablePassword = ""
+	memorableSixExample := memorableTransformSix(memorablePassword, requestedPasswordLength)
+	arrayOfPasswordTypes = append(arrayOfPasswordTypes,
+		PasswordAndCommandFlag{
+			PasswordExample: memorableSixExample,
+			CommandFlag:     "--mem6",
+		})
+
+	// Memorable Seven example password
+	memorablePassword = ""
+	memorableSevenExample := memorableTransformSeven(memorablePassword, requestedPasswordLength)
+	arrayOfPasswordTypes = append(arrayOfPasswordTypes,
+		PasswordAndCommandFlag{
+			PasswordExample: memorableSevenExample,
+			CommandFlag:     "--mem7",
+		})
+
+	// Print the slice of string pairs
+	for _, pair := range arrayOfPasswordTypes {
+
+		exampleColorized := colorizeCharactersUnix(pair.PasswordExample, false)
+
+		// Prepare color for the command color
+		red := color.New(color.FgHiRed).SprintfFunc()
+
+		// Print the command option and example password
+		tableWriter.AppendRow([]interface{}{red("%s", pair.CommandFlag), exampleColorized})
+
+		tableWriter.AppendSeparator()
+	}
+
+	tableWriter.SetStyle(table.StyleLight)
+	tableWriter.Render()
+
+	//Return the array because it's needed for the
+	//clipboard functions if we're in interactive mode.
+	//return arrayOfRandomHex
+	return nil
+}

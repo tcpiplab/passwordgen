@@ -34,7 +34,7 @@ func main() {
 
 	OS = detectOS()
 
-	interactive, erase, randomPasswords, wordChains, mixedPasswords, _, passPhrases, memorable, randomHex := argsHandler()
+	interactive, erase, randomPasswords, wordChains, mixedPasswords, _, passPhrases, memorable, randomHex, examples := argsHandler()
 
 	//if *done {
 	//	return
@@ -91,6 +91,12 @@ func main() {
 	if *randomHex {
 
 		*randomPasswords = false
+	}
+	if *examples {
+
+		*randomPasswords = false
+		printPasswordTypesTable()
+		os.Exit(0)
 	}
 
 	arrayPasswords := make([]string, rows)
