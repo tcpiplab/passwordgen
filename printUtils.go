@@ -614,11 +614,25 @@ func printPasswordTypesTable() []string {
 			CommandFlag:     "--mixed",
 		})
 
-	// TODO: STOPPED HERE
-	createPassphrase()
+	// Passphrase example password
+	passphraseExample := createPassphrase()
+	arrayOfPasswordTypes = append(arrayOfPasswordTypes,
+		PasswordAndCommandFlag{
+			PasswordExample: passphraseExample,
+			CommandFlag:     "--passphrases",
+		})
 
+	// Memorable One example password
 	var memorablePassword string
-	memorableTransformOne(memorablePassword, requestedPasswordLength)
+	memorableOneExample := memorableTransformOne(memorablePassword, requestedPasswordLength)
+	arrayOfPasswordTypes = append(arrayOfPasswordTypes,
+		PasswordAndCommandFlag{
+			PasswordExample: memorableOneExample,
+			CommandFlag:     "--mem1",
+		})
+
+	// TODO: STOPPED HERE: add the other six mem types
+	memorableTransformTwo(memorablePassword, requestedPasswordLength)
 
 	// Loop through the console screen height and print a table of all the password types
 	//for i := 0; i < (consoleHeight/2)-1; i++ {
