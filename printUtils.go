@@ -606,10 +606,17 @@ func printPasswordTypesTable() []string {
 			CommandFlag:     "--word-chains",
 		})
 
-	// TODO: STOPPED HERE
+	// Mixed password example password
+	mixedPasswordExample := createMixedPassword(true, false, 1)
+	arrayOfPasswordTypes = append(arrayOfPasswordTypes,
+		PasswordAndCommandFlag{
+			PasswordExample: mixedPasswordExample,
+			CommandFlag:     "--mixed",
+		})
 
-	createMixedPassword(true, false, 1)
+	// TODO: STOPPED HERE
 	createPassphrase()
+
 	var memorablePassword string
 	memorableTransformOne(memorablePassword, requestedPasswordLength)
 
