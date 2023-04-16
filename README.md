@@ -52,37 +52,65 @@ Waiting for 60 seconds before clearing the clipboard.
 ## Usage
 
 ```shell
+$ ./passwordgen -h
+Usage of ./passwordgen:
   -erase
-        ./passwordgen --erase[=false]
-         (default true)
+    	./passwordgen --erase[=false]
+    	 (default true)
+  -examples
+    	./passwordgen --examples
+    	
+  -grammatical
+    	./passwordgen --grammatical
+    	
   -help
-        ./passwordgen n
-        Where n is the length of the password.
-        Length must be the last argument.
-        
+    	./passwordgen n
+    	Where n is the length of the password.
+    	Length must be the last argument.
+    	
   -hex
     	./passwordgen --hex
     	
   -interactive
-        ./passwordgen --interactive[=false]
-        (default true)
-
+    	./passwordgen --interactive[=false]
+    	 (default true)
   -memorable
-        ./passwordgen --memorable
-
+    	./passwordgen --memorable
+    	
   -mixed
-        ./passwordgen --mixed
-        
+    	./passwordgen --mixed
+    	
   -passphrases
-        ./passwordgen --passphrases
-        
+    	./passwordgen --passphrases
+    	
   -random
-        ./passwordgen --random
-         (default true)
-         
+    	./passwordgen --random
+    	 (default true)
   -word-chains
-        ./passwordgen --word-chains
+    	./passwordgen --word-chains
 ```
+
+## Examples 
+
+```shell
+$ ./passwordgen --examples 20
+┌───────────────┬────────────────────────────────────────────────┐
+│ --random      │ *aoh%lg)ATxs&VL{#t6^                           │
+├───────────────┼────────────────────────────────────────────────┤
+│ --hex         │ A2DAC12B4E2EF942D0A6                           │
+├───────────────┼────────────────────────────────────────────────┤
+│ --word-chains │ dancing_blob_angular_unison                    │
+├───────────────┼────────────────────────────────────────────────┤
+│ --mixed       │ (tannery-shower)r)40                           │
+├───────────────┼────────────────────────────────────────────────┤
+│ --passphrases │ monument corporate confidant salutary aerobics │
+├───────────────┼────────────────────────────────────────────────┤
+│ --memorable   │ [Buttonhole&Fatally&371]                       │
+├───────────────┼────────────────────────────────────────────────┤
+│ --grammatical │ Don't jump your courageous weakness lively.    │
+└───────────────┴────────────────────────────────────────────────┘
+```
+
 
 ## Memorable Passwords
 

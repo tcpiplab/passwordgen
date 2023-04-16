@@ -107,12 +107,12 @@ func main() {
 	if OS == "darwin" || OS == "linux" || OS == "unix" {
 
 		// Fill the screen with passwords
-		arrayPasswords = printPasswordTableUnix(arrayPasswords, *randomPasswords, *wordChains, *mixedPasswords, *passPhrases, *memorable, *randomHex)
+		arrayPasswords = printPasswordTableUnix(arrayPasswords, *randomPasswords, *wordChains, *mixedPasswords, *passPhrases, *memorable, *randomHex, *grammatical)
 
 	} else if OS == "windows" {
 
 		// Fill the screen with passwords
-		arrayPasswords = printPasswordTableUnix(arrayPasswords, *randomPasswords, *wordChains, *mixedPasswords, *passPhrases, *memorable, *randomHex)
+		arrayPasswords = printPasswordTableUnix(arrayPasswords, *randomPasswords, *wordChains, *mixedPasswords, *passPhrases, *memorable, *randomHex, *grammatical)
 		//arrayPasswords = printPasswordTableWindows(
 		//	rows,
 		//	requestedPasswordLength,
