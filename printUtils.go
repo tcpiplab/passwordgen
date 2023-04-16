@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/fatih/color"
 	"github.com/jedib0t/go-pretty/v6/table"
+	"math/rand"
 	"os"
 	"strings"
 )
@@ -175,7 +176,7 @@ func printPasswordTableWindows(
 // - requestedPasswordLength: an int specifying the length of each password to generate
 // - arrayPasswords: a slice of strings representing the passwords to be populated
 // Returns: nothing
-func printPasswordTableUnix(arrayPasswords []string, randomPasswords bool, wordChains bool, mixedPasswords bool, passPhrases bool, memorable bool, randomHex bool) []string {
+func printPasswordTableUnix(arrayPasswords []string, randomPasswords bool, wordChains bool, mixedPasswords bool, passPhrases bool, memorable bool, randomHex bool, grammatical bool) []string {
 
 	if passPhrases {
 
@@ -201,6 +202,9 @@ func printPasswordTableUnix(arrayPasswords []string, randomPasswords bool, wordC
 
 		arrayPasswords = printRandomHexTable()
 
+	} else if grammatical {
+
+		arrayPasswords = printGrammaticalTable()
 	}
 
 	return arrayPasswords
@@ -606,9 +610,9 @@ func printPasswordTypesTable() []string {
 			CommandFlag:     "--word-chains",
 		})
 
-	// TODO: This errors out if rows is < 4
+	// TODO: This errors out if rows is < 8
 	// Mixed password example password
-	mixedPasswordExample := createMixedPassword(true, false, 4)
+	mixedPasswordExample := createMixedPassword(true, false, 8)
 	arrayOfPasswordTypes = append(arrayOfPasswordTypes,
 		PasswordAndCommandFlag{
 			PasswordExample: mixedPasswordExample,
@@ -623,68 +627,69 @@ func printPasswordTypesTable() []string {
 			CommandFlag:     "--passphrases",
 		})
 
-	// Memorable One example password
+	// Memorable password example password
 	var memorablePassword string
-	memorableOneExample := memorableTransformOne(memorablePassword, requestedPasswordLength)
+	//memorableExample := memorableTransformOne(memorablePassword, requestedPasswordLength)
+	memorableExample := chooseMemorableTransform(memorablePassword, requestedPasswordLength)
 	arrayOfPasswordTypes = append(arrayOfPasswordTypes,
 		PasswordAndCommandFlag{
-			PasswordExample: memorableOneExample,
-			CommandFlag:     "--mem1",
+			PasswordExample: memorableExample,
+			CommandFlag:     "--memorable",
 		})
 
-	// Memorable Two example password
-	memorablePassword = ""
-	memorableTwoExample := memorableTransformTwo(memorablePassword, requestedPasswordLength)
+	// Grammatical example password
+	//memorablePassword = ""
+	grammaticalExample := createGrammaticalPassword()
 	arrayOfPasswordTypes = append(arrayOfPasswordTypes,
 		PasswordAndCommandFlag{
-			PasswordExample: memorableTwoExample,
-			CommandFlag:     "--mem2",
+			PasswordExample: grammaticalExample,
+			CommandFlag:     "--grammatical",
 		})
 
-	// Memorable Three example password
-	memorablePassword = ""
-	memorableThreeExample := memorableTransformThree(memorablePassword, requestedPasswordLength)
-	arrayOfPasswordTypes = append(arrayOfPasswordTypes,
-		PasswordAndCommandFlag{
-			PasswordExample: memorableThreeExample,
-			CommandFlag:     "--mem3",
-		})
-
-	// Memorable Four example password
-	memorablePassword = ""
-	memorableFourExample := memorableTransformFour(memorablePassword, requestedPasswordLength)
-	arrayOfPasswordTypes = append(arrayOfPasswordTypes,
-		PasswordAndCommandFlag{
-			PasswordExample: memorableFourExample,
-			CommandFlag:     "--mem4",
-		})
-
-	// Memorable Five example password
-	memorablePassword = ""
-	memorableFiveExample := memorableTransformFive(memorablePassword, requestedPasswordLength)
-	arrayOfPasswordTypes = append(arrayOfPasswordTypes,
-		PasswordAndCommandFlag{
-			PasswordExample: memorableFiveExample,
-			CommandFlag:     "--mem5",
-		})
-
-	// Memorable Six example password
-	memorablePassword = ""
-	memorableSixExample := memorableTransformSix(memorablePassword, requestedPasswordLength)
-	arrayOfPasswordTypes = append(arrayOfPasswordTypes,
-		PasswordAndCommandFlag{
-			PasswordExample: memorableSixExample,
-			CommandFlag:     "--mem6",
-		})
-
-	// Memorable Seven example password
-	memorablePassword = ""
-	memorableSevenExample := memorableTransformSeven(memorablePassword, requestedPasswordLength)
-	arrayOfPasswordTypes = append(arrayOfPasswordTypes,
-		PasswordAndCommandFlag{
-			PasswordExample: memorableSevenExample,
-			CommandFlag:     "--mem7",
-		})
+	//// Memorable Three example password
+	//memorablePassword = ""
+	//memorableThreeExample := memorableTransformThree(memorablePassword, requestedPasswordLength)
+	//arrayOfPasswordTypes = append(arrayOfPasswordTypes,
+	//	PasswordAndCommandFlag{
+	//		PasswordExample: memorableThreeExample,
+	//		CommandFlag:     "--mem3",
+	//	})
+	//
+	//// Memorable Four example password
+	//memorablePassword = ""
+	//memorableFourExample := memorableTransformFour(memorablePassword, requestedPasswordLength)
+	//arrayOfPasswordTypes = append(arrayOfPasswordTypes,
+	//	PasswordAndCommandFlag{
+	//		PasswordExample: memorableFourExample,
+	//		CommandFlag:     "--mem4",
+	//	})
+	//
+	//// Memorable Five example password
+	//memorablePassword = ""
+	//memorableFiveExample := memorableTransformFive(memorablePassword, requestedPasswordLength)
+	//arrayOfPasswordTypes = append(arrayOfPasswordTypes,
+	//	PasswordAndCommandFlag{
+	//		PasswordExample: memorableFiveExample,
+	//		CommandFlag:     "--mem5",
+	//	})
+	//
+	//// Memorable Six example password
+	//memorablePassword = ""
+	//memorableSixExample := memorableTransformSix(memorablePassword, requestedPasswordLength)
+	//arrayOfPasswordTypes = append(arrayOfPasswordTypes,
+	//	PasswordAndCommandFlag{
+	//		PasswordExample: memorableSixExample,
+	//		CommandFlag:     "--mem6",
+	//	})
+	//
+	//// Memorable Seven example password
+	//memorablePassword = ""
+	//memorableSevenExample := memorableTransformSeven(memorablePassword, requestedPasswordLength)
+	//arrayOfPasswordTypes = append(arrayOfPasswordTypes,
+	//	PasswordAndCommandFlag{
+	//		PasswordExample: memorableSevenExample,
+	//		CommandFlag:     "--mem7",
+	//	})
 
 	// Print the slice of string pairs
 	for _, pair := range arrayOfPasswordTypes {
@@ -707,4 +712,149 @@ func printPasswordTypesTable() []string {
 	//clipboard functions if we're in interactive mode.
 	//return arrayOfRandomHex
 	return nil
+}
+
+func createGrammaticalPassword() string {
+	verb := getEnglishVocabWord("verb")
+	noun := getEnglishVocabWord("noun")
+	adverb := getEnglishVocabWord("adverb")
+	adjective := getEnglishVocabWord("adjective")
+
+	//rand.Seed(time.Now().UnixNano())
+
+	randomIndex := rand.Intn(10)
+
+	var randomArticle string
+
+	switch randomIndex {
+	case 0:
+		randomArticle = "a"
+	case 1:
+		randomArticle = "the"
+	case 2:
+		randomArticle = "one"
+	case 3:
+		randomArticle = "my"
+	case 4:
+		randomArticle = "your"
+	case 5:
+		randomArticle = "his"
+	case 6:
+		randomArticle = "her"
+	case 7:
+		randomArticle = "their"
+	case 8:
+		randomArticle = "someone's"
+	case 9:
+		randomArticle = "any"
+	}
+
+	randomAuxVerbIndex := rand.Intn(15)
+
+	var randomAuxiliaryVerb string
+
+	switch randomAuxVerbIndex {
+	case 0:
+		randomAuxiliaryVerb = "wasn't"
+	case 1:
+		randomAuxiliaryVerb = "is"
+	case 2:
+		randomAuxiliaryVerb = "isn't"
+	case 3:
+		randomAuxiliaryVerb = "was"
+	case 4:
+		randomAuxiliaryVerb = "were"
+	case 5:
+		randomAuxiliaryVerb = "will"
+	case 6:
+		randomAuxiliaryVerb = "shall"
+	case 7:
+		randomAuxiliaryVerb = "shall not"
+	case 8:
+		randomAuxiliaryVerb = "won't" // contraction of "will not"
+	case 9:
+		randomAuxiliaryVerb = "hasn't" // contraction of "has not"
+	case 10:
+		randomAuxiliaryVerb = "didn't"
+	case 11:
+		randomAuxiliaryVerb = "can't"
+	case 12:
+		randomAuxiliaryVerb = "wouldn't"
+	case 13:
+		randomAuxiliaryVerb = "shouldn't"
+	case 14:
+		randomAuxiliaryVerb = "won't"
+	}
+
+	sentenceStructureOne := capitalizeFirstLetter(verb) + " " + randomArticle + " " + adjective + " " + noun + " " + adverb + "."
+	sentenceStructureTwo := capitalizeFirstLetter(adverb) + " " + verb + " " + randomArticle + " " + adjective + " " + noun + "."
+	sentenceStructureThree := capitalizeFirstLetter(verb) + " " + "not" + " " + randomArticle + " " + adjective + " " + noun + " " + adverb + "."
+	sentenceStructureFour := capitalizeFirstLetter("Don't") + " " + verb + " " + randomArticle + " " + adjective + " " + noun + " " + adverb + "."
+	sentenceStructureFive := capitalizeFirstLetter(randomArticle) + " " + adjective + " " + noun + " " + randomAuxiliaryVerb + " " + verb + " " + adverb + "."
+	sentenceStructureSix := capitalizeFirstLetter(randomAuxiliaryVerb) + " " + randomArticle + " " + adjective + " " + noun + " " + adverb + " " + verb + "?"
+
+	randomSentenceIndex := rand.Intn(6)
+
+	var randomSentenceStructure string
+
+	switch randomSentenceIndex {
+	case 0:
+		randomSentenceStructure = sentenceStructureOne
+	case 1:
+		randomSentenceStructure = sentenceStructureTwo
+	case 2:
+		randomSentenceStructure = sentenceStructureThree
+	case 3:
+		randomSentenceStructure = sentenceStructureFour
+	case 4:
+		randomSentenceStructure = sentenceStructureFive
+	case 5:
+		randomSentenceStructure = sentenceStructureSix
+	}
+
+	return randomSentenceStructure
+}
+
+func printGrammaticalTable() []string {
+
+	var consoleHeight int
+
+	// Set the console height
+	consoleHeight = funcName(consoleHeight)
+
+	// Instantiate a new table writer object
+	tableWriter := table.NewWriter()
+	tableWriter.SetOutputMirror(os.Stdout)
+
+	// Create a new empty array with the same length as the original array
+	// This avoids leftover empty array elements causing clipboard copy
+	// failures later on.
+	arrayOfRandomHex := make([]string, consoleHeight/2)
+
+	// Loop through the console screen height and print a table of random sentences
+	for i := 0; i < (consoleHeight/2)-1; i++ {
+
+		randomSentenceNoColor := createGrammaticalPassword()
+
+		// Colorize the random sentences that we're saving to the array
+		// The following works on all platforms but no color renders on Windows
+		randomSentenceColorized := colorizeCharactersUnix(randomSentenceNoColor, false)
+
+		// Append the random sentence to the array to be used by the clipboard if in interactive mode
+		arrayOfRandomHex[i] = randomSentenceNoColor
+
+		// Prepare color for the index number
+		red := color.New(color.FgHiRed).SprintfFunc()
+
+		// Print the index number and current element of the array
+		tableWriter.AppendRow([]interface{}{red("%d", i), randomSentenceColorized})
+
+		tableWriter.AppendSeparator()
+	}
+	tableWriter.SetStyle(table.StyleLight)
+	tableWriter.Render()
+
+	// Return the array because it's needed for the
+	// clipboard functions if we're in interactive mode.
+	return arrayOfRandomHex
 }
