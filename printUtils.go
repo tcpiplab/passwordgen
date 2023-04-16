@@ -633,15 +633,15 @@ func printPasswordTypesTable() []string {
 			CommandFlag:     "--memorable",
 		})
 
-	//// Memorable Two example password
+	// Grammatical example password
 	//memorablePassword = ""
-	//memorableTwoExample := memorableTransformTwo(memorablePassword, requestedPasswordLength)
-	//arrayOfPasswordTypes = append(arrayOfPasswordTypes,
-	//	PasswordAndCommandFlag{
-	//		PasswordExample: memorableTwoExample,
-	//		CommandFlag:     "--mem2",
-	//	})
-	//
+	grammaticalExample := memorableTransformTwo(memorablePassword, requestedPasswordLength)
+	arrayOfPasswordTypes = append(arrayOfPasswordTypes,
+		PasswordAndCommandFlag{
+			PasswordExample: grammaticalExample,
+			CommandFlag:     "--grammatical",
+		})
+
 	//// Memorable Three example password
 	//memorablePassword = ""
 	//memorableThreeExample := memorableTransformThree(memorablePassword, requestedPasswordLength)
