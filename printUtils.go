@@ -606,9 +606,9 @@ func printPasswordTypesTable() []string {
 			CommandFlag:     "--word-chains",
 		})
 
-	// TODO: This errors out if rows is < 4
+	// TODO: This errors out if rows is < 8
 	// Mixed password example password
-	mixedPasswordExample := createMixedPassword(true, false, 4)
+	mixedPasswordExample := createMixedPassword(true, false, 8)
 	arrayOfPasswordTypes = append(arrayOfPasswordTypes,
 		PasswordAndCommandFlag{
 			PasswordExample: mixedPasswordExample,
@@ -623,68 +623,69 @@ func printPasswordTypesTable() []string {
 			CommandFlag:     "--passphrases",
 		})
 
-	// Memorable One example password
+	// Memorable password example password
 	var memorablePassword string
-	memorableOneExample := memorableTransformOne(memorablePassword, requestedPasswordLength)
+	//memorableExample := memorableTransformOne(memorablePassword, requestedPasswordLength)
+	memorableExample := chooseMemorableTransform(memorablePassword, requestedPasswordLength)
 	arrayOfPasswordTypes = append(arrayOfPasswordTypes,
 		PasswordAndCommandFlag{
-			PasswordExample: memorableOneExample,
-			CommandFlag:     "--mem1",
+			PasswordExample: memorableExample,
+			CommandFlag:     "--memorable",
 		})
 
-	// Memorable Two example password
-	memorablePassword = ""
-	memorableTwoExample := memorableTransformTwo(memorablePassword, requestedPasswordLength)
-	arrayOfPasswordTypes = append(arrayOfPasswordTypes,
-		PasswordAndCommandFlag{
-			PasswordExample: memorableTwoExample,
-			CommandFlag:     "--mem2",
-		})
-
-	// Memorable Three example password
-	memorablePassword = ""
-	memorableThreeExample := memorableTransformThree(memorablePassword, requestedPasswordLength)
-	arrayOfPasswordTypes = append(arrayOfPasswordTypes,
-		PasswordAndCommandFlag{
-			PasswordExample: memorableThreeExample,
-			CommandFlag:     "--mem3",
-		})
-
-	// Memorable Four example password
-	memorablePassword = ""
-	memorableFourExample := memorableTransformFour(memorablePassword, requestedPasswordLength)
-	arrayOfPasswordTypes = append(arrayOfPasswordTypes,
-		PasswordAndCommandFlag{
-			PasswordExample: memorableFourExample,
-			CommandFlag:     "--mem4",
-		})
-
-	// Memorable Five example password
-	memorablePassword = ""
-	memorableFiveExample := memorableTransformFive(memorablePassword, requestedPasswordLength)
-	arrayOfPasswordTypes = append(arrayOfPasswordTypes,
-		PasswordAndCommandFlag{
-			PasswordExample: memorableFiveExample,
-			CommandFlag:     "--mem5",
-		})
-
-	// Memorable Six example password
-	memorablePassword = ""
-	memorableSixExample := memorableTransformSix(memorablePassword, requestedPasswordLength)
-	arrayOfPasswordTypes = append(arrayOfPasswordTypes,
-		PasswordAndCommandFlag{
-			PasswordExample: memorableSixExample,
-			CommandFlag:     "--mem6",
-		})
-
-	// Memorable Seven example password
-	memorablePassword = ""
-	memorableSevenExample := memorableTransformSeven(memorablePassword, requestedPasswordLength)
-	arrayOfPasswordTypes = append(arrayOfPasswordTypes,
-		PasswordAndCommandFlag{
-			PasswordExample: memorableSevenExample,
-			CommandFlag:     "--mem7",
-		})
+	//// Memorable Two example password
+	//memorablePassword = ""
+	//memorableTwoExample := memorableTransformTwo(memorablePassword, requestedPasswordLength)
+	//arrayOfPasswordTypes = append(arrayOfPasswordTypes,
+	//	PasswordAndCommandFlag{
+	//		PasswordExample: memorableTwoExample,
+	//		CommandFlag:     "--mem2",
+	//	})
+	//
+	//// Memorable Three example password
+	//memorablePassword = ""
+	//memorableThreeExample := memorableTransformThree(memorablePassword, requestedPasswordLength)
+	//arrayOfPasswordTypes = append(arrayOfPasswordTypes,
+	//	PasswordAndCommandFlag{
+	//		PasswordExample: memorableThreeExample,
+	//		CommandFlag:     "--mem3",
+	//	})
+	//
+	//// Memorable Four example password
+	//memorablePassword = ""
+	//memorableFourExample := memorableTransformFour(memorablePassword, requestedPasswordLength)
+	//arrayOfPasswordTypes = append(arrayOfPasswordTypes,
+	//	PasswordAndCommandFlag{
+	//		PasswordExample: memorableFourExample,
+	//		CommandFlag:     "--mem4",
+	//	})
+	//
+	//// Memorable Five example password
+	//memorablePassword = ""
+	//memorableFiveExample := memorableTransformFive(memorablePassword, requestedPasswordLength)
+	//arrayOfPasswordTypes = append(arrayOfPasswordTypes,
+	//	PasswordAndCommandFlag{
+	//		PasswordExample: memorableFiveExample,
+	//		CommandFlag:     "--mem5",
+	//	})
+	//
+	//// Memorable Six example password
+	//memorablePassword = ""
+	//memorableSixExample := memorableTransformSix(memorablePassword, requestedPasswordLength)
+	//arrayOfPasswordTypes = append(arrayOfPasswordTypes,
+	//	PasswordAndCommandFlag{
+	//		PasswordExample: memorableSixExample,
+	//		CommandFlag:     "--mem6",
+	//	})
+	//
+	//// Memorable Seven example password
+	//memorablePassword = ""
+	//memorableSevenExample := memorableTransformSeven(memorablePassword, requestedPasswordLength)
+	//arrayOfPasswordTypes = append(arrayOfPasswordTypes,
+	//	PasswordAndCommandFlag{
+	//		PasswordExample: memorableSevenExample,
+	//		CommandFlag:     "--mem7",
+	//	})
 
 	// Print the slice of string pairs
 	for _, pair := range arrayOfPasswordTypes {
