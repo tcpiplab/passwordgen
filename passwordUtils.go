@@ -5,6 +5,7 @@ import (
 	crand "crypto/rand"
 	"encoding/binary"
 	"math/rand"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -186,32 +187,57 @@ func createMixedPassword(mixedPasswords bool, randomPasswords bool, rows int) st
 
 		arrWords := getArrayFromCompressedDictionary(rows / 2)
 
+		adjective := getEnglishVocabWord("adjective")
+		noun := getEnglishVocabWord("noun")
+
+		randomDelimiter := RandomDelimiter()
+
 		var inputStr string
 
 		if requestedPasswordLength < 12 {
 
 			// For now just grab the first word in the array
-			inputStr = randomCase(arrWords[0])
+			inputStr = capitalizeFirstLetter(arrWords[0])
 
 		} else if requestedPasswordLength <= 20 {
 
-			inputStr = surroundString(
-				surroundString(
-					surroundString(
-						arrWords[0]) + "-" + arrWords[1]))
+			inputStr = capitalizeFirstLetter(adjective) + randomDelimiter + capitalizeFirstLetter(noun)
+			inputStr = randomDigitAppendOrPrepend(inputStr)
+			inputStr = surroundString(inputStr)
 
 		} else if requestedPasswordLength > 20 {
 
 			inputStr = surroundString(
-				surroundString(
-					surroundString(
-						arrWords[0])+"-"+arrWords[1]) + "-" + arrWords[2])
+				capitalizeFirstLetter(arrWords[0]) + randomDelimiter + capitalizeFirstLetter(arrWords[1]) + randomDelimiter + capitalizeFirstLetter(arrWords[2]))
 		}
 
-		mixedPassword = shuffleStringTransforms(inputStr)
+		//mixedPassword = shuffleStringTransforms(inputStr)
+		mixedPassword = inputStr
 
 	}
 	return mixedPassword
+}
+
+func randomDigitAppendOrPrepend(inputStr string) string {
+
+	// Select a random number between 0 and 9
+	digit := rand.Intn(10)
+	// Convert the number to a string
+	strDigit := strconv.Itoa(digit)
+
+	// The new way to seed randomness each time a function is called
+	// Otherwise randomness is only seeded at the start of runtime
+	r := rand.New(rand.NewSource(time.Now().UnixNano()))
+
+	// Randomly choose to prepend or append
+	//if rand.Float32() < 0.5 {
+	if r.Float32() < 0.5 {
+		inputStr = strings.Join([]string{strDigit, inputStr}, "")
+	} else {
+		inputStr = strings.Join([]string{inputStr, strDigit}, "")
+	}
+
+	return inputStr
 }
 
 func createPassphrase() string {
