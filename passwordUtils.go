@@ -198,6 +198,8 @@ func createMixedPassword(mixedPasswords bool, randomPasswords bool, rows int) st
 
 			// For now just grab the first word in the array
 			inputStr = capitalizeFirstLetter(arrWords[0])
+			inputStr = randomDelimiterAppendOrPrepend(inputStr)
+			inputStr = randomDigitAppendOrPrepend(inputStr)
 
 		} else if requestedPasswordLength <= 20 {
 
@@ -235,6 +237,26 @@ func randomDigitAppendOrPrepend(inputStr string) string {
 		inputStr = strings.Join([]string{strDigit, inputStr}, "")
 	} else {
 		inputStr = strings.Join([]string{inputStr, strDigit}, "")
+	}
+
+	return inputStr
+}
+
+func randomDelimiterAppendOrPrepend(inputStr string) string {
+
+	// Select a random delimiter
+	randomDelimiter := RandomDelimiter()
+
+	// The new way to seed randomness each time a function is called
+	// Otherwise randomness is only seeded at the start of runtime
+	r := rand.New(rand.NewSource(time.Now().UnixNano()))
+
+	// Randomly choose to prepend or append
+	//if rand.Float32() < 0.5 {
+	if r.Float32() < 0.5 {
+		inputStr = strings.Join([]string{randomDelimiter, inputStr}, "")
+	} else {
+		inputStr = strings.Join([]string{inputStr, randomDelimiter}, "")
 	}
 
 	return inputStr
