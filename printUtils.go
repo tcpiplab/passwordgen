@@ -794,8 +794,7 @@ func createGrammaticalPassword() string {
 
 	sentenceFour := capitalizeFirstLetter("Don't") + " " + adverb + " " + verb + " " + article + " " + adjective + " " + noun + "."
 
-	// TODO: Transpose the positions of the verb and adverb.
-	sentenceFive := capitalizeFirstLetter(article) + " " + adjective + " " + noun + " " + auxVerb + " " + verb + " " + adverb + "."
+	sentenceFive := capitalizeFirstLetter(article) + " " + adjective + " " + noun + " " + auxVerb + " " + adverb + " " + verb + "."
 
 	sentenceSix := capitalizeFirstLetter(auxVerb) + " " + article + " " + adjective + " " + noun + " " + adverb + " " + verb + "?"
 
@@ -803,7 +802,7 @@ func createGrammaticalPassword() string {
 	// TODO: Add sentences with pronouns.
 	// TODO: Add interrogative sentences with modal auxiliary verbs, ending in a question mark.
 	// TODO: move grammar switch statements to their own functions.
-	// TODO: Accommodate shorter sentences by skipping the adjective or adverb.
+	// TODO: Create shorter sentences by skipping either the adjective or the adverb. Choose randomly.
 	// TODO: "Hasn't" needs the verb to end in "ed".
 
 	randomSentenceIndex := rand.Intn(6)
