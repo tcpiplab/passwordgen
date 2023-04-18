@@ -214,7 +214,6 @@ func colorizeCharactersUnix(password string, print bool) string {
 
 	var coloredCharsString string
 
-	// TODO: Default to making table expand for longer word-chains
 	// TODO: Create flag to trim the password down to the requestedPasswordLength
 	//password = trimPassword(password, requestedPasswordLength)
 
