@@ -166,26 +166,26 @@ $ ./passwordgen --examples 20
 ## Mixed Passwords
 
 ```shell
-./passwordgen -mixed 25
-┌───┬──────────────────────────────────┐
-│ 0 │ @{*&^approach^-marshy&-voice*}@  │
-├───┼──────────────────────────────────┤
-│ 1 │ .{~#flagship#-pebbly-power~}.    │
-├───┼──────────────────────────────────┤
-│ 2 │ [-seldom--rendering-survival]    │
-├───┼──────────────────────────────────┤
-│ 3 │ [*@scored@-unpaved-phrasing*]    │
-├───┼──────────────────────────────────┤
-│ 4 │ ^<^-carport--flatbed-discover^>^ │
-├───┼──────────────────────────────────┤
-│ 5 │ <^boaster-engraving^-email>      │
-├───┼──────────────────────────────────┤
-│ 6 │ 1<e<endorphin-muck-grimy>        │
-├───┼──────────────────────────────────┤
-│ 7 │ (residual-duplicity-reprogram)   │
-├───┼──────────────────────────────────┤
-│ 8 │ (outback-unlighted-aflutter)     │
-└───┴──────────────────────────────────┘
+./passwordgen --mixed --interactive=false 20
+┌───┬────────────────────────┐
+│ 0 │ 3Avaricious|Cousin     │
+├───┼────────────────────────┤
+│ 1 │ Exalted+Level8         │
+├───┼────────────────────────┤
+│ 2 │ 7Vigorous$Permission   │
+├───┼────────────────────────┤
+│ 3 │ Elementary%Set2        │
+├───┼────────────────────────┤
+│ 4 │ 2Vibrant@Relative      │
+├───┼────────────────────────┤
+│ 5 │ 6Meek:Agency           │
+├───┼────────────────────────┤
+│ 6 │ %8Well-lit/Chain%      │
+├───┼────────────────────────┤
+│ 7 │ Affectionate`Designer6 │
+├───┼────────────────────────┤
+│ 8 │ Smooth=Arm9            │
+└───┴────────────────────────┘
 ```
 
 ## Passphrases

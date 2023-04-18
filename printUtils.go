@@ -787,10 +787,14 @@ func createGrammaticalPassword() string {
 
 	sentenceStructureOne := capitalizeFirstLetter(verb) + " " + randomArticle + " " + adjective + " " + noun + " " + adverb + "."
 	sentenceStructureTwo := capitalizeFirstLetter(adverb) + " " + verb + " " + randomArticle + " " + adjective + " " + noun + "."
+	// TODO: Recast this sentence to sound less medieval.
 	sentenceStructureThree := capitalizeFirstLetter(verb) + " " + "not" + " " + randomArticle + " " + adjective + " " + noun + " " + adverb + "."
+	// TODO: Place the adverb after the "Don't".
 	sentenceStructureFour := capitalizeFirstLetter("Don't") + " " + verb + " " + randomArticle + " " + adjective + " " + noun + " " + adverb + "."
+	// TODO: Transpose the positions of the verb and adverb.
 	sentenceStructureFive := capitalizeFirstLetter(randomArticle) + " " + adjective + " " + noun + " " + randomAuxiliaryVerb + " " + verb + " " + adverb + "."
 	sentenceStructureSix := capitalizeFirstLetter(randomAuxiliaryVerb) + " " + randomArticle + " " + adjective + " " + noun + " " + adverb + " " + verb + "?"
+	// TODO: Add sentences with prepositions.
 
 	randomSentenceIndex := rand.Intn(6)
 
