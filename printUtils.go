@@ -723,81 +723,88 @@ func createGrammaticalPassword() string {
 
 	randomIndex := rand.Intn(10)
 
-	var randomArticle string
+	var article string
 
 	switch randomIndex {
 	case 0:
-		randomArticle = "a"
+		article = "a"
 	case 1:
-		randomArticle = "the"
+		article = "the"
 	case 2:
-		randomArticle = "one"
+		article = "one"
 	case 3:
-		randomArticle = "my"
+		article = "my"
 	case 4:
-		randomArticle = "your"
+		article = "your"
 	case 5:
-		randomArticle = "his"
+		article = "his"
 	case 6:
-		randomArticle = "her"
+		article = "her"
 	case 7:
-		randomArticle = "their"
+		article = "their"
 	case 8:
-		randomArticle = "someone's"
+		article = "someone's"
 	case 9:
-		randomArticle = "any"
+		article = "any"
 	}
 
 	randomAuxVerbIndex := rand.Intn(15)
 
-	var randomAuxiliaryVerb string
+	var auxVerb string
 
 	switch randomAuxVerbIndex {
 	case 0:
-		randomAuxiliaryVerb = "wasn't"
+		auxVerb = "wasn't"
 	case 1:
-		randomAuxiliaryVerb = "is"
+		auxVerb = "is"
 	case 2:
-		randomAuxiliaryVerb = "isn't"
+		auxVerb = "isn't"
 	case 3:
-		randomAuxiliaryVerb = "was"
+		auxVerb = "was"
 	case 4:
-		randomAuxiliaryVerb = "were"
+		auxVerb = "were"
 	case 5:
-		randomAuxiliaryVerb = "will"
+		auxVerb = "will"
 	case 6:
-		randomAuxiliaryVerb = "shall"
+		auxVerb = "shall"
 	case 7:
-		randomAuxiliaryVerb = "shall not"
+		auxVerb = "shall not"
 	case 8:
-		randomAuxiliaryVerb = "won't" // contraction of "will not"
+		auxVerb = "won't" // contraction of "will not"
 	case 9:
-		randomAuxiliaryVerb = "hasn't" // contraction of "has not"
+		auxVerb = "hasn't" // contraction of "has not"
 	case 10:
-		randomAuxiliaryVerb = "didn't"
+		auxVerb = "didn't"
 	case 11:
-		randomAuxiliaryVerb = "can't"
+		auxVerb = "can't"
 	case 12:
-		randomAuxiliaryVerb = "wouldn't"
+		auxVerb = "wouldn't"
 	case 13:
-		randomAuxiliaryVerb = "shouldn't"
+		auxVerb = "shouldn't"
 	case 14:
-		randomAuxiliaryVerb = "won't"
+		auxVerb = "won't"
 	}
 
-	sentenceStructureOne := capitalizeFirstLetter(verb) + " " + randomArticle + " " + adjective + " " + noun + " " + adverb + "."
-	sentenceStructureTwo := capitalizeFirstLetter(adverb) + " " + verb + " " + randomArticle + " " + adjective + " " + noun + "."
+	sentenceOne := capitalizeFirstLetter(adverb) + " " + verb + " " + article + " " + adjective + " " + noun + "."
+
+	sentenceTwo := capitalizeFirstLetter(adverb) + " " + verb + " " + article + " " + adjective + " " + noun + "."
+
 	// TODO: Recast this sentence to sound less medieval.
-	sentenceStructureThree := capitalizeFirstLetter(verb) + " " + "not" + " " + randomArticle + " " + adjective + " " + noun + " " + adverb + "."
-	// TODO: Place the adverb after the "Don't".
-	sentenceStructureFour := capitalizeFirstLetter("Don't") + " " + verb + " " + randomArticle + " " + adjective + " " + noun + " " + adverb + "."
+	sentenceThree := capitalizeFirstLetter(verb) + " " + "not" + " " + article + " " + adjective + " " + noun + " " + adverb + "."
+
+	sentenceFour := capitalizeFirstLetter("Don't") + " " + adverb + " " + verb + " " + article + " " + adjective + " " + noun + "."
+
 	// TODO: Transpose the positions of the verb and adverb.
-	sentenceStructureFive := capitalizeFirstLetter(randomArticle) + " " + adjective + " " + noun + " " + randomAuxiliaryVerb + " " + verb + " " + adverb + "."
-	sentenceStructureSix := capitalizeFirstLetter(randomAuxiliaryVerb) + " " + randomArticle + " " + adjective + " " + noun + " " + adverb + " " + verb + "?"
+	sentenceFive := capitalizeFirstLetter(article) + " " + adjective + " " + noun + " " + auxVerb + " " + verb + " " + adverb + "."
+
+	sentenceSix := capitalizeFirstLetter(auxVerb) + " " + article + " " + adjective + " " + noun + " " + adverb + " " + verb + "?"
+
 	// TODO: Add sentences with prepositions.
 	// TODO: Add sentences with pronouns.
 	// TODO: Add interrogative sentences with modal auxiliary verbs, ending in a question mark.
 	// TODO: move grammar switch statements to their own functions.
+	// TODO: Accommodate shorter sentences by skipping the adjective or adverb.
+	// TODO: "Hasn't" needs the verb to end in "ed".
 
 	randomSentenceIndex := rand.Intn(6)
 
@@ -805,17 +812,17 @@ func createGrammaticalPassword() string {
 
 	switch randomSentenceIndex {
 	case 0:
-		randomSentenceStructure = sentenceStructureOne
+		randomSentenceStructure = sentenceOne
 	case 1:
-		randomSentenceStructure = sentenceStructureTwo
+		randomSentenceStructure = sentenceTwo
 	case 2:
-		randomSentenceStructure = sentenceStructureThree
+		randomSentenceStructure = sentenceThree
 	case 3:
-		randomSentenceStructure = sentenceStructureFour
+		randomSentenceStructure = sentenceFour
 	case 4:
-		randomSentenceStructure = sentenceStructureFive
+		randomSentenceStructure = sentenceFive
 	case 5:
-		randomSentenceStructure = sentenceStructureSix
+		randomSentenceStructure = sentenceSix
 	}
 
 	return randomSentenceStructure
