@@ -177,7 +177,6 @@ func shuffleStringTransforms(str string) string {
 //	  A string containing the generated password.
 func createMixedPassword(mixedPasswords bool, randomPasswords bool, rows int) string {
 
-	// TODO: Improve the mixed password algorithm
 	var mixedPassword string
 
 	if mixedPasswords {
