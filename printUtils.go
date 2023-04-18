@@ -795,6 +795,9 @@ func createGrammaticalPassword() string {
 	sentenceStructureFive := capitalizeFirstLetter(randomArticle) + " " + adjective + " " + noun + " " + randomAuxiliaryVerb + " " + verb + " " + adverb + "."
 	sentenceStructureSix := capitalizeFirstLetter(randomAuxiliaryVerb) + " " + randomArticle + " " + adjective + " " + noun + " " + adverb + " " + verb + "?"
 	// TODO: Add sentences with prepositions.
+	// TODO: Add sentences with pronouns.
+	// TODO: Add interrogative sentences with modal auxiliary verbs, ending in a question mark.
+	// TODO: move grammar switch statements to their own functions.
 
 	randomSentenceIndex := rand.Intn(6)
 
