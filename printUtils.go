@@ -722,8 +722,6 @@ func createGrammaticalPassword() string {
 	article := getRandomArticle()
 	auxVerb := getRandomAuxVerb()
 
-	//sentenceOne := capitalizeFirstLetter(adverb) + " " + verb + " " + article + " " + adjective + " " + noun + "."
-
 	// The new way to seed randomness each time a function is called
 	// Otherwise randomness is only seeded at the start of runtime
 	r := rand.New(rand.NewSource(time.Now().UnixNano()))
