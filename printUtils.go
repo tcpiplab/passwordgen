@@ -7,6 +7,7 @@ import (
 	"math/rand"
 	"os"
 	"strings"
+	"time"
 )
 
 // printPasswordTableWindows prints a table of randomized passwords with index numbers to the terminal screen.
@@ -721,14 +722,43 @@ func createGrammaticalPassword() string {
 	article := getRandomArticle()
 	auxVerb := getRandomAuxVerb()
 
-	sentenceOne := capitalizeFirstLetter(adverb) + " " + verb + " " + article + " " + adjective + " " + noun + "."
+	//sentenceOne := capitalizeFirstLetter(adverb) + " " + verb + " " + article + " " + adjective + " " + noun + "."
 
+	// The new way to seed randomness each time a function is called
+	// Otherwise randomness is only seeded at the start of runtime
+	r := rand.New(rand.NewSource(time.Now().UnixNano()))
+
+	// Randomly choose between 0 and 1
+	randomChoice := r.Intn(2)
+
+	//randomChoice := rand.Intn(2) // Randomly choose between 0 and 1
+
+	var sentenceOne string
+	if randomChoice == 0 {
+		// Include adverb
+		sentenceOne = capitalizeFirstLetter(adverb) + " " + verb + " " + article + " " + noun + "."
+	} else {
+		// Include adjective
+		sentenceOne = capitalizeFirstLetter(verb) + " " + article + " " + adjective + " " + noun + "."
+	}
+
+	// TODO: Add some modifier to make this differ from sentence one
 	sentenceTwo := capitalizeFirstLetter(adverb) + " " + verb + " " + article + " " + adjective + " " + noun + "."
 
 	// TODO: Recast this sentence to sound less medieval.
 	sentenceThree := capitalizeFirstLetter(verb) + " " + "not" + " " + article + " " + adjective + " " + noun + " " + adverb + "."
 
-	sentenceFour := capitalizeFirstLetter("Don't") + " " + adverb + " " + verb + " " + article + " " + adjective + " " + noun + "."
+	var sentenceFour string
+
+	if randomChoice == 0 {
+
+		// Include adverb
+		sentenceFour = capitalizeFirstLetter("Don't") + " " + adverb + " " + verb + " " + article + " " + noun + "."
+
+	} else {
+		// Include adjective
+		sentenceFour = capitalizeFirstLetter("Don't") + " " + verb + " " + article + " " + adjective + " " + noun + "."
+	}
 
 	sentenceFive := capitalizeFirstLetter(article) + " " + adjective + " " + noun + " " + auxVerb + " " + adverb + " " + verb + "."
 
