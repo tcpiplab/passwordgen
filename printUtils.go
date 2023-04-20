@@ -731,8 +731,9 @@ func createGrammaticalPassword() string {
 	// Randomly choose between 0 and 1
 	randomChoice := r.Intn(2)
 
-	//randomChoice := rand.Intn(2) // Randomly choose between 0 and 1
-
+	/* SENTENCE ONE ---------------------------------------------
+	Randomly choosing between including an adverb or an adjective
+	-------------------------------------------------------------*/
 	var sentenceOne string
 	if randomChoice == 0 {
 		// Include adverb
@@ -742,25 +743,43 @@ func createGrammaticalPassword() string {
 		sentenceOne = capitalizeFirstLetter(verb) + " " + article + " " + adjective + " " + noun + "."
 	}
 
+	/* SENTENCE TWO ---------------------------------------------
+	-------------------------------------------------------------*/
 	// TODO: Add some modifier to make this differ from sentence one
 	sentenceTwo := capitalizeFirstLetter(adverb) + " " + verb + " " + article + " " + adjective + " " + noun + "."
 
+	/* SENTENCE THREE -------------------------------------------
+	-------------------------------------------------------------*/
 	// TODO: Recast this sentence to sound less medieval.
 	sentenceThree := capitalizeFirstLetter(verb) + " " + "not" + " " + article + " " + adjective + " " + noun + " " + adverb + "."
 
+	/* SENTENCE FOUR --------------------------------------------
+	Randomly choosing between including an adverb or an adjective
+	-------------------------------------------------------------*/
 	var sentenceFour string
-
 	if randomChoice == 0 {
-
 		// Include adverb
 		sentenceFour = capitalizeFirstLetter("Don't") + " " + adverb + " " + verb + " " + article + " " + noun + "."
-
 	} else {
 		// Include adjective
 		sentenceFour = capitalizeFirstLetter("Don't") + " " + verb + " " + article + " " + adjective + " " + noun + "."
 	}
 
-	sentenceFive := capitalizeFirstLetter(article) + " " + adjective + " " + noun + " " + auxVerb + " " + adverb + " " + verb + "."
+	/* SENTENCE FIVE --------------------------------------------
+	Randomly choosing between including an adverb or an adjective
+	-------------------------------------------------------------*/
+	var sentenceFive string
+	if randomChoice == 0 {
+		// include adverb
+		sentenceFive = capitalizeFirstLetter(article) + " " + noun + " " + auxVerb + " " + adverb + " " + verb + "."
+	} else {
+		// include adjective
+		sentenceFive = capitalizeFirstLetter(article) + " " + adjective + " " + noun + " " + auxVerb + " " + verb + "."
+	}
+
+	/* SENTENCE SIX ---------------------------------------------
+	Randomly choosing between including an adverb or an adjective
+	-------------------------------------------------------------*/
 
 	sentenceSix := capitalizeFirstLetter(auxVerb) + " " + article + " " + adjective + " " + noun + " " + adverb + " " + verb + "?"
 
