@@ -792,7 +792,6 @@ func createGrammaticalPassword() string {
 	// TODO: Add sentences with prepositions.
 	// TODO: Add sentences with pronouns.
 	// TODO: Add interrogative sentences with modal auxiliary verbs, ending in a question mark.
-	// TODO: Create shorter sentences by skipping either the adjective or the adverb. Choose randomly.
 	// TODO: "Hasn't" and "wasn't" need the verb to end in "ed".
 
 	randomSentenceIndex := rand.Intn(6)
