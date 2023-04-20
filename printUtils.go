@@ -780,8 +780,14 @@ func createGrammaticalPassword() string {
 	/* SENTENCE SIX ---------------------------------------------
 	Randomly choosing between including an adverb or an adjective
 	-------------------------------------------------------------*/
-
-	sentenceSix := capitalizeFirstLetter(auxVerb) + " " + article + " " + adjective + " " + noun + " " + adverb + " " + verb + "?"
+	var sentenceSix string
+	if randomChoice == 0 {
+		// include adverb
+		sentenceSix = capitalizeFirstLetter(auxVerb) + " " + article + " " + noun + " " + adverb + " " + verb + "?"
+	} else {
+		// include adjective
+		sentenceSix = capitalizeFirstLetter(auxVerb) + " " + article + " " + adjective + " " + noun + " " + verb + "?"
+	}
 
 	// TODO: Add sentences with prepositions.
 	// TODO: Add sentences with pronouns.
