@@ -718,36 +718,51 @@ func createGrammaticalPassword() string {
 	noun := getEnglishVocabWord("noun")
 	adverb := getEnglishVocabWord("adverb")
 	adjective := getEnglishVocabWord("adjective")
+	article := getRandomArticle()
+	auxVerb := getRandomAuxVerb()
 
-	//rand.Seed(time.Now().UnixNano())
+	sentenceOne := capitalizeFirstLetter(adverb) + " " + verb + " " + article + " " + adjective + " " + noun + "."
 
-	randomIndex := rand.Intn(10)
+	sentenceTwo := capitalizeFirstLetter(adverb) + " " + verb + " " + article + " " + adjective + " " + noun + "."
 
-	var article string
+	// TODO: Recast this sentence to sound less medieval.
+	sentenceThree := capitalizeFirstLetter(verb) + " " + "not" + " " + article + " " + adjective + " " + noun + " " + adverb + "."
 
-	switch randomIndex {
+	sentenceFour := capitalizeFirstLetter("Don't") + " " + adverb + " " + verb + " " + article + " " + adjective + " " + noun + "."
+
+	sentenceFive := capitalizeFirstLetter(article) + " " + adjective + " " + noun + " " + auxVerb + " " + adverb + " " + verb + "."
+
+	sentenceSix := capitalizeFirstLetter(auxVerb) + " " + article + " " + adjective + " " + noun + " " + adverb + " " + verb + "?"
+
+	// TODO: Add sentences with prepositions.
+	// TODO: Add sentences with pronouns.
+	// TODO: Add interrogative sentences with modal auxiliary verbs, ending in a question mark.
+	// TODO: Create shorter sentences by skipping either the adjective or the adverb. Choose randomly.
+	// TODO: "Hasn't" and "wasn't" need the verb to end in "ed".
+
+	randomSentenceIndex := rand.Intn(6)
+
+	var randomSentenceStructure string
+
+	switch randomSentenceIndex {
 	case 0:
-		article = "a"
+		randomSentenceStructure = sentenceOne
 	case 1:
-		article = "the"
+		randomSentenceStructure = sentenceTwo
 	case 2:
-		article = "one"
+		randomSentenceStructure = sentenceThree
 	case 3:
-		article = "my"
+		randomSentenceStructure = sentenceFour
 	case 4:
-		article = "your"
+		randomSentenceStructure = sentenceFive
 	case 5:
-		article = "his"
-	case 6:
-		article = "her"
-	case 7:
-		article = "their"
-	case 8:
-		article = "someone's"
-	case 9:
-		article = "any"
+		randomSentenceStructure = sentenceSix
 	}
 
+	return randomSentenceStructure
+}
+
+func getRandomAuxVerb() string {
 	randomAuxVerbIndex := rand.Intn(15)
 
 	var auxVerb string
@@ -784,47 +799,38 @@ func createGrammaticalPassword() string {
 	case 14:
 		auxVerb = "won't"
 	}
+	return auxVerb
+}
 
-	sentenceOne := capitalizeFirstLetter(adverb) + " " + verb + " " + article + " " + adjective + " " + noun + "."
+func getRandomArticle() string {
 
-	sentenceTwo := capitalizeFirstLetter(adverb) + " " + verb + " " + article + " " + adjective + " " + noun + "."
+	var article string
 
-	// TODO: Recast this sentence to sound less medieval.
-	sentenceThree := capitalizeFirstLetter(verb) + " " + "not" + " " + article + " " + adjective + " " + noun + " " + adverb + "."
+	randomIndex := rand.Intn(10)
 
-	sentenceFour := capitalizeFirstLetter("Don't") + " " + adverb + " " + verb + " " + article + " " + adjective + " " + noun + "."
-
-	sentenceFive := capitalizeFirstLetter(article) + " " + adjective + " " + noun + " " + auxVerb + " " + adverb + " " + verb + "."
-
-	sentenceSix := capitalizeFirstLetter(auxVerb) + " " + article + " " + adjective + " " + noun + " " + adverb + " " + verb + "?"
-
-	// TODO: Add sentences with prepositions.
-	// TODO: Add sentences with pronouns.
-	// TODO: Add interrogative sentences with modal auxiliary verbs, ending in a question mark.
-	// TODO: move grammar switch statements to their own functions.
-	// TODO: Create shorter sentences by skipping either the adjective or the adverb. Choose randomly.
-	// TODO: "Hasn't" needs the verb to end in "ed".
-
-	randomSentenceIndex := rand.Intn(6)
-
-	var randomSentenceStructure string
-
-	switch randomSentenceIndex {
+	switch randomIndex {
 	case 0:
-		randomSentenceStructure = sentenceOne
+		article = "a"
 	case 1:
-		randomSentenceStructure = sentenceTwo
+		article = "the"
 	case 2:
-		randomSentenceStructure = sentenceThree
+		article = "one"
 	case 3:
-		randomSentenceStructure = sentenceFour
+		article = "my"
 	case 4:
-		randomSentenceStructure = sentenceFive
+		article = "your"
 	case 5:
-		randomSentenceStructure = sentenceSix
+		article = "his"
+	case 6:
+		article = "her"
+	case 7:
+		article = "their"
+	case 8:
+		article = "someone's"
+	case 9:
+		article = "any"
 	}
-
-	return randomSentenceStructure
+	return article
 }
 
 func printGrammaticalTable() []string {
