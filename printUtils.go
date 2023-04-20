@@ -742,6 +742,7 @@ func createGrammaticalPassword() string {
 	}
 
 	/* SENTENCE TWO ---------------------------------------------
+
 	-------------------------------------------------------------*/
 	// TODO: Add some modifier to make this differ from sentence one
 	sentenceTwo := capitalizeFirstLetter(adverb) + " " + verb + " " + article + " " + adjective + " " + noun + "."
