@@ -757,8 +757,7 @@ func createGrammaticalPassword() string {
 		// Include adverb
 		sentenceFour = capitalizeFirstLetter("Don't") + " " + adverb + " " + verb + " " + article + " " + noun + "."
 	} else {
-		// Include adjective
-		sentenceFour = capitalizeFirstLetter("Don't") + " " + verb + " " + article + " " + adjective + " " + noun + "."
+		sentenceFour = capitalizeFirstLetter("Don't") + " " + verb + " " + article + " " + noun + "."
 	}
 
 	/* SENTENCE FIVE --------------------------------------------
@@ -785,13 +784,22 @@ func createGrammaticalPassword() string {
 		sentenceSix = capitalizeFirstLetter(auxVerb) + " " + article + " " + adjective + " " + noun + " " + verb + "?"
 	}
 
+	/* SENTENCE SEVEN -------------------------------------------
+	-------------------------------------------------------------*/
+	var sentenceSeven string
+	if randomChoice == 0 {
+		sentenceSeven = capitalizeFirstLetter(verb) + " " + article + " " + noun + "."
+	} else {
+		sentenceSeven = capitalizeFirstLetter(article) + " " + noun + " " + auxVerb + " " + verb + "."
+	}
+
 	// TODO: Add sentences with prepositions.
 	// TODO: Add sentences with pronouns.
 	// TODO: Add interrogative sentences with modal auxiliary verbs, ending in a question mark.
 	// TODO: "Hasn't" and "wasn't" and "isn't" need the verb to end in "ed".
 	// TODO: Get better vocab lists
 
-	randomSentenceIndex := rand.Intn(6)
+	randomSentenceIndex := rand.Intn(7)
 
 	var randomSentenceStructure string
 
@@ -808,6 +816,8 @@ func createGrammaticalPassword() string {
 		randomSentenceStructure = sentenceFive
 	case 5:
 		randomSentenceStructure = sentenceSix
+	case 6:
+		randomSentenceStructure = sentenceSeven
 	}
 
 	return randomSentenceStructure
