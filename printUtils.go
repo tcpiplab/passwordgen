@@ -793,8 +793,15 @@ func createGrammaticalPassword() string {
 		sentenceSeven = capitalizeFirstLetter(article) + " " + noun + " " + auxVerb + " " + verb + "."
 	}
 
-	// TODO: Create a new sentence type that begins with a verb modifier
-	getVerbModifier(randomnessObject)
+	/* SENTENCE EIGHT -------------------------------------------
+	-------------------------------------------------------------*/
+	verbModifier := getVerbModifier(randomnessObject)
+	var sentenceEight string
+	if randomChoice == 0 {
+		sentenceEight = capitalizeFirstLetter(verbModifier) + " " + verb + " " + article + " " + noun + "."
+	} else {
+		sentenceEight = capitalizeFirstLetter(verbModifier) + " " + article + " " + noun + " " + auxVerb + " " + verb + "."
+	}
 
 	// TODO: Add sentences with prepositions.
 	// TODO: Add sentences with pronouns.
@@ -802,7 +809,7 @@ func createGrammaticalPassword() string {
 	// TODO: "Hasn't" and "wasn't" and "isn't" need the verb to end in "ed".
 	// TODO: Get better vocab lists
 
-	randomSentenceIndex := rand.Intn(7)
+	randomSentenceIndex := rand.Intn(8)
 
 	var randomSentenceStructure string
 
@@ -821,12 +828,14 @@ func createGrammaticalPassword() string {
 		randomSentenceStructure = sentenceSix
 	case 6:
 		randomSentenceStructure = sentenceSeven
+	case 7:
+		randomSentenceStructure = sentenceEight
 	}
 
 	return randomSentenceStructure
 }
 
-func getVerbModifier(r *rand.Rand) {
+func getVerbModifier(r *rand.Rand) string {
 	// Generate a random number between 0 and 4 (inclusive).
 	randomNumber := r.Intn(5)
 
@@ -846,6 +855,7 @@ func getVerbModifier(r *rand.Rand) {
 	default:
 		verbModifier = "unknown"
 	}
+	return verbModifier
 }
 
 func getRandomAuxVerb() string {
