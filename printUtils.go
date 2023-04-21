@@ -7,6 +7,7 @@ import (
 	"math/rand"
 	"os"
 	"strings"
+	"time"
 )
 
 // printPasswordTableWindows prints a table of randomized passwords with index numbers to the terminal screen.
@@ -718,100 +719,214 @@ func createGrammaticalPassword() string {
 	noun := getEnglishVocabWord("noun")
 	adverb := getEnglishVocabWord("adverb")
 	adjective := getEnglishVocabWord("adjective")
+	article := getRandomArticle()
+	auxVerb := getRandomAuxVerb()
 
-	//rand.Seed(time.Now().UnixNano())
+	// The new way to seed randomness each time a function is called
+	// Otherwise randomness is only seeded at the start of runtime
+	randomnessObject := rand.New(rand.NewSource(time.Now().UnixNano()))
 
-	randomIndex := rand.Intn(10)
+	// Randomly choose between 0 and 1
+	randomChoice := randomnessObject.Intn(2)
 
-	var randomArticle string
-
-	switch randomIndex {
-	case 0:
-		randomArticle = "a"
-	case 1:
-		randomArticle = "the"
-	case 2:
-		randomArticle = "one"
-	case 3:
-		randomArticle = "my"
-	case 4:
-		randomArticle = "your"
-	case 5:
-		randomArticle = "his"
-	case 6:
-		randomArticle = "her"
-	case 7:
-		randomArticle = "their"
-	case 8:
-		randomArticle = "someone's"
-	case 9:
-		randomArticle = "any"
+	/* SENTENCE ONE ---------------------------------------------
+	Randomly choosing between including an adverb or an adjective
+	-------------------------------------------------------------*/
+	var sentenceOne string
+	if randomChoice == 0 {
+		// Include adverb
+		sentenceOne = capitalizeFirstLetter(adverb) + " " + verb + " " + article + " " + noun + "."
+	} else {
+		// Include adjective
+		sentenceOne = capitalizeFirstLetter(verb) + " " + article + " " + adjective + " " + noun + "."
 	}
 
-	randomAuxVerbIndex := rand.Intn(15)
+	/* SENTENCE TWO ---------------------------------------------
+	-------------------------------------------------------------*/
+	sentenceTwo := capitalizeFirstLetter(article) + " " + noun + " " + auxVerb + " " + verb + "."
 
-	var randomAuxiliaryVerb string
+	/* SENTENCE THREE -------------------------------------------
+	-------------------------------------------------------------*/
+	sentenceThree := capitalizeFirstLetter(auxVerb) + " " + article + " " + adjective + " " + noun + " " + verb + "?"
 
-	switch randomAuxVerbIndex {
-	case 0:
-		randomAuxiliaryVerb = "wasn't"
-	case 1:
-		randomAuxiliaryVerb = "is"
-	case 2:
-		randomAuxiliaryVerb = "isn't"
-	case 3:
-		randomAuxiliaryVerb = "was"
-	case 4:
-		randomAuxiliaryVerb = "were"
-	case 5:
-		randomAuxiliaryVerb = "will"
-	case 6:
-		randomAuxiliaryVerb = "shall"
-	case 7:
-		randomAuxiliaryVerb = "shall not"
-	case 8:
-		randomAuxiliaryVerb = "won't" // contraction of "will not"
-	case 9:
-		randomAuxiliaryVerb = "hasn't" // contraction of "has not"
-	case 10:
-		randomAuxiliaryVerb = "didn't"
-	case 11:
-		randomAuxiliaryVerb = "can't"
-	case 12:
-		randomAuxiliaryVerb = "wouldn't"
-	case 13:
-		randomAuxiliaryVerb = "shouldn't"
-	case 14:
-		randomAuxiliaryVerb = "won't"
+	/* SENTENCE FOUR --------------------------------------------
+	Randomly choosing between including an adverb or an adjective
+	-------------------------------------------------------------*/
+	var sentenceFour string
+	if randomChoice == 0 {
+		// Include adverb
+		sentenceFour = capitalizeFirstLetter("Don't") + " " + adverb + " " + verb + " " + article + " " + noun + "."
+	} else {
+		sentenceFour = capitalizeFirstLetter("Don't") + " " + verb + " " + article + " " + noun + "."
 	}
 
-	sentenceStructureOne := capitalizeFirstLetter(verb) + " " + randomArticle + " " + adjective + " " + noun + " " + adverb + "."
-	sentenceStructureTwo := capitalizeFirstLetter(adverb) + " " + verb + " " + randomArticle + " " + adjective + " " + noun + "."
-	sentenceStructureThree := capitalizeFirstLetter(verb) + " " + "not" + " " + randomArticle + " " + adjective + " " + noun + " " + adverb + "."
-	sentenceStructureFour := capitalizeFirstLetter("Don't") + " " + verb + " " + randomArticle + " " + adjective + " " + noun + " " + adverb + "."
-	sentenceStructureFive := capitalizeFirstLetter(randomArticle) + " " + adjective + " " + noun + " " + randomAuxiliaryVerb + " " + verb + " " + adverb + "."
-	sentenceStructureSix := capitalizeFirstLetter(randomAuxiliaryVerb) + " " + randomArticle + " " + adjective + " " + noun + " " + adverb + " " + verb + "?"
+	/* SENTENCE FIVE --------------------------------------------
+	Randomly choosing between including an adverb or an adjective
+	-------------------------------------------------------------*/
+	var sentenceFive string
+	if randomChoice == 0 {
+		// include adverb
+		sentenceFive = capitalizeFirstLetter(article) + " " + noun + " " + auxVerb + " " + adverb + " " + verb + "."
+	} else {
+		// include adjective
+		sentenceFive = capitalizeFirstLetter(article) + " " + adjective + " " + noun + " " + auxVerb + " " + verb + "."
+	}
 
-	randomSentenceIndex := rand.Intn(6)
+	/* SENTENCE SIX ---------------------------------------------
+	Randomly choosing between including an adverb or an adjective
+	-------------------------------------------------------------*/
+	var sentenceSix string
+	if randomChoice == 0 {
+		// include adverb
+		sentenceSix = capitalizeFirstLetter(auxVerb) + " " + article + " " + noun + " " + adverb + " " + verb + "?"
+	} else {
+		// include adjective
+		sentenceSix = capitalizeFirstLetter(auxVerb) + " " + article + " " + adjective + " " + noun + " " + verb + "?"
+	}
+
+	/* SENTENCE SEVEN -------------------------------------------
+	-------------------------------------------------------------*/
+	var sentenceSeven string
+	if randomChoice == 0 {
+		sentenceSeven = capitalizeFirstLetter(verb) + " " + article + " " + noun + "."
+	} else {
+		sentenceSeven = capitalizeFirstLetter(article) + " " + noun + " " + auxVerb + " " + verb + "."
+	}
+
+	/* SENTENCE EIGHT -------------------------------------------
+	-------------------------------------------------------------*/
+	verbModifier := getVerbModifier(randomnessObject)
+	var sentenceEight string
+	if randomChoice == 0 {
+		sentenceEight = capitalizeFirstLetter(verbModifier) + " " + verb + " " + article + " " + noun + "."
+	} else {
+		sentenceEight = capitalizeFirstLetter(verbModifier) + " " + article + " " + noun + " " + auxVerb + " " + verb + "."
+	}
+
+	// TODO: Add sentences with prepositions.
+	// TODO: Add sentences with pronouns.
+	// TODO: Add interrogative sentences with modal auxiliary verbs, ending in a question mark.
+	// TODO: "Hasn't" and "wasn't" and "isn't" need the verb to end in "ed".
+	// TODO: Get better vocab lists
+
+	randomSentenceIndex := rand.Intn(8)
 
 	var randomSentenceStructure string
 
 	switch randomSentenceIndex {
 	case 0:
-		randomSentenceStructure = sentenceStructureOne
+		randomSentenceStructure = sentenceOne
 	case 1:
-		randomSentenceStructure = sentenceStructureTwo
+		randomSentenceStructure = sentenceTwo
 	case 2:
-		randomSentenceStructure = sentenceStructureThree
+		randomSentenceStructure = sentenceThree
 	case 3:
-		randomSentenceStructure = sentenceStructureFour
+		randomSentenceStructure = sentenceFour
 	case 4:
-		randomSentenceStructure = sentenceStructureFive
+		randomSentenceStructure = sentenceFive
 	case 5:
-		randomSentenceStructure = sentenceStructureSix
+		randomSentenceStructure = sentenceSix
+	case 6:
+		randomSentenceStructure = sentenceSeven
+	case 7:
+		randomSentenceStructure = sentenceEight
 	}
 
 	return randomSentenceStructure
+}
+
+func getVerbModifier(r *rand.Rand) string {
+	// Generate a random number between 0 and 4 (inclusive).
+	randomNumber := r.Intn(5)
+
+	// Randomly choose a verb modifier using a switch statement.
+	var verbModifier string
+	switch randomNumber {
+	case 0:
+		verbModifier = "never"
+	case 1:
+		verbModifier = "always"
+	case 2:
+		verbModifier = "rarely"
+	case 3:
+		verbModifier = "sometimes"
+	case 4:
+		verbModifier = "often"
+	default:
+		verbModifier = "unknown"
+	}
+	return verbModifier
+}
+
+func getRandomAuxVerb() string {
+	randomAuxVerbIndex := rand.Intn(15)
+
+	var auxVerb string
+
+	switch randomAuxVerbIndex {
+	case 0:
+		auxVerb = "wasn't"
+	case 1:
+		auxVerb = "is"
+	case 2:
+		auxVerb = "isn't"
+	case 3:
+		auxVerb = "was"
+	case 4:
+		auxVerb = "were"
+	case 5:
+		auxVerb = "will"
+	case 6:
+		auxVerb = "shall"
+	case 7:
+		auxVerb = "shall not"
+	case 8:
+		auxVerb = "won't" // contraction of "will not"
+	case 9:
+		auxVerb = "hasn't" // contraction of "has not"
+	case 10:
+		auxVerb = "didn't"
+	case 11:
+		auxVerb = "can't"
+	case 12:
+		auxVerb = "wouldn't"
+	case 13:
+		auxVerb = "shouldn't"
+	case 14:
+		auxVerb = "won't"
+	}
+	return auxVerb
+}
+
+func getRandomArticle() string {
+
+	var article string
+
+	randomIndex := rand.Intn(10)
+
+	switch randomIndex {
+	case 0:
+		article = "a"
+	case 1:
+		article = "the"
+	case 2:
+		article = "one"
+	case 3:
+		article = "my"
+	case 4:
+		article = "your"
+	case 5:
+		article = "his"
+	case 6:
+		article = "her"
+	case 7:
+		article = "their"
+	case 8:
+		article = "someone's"
+	case 9:
+		article = "any"
+	}
+	return article
 }
 
 func printGrammaticalTable() []string {
