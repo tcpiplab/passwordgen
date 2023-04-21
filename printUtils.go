@@ -724,10 +724,10 @@ func createGrammaticalPassword() string {
 
 	// The new way to seed randomness each time a function is called
 	// Otherwise randomness is only seeded at the start of runtime
-	r := rand.New(rand.NewSource(time.Now().UnixNano()))
+	randomnessObject := rand.New(rand.NewSource(time.Now().UnixNano()))
 
 	// Randomly choose between 0 and 1
-	randomChoice := r.Intn(2)
+	randomChoice := randomnessObject.Intn(2)
 
 	/* SENTENCE ONE ---------------------------------------------
 	Randomly choosing between including an adverb or an adjective
@@ -793,6 +793,9 @@ func createGrammaticalPassword() string {
 		sentenceSeven = capitalizeFirstLetter(article) + " " + noun + " " + auxVerb + " " + verb + "."
 	}
 
+	// TODO: Create a new sentence type that begins with a verb modifier
+	getVerbModifier(randomnessObject)
+
 	// TODO: Add sentences with prepositions.
 	// TODO: Add sentences with pronouns.
 	// TODO: Add interrogative sentences with modal auxiliary verbs, ending in a question mark.
@@ -821,6 +824,28 @@ func createGrammaticalPassword() string {
 	}
 
 	return randomSentenceStructure
+}
+
+func getVerbModifier(r *rand.Rand) {
+	// Generate a random number between 0 and 4 (inclusive).
+	randomNumber := r.Intn(5)
+
+	// Randomly choose a verb modifier using a switch statement.
+	var verbModifier string
+	switch randomNumber {
+	case 0:
+		verbModifier = "never"
+	case 1:
+		verbModifier = "always"
+	case 2:
+		verbModifier = "rarely"
+	case 3:
+		verbModifier = "sometimes"
+	case 4:
+		verbModifier = "often"
+	default:
+		verbModifier = "unknown"
+	}
 }
 
 func getRandomAuxVerb() string {

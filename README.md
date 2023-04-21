@@ -101,7 +101,7 @@ $ ./passwordgen --examples 20
 ├───────────────┼────────────────────────────────────────────────┤
 │ --word-chains │ dancing_blob_angular_unison                    │
 ├───────────────┼────────────────────────────────────────────────┤
-│ --mixed       │ (tannery-shower)r)40                           │
+│ --mixed       │ (tannery-shower)randomnessObject)40                           │
 ├───────────────┼────────────────────────────────────────────────┤
 │ --passphrases │ monument corporate confidant salutary aerobics │
 ├───────────────┼────────────────────────────────────────────────┤
