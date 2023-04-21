@@ -742,15 +742,12 @@ func createGrammaticalPassword() string {
 	}
 
 	/* SENTENCE TWO ---------------------------------------------
-
 	-------------------------------------------------------------*/
-	// TODO: Add some modifier to make this differ from sentence one
-	sentenceTwo := capitalizeFirstLetter(adverb) + " " + verb + " " + article + " " + adjective + " " + noun + "."
+	sentenceTwo := capitalizeFirstLetter(article) + " " + noun + " " + auxVerb + " " + verb + "."
 
 	/* SENTENCE THREE -------------------------------------------
 	-------------------------------------------------------------*/
-	// TODO: Recast this sentence to sound less medieval.
-	sentenceThree := capitalizeFirstLetter(verb) + " " + "not" + " " + article + " " + adjective + " " + noun + " " + adverb + "."
+	sentenceThree := capitalizeFirstLetter(auxVerb) + " " + article + " " + adjective + " " + noun + " " + verb + "?"
 
 	/* SENTENCE FOUR --------------------------------------------
 	Randomly choosing between including an adverb or an adjective
@@ -791,7 +788,8 @@ func createGrammaticalPassword() string {
 	// TODO: Add sentences with prepositions.
 	// TODO: Add sentences with pronouns.
 	// TODO: Add interrogative sentences with modal auxiliary verbs, ending in a question mark.
-	// TODO: "Hasn't" and "wasn't" need the verb to end in "ed".
+	// TODO: "Hasn't" and "wasn't" and "isn't" need the verb to end in "ed".
+	// TODO: Get better vocab lists
 
 	randomSentenceIndex := rand.Intn(6)
 
