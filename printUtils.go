@@ -716,12 +716,13 @@ func printPasswordTypesTable() []string {
 
 func createGrammaticalPassword() string {
 	verb := getEnglishVocabWord("verb")
-	verb2 := getEnglishVocabWord("verb")
+	//verb2 := getEnglishVocabWord("verb")
 	noun := getEnglishVocabWord("noun")
 	adverb := getEnglishVocabWord("adverb")
 	adjective := getEnglishVocabWord("adjective")
 	article := getRandomArticle()
 	auxVerb := getRandomAuxVerb()
+	pronounAndVerbPresent := getPronounAndVerbPresent()
 
 	// The new way to seed randomness each time a function is called
 	// Otherwise randomness is only seeded at the start of runtime
@@ -736,19 +737,24 @@ func createGrammaticalPassword() string {
 	var sentenceOne string
 	if randomChoice == 0 {
 		// Include adverb
-		sentenceOne = capitalizeFirstLetter(adverb) + " " + verb + " " + article + " " + noun + "."
+		sentenceOne = capitalizeFirstLetter(adverb) + " " + verb + " " + article + " " + noun + ".#1a"
 	} else {
 		// Include adjective
-		sentenceOne = capitalizeFirstLetter(verb) + " " + article + " " + adjective + " " + noun + "."
+		sentenceOne = capitalizeFirstLetter(verb) + " " + article + " " + adjective + " " + noun + ".#1b"
 	}
 
 	/* SENTENCE TWO ---------------------------------------------
 	-------------------------------------------------------------*/
-	sentenceTwo := capitalizeFirstLetter(verb) + " " + article + " " + verb2 + "."
+	var sentenceTwo string
+	if randomChoice == 0 {
+		sentenceTwo = capitalizeFirstLetter(pronounAndVerbPresent) + " " + adjective + ".#2a"
+	} else {
+		sentenceTwo = capitalizeFirstLetter(pronounAndVerbPresent) + " " + article + " " + noun + ".#2b"
+	}
 
 	/* SENTENCE THREE -------------------------------------------
 	-------------------------------------------------------------*/
-	sentenceThree := capitalizeFirstLetter(auxVerb) + " " + article + " " + adjective + " " + noun + " " + verb + "?"
+	sentenceThree := capitalizeFirstLetter(auxVerb) + " " + article + " " + adjective + " " + noun + " " + verb + "?#3"
 
 	/* SENTENCE FOUR --------------------------------------------
 	Randomly choosing between including an adverb or an adjective
@@ -756,9 +762,9 @@ func createGrammaticalPassword() string {
 	var sentenceFour string
 	if randomChoice == 0 {
 		// Include adverb
-		sentenceFour = capitalizeFirstLetter("Don't") + " " + adverb + " " + verb + " " + article + " " + noun + "."
+		sentenceFour = capitalizeFirstLetter("Don't") + " " + adverb + " " + verb + " " + article + " " + noun + ".#4a"
 	} else {
-		sentenceFour = capitalizeFirstLetter("Don't") + " " + verb + " " + article + " " + noun + "."
+		sentenceFour = capitalizeFirstLetter("Don't") + " " + verb + " " + article + " " + noun + ".#4b"
 	}
 
 	/* SENTENCE FIVE --------------------------------------------
@@ -767,10 +773,10 @@ func createGrammaticalPassword() string {
 	var sentenceFive string
 	if randomChoice == 0 {
 		// include adverb
-		sentenceFive = capitalizeFirstLetter(article) + " " + noun + " " + auxVerb + " " + adverb + " " + verb + "."
+		sentenceFive = capitalizeFirstLetter(article) + " " + noun + " " + auxVerb + " " + adverb + " " + verb + ".#5a"
 	} else {
 		// include adjective
-		sentenceFive = capitalizeFirstLetter(article) + " " + adjective + " " + noun + " " + auxVerb + " " + verb + "."
+		sentenceFive = capitalizeFirstLetter(article) + " " + adjective + " " + noun + " " + auxVerb + " " + verb + ".#5b"
 	}
 
 	/* SENTENCE SIX ---------------------------------------------
@@ -779,19 +785,19 @@ func createGrammaticalPassword() string {
 	var sentenceSix string
 	if randomChoice == 0 {
 		// include adverb
-		sentenceSix = capitalizeFirstLetter(auxVerb) + " " + article + " " + noun + " " + adverb + " " + verb + "?"
+		sentenceSix = capitalizeFirstLetter(auxVerb) + " " + article + " " + noun + " " + adverb + " " + verb + "?#6a"
 	} else {
 		// include adjective
-		sentenceSix = capitalizeFirstLetter(auxVerb) + " " + article + " " + adjective + " " + noun + " " + verb + "?"
+		sentenceSix = capitalizeFirstLetter(auxVerb) + " " + article + " " + adjective + " " + noun + " " + verb + "?#6b"
 	}
 
 	/* SENTENCE SEVEN -------------------------------------------
 	-------------------------------------------------------------*/
 	var sentenceSeven string
 	if randomChoice == 0 {
-		sentenceSeven = capitalizeFirstLetter(verb) + " " + article + " " + noun + "."
+		sentenceSeven = capitalizeFirstLetter(verb) + " " + article + " " + noun + ".#7a"
 	} else {
-		sentenceSeven = capitalizeFirstLetter(article) + " " + noun + " " + auxVerb + " " + verb + "."
+		sentenceSeven = capitalizeFirstLetter(article) + " " + noun + " " + auxVerb + " " + verb + ".#7b"
 	}
 
 	/* SENTENCE EIGHT -------------------------------------------
@@ -799,9 +805,9 @@ func createGrammaticalPassword() string {
 	verbModifier := getVerbModifier(randomnessObject)
 	var sentenceEight string
 	if randomChoice == 0 {
-		sentenceEight = capitalizeFirstLetter(verbModifier) + " " + verb + " " + article + " " + noun + "."
+		sentenceEight = capitalizeFirstLetter(verbModifier) + " " + verb + " " + article + " " + noun + ".#8a"
 	} else {
-		sentenceEight = capitalizeFirstLetter(verbModifier) + " " + article + " " + noun + " " + auxVerb + " " + verb + "."
+		sentenceEight = capitalizeFirstLetter(verbModifier) + " " + article + " " + noun + " " + auxVerb + " " + verb + ".#8b"
 	}
 
 	// TODO: Add sentences with prepositions.
@@ -834,6 +840,37 @@ func createGrammaticalPassword() string {
 	}
 
 	return randomSentenceStructure
+}
+
+func getPronounAndVerbPresent() string {
+	// Choose a pronounAndVerbPresent at random
+	randomInt := rand.Intn(10) // Generate a random integer between 0 and 9
+
+	var pronounAndVerbPresent string
+
+	switch randomInt {
+	case 0:
+		pronounAndVerbPresent = "it is"
+	case 1:
+		pronounAndVerbPresent = "that is"
+	case 2:
+		pronounAndVerbPresent = "those are"
+	case 3:
+		pronounAndVerbPresent = "this is"
+	case 4:
+		pronounAndVerbPresent = "he is"
+	case 5:
+		pronounAndVerbPresent = "she is"
+	case 6:
+		pronounAndVerbPresent = "they are"
+	case 7:
+		pronounAndVerbPresent = "we are"
+	case 8:
+		pronounAndVerbPresent = "you are"
+	case 9:
+		pronounAndVerbPresent = "I am"
+	}
+	return pronounAndVerbPresent
 }
 
 func getVerbModifier(r *rand.Rand) string {
