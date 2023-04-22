@@ -724,16 +724,15 @@ func createGrammaticalPassword() string {
 	auxVerb := getRandomAuxVerb()
 	pronounAndVerbPresent := getPronounAndVerbPresent()
 	possessivePronoun := getPossessivePronoun()
+	preposition := getPreposition()
 
 	// The new way to seed randomness each time a function is called
 	// Otherwise randomness is only seeded at the start of runtime
 	randomnessObject := rand.New(rand.NewSource(time.Now().UnixNano()))
 
 	/* SENTENCE ONE ---------------------------------------------
-	Randomly choosing between including an adverb or an adjective
 	-------------------------------------------------------------*/
 	var sentenceOne string
-	// Randomly choose between 0 and 1
 	randomChoice := randomnessObject.Intn(2)
 	if randomChoice == 0 {
 		// Include adverb
@@ -756,10 +755,14 @@ func createGrammaticalPassword() string {
 
 	/* SENTENCE THREE -------------------------------------------
 	-------------------------------------------------------------*/
-	sentenceThree := capitalizeFirstLetter(auxVerb) + " " + article + " " + adjective + " " + noun + " " + verb + "?#3"
-
+	var sentenceThree string
+	randomChoice = randomnessObject.Intn(2)
+	if randomChoice == 0 {
+		sentenceThree = capitalizeFirstLetter(verb) + " " + preposition + " " + article + " " + noun + ".#3a"
+	} else {
+		sentenceThree = capitalizeFirstLetter(pronounAndVerbPresent) + " " + preposition + " " + article + " " + noun + ".#3b"
+	}
 	/* SENTENCE FOUR --------------------------------------------
-	Randomly choosing between including an adverb or an adjective
 	-------------------------------------------------------------*/
 	var sentenceFour string
 	randomChoice = randomnessObject.Intn(2)
@@ -816,7 +819,6 @@ func createGrammaticalPassword() string {
 	}
 
 	// TODO: Add sentences with prepositions.
-	// TODO: Add sentences with pronouns.
 	// TODO: Add interrogative sentences with modal auxiliary verbs, ending in a question mark.
 	// TODO: "Hasn't" and "wasn't" and "isn't" need the verb to end in "ed".
 	// TODO: Get better vocab lists
@@ -845,6 +847,36 @@ func createGrammaticalPassword() string {
 	}
 
 	return randomSentenceStructure
+}
+
+func getPreposition() string {
+	randomInt := rand.Intn(10) // Generate a random integer between 0 and 9
+
+	var preposition string
+
+	switch randomInt {
+	case 0:
+		preposition = "in"
+	case 1:
+		preposition = "on"
+	case 2:
+		preposition = "at"
+	case 3:
+		preposition = "over"
+	case 4:
+		preposition = "under"
+	case 5:
+		preposition = "between"
+	case 6:
+		preposition = "behind"
+	case 7:
+		preposition = "before"
+	case 8:
+		preposition = "after"
+	case 9:
+		preposition = "through"
+	}
+	return preposition
 }
 
 func getPossessivePronoun() string {
