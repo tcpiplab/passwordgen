@@ -723,18 +723,18 @@ func createGrammaticalPassword() string {
 	article := getRandomArticle()
 	auxVerb := getRandomAuxVerb()
 	pronounAndVerbPresent := getPronounAndVerbPresent()
+	possessivePronoun := getPossessivePronoun()
 
 	// The new way to seed randomness each time a function is called
 	// Otherwise randomness is only seeded at the start of runtime
 	randomnessObject := rand.New(rand.NewSource(time.Now().UnixNano()))
 
-	// Randomly choose between 0 and 1
-	randomChoice := randomnessObject.Intn(2)
-
 	/* SENTENCE ONE ---------------------------------------------
 	Randomly choosing between including an adverb or an adjective
 	-------------------------------------------------------------*/
 	var sentenceOne string
+	// Randomly choose between 0 and 1
+	randomChoice := randomnessObject.Intn(2)
 	if randomChoice == 0 {
 		// Include adverb
 		sentenceOne = capitalizeFirstLetter(adverb) + " " + verb + " " + article + " " + noun + ".#1a"
@@ -746,6 +746,8 @@ func createGrammaticalPassword() string {
 	/* SENTENCE TWO ---------------------------------------------
 	-------------------------------------------------------------*/
 	var sentenceTwo string
+	// Randomly choose between 0 and 1
+	randomChoice = randomnessObject.Intn(2)
 	if randomChoice == 0 {
 		sentenceTwo = capitalizeFirstLetter(pronounAndVerbPresent) + " " + adjective + ".#2a"
 	} else {
@@ -760,6 +762,7 @@ func createGrammaticalPassword() string {
 	Randomly choosing between including an adverb or an adjective
 	-------------------------------------------------------------*/
 	var sentenceFour string
+	randomChoice = randomnessObject.Intn(2)
 	if randomChoice == 0 {
 		// Include adverb
 		sentenceFour = capitalizeFirstLetter("Don't") + " " + adverb + " " + verb + " " + article + " " + noun + ".#4a"
@@ -768,12 +771,11 @@ func createGrammaticalPassword() string {
 	}
 
 	/* SENTENCE FIVE --------------------------------------------
-	Randomly choosing between including an adverb or an adjective
 	-------------------------------------------------------------*/
 	var sentenceFive string
+	randomChoice = randomnessObject.Intn(2)
 	if randomChoice == 0 {
-		// include adverb
-		sentenceFive = capitalizeFirstLetter(article) + " " + noun + " " + auxVerb + " " + adverb + " " + verb + ".#5a"
+		sentenceFive = capitalizeFirstLetter(article) + " " + noun + " is " + possessivePronoun + ".#5a"
 	} else {
 		// include adjective
 		sentenceFive = capitalizeFirstLetter(article) + " " + adjective + " " + noun + " " + auxVerb + " " + verb + ".#5b"
@@ -783,6 +785,7 @@ func createGrammaticalPassword() string {
 	Randomly choosing between including an adverb or an adjective
 	-------------------------------------------------------------*/
 	var sentenceSix string
+	randomChoice = randomnessObject.Intn(2)
 	if randomChoice == 0 {
 		// include adverb
 		sentenceSix = capitalizeFirstLetter(auxVerb) + " " + article + " " + noun + " " + adverb + " " + verb + "?#6a"
@@ -794,6 +797,7 @@ func createGrammaticalPassword() string {
 	/* SENTENCE SEVEN -------------------------------------------
 	-------------------------------------------------------------*/
 	var sentenceSeven string
+	randomChoice = randomnessObject.Intn(2)
 	if randomChoice == 0 {
 		sentenceSeven = capitalizeFirstLetter(verb) + " " + article + " " + noun + ".#7a"
 	} else {
@@ -804,6 +808,7 @@ func createGrammaticalPassword() string {
 	-------------------------------------------------------------*/
 	verbModifier := getVerbModifier(randomnessObject)
 	var sentenceEight string
+	randomChoice = randomnessObject.Intn(2)
 	if randomChoice == 0 {
 		sentenceEight = capitalizeFirstLetter(verbModifier) + " " + verb + " " + article + " " + noun + ".#8a"
 	} else {
@@ -840,6 +845,37 @@ func createGrammaticalPassword() string {
 	}
 
 	return randomSentenceStructure
+}
+
+func getPossessivePronoun() string {
+
+	randomInt := rand.Intn(10) // Generate a random integer between 0 and 9
+
+	var possessivePronoun string
+
+	switch randomInt {
+	case 0:
+		possessivePronoun = "mine"
+	case 1:
+		possessivePronoun = "yours"
+	case 2:
+		possessivePronoun = "his"
+	case 3:
+		possessivePronoun = "hers"
+	case 4:
+		possessivePronoun = "its"
+	case 5:
+		possessivePronoun = "ours"
+	case 6:
+		possessivePronoun = "theirs"
+	case 7:
+		possessivePronoun = "someone's"
+	case 8:
+		possessivePronoun = "nobody's"
+	case 9:
+		possessivePronoun = "the dog's"
+	}
+	return possessivePronoun
 }
 
 func getPronounAndVerbPresent() string {
