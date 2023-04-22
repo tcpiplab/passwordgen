@@ -716,6 +716,7 @@ func printPasswordTypesTable() []string {
 
 func createGrammaticalPassword() string {
 	verb := getEnglishVocabWord("verb")
+	verb2 := getEnglishVocabWord("verb")
 	noun := getEnglishVocabWord("noun")
 	adverb := getEnglishVocabWord("adverb")
 	adjective := getEnglishVocabWord("adjective")
@@ -743,7 +744,7 @@ func createGrammaticalPassword() string {
 
 	/* SENTENCE TWO ---------------------------------------------
 	-------------------------------------------------------------*/
-	sentenceTwo := capitalizeFirstLetter(article) + " " + noun + " " + auxVerb + " " + verb + "."
+	sentenceTwo := capitalizeFirstLetter(verb) + " " + article + " " + verb2 + "."
 
 	/* SENTENCE THREE -------------------------------------------
 	-------------------------------------------------------------*/
