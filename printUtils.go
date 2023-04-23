@@ -715,16 +715,8 @@ func printPasswordTypesTable() []string {
 }
 
 func createGrammaticalPassword() string {
-	verb := getEnglishVocabWord("verb")
-	//verb2 := getEnglishVocabWord("verb")
-	noun := getEnglishVocabWord("noun")
-	adverb := getEnglishVocabWord("adverb")
-	adjective := getEnglishVocabWord("adjective")
-	article := getRandomArticle()
-	auxVerb := getRandomAuxVerb()
-	pronounAndVerbPresent := getPronounAndVerbPresent()
-	possessivePronoun := getPossessivePronoun()
-	preposition := getPreposition()
+
+	var verb, noun, adverb, adjective, article, auxVerb, pronounAndVerbPresent, possessivePronoun, preposition string
 
 	// The new way to seed randomness each time a function is called
 	// Otherwise randomness is only seeded at the start of runtime
@@ -733,66 +725,123 @@ func createGrammaticalPassword() string {
 	/* SENTENCE ONE ---------------------------------------------
 	-------------------------------------------------------------*/
 	var sentenceOne string
+
 	randomChoice := randomnessObject.Intn(2)
+
 	if randomChoice == 0 {
+
+		verb, noun, adverb, adjective, article, auxVerb, pronounAndVerbPresent, possessivePronoun, preposition = getVocabWords()
+
+		// Change "a" to "an" if the following word begins with a vowel
+		article = modifyArticle(noun, article)
+
 		// Include adverb
 		sentenceOne = capitalizeFirstLetter(adverb) + " " + verb + " " + article + " " + noun + ".#1a"
 	} else {
+
+		verb, noun, adverb, adjective, article, auxVerb, pronounAndVerbPresent, possessivePronoun, preposition = getVocabWords()
+
+		// Change "a" to "an" if the following word begins with a vowel
+		article = modifyArticle(adjective, article)
+
 		// Include adjective
 		sentenceOne = capitalizeFirstLetter(verb) + " " + article + " " + adjective + " " + noun + ".#1b"
 	}
 
 	/* SENTENCE TWO ---------------------------------------------
 	-------------------------------------------------------------*/
+
 	var sentenceTwo string
+	randomnessObject = rand.New(rand.NewSource(time.Now().UnixNano()))
 	// Randomly choose between 0 and 1
 	randomChoice = randomnessObject.Intn(2)
 	if randomChoice == 0 {
+		verb, noun, adverb, adjective, article, auxVerb, pronounAndVerbPresent, possessivePronoun, preposition = getVocabWords()
 		sentenceTwo = capitalizeFirstLetter(pronounAndVerbPresent) + " " + adjective + ".#2a"
 	} else {
+		verb, noun, adverb, adjective, article, auxVerb, pronounAndVerbPresent, possessivePronoun, preposition = getVocabWords()
+		// Change "a" to "an" if the following word begins with a vowel
+		article = modifyArticle(noun, article)
+
 		sentenceTwo = capitalizeFirstLetter(pronounAndVerbPresent) + " " + article + " " + noun + ".#2b"
 	}
 
 	/* SENTENCE THREE -------------------------------------------
 	-------------------------------------------------------------*/
 	var sentenceThree string
+	randomnessObject = rand.New(rand.NewSource(time.Now().UnixNano()))
 	randomChoice = randomnessObject.Intn(2)
 	if randomChoice == 0 {
+		verb, noun, adverb, adjective, article, auxVerb, pronounAndVerbPresent, possessivePronoun, preposition = getVocabWords()
+		// Change "a" to "an" if the following word begins with a vowel
+		article = modifyArticle(noun, article)
+
 		sentenceThree = capitalizeFirstLetter(verb) + " " + preposition + " " + article + " " + noun + ".#3a"
 	} else {
+		verb, noun, adverb, adjective, article, auxVerb, pronounAndVerbPresent, possessivePronoun, preposition = getVocabWords()
+		// Change "a" to "an" if the following word begins with a vowel
+		article = modifyArticle(noun, article)
+
 		sentenceThree = capitalizeFirstLetter(pronounAndVerbPresent) + " " + preposition + " " + article + " " + noun + ".#3b"
 	}
+
 	/* SENTENCE FOUR --------------------------------------------
 	-------------------------------------------------------------*/
 	var sentenceFour string
+	randomnessObject = rand.New(rand.NewSource(time.Now().UnixNano()))
 	randomChoice = randomnessObject.Intn(2)
 	if randomChoice == 0 {
+		verb, noun, adverb, adjective, article, auxVerb, pronounAndVerbPresent, possessivePronoun, preposition = getVocabWords()
+		// Change "a" to "an" if the following word begins with a vowel
+		article = modifyArticle(noun, article)
+
 		// Include adverb
 		sentenceFour = capitalizeFirstLetter("Don't") + " " + adverb + " " + verb + " " + article + " " + noun + ".#4a"
 	} else {
+		verb, noun, adverb, adjective, article, auxVerb, pronounAndVerbPresent, possessivePronoun, preposition = getVocabWords()
+		// Change "a" to "an" if the following word begins with a vowel
+		article = modifyArticle(noun, article)
+
 		sentenceFour = capitalizeFirstLetter("Don't") + " " + verb + " " + article + " " + noun + ".#4b"
 	}
 
 	/* SENTENCE FIVE --------------------------------------------
 	-------------------------------------------------------------*/
 	var sentenceFive string
+	randomnessObject = rand.New(rand.NewSource(time.Now().UnixNano()))
 	randomChoice = randomnessObject.Intn(2)
 	if randomChoice == 0 {
+		verb, noun, adverb, adjective, article, auxVerb, pronounAndVerbPresent, possessivePronoun, preposition = getVocabWords()
+		// Change "a" to "an" if the following word begins with a vowel
+		article = modifyArticle(noun, article)
+
 		sentenceFive = capitalizeFirstLetter(article) + " " + noun + " is " + possessivePronoun + ".#5a"
 	} else {
+		verb, noun, adverb, adjective, article, auxVerb, pronounAndVerbPresent, possessivePronoun, preposition = getVocabWords()
+		// Change "a" to "an" if the following word begins with a vowel
+		article = modifyArticle(adjective, article)
+
 		// include adjective
 		sentenceFive = capitalizeFirstLetter(article) + " " + adjective + " " + noun + " " + auxVerb + " " + verb + ".#5b"
 	}
 
 	/* SENTENCE SIX ---------------------------------------------
-	Randomly choosing between including an adverb or an adjective
 	-------------------------------------------------------------*/
 	var sentenceSix string
+	randomnessObject = rand.New(rand.NewSource(time.Now().UnixNano()))
 	randomChoice = randomnessObject.Intn(2)
 	if randomChoice == 0 {
+		verb, noun, adverb, adjective, article, auxVerb, pronounAndVerbPresent, possessivePronoun, preposition = getVocabWords()
+		// Change "a" to "an" if the following word begins with a vowel
+		article = modifyArticle(noun, article)
+
 		// include adverb
 		sentenceSix = capitalizeFirstLetter(auxVerb) + " " + article + " " + noun + " " + adverb + " " + verb + "?#6a"
 	} else {
+		verb, noun, adverb, adjective, article, auxVerb, pronounAndVerbPresent, possessivePronoun, preposition = getVocabWords()
+		// Change "a" to "an" if the following word begins with a vowel
+		article = modifyArticle(adjective, article)
+
 		// include adjective
 		sentenceSix = capitalizeFirstLetter(auxVerb) + " " + article + " " + adjective + " " + noun + " " + verb + "?#6b"
 	}
@@ -800,10 +849,19 @@ func createGrammaticalPassword() string {
 	/* SENTENCE SEVEN -------------------------------------------
 	-------------------------------------------------------------*/
 	var sentenceSeven string
+	randomnessObject = rand.New(rand.NewSource(time.Now().UnixNano()))
 	randomChoice = randomnessObject.Intn(2)
 	if randomChoice == 0 {
+		verb, noun, adverb, adjective, article, auxVerb, pronounAndVerbPresent, possessivePronoun, preposition = getVocabWords()
+		// Change "a" to "an" if the following word begins with a vowel
+		article = modifyArticle(noun, article)
+
 		sentenceSeven = capitalizeFirstLetter(verb) + " " + article + " " + noun + ".#7a"
 	} else {
+		verb, noun, adverb, adjective, article, auxVerb, pronounAndVerbPresent, possessivePronoun, preposition = getVocabWords()
+		// Change "a" to "an" if the following word begins with a vowel
+		article = modifyArticle(noun, article)
+
 		sentenceSeven = capitalizeFirstLetter(article) + " " + noun + " " + auxVerb + " " + verb + ".#7b"
 	}
 
@@ -811,10 +869,19 @@ func createGrammaticalPassword() string {
 	-------------------------------------------------------------*/
 	verbModifier := getVerbModifier(randomnessObject)
 	var sentenceEight string
+	randomnessObject = rand.New(rand.NewSource(time.Now().UnixNano()))
 	randomChoice = randomnessObject.Intn(2)
 	if randomChoice == 0 {
+		verb, noun, adverb, adjective, article, auxVerb, pronounAndVerbPresent, possessivePronoun, preposition = getVocabWords()
+		// Change "a" to "an" if the following word begins with a vowel
+		article = modifyArticle(noun, article)
+
 		sentenceEight = capitalizeFirstLetter(verbModifier) + " " + verb + " " + article + " " + noun + ".#8a"
 	} else {
+		verb, noun, adverb, adjective, article, auxVerb, pronounAndVerbPresent, possessivePronoun, preposition = getVocabWords()
+		// Change "a" to "an" if the following word begins with a vowel
+		article = modifyArticle(noun, article)
+
 		sentenceEight = capitalizeFirstLetter(verbModifier) + " " + article + " " + noun + " " + auxVerb + " " + verb + ".#8b"
 	}
 
@@ -847,6 +914,20 @@ func createGrammaticalPassword() string {
 	}
 
 	return randomSentenceStructure
+}
+
+func getVocabWords() (string, string, string, string, string, string, string, string, string) {
+	verb := getEnglishVocabWord("verb")
+	//verb2 := getEnglishVocabWord("verb")
+	noun := getEnglishVocabWord("noun")
+	adverb := getEnglishVocabWord("adverb")
+	adjective := getEnglishVocabWord("adjective")
+	article := getRandomArticle()
+	auxVerb := getRandomAuxVerb()
+	pronounAndVerbPresent := getPronounAndVerbPresent()
+	possessivePronoun := getPossessivePronoun()
+	preposition := getPreposition()
+	return verb, noun, adverb, adjective, article, auxVerb, pronounAndVerbPresent, possessivePronoun, preposition
 }
 
 func getPreposition() string {
@@ -1077,4 +1158,40 @@ func printGrammaticalTable() []string {
 	// Return the array because it's needed for the
 	// clipboard functions if we're in interactive mode.
 	return arrayOfRandomHex
+}
+
+// modifyArticle checks if the firstLetter variable is present in the vowels string.
+// If it is and the article is "a", the function returns "an".
+// In all other cases, the function returns the article unchanged.
+func modifyArticle(followingWord, article string) string {
+
+	firstLetter := followingWord[:1]
+
+	// TODO: this function isn't working. Try print statements.
+
+	if isVowel(firstLetter) && article == "a" {
+
+		//fmt.Printf("----------\n%s, %s\n", article, followingWord)
+		//fmt.Printf("firstLetter: %s\n", firstLetter)
+		//fmt.Printf("article: %s\n----------\n", article)
+
+		return "an"
+
+	} else {
+
+		return article
+	}
+
+	//return article
+}
+
+func isVowel(char string) bool {
+	vowels := "aeiouAEIOU"
+
+	if len(char) != 1 {
+		return false
+	}
+
+	// Return true if the char is a vowel
+	return strings.Contains(vowels, char)
 }
