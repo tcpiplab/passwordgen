@@ -818,10 +818,13 @@ func createGrammaticalPassword() string {
 		sentenceFive = capitalizeFirstLetter(article) + " " + noun + " is " + possessivePronoun + ".#5a"
 	} else {
 		verb, noun, adverb, adjective, article, auxVerb, pronounAndVerbPresent, possessivePronoun, preposition = getVocabWords()
+
 		// Change "a" to "an" if the following word begins with a vowel
 		article = modifyArticle(adjective, article)
 
-		// include adjective
+		// Change verb tense if auxiliary verb requires it
+		verb = applyAuxiliaryVerb(auxVerb, verb)
+
 		sentenceFive = capitalizeFirstLetter(article) + " " + adjective + " " + noun + " " + auxVerb + " " + verb + ".#5b"
 	}
 
@@ -832,15 +835,22 @@ func createGrammaticalPassword() string {
 	randomChoice = randomnessObject.Intn(2)
 	if randomChoice == 0 {
 		verb, noun, adverb, adjective, article, auxVerb, pronounAndVerbPresent, possessivePronoun, preposition = getVocabWords()
+
 		// Change "a" to "an" if the following word begins with a vowel
 		article = modifyArticle(noun, article)
 
-		// include adverb
+		// Change verb tense if auxiliary verb requires it
+		verb = applyAuxiliaryVerb(auxVerb, verb)
+
 		sentenceSix = capitalizeFirstLetter(auxVerb) + " " + article + " " + noun + " " + adverb + " " + verb + "?#6a"
 	} else {
 		verb, noun, adverb, adjective, article, auxVerb, pronounAndVerbPresent, possessivePronoun, preposition = getVocabWords()
+
 		// Change "a" to "an" if the following word begins with a vowel
 		article = modifyArticle(adjective, article)
+
+		// Change verb tense if auxiliary verb requires it
+		verb = applyAuxiliaryVerb(auxVerb, verb)
 
 		// include adjective
 		sentenceSix = capitalizeFirstLetter(auxVerb) + " " + article + " " + adjective + " " + noun + " " + verb + "?#6b"
@@ -853,14 +863,19 @@ func createGrammaticalPassword() string {
 	randomChoice = randomnessObject.Intn(2)
 	if randomChoice == 0 {
 		verb, noun, adverb, adjective, article, auxVerb, pronounAndVerbPresent, possessivePronoun, preposition = getVocabWords()
+
 		// Change "a" to "an" if the following word begins with a vowel
 		article = modifyArticle(noun, article)
 
 		sentenceSeven = capitalizeFirstLetter(verb) + " " + article + " " + noun + ".#7a"
 	} else {
 		verb, noun, adverb, adjective, article, auxVerb, pronounAndVerbPresent, possessivePronoun, preposition = getVocabWords()
+
 		// Change "a" to "an" if the following word begins with a vowel
 		article = modifyArticle(noun, article)
+
+		// Change verb tense if auxiliary verb requires it
+		verb = applyAuxiliaryVerb(auxVerb, verb)
 
 		sentenceSeven = capitalizeFirstLetter(article) + " " + noun + " " + auxVerb + " " + verb + ".#7b"
 	}
@@ -873,14 +888,19 @@ func createGrammaticalPassword() string {
 	randomChoice = randomnessObject.Intn(2)
 	if randomChoice == 0 {
 		verb, noun, adverb, adjective, article, auxVerb, pronounAndVerbPresent, possessivePronoun, preposition = getVocabWords()
+
 		// Change "a" to "an" if the following word begins with a vowel
 		article = modifyArticle(noun, article)
 
 		sentenceEight = capitalizeFirstLetter(verbModifier) + " " + verb + " " + article + " " + noun + ".#8a"
 	} else {
 		verb, noun, adverb, adjective, article, auxVerb, pronounAndVerbPresent, possessivePronoun, preposition = getVocabWords()
+
 		// Change "a" to "an" if the following word begins with a vowel
 		article = modifyArticle(noun, article)
+
+		// Change verb tense if auxiliary verb requires it
+		verb = applyAuxiliaryVerb(auxVerb, verb)
 
 		sentenceEight = capitalizeFirstLetter(verbModifier) + " " + article + " " + noun + " " + auxVerb + " " + verb + ".#8b"
 	}
@@ -1194,4 +1214,31 @@ func isVowel(char string) bool {
 
 	// Return true if the char is a vowel
 	return strings.Contains(vowels, char)
+}
+
+func convertVerbToPastTense(verb string) string {
+	// If the verb ends with 'e', just add 'd' to the end.
+	if strings.HasSuffix(verb, "e") {
+		return verb + "d"
+	}
+
+	// If the verb ends with a consonant followed by 'y', replace 'y' with 'ied'.
+	if len(verb) >= 2 && strings.Contains("bcdfghjklmnpqrstvwxyz", string(verb[len(verb)-2])) && strings.HasSuffix(verb, "y") {
+		return verb[:len(verb)-1] + "ied"
+	}
+
+	// For other verbs, just add 'ed' to the end.
+	return verb + "ed"
+}
+
+func applyAuxiliaryVerb(auxVerb string, verbPresentTense string) string {
+	auxVerb = strings.ToLower(auxVerb)
+	verbPresentTense = strings.ToLower(verbPresentTense)
+
+	switch auxVerb {
+	case "did", "had", "would", "could", "should", "has", "was", "is", "were", "did'nt", "had'nt", "wouldn't", "couldn't", "weren't", "hasn't", "wasn't", "isn't":
+		return convertVerbToPastTense(verbPresentTense)
+	default:
+		return verbPresentTense
+	}
 }
