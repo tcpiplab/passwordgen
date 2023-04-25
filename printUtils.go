@@ -795,8 +795,9 @@ func createGrammaticalPassword() string {
 		// Change "a" to "an" if the following word begins with a vowel
 		article = modifyArticle(noun, article)
 
-		// Include adverb
-		sentenceFour = capitalizeFirstLetter("Don't") + " " + adverb + " " + verb + " " + article + " " + noun + ".#4a"
+		// TODO: Implement randomized pronouns
+		pronoun := getRandomPronoun()
+		sentenceFour = capitalizeFirstLetter("Didn't") + " " + pronoun + " " + adverb + " " + verb + " " + article + " " + noun + "?#4a"
 	} else {
 		verb, noun, adverb, adjective, article, auxVerb, pronounAndVerbPresent, possessivePronoun, preposition = getVocabWords()
 		// Change "a" to "an" if the following word begins with a vowel
@@ -822,8 +823,8 @@ func createGrammaticalPassword() string {
 		// Change "a" to "an" if the following word begins with a vowel
 		article = modifyArticle(adjective, article)
 
-		// Change verb tense if auxiliary verb requires it
-		verb = applyAuxiliaryVerb(auxVerb, verb)
+		// Check if it is an irregular verb and change verb tense if auxiliary verb requires it
+		verb = convertIrregularVerb(auxVerb, verb)
 
 		sentenceFive = capitalizeFirstLetter(article) + " " + adjective + " " + noun + " " + auxVerb + " " + verb + ".#5b"
 	}
@@ -839,8 +840,8 @@ func createGrammaticalPassword() string {
 		// Change "a" to "an" if the following word begins with a vowel
 		article = modifyArticle(noun, article)
 
-		// Change verb tense if auxiliary verb requires it
-		verb = applyAuxiliaryVerb(auxVerb, verb)
+		// Check if it is an irregular verb and change verb tense if auxiliary verb requires it
+		verb = convertIrregularVerb(auxVerb, verb)
 
 		sentenceSix = capitalizeFirstLetter(auxVerb) + " " + article + " " + noun + " " + adverb + " " + verb + "?#6a"
 	} else {
@@ -849,8 +850,8 @@ func createGrammaticalPassword() string {
 		// Change "a" to "an" if the following word begins with a vowel
 		article = modifyArticle(adjective, article)
 
-		// Change verb tense if auxiliary verb requires it
-		verb = applyAuxiliaryVerb(auxVerb, verb)
+		// Check if it is an irregular verb and change verb tense if auxiliary verb requires it
+		verb = convertIrregularVerb(auxVerb, verb)
 
 		// include adjective
 		sentenceSix = capitalizeFirstLetter(auxVerb) + " " + article + " " + adjective + " " + noun + " " + verb + "?#6b"
@@ -874,8 +875,8 @@ func createGrammaticalPassword() string {
 		// Change "a" to "an" if the following word begins with a vowel
 		article = modifyArticle(noun, article)
 
-		// Change verb tense if auxiliary verb requires it
-		verb = applyAuxiliaryVerb(auxVerb, verb)
+		// Check if it is an irregular verb and change verb tense if auxiliary verb requires it
+		verb = convertIrregularVerb(auxVerb, verb)
 
 		sentenceSeven = capitalizeFirstLetter(article) + " " + noun + " " + auxVerb + " " + verb + ".#7b"
 	}
@@ -899,12 +900,13 @@ func createGrammaticalPassword() string {
 		// Change "a" to "an" if the following word begins with a vowel
 		article = modifyArticle(noun, article)
 
-		// Change verb tense if auxiliary verb requires it
-		verb = applyAuxiliaryVerb(auxVerb, verb)
+		// Check if it is an irregular verb and change verb tense if auxiliary verb requires it
+		verb = convertIrregularVerb(auxVerb, verb)
 
-		sentenceEight = capitalizeFirstLetter(verbModifier) + " " + article + " " + noun + " " + auxVerb + " " + verb + ".#8b"
+		sentenceEight = capitalizeFirstLetter(article) + " " + noun + " " + auxVerb + " " + verb + ".#8b"
 	}
 
+	// TODO: Pluralize noun if auxVerb is were or weren't
 	// TODO: Detect double negatives and handle them somehow
 	// TODO: Add interrogative sentences with modal auxiliary verbs, ending in a question mark.
 	// TODO: Get better vocab lists
@@ -977,6 +979,13 @@ func getPreposition() string {
 		preposition = "through"
 	}
 	return preposition
+}
+
+func getRandomPronoun() string {
+	pronouns := []string{"he", "she", "they", "it", "I", "you", "we"}
+	rand.Seed(time.Now().UnixNano())
+	randomIndex := rand.Intn(len(pronouns))
+	return pronouns[randomIndex]
 }
 
 func getPossessivePronoun() string {
@@ -1221,102 +1230,6 @@ func convertVerbToPastTense(verb string) string {
 		return verb + "d"
 	}
 
-	// TODO: Handle irregular verbs. They must be hardcoded.
-
-	// be - was/were
-	//begin - began
-	//bite - bit
-	//blow - blew
-	//break - broke
-	//bring - brought
-	//build - built
-	//buy - bought
-	//catch - caught
-	//choose - chose
-	//come - came
-	//cost - cost
-	//cut - cut
-	//do - did
-	//draw - drew
-	//drink - drank
-	//drive - drove
-	//eat - ate
-	//fall - fell
-	//feel - felt
-	//fight - fought
-	//find - found
-	//fly - flew
-	//forget - forgot
-	//freeze - froze
-	//get - got
-	//give - gave
-	//go - went
-	//grow - grew
-	//hang - hung
-	//have - had
-	//hear - heard
-	//hide - hid
-	//hit - hit
-	//hold - held
-	//hurt - hurt
-	//keep - kept
-	//know - knew
-	//lead - led
-	//leave - left
-	//lend - lent
-	//let - let
-	//lie (recline) - lay
-	//light - lit
-	//lose - lost
-	//make - made
-	//mean - meant
-	//meet - met
-	//pay - paid
-	//put - put
-	//read - read (pronounced "red" in past tense)
-	//ride - rode
-	//ring - rang
-	//rise - rose
-	//run - ran
-	//say - said
-	//see - saw
-	//sell - sold
-	//send - sent
-	//set - set
-	//shake - shook
-	//shine - shone
-	//shoot - shot
-	//show - showed
-	//shut - shut
-	//sing - sang
-	//sink - sank
-	//sit - sat
-	//sleep - slept
-	//slide - slid
-	//speak - spoke
-	//spend - spent
-	//spin - spun
-	//spread - spread
-	//stand - stood
-	//steal - stole
-	//stick - stuck
-	//sting - stung
-	//strike - struck
-	//swear - swore
-	//sweep - swept
-	//swim - swam
-	//take - took
-	//teach - taught
-	//tear - tore
-	//tell - told
-	//think - thought
-	//throw - threw
-	//understand - understood
-	//wake - woke
-	//wear - wore
-	//win - won
-	//write - wrote
-
 	// If the verb ends with a consonant followed by 'y', replace 'y' with 'ied'.
 	if len(verb) >= 2 && strings.Contains("bcdfghjklmnpqrstvwxyz", string(verb[len(verb)-2])) && strings.HasSuffix(verb, "y") {
 		return verb[:len(verb)-1] + "ied"
@@ -1331,9 +1244,210 @@ func applyAuxiliaryVerb(auxVerb string, verbPresentTense string) string {
 	verbPresentTense = strings.ToLower(verbPresentTense)
 
 	switch auxVerb {
-	case "did", "had", "would", "could", "should", "has", "was", "is", "were", "did'nt", "had'nt", "wouldn't", "couldn't", "weren't", "hasn't", "wasn't", "isn't":
+	case "had", "has", "was", "is", "were", "hadn't", "weren't", "hasn't", "wasn't", "isn't":
 		return convertVerbToPastTense(verbPresentTense)
 	default:
 		return verbPresentTense
 	}
+}
+
+func convertIrregularVerb(auxVerb string, verb string) string {
+	switch strings.ToLower(verb) {
+	case "be":
+		verb = "was"
+	case "begin":
+		verb = "began"
+	case "bite":
+		verb = "bit"
+	case "blow":
+		verb = "blew"
+	case "break":
+		verb = "broke"
+	case "bring":
+		verb = "brought"
+	case "build":
+		verb = "built"
+	case "buy":
+		verb = "bought"
+	case "catch":
+		verb = "caught"
+	case "choose":
+		verb = "chose"
+	case "come":
+		verb = "came"
+	case "cost":
+		verb = "cost"
+	case "cut":
+		verb = "cut"
+	case "do":
+		verb = "did"
+	case "draw":
+		verb = "drew"
+	case "drink":
+		verb = "drank"
+	case "drive":
+		verb = "drove"
+	case "eat":
+		verb = "ate"
+	case "fall":
+		verb = "fell"
+	case "feel":
+		verb = "felt"
+	case "fight":
+		verb = "fought"
+	case "find":
+		verb = "found"
+	case "fly":
+		verb = "flew"
+	case "forget":
+		verb = "forgot"
+	case "freeze":
+		verb = "froze"
+	case "get":
+		verb = "got"
+	case "give":
+		verb = "gave"
+	case "go":
+		verb = "went"
+	case "grow":
+		verb = "grew"
+	case "hang":
+		verb = "hung"
+	case "have":
+		verb = "had"
+	case "hear":
+		verb = "heard"
+	case "hide":
+		verb = "hid"
+	case "hit":
+		verb = "hit"
+	case "hold":
+		verb = "held"
+	case "hurt":
+		verb = "hurt"
+	case "keep":
+		verb = "kept"
+	case "know":
+		verb = "knew"
+	case "lead":
+		verb = "led"
+	case "leave":
+		verb = "left"
+	case "lend":
+		verb = "lent"
+	case "let":
+		verb = "let"
+	case "lie":
+		verb = "-"
+	case "light":
+		verb = "lit"
+	case "lose":
+		verb = "lost"
+	case "make":
+		verb = "made"
+	case "mean":
+		verb = "meant"
+	case "meet":
+		verb = "met"
+	case "pay":
+		verb = "paid"
+	case "put":
+		verb = "put"
+	case "read":
+		verb = "read"
+	case "ride":
+		verb = "rode"
+	case "ring":
+		verb = "rang"
+	case "rise":
+		verb = "rose"
+	case "run":
+		verb = "ran"
+	case "say":
+		verb = "said"
+	case "see":
+		verb = "saw"
+	case "sell":
+		verb = "sold"
+	case "send":
+		verb = "sent"
+	case "set":
+		verb = "set"
+	case "shake":
+		verb = "shook"
+	case "shine":
+		verb = "shone"
+	case "shoot":
+		verb = "shot"
+	case "show":
+		verb = "showed"
+	case "shut":
+		verb = "shut"
+	case "sing":
+		verb = "sang"
+	case "sink":
+		verb = "sank"
+	case "sit":
+		verb = "sat"
+	case "sleep":
+		verb = "slept"
+	case "slide":
+		verb = "slid"
+	case "speak":
+		verb = "spoke"
+	case "spend":
+		verb = "spent"
+	case "spin":
+		verb = "spun"
+	case "spread":
+		verb = "spread"
+	case "stand":
+		verb = "stood"
+	case "steal":
+		verb = "stole"
+	case "stick":
+		verb = "stuck"
+	case "sting":
+		verb = "stung"
+	case "strike":
+		verb = "struck"
+	case "swear":
+		verb = "swore"
+	case "sweep":
+		verb = "swept"
+	case "swim":
+		verb = "swam"
+	case "take":
+		verb = "took"
+	case "teach":
+		verb = "taught"
+	case "tear":
+		verb = "tore"
+	case "tell":
+		verb = "told"
+	case "think":
+		verb = "thought"
+	case "throw":
+		verb = "threw"
+	case "understand":
+		verb = "understood"
+	case "wake":
+		verb = "woke"
+	case "wear":
+		verb = "wore"
+	case "win":
+		verb = "won"
+	case "write":
+		verb = "wrote"
+	case "grind":
+		verb = "ground"
+	case "stop":
+		verb = "stopped"
+	default:
+		// If not an irregular verb, do the standard conversion to past tense
+		// if auxiliary verb requires it
+		return applyAuxiliaryVerb(auxVerb, verb)
+	}
+	// return past tense version of irregular verb
+	return verb
 }
