@@ -822,8 +822,8 @@ func createGrammaticalPassword() string {
 		// Change "a" to "an" if the following word begins with a vowel
 		article = modifyArticle(adjective, article)
 
-		// Change verb tense if auxiliary verb requires it
-		verb = applyAuxiliaryVerb(auxVerb, verb)
+		// Check if it is an irregular verb and change verb tense if auxiliary verb requires it
+		verb = convertIrregularVerb(auxVerb, verb)
 
 		sentenceFive = capitalizeFirstLetter(article) + " " + adjective + " " + noun + " " + auxVerb + " " + verb + ".#5b"
 	}
@@ -839,8 +839,8 @@ func createGrammaticalPassword() string {
 		// Change "a" to "an" if the following word begins with a vowel
 		article = modifyArticle(noun, article)
 
-		// Change verb tense if auxiliary verb requires it
-		verb = applyAuxiliaryVerb(auxVerb, verb)
+		// Check if it is an irregular verb and change verb tense if auxiliary verb requires it
+		verb = convertIrregularVerb(auxVerb, verb)
 
 		sentenceSix = capitalizeFirstLetter(auxVerb) + " " + article + " " + noun + " " + adverb + " " + verb + "?#6a"
 	} else {
@@ -849,8 +849,8 @@ func createGrammaticalPassword() string {
 		// Change "a" to "an" if the following word begins with a vowel
 		article = modifyArticle(adjective, article)
 
-		// Change verb tense if auxiliary verb requires it
-		verb = applyAuxiliaryVerb(auxVerb, verb)
+		// Check if it is an irregular verb and change verb tense if auxiliary verb requires it
+		verb = convertIrregularVerb(auxVerb, verb)
 
 		// include adjective
 		sentenceSix = capitalizeFirstLetter(auxVerb) + " " + article + " " + adjective + " " + noun + " " + verb + "?#6b"
@@ -874,8 +874,8 @@ func createGrammaticalPassword() string {
 		// Change "a" to "an" if the following word begins with a vowel
 		article = modifyArticle(noun, article)
 
-		// Change verb tense if auxiliary verb requires it
-		verb = applyAuxiliaryVerb(auxVerb, verb)
+		// Check if it is an irregular verb and change verb tense if auxiliary verb requires it
+		verb = convertIrregularVerb(auxVerb, verb)
 
 		sentenceSeven = capitalizeFirstLetter(article) + " " + noun + " " + auxVerb + " " + verb + ".#7b"
 	}
@@ -899,12 +899,13 @@ func createGrammaticalPassword() string {
 		// Change "a" to "an" if the following word begins with a vowel
 		article = modifyArticle(noun, article)
 
-		// Change verb tense if auxiliary verb requires it
-		verb = applyAuxiliaryVerb(auxVerb, verb)
+		// Check if it is an irregular verb and change verb tense if auxiliary verb requires it
+		verb = convertIrregularVerb(auxVerb, verb)
 
 		sentenceEight = capitalizeFirstLetter(verbModifier) + " " + article + " " + noun + " " + auxVerb + " " + verb + ".#8b"
 	}
 
+	// TODO: Pluralize noun if auxVerb is were or weren't
 	// TODO: Detect double negatives and handle them somehow
 	// TODO: Add interrogative sentences with modal auxiliary verbs, ending in a question mark.
 	// TODO: Get better vocab lists
@@ -1221,102 +1222,6 @@ func convertVerbToPastTense(verb string) string {
 		return verb + "d"
 	}
 
-	// TODO: Handle irregular verbs. They must be hardcoded.
-
-	//be - was/were
-	//begin - began
-	//bite - bit
-	//blow - blew
-	//break - broke
-	//bring - brought
-	//build - built
-	//buy - bought
-	//catch - caught
-	//choose - chose
-	//come - came
-	//cost - cost
-	//cut - cut
-	//do - did
-	//draw - drew
-	//drink - drank
-	//drive - drove
-	//eat - ate
-	//fall - fell
-	//feel - felt
-	//fight - fought
-	//find - found
-	//fly - flew
-	//forget - forgot
-	//freeze - froze
-	//get - got
-	//give - gave
-	//go - went
-	//grow - grew
-	//hang - hung
-	//have - had
-	//hear - heard
-	//hide - hid
-	//hit - hit
-	//hold - held
-	//hurt - hurt
-	//keep - kept
-	//know - knew
-	//lead - led
-	//leave - left
-	//lend - lent
-	//let - let
-	//lie (recline) - lay
-	//light - lit
-	//lose - lost
-	//make - made
-	//mean - meant
-	//meet - met
-	//pay - paid
-	//put - put
-	//read - read (pronounced "red" in past tense)
-	//ride - rode
-	//ring - rang
-	//rise - rose
-	//run - ran
-	//say - said
-	//see - saw
-	//sell - sold
-	//send - sent
-	//set - set
-	//shake - shook
-	//shine - shone
-	//shoot - shot
-	//show - showed
-	//shut - shut
-	//sing - sang
-	//sink - sank
-	//sit - sat
-	//sleep - slept
-	//slide - slid
-	//speak - spoke
-	//spend - spent
-	//spin - spun
-	//spread - spread
-	//stand - stood
-	//steal - stole
-	//stick - stuck
-	//sting - stung
-	//strike - struck
-	//swear - swore
-	//sweep - swept
-	//swim - swam
-	//take - took
-	//teach - taught
-	//tear - tore
-	//tell - told
-	//think - thought
-	//throw - threw
-	//understand - understood
-	//wake - woke
-	//wear - wore
-	//win - won
-	//write - wrote
-
 	// If the verb ends with a consonant followed by 'y', replace 'y' with 'ied'.
 	if len(verb) >= 2 && strings.Contains("bcdfghjklmnpqrstvwxyz", string(verb[len(verb)-2])) && strings.HasSuffix(verb, "y") {
 		return verb[:len(verb)-1] + "ied"
@@ -1331,14 +1236,14 @@ func applyAuxiliaryVerb(auxVerb string, verbPresentTense string) string {
 	verbPresentTense = strings.ToLower(verbPresentTense)
 
 	switch auxVerb {
-	case "did", "had", "would", "could", "should", "has", "was", "is", "were", "did'nt", "had'nt", "wouldn't", "couldn't", "weren't", "hasn't", "wasn't", "isn't":
+	case "had", "has", "was", "is", "were", "hadn't", "weren't", "hasn't", "wasn't", "isn't":
 		return convertVerbToPastTense(verbPresentTense)
 	default:
 		return verbPresentTense
 	}
 }
 
-func convertIrregularVerb(verb string) string {
+func convertIrregularVerb(auxVerb string, verb string) string {
 	switch strings.ToLower(verb) {
 	case "be":
 		verb = "was"
@@ -1526,9 +1431,14 @@ func convertIrregularVerb(verb string) string {
 		verb = "won"
 	case "write":
 		verb = "wrote"
+	case "grind":
+		verb = "ground"
+	case "stop":
+		verb = "stopped"
 	default:
-		// if not an irregular verb, do the standard conversion to past test
-		return convertVerbToPastTense(verb)
+		// If not an irregular verb, do the standard conversion to past tense
+		// if auxiliary verb requires it
+		return applyAuxiliaryVerb(auxVerb, verb)
 	}
 	// return past tense version of irregular verb
 	return verb
