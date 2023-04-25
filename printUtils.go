@@ -795,8 +795,9 @@ func createGrammaticalPassword() string {
 		// Change "a" to "an" if the following word begins with a vowel
 		article = modifyArticle(noun, article)
 
-		// Include adverb
-		sentenceFour = capitalizeFirstLetter("Don't") + " " + adverb + " " + verb + " " + article + " " + noun + ".#4a"
+		// TODO: Implement randomized pronouns
+		pronoun := getRandomPronoun()
+		sentenceFour = capitalizeFirstLetter("Didn't") + " " + pronoun + " " + adverb + " " + verb + " " + article + " " + noun + "?#4a"
 	} else {
 		verb, noun, adverb, adjective, article, auxVerb, pronounAndVerbPresent, possessivePronoun, preposition = getVocabWords()
 		// Change "a" to "an" if the following word begins with a vowel
@@ -978,6 +979,13 @@ func getPreposition() string {
 		preposition = "through"
 	}
 	return preposition
+}
+
+func getRandomPronoun() string {
+	pronouns := []string{"he", "she", "they", "it", "I", "you", "we"}
+	rand.Seed(time.Now().UnixNano())
+	randomIndex := rand.Intn(len(pronouns))
+	return pronouns[randomIndex]
 }
 
 func getPossessivePronoun() string {
