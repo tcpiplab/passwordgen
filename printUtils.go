@@ -1223,7 +1223,7 @@ func convertVerbToPastTense(verb string) string {
 
 	// TODO: Handle irregular verbs. They must be hardcoded.
 
-	// be - was/were
+	//be - was/were
 	//begin - began
 	//bite - bit
 	//blow - blew
@@ -1336,4 +1336,200 @@ func applyAuxiliaryVerb(auxVerb string, verbPresentTense string) string {
 	default:
 		return verbPresentTense
 	}
+}
+
+func convertIrregularVerb(verb string) string {
+	switch strings.ToLower(verb) {
+	case "be":
+		verb = "was"
+	case "begin":
+		verb = "began"
+	case "bite":
+		verb = "bit"
+	case "blow":
+		verb = "blew"
+	case "break":
+		verb = "broke"
+	case "bring":
+		verb = "brought"
+	case "build":
+		verb = "built"
+	case "buy":
+		verb = "bought"
+	case "catch":
+		verb = "caught"
+	case "choose":
+		verb = "chose"
+	case "come":
+		verb = "came"
+	case "cost":
+		verb = "cost"
+	case "cut":
+		verb = "cut"
+	case "do":
+		verb = "did"
+	case "draw":
+		verb = "drew"
+	case "drink":
+		verb = "drank"
+	case "drive":
+		verb = "drove"
+	case "eat":
+		verb = "ate"
+	case "fall":
+		verb = "fell"
+	case "feel":
+		verb = "felt"
+	case "fight":
+		verb = "fought"
+	case "find":
+		verb = "found"
+	case "fly":
+		verb = "flew"
+	case "forget":
+		verb = "forgot"
+	case "freeze":
+		verb = "froze"
+	case "get":
+		verb = "got"
+	case "give":
+		verb = "gave"
+	case "go":
+		verb = "went"
+	case "grow":
+		verb = "grew"
+	case "hang":
+		verb = "hung"
+	case "have":
+		verb = "had"
+	case "hear":
+		verb = "heard"
+	case "hide":
+		verb = "hid"
+	case "hit":
+		verb = "hit"
+	case "hold":
+		verb = "held"
+	case "hurt":
+		verb = "hurt"
+	case "keep":
+		verb = "kept"
+	case "know":
+		verb = "knew"
+	case "lead":
+		verb = "led"
+	case "leave":
+		verb = "left"
+	case "lend":
+		verb = "lent"
+	case "let":
+		verb = "let"
+	case "lie":
+		verb = "-"
+	case "light":
+		verb = "lit"
+	case "lose":
+		verb = "lost"
+	case "make":
+		verb = "made"
+	case "mean":
+		verb = "meant"
+	case "meet":
+		verb = "met"
+	case "pay":
+		verb = "paid"
+	case "put":
+		verb = "put"
+	case "read":
+		verb = "read"
+	case "ride":
+		verb = "rode"
+	case "ring":
+		verb = "rang"
+	case "rise":
+		verb = "rose"
+	case "run":
+		verb = "ran"
+	case "say":
+		verb = "said"
+	case "see":
+		verb = "saw"
+	case "sell":
+		verb = "sold"
+	case "send":
+		verb = "sent"
+	case "set":
+		verb = "set"
+	case "shake":
+		verb = "shook"
+	case "shine":
+		verb = "shone"
+	case "shoot":
+		verb = "shot"
+	case "show":
+		verb = "showed"
+	case "shut":
+		verb = "shut"
+	case "sing":
+		verb = "sang"
+	case "sink":
+		verb = "sank"
+	case "sit":
+		verb = "sat"
+	case "sleep":
+		verb = "slept"
+	case "slide":
+		verb = "slid"
+	case "speak":
+		verb = "spoke"
+	case "spend":
+		verb = "spent"
+	case "spin":
+		verb = "spun"
+	case "spread":
+		verb = "spread"
+	case "stand":
+		verb = "stood"
+	case "steal":
+		verb = "stole"
+	case "stick":
+		verb = "stuck"
+	case "sting":
+		verb = "stung"
+	case "strike":
+		verb = "struck"
+	case "swear":
+		verb = "swore"
+	case "sweep":
+		verb = "swept"
+	case "swim":
+		verb = "swam"
+	case "take":
+		verb = "took"
+	case "teach":
+		verb = "taught"
+	case "tear":
+		verb = "tore"
+	case "tell":
+		verb = "told"
+	case "think":
+		verb = "thought"
+	case "throw":
+		verb = "threw"
+	case "understand":
+		verb = "understood"
+	case "wake":
+		verb = "woke"
+	case "wear":
+		verb = "wore"
+	case "win":
+		verb = "won"
+	case "write":
+		verb = "wrote"
+	default:
+		// if not an irregular verb, do the standard conversion to past test
+		return convertVerbToPastTense(verb)
+	}
+	// return past tense version of irregular verb
+	return verb
 }
