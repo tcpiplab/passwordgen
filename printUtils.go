@@ -902,7 +902,7 @@ func createGrammaticalPassword() string {
 		// Check if it is an irregular verb and change verb tense if auxiliary verb requires it
 		verb = convertIrregularVerb(auxVerb, verb)
 
-		sentenceEight = capitalizeFirstLetter(verbModifier) + " " + article + " " + noun + " " + auxVerb + " " + verb + ".#8b"
+		sentenceEight = capitalizeFirstLetter(article) + " " + noun + " " + auxVerb + " " + verb + ".#8b"
 	}
 
 	// TODO: Pluralize noun if auxVerb is were or weren't
