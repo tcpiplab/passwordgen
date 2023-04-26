@@ -723,6 +723,8 @@ func createGrammaticalPassword() string {
 	randomnessObject := rand.New(rand.NewSource(time.Now().UnixNano()))
 
 	/* SENTENCE ONE ---------------------------------------------
+	Tightly reanimate one roof.#1a
+	Bewitch his steel yesterday.#1b
 	-------------------------------------------------------------*/
 	var sentenceOne string
 
@@ -749,24 +751,45 @@ func createGrammaticalPassword() string {
 	}
 
 	/* SENTENCE TWO ---------------------------------------------
+	That is aware.#2a
+	Those are my pay.#2b
 	-------------------------------------------------------------*/
 
 	var sentenceTwo string
+
 	randomnessObject = rand.New(rand.NewSource(time.Now().UnixNano()))
+
 	// Randomly choose between 0 and 1
 	randomChoice = randomnessObject.Intn(2)
+
 	if randomChoice == 0 {
+
 		verb, noun, adverb, adjective, article, auxVerb, pronounAndVerbPresent, possessivePronoun, preposition = getVocabWords()
-		sentenceTwo = capitalizeFirstLetter(pronounAndVerbPresent) + " " + adjective + ".#2a"
+
+		//sentenceTwo = capitalizeFirstLetter(pronounAndVerbPresent) + " " + adjective + ".#2a"
+
+		// Build the sentence
+		sentenceTwo = pronounAndVerbPresent + " " + adjective + ".#2a"
+
+		// 50% chance that it will be prepended with something like, "And then,"
+		// 50% chance it will be unchanged
+		sentenceTwo = maybePrependConjAdvPhrase(sentenceTwo)
+
+		sentenceTwo = capitalizeFirstLetter(sentenceTwo)
+
 	} else {
+
 		verb, noun, adverb, adjective, article, auxVerb, pronounAndVerbPresent, possessivePronoun, preposition = getVocabWords()
 		// Change "a" to "an" if the following word begins with a vowel
+
 		article = modifyArticle(noun, article)
 
 		sentenceTwo = capitalizeFirstLetter(pronounAndVerbPresent) + " " + article + " " + noun + ".#2b"
 	}
 
 	/* SENTENCE THREE -------------------------------------------
+	Progress at their spring.#3a
+	He is between someone's breath.#3b
 	-------------------------------------------------------------*/
 	var sentenceThree string
 	randomnessObject = rand.New(rand.NewSource(time.Now().UnixNano()))
@@ -837,6 +860,8 @@ func createGrammaticalPassword() string {
 	}
 
 	/* SENTENCE SIX ---------------------------------------------
+	Wasn't one mood cleverly operated?#6a
+	Wouldn't his fine suit displace?#6b
 	-------------------------------------------------------------*/
 	var sentenceSix string
 	randomnessObject = rand.New(rand.NewSource(time.Now().UnixNano()))
@@ -865,6 +890,8 @@ func createGrammaticalPassword() string {
 	}
 
 	/* SENTENCE SEVEN -------------------------------------------
+	Memorize my devil.#7a
+	Any relief shall surrender.#7b
 	-------------------------------------------------------------*/
 	var sentenceSeven string
 	randomnessObject = rand.New(rand.NewSource(time.Now().UnixNano()))
@@ -889,6 +916,8 @@ func createGrammaticalPassword() string {
 	}
 
 	/* SENTENCE EIGHT -------------------------------------------
+	Rarely typecast one leave.#8a
+	The quarter won't discriminate.#8b
 	-------------------------------------------------------------*/
 	verbModifier := getVerbModifier(randomnessObject)
 	var sentenceEight string
@@ -1532,4 +1561,18 @@ func getConjunctiveAdverbialPhrase() string {
 		conjunctiveAdverbialPhrase = "Wait. Um,"
 	}
 	return conjunctiveAdverbialPhrase
+}
+
+// The modifySentence function generates a random float between 0 and 1. If the
+// value is less than 0.5, it calls getConjunctiveAdverbialPhrase() and prepends
+// the resulting phrase to the input sentence. Otherwise, it returns the original
+// sentence.
+func maybePrependConjAdvPhrase(sentence string) string {
+	rand.Seed(time.Now().UnixNano())
+	shouldModify := rand.Float64()
+
+	if shouldModify < 0.5 {
+		return getConjunctiveAdverbialPhrase() + " " + sentence
+	}
+	return sentence
 }
