@@ -1483,3 +1483,53 @@ func convertIrregularVerb(auxVerb string, verb string) string {
 	// return past tense version of irregular verb
 	return verb
 }
+
+func getConjunctiveAdverbialPhrase() string {
+
+	var conjunctiveAdverbialPhrase string
+
+	phrases := []string{
+		"And then,",
+		"In addition,",
+		"Therefore,",
+		"However,",
+		"Conversely,",
+		"Meanwhile,",
+		"Moreover,",
+		"Nonetheless,",
+		"Furthermore,",
+		"On the other hand,",
+		"For example,",
+	}
+
+	rand.Seed(time.Now().UnixNano())
+	randomIndex := rand.Intn(len(phrases))
+
+	switch randomIndex {
+	case 0:
+		conjunctiveAdverbialPhrase = phrases[0]
+	case 1:
+		conjunctiveAdverbialPhrase = phrases[1]
+	case 2:
+		conjunctiveAdverbialPhrase = phrases[2]
+	case 3:
+		conjunctiveAdverbialPhrase = phrases[3]
+	case 4:
+		conjunctiveAdverbialPhrase = phrases[4]
+	case 5:
+		conjunctiveAdverbialPhrase = phrases[5]
+	case 6:
+		conjunctiveAdverbialPhrase = phrases[6]
+	case 7:
+		conjunctiveAdverbialPhrase = phrases[7]
+	case 8:
+		conjunctiveAdverbialPhrase = phrases[8]
+	case 9:
+		conjunctiveAdverbialPhrase = phrases[9]
+	case 10:
+		conjunctiveAdverbialPhrase = phrases[10]
+	default:
+		conjunctiveAdverbialPhrase = "Wait. Um,"
+	}
+	return conjunctiveAdverbialPhrase
+}
