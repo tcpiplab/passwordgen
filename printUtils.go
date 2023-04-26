@@ -939,7 +939,16 @@ func createGrammaticalPassword() string {
 		// Check if it is an irregular verb and change verb tense if auxiliary verb requires it
 		verb = convertIrregularVerb(auxVerb, verb)
 
-		sentenceEight = capitalizeFirstLetter(article) + " " + noun + " " + auxVerb + " " + verb + ".#8b"
+		//sentenceEight = capitalizeFirstLetter(article) + " " + noun + " " + auxVerb + " " + verb + ".#8b"
+
+		// Build the sentence
+		sentenceEight = article + " " + noun + " " + auxVerb + " " + verb + ".#8b"
+
+		// 50% chance that it will be prepended with something like, "And then,"
+		// 50% chance it will be unchanged
+		sentenceEight = maybePrependConjAdvPhrase(sentenceEight)
+
+		sentenceEight = capitalizeFirstLetter(sentenceEight)
 	}
 
 	/* SENTENCE NINE --------------------------------------------
