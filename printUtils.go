@@ -786,6 +786,8 @@ func createGrammaticalPassword() string {
 	}
 
 	/* SENTENCE FOUR --------------------------------------------
+	Didn't you yesterday criminalise the skill?#4a
+	Don't intoxicate one boat.#4b
 	-------------------------------------------------------------*/
 	var sentenceFour string
 	randomnessObject = rand.New(rand.NewSource(time.Now().UnixNano()))
@@ -807,10 +809,15 @@ func createGrammaticalPassword() string {
 	}
 
 	/* SENTENCE FIVE --------------------------------------------
+	Someone's road is the dog's.#5a
+	Their outlying heavy shall accredit.#5b
 	-------------------------------------------------------------*/
 	var sentenceFive string
+
 	randomnessObject = rand.New(rand.NewSource(time.Now().UnixNano()))
+
 	randomChoice = randomnessObject.Intn(2)
+
 	if randomChoice == 0 {
 		verb, noun, adverb, adjective, article, auxVerb, pronounAndVerbPresent, possessivePronoun, preposition = getVocabWords()
 		// Change "a" to "an" if the following word begins with a vowel
@@ -906,12 +913,35 @@ func createGrammaticalPassword() string {
 		sentenceEight = capitalizeFirstLetter(article) + " " + noun + " " + auxVerb + " " + verb + ".#8b"
 	}
 
+	/* SENTENCE NINE --------------------------------------------
+	I denied any frightening wonder.#9a
+	It carefully desensitized your pleasure.#9b
+	-------------------------------------------------------------*/
+	var sentenceNine string
+	randomnessObject = rand.New(rand.NewSource(time.Now().UnixNano()))
+	randomChoice = randomnessObject.Intn(2)
+	if randomChoice == 0 {
+		verb, noun, adverb, adjective, article, auxVerb, pronounAndVerbPresent, possessivePronoun, preposition = getVocabWords()
+		// Change "a" to "an" if the following word begins with a vowel
+		article = modifyArticle(noun, article)
+
+		pronoun := getRandomPronoun()
+		sentenceNine = capitalizeFirstLetter(pronoun) + " " + convertVerbToPastTense(verb) + " " + article + " " + adjective + " " + noun + ".#9a"
+	} else {
+		verb, noun, adverb, adjective, article, auxVerb, pronounAndVerbPresent, possessivePronoun, preposition = getVocabWords()
+		// Change "a" to "an" if the following word begins with a vowel
+		article = modifyArticle(noun, article)
+
+		pronoun := getRandomPronoun()
+		sentenceNine = capitalizeFirstLetter(pronoun) + " " + adverb + " " + convertVerbToPastTense(verb) + " " + article + " " + noun + ".#9b"
+	}
+
 	// TODO: Pluralize noun if auxVerb is were or weren't
 	// TODO: Detect double negatives and handle them somehow
 	// TODO: Add interrogative sentences with modal auxiliary verbs, ending in a question mark.
 	// TODO: Get better vocab lists
 
-	randomSentenceIndex := rand.Intn(8)
+	randomSentenceIndex := rand.Intn(9)
 
 	var randomSentenceStructure string
 
@@ -932,6 +962,8 @@ func createGrammaticalPassword() string {
 		randomSentenceStructure = sentenceSeven
 	case 7:
 		randomSentenceStructure = sentenceEight
+	case 8:
+		randomSentenceStructure = sentenceNine
 	}
 
 	return randomSentenceStructure
