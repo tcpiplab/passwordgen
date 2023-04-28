@@ -1013,6 +1013,7 @@ func createGrammaticalPassword() string {
 	}
 
 	// TODO: Pluralize noun if auxVerb is were or weren't
+	// TODO: Should "hasn't" be replaced with "hasn't been" when followed by a past-tense verb?
 	// TODO: Detect double negatives and handle them somehow
 	// TODO: Add interrogative sentences with modal auxiliary verbs, ending in a question mark.
 	// TODO: Get better vocab lists
