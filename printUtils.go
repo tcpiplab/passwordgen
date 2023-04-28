@@ -737,8 +737,8 @@ func createGrammaticalPassword() string {
 		// Change "a" to "an" if the following word begins with a vowel
 		article = modifyArticle(noun, article)
 
-		// Include adverb
-		sentenceOne = capitalizeFirstLetter(adverb) + " " + verb + " " + article + " " + noun + ".#1a"
+		sentenceOne = capitalizeFirstLetter(verb) + " " + article + " " + noun + " " + adverb + ".#1a"
+
 	} else {
 
 		verb, noun, adverb, adjective, article, auxVerb, pronounAndVerbPresent, possessivePronoun, preposition = getVocabWords()
