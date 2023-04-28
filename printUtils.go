@@ -737,8 +737,8 @@ func createGrammaticalPassword() string {
 		// Change "a" to "an" if the following word begins with a vowel
 		article = modifyArticle(noun, article)
 
-		// Include adverb
-		sentenceOne = capitalizeFirstLetter(adverb) + " " + verb + " " + article + " " + noun + ".#1a"
+		sentenceOne = capitalizeFirstLetter(verb) + " " + article + " " + noun + " " + adverb + ".#1a"
+
 	} else {
 
 		verb, noun, adverb, adjective, article, auxVerb, pronounAndVerbPresent, possessivePronoun, preposition = getVocabWords()
@@ -753,6 +753,7 @@ func createGrammaticalPassword() string {
 	/* SENTENCE TWO ---------------------------------------------
 	That is aware.#2a
 	Those are my pay.#2b
+	Are those my pay?#2c
 	-------------------------------------------------------------*/
 
 	var sentenceTwo string
@@ -760,7 +761,7 @@ func createGrammaticalPassword() string {
 	randomnessObject = rand.New(rand.NewSource(time.Now().UnixNano()))
 
 	// Randomly choose between 0 and 1
-	randomChoice = randomnessObject.Intn(2)
+	randomChoice = randomnessObject.Intn(3)
 
 	if randomChoice == 0 {
 
@@ -777,7 +778,7 @@ func createGrammaticalPassword() string {
 
 		sentenceTwo = capitalizeFirstLetter(sentenceTwo)
 
-	} else {
+	} else if randomChoice == 1 {
 
 		verb, noun, adverb, adjective, article, auxVerb, pronounAndVerbPresent, possessivePronoun, preposition = getVocabWords()
 		// Change "a" to "an" if the following word begins with a vowel
@@ -785,27 +786,64 @@ func createGrammaticalPassword() string {
 		article = modifyArticle(noun, article)
 
 		sentenceTwo = capitalizeFirstLetter(pronounAndVerbPresent) + " " + article + " " + noun + ".#2b"
+
+	} else {
+
+		verb, noun, adverb, adjective, article, auxVerb, pronounAndVerbPresent, possessivePronoun, preposition = getVocabWords()
+		// Change "a" to "an" if the following word begins with a vowel
+
+		article = modifyArticle(noun, article)
+
+		// Reverse the subject and verb: "I am" becomes "Am I"
+		subjectVerbPhrase := strings.Split(pronounAndVerbPresent, " ")
+		verbAndPronounPresent := subjectVerbPhrase[1] + " " + subjectVerbPhrase[0]
+
+		sentenceTwo = capitalizeFirstLetter(verbAndPronounPresent) + " " + article + " " + noun + "?#2c"
+
 	}
 
 	/* SENTENCE THREE -------------------------------------------
 	Progress at their spring.#3a
 	He is between someone's breath.#3b
+	Is he between someone's breath?#3b
 	-------------------------------------------------------------*/
 	var sentenceThree string
+
 	randomnessObject = rand.New(rand.NewSource(time.Now().UnixNano()))
-	randomChoice = randomnessObject.Intn(2)
+
+	randomChoice = randomnessObject.Intn(3)
+
 	if randomChoice == 0 {
+
 		verb, noun, adverb, adjective, article, auxVerb, pronounAndVerbPresent, possessivePronoun, preposition = getVocabWords()
+
 		// Change "a" to "an" if the following word begins with a vowel
 		article = modifyArticle(noun, article)
 
 		sentenceThree = capitalizeFirstLetter(verb) + " " + preposition + " " + article + " " + noun + ".#3a"
-	} else {
+
+	} else if randomChoice == 1 {
+
 		verb, noun, adverb, adjective, article, auxVerb, pronounAndVerbPresent, possessivePronoun, preposition = getVocabWords()
+
 		// Change "a" to "an" if the following word begins with a vowel
 		article = modifyArticle(noun, article)
 
 		sentenceThree = capitalizeFirstLetter(pronounAndVerbPresent) + " " + preposition + " " + article + " " + noun + ".#3b"
+
+	} else {
+
+		verb, noun, adverb, adjective, article, auxVerb, pronounAndVerbPresent, possessivePronoun, preposition = getVocabWords()
+		// Change "a" to "an" if the following word begins with a vowel
+
+		article = modifyArticle(noun, article)
+
+		// Reverse the subject and verb: "I am" becomes "Am I"
+		subjectVerbPhrase := strings.Split(pronounAndVerbPresent, " ")
+		verbAndPronounPresent := subjectVerbPhrase[1] + " " + subjectVerbPhrase[0]
+
+		sentenceThree = capitalizeFirstLetter(verbAndPronounPresent) + " " + preposition + " " + article + " " + noun + "?#3c"
+
 	}
 
 	/* SENTENCE FOUR --------------------------------------------
@@ -975,6 +1013,7 @@ func createGrammaticalPassword() string {
 	}
 
 	// TODO: Pluralize noun if auxVerb is were or weren't
+	// TODO: Should "hasn't" be replaced with "hasn't been" when followed by a past-tense verb?
 	// TODO: Detect double negatives and handle them somehow
 	// TODO: Add interrogative sentences with modal auxiliary verbs, ending in a question mark.
 	// TODO: Get better vocab lists
