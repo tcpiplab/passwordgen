@@ -805,7 +805,7 @@ func createGrammaticalPassword() string {
 	/* SENTENCE THREE -------------------------------------------
 	Progress at their spring.#3a
 	He is between someone's breath.#3b
-	Is he between someone's breath?#3b
+	Is he between someone's breath?#3c
 	-------------------------------------------------------------*/
 	var sentenceThree string
 
