@@ -83,7 +83,7 @@ func argsHandler() (
 		false,
 		"./passwordgen --grammatical\n")
 
-	grammatical = flag.Bool(
+	grammaticalAI = flag.Bool(
 		"grammatical-ai",
 		false,
 		"./passwordgen --grammatical-ai\n")
