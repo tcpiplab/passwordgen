@@ -26,7 +26,7 @@ import (
 )
 
 const (
-	openaiAPIKey = "your_openai_api_key"
+	openaiAPIKey := os.Getenv("MY_API_KEY")
 	openaiAPIURL = "https://api.openai.com/v1/engines/davinci-codex/completions"
 )
 

@@ -1,10 +1,14 @@
 package main
 
 import (
+	"bytes"
+	"encoding/json"
 	"fmt"
 	"github.com/fatih/color"
 	"github.com/jedib0t/go-pretty/v6/table"
+	"io/ioutil"
 	"math/rand"
+	"net/http"
 	"os"
 	"strings"
 	"time"
@@ -205,7 +209,11 @@ func printPasswordTableUnix(arrayPasswords []string, randomPasswords bool, wordC
 
 	} else if grammatical {
 
-		arrayPasswords = printGrammaticalTable()
+		arrayPasswords = printGrammaticalTable(false)
+
+	} else if grammaticalAI {
+
+		arrayPasswords = printGrammaticalTable(true)
 	}
 
 	return arrayPasswords
@@ -1253,7 +1261,7 @@ func getRandomArticle() string {
 	return article
 }
 
-func printGrammaticalTable() []string {
+func printGrammaticalTable(grammaticalAI bool) []string {
 
 	var consoleHeight int
 
@@ -1269,10 +1277,21 @@ func printGrammaticalTable() []string {
 	// failures later on.
 	arrayOfRandomHex := make([]string, consoleHeight/2)
 
+	var randomSentenceNoColor string
+
 	// Loop through the console screen height and print a table of random sentences
 	for i := 0; i < (consoleHeight/2)-1; i++ {
 
-		randomSentenceNoColor := createGrammaticalPassword()
+		if grammaticalAI == false {
+
+			randomSentenceNoColor = createGrammaticalPassword()
+
+		} else {
+
+			nonSensicalSentence := createGrammaticalPassword()
+			// Use AI to improve the sentence we generated
+			randomSentenceNoColor = createGrammaticalPasswordAI(nonSensicalSentence)
+		}
 
 		// Colorize the random sentences that we're saving to the array
 		// The following works on all platforms but no color renders on Windows
@@ -1295,6 +1314,60 @@ func printGrammaticalTable() []string {
 	// Return the array because it's needed for the
 	// clipboard functions if we're in interactive mode.
 	return arrayOfRandomHex
+}
+
+
+
+func createGrammaticalPasswordAI(nonSensicalSentence string) string {
+
+	const (
+		openaiAPIKey := os.Getenv("MY_API_KEY")
+		openaiAPIURL = "https://api.openai.com/v1/engines/davinci-codex/completions"
+	)
+
+	type prompt struct {
+		Prompt string `json:"prompt"`
+	}
+
+	inputSentence := "Rewrite the following sentence in a more meaningful and coherent way: 'Her finished uncle can't manifest'."
+
+	data := prompt{
+		Prompt: inputSentence,
+	}
+
+	requestBody, err := json.Marshal(data)
+	if err != nil {
+		fmt.Println("Error:", err)
+		return
+	}
+
+	client := &http.Client{}
+	request, err := http.NewRequest("POST", openaiAPIURL, bytes.NewBuffer(requestBody))
+	if err != nil {
+		fmt.Println("Error:", err)
+		return
+	}
+
+	request.Header.Set("Content-Type", "application/json")
+	request.Header.Set("Authorization", "Bearer "+openaiAPIKey)
+
+	response, err := client.Do(request)
+	if err != nil {
+		fmt.Println("Error:", err)
+		return
+	}
+
+	defer response.Body.Close()
+
+	body, err := ioutil.ReadAll(response.Body)
+	if err != nil {
+		fmt.Println("Error:", err)
+		return
+	}
+
+	rewrittenSentence := gjson.Get(string(body), "choices.0.text").String()
+	fmt.Println("Input sentence:", inputSentence)
+	fmt.Println("Rewritten sentence:", rewrittenSentence)
 }
 
 // modifyArticle checks if the firstLetter variable is present in the vowels string.
