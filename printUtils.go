@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"github.com/fatih/color"
 	"github.com/jedib0t/go-pretty/v6/table"
+	"github.com/tidwall/gjson"
 	"io/ioutil"
 	"math/rand"
 	"net/http"
@@ -1316,20 +1317,19 @@ func printGrammaticalTable(grammaticalAI bool) []string {
 	return arrayOfRandomHex
 }
 
-
-
 func createGrammaticalPasswordAI(nonSensicalSentence string) string {
 
-	const (
-		openaiAPIKey := os.Getenv("MY_API_KEY")
-		openaiAPIURL = "https://api.openai.com/v1/engines/davinci-codex/completions"
-	)
+	openaiAPIKey := os.Getenv("GPT_API_KEY")
+	// openaiAPIURL := "https://api.openai.com/v1/engines/davinci-codex/completions"
+	openaiAPIURL := "https://api.openai.com/v1/completions"
 
 	type prompt struct {
 		Prompt string `json:"prompt"`
 	}
 
-	inputSentence := "Rewrite the following sentence in a more meaningful and coherent way: 'Her finished uncle can't manifest'."
+	//inputSentence := "Rewrite the following sentence in a more meaningful and coherent way: 'Her finished uncle can't manifest'."
+
+	inputSentence := nonSensicalSentence
 
 	data := prompt{
 		Prompt: inputSentence,
@@ -1337,37 +1337,44 @@ func createGrammaticalPasswordAI(nonSensicalSentence string) string {
 
 	requestBody, err := json.Marshal(data)
 	if err != nil {
-		fmt.Println("Error:", err)
-		return
+		fmt.Println("Error with the request body: ", err)
+		//return
+		os.Exit(1)
 	}
 
 	client := &http.Client{}
 	request, err := http.NewRequest("POST", openaiAPIURL, bytes.NewBuffer(requestBody))
 	if err != nil {
-		fmt.Println("Error:", err)
-		return
+		fmt.Println("Error with the POST request: ", err)
+		//return
+		os.Exit(1)
 	}
 
 	request.Header.Set("Content-Type", "application/json")
 	request.Header.Set("Authorization", "Bearer "+openaiAPIKey)
 
 	response, err := client.Do(request)
+	fmt.Printf("%s\n", response)
 	if err != nil {
-		fmt.Println("Error:", err)
-		return
+		fmt.Println("Error with the response: ", err)
+		//return
+		os.Exit(1)
 	}
 
 	defer response.Body.Close()
 
 	body, err := ioutil.ReadAll(response.Body)
 	if err != nil {
-		fmt.Println("Error:", err)
-		return
+		fmt.Println("Error with the response body: ", err)
+		//return
+		os.Exit(1)
 	}
 
 	rewrittenSentence := gjson.Get(string(body), "choices.0.text").String()
 	fmt.Println("Input sentence:", inputSentence)
 	fmt.Println("Rewritten sentence:", rewrittenSentence)
+
+	return rewrittenSentence
 }
 
 // modifyArticle checks if the firstLetter variable is present in the vowels string.
