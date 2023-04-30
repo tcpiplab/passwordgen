@@ -1,4 +1,4 @@
-.idea/workspace.xml
+.idea/
 .DS_Store
 callWordAPI.go
 /.idea/dictionaries/*.xml
