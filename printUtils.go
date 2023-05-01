@@ -1368,9 +1368,12 @@ func createGrammaticalPasswordAI(nonSensicalSentence string) string {
 		return "Error reading response body"
 	}
 
-	fmt.Println("Response:", string(body))
+	//fmt.Println("Response:", string(body))
 
 	rewrittenSentence := extractGPTJson(string(body))
+
+	fmt.Println(nonSensicalSentence)
+	fmt.Println(rewrittenSentence)
 
 	return rewrittenSentence
 }
@@ -1407,7 +1410,11 @@ func extractGPTJson(jsonData string) string {
 
 	if len(response.Choices) > 0 {
 		sentence = response.Choices[0].Text
-		fmt.Println("Extracted sentence:", sentence)
+		//fmt.Println("Extracted sentence:", sentence)
+
+		// Remove two leading newline characters
+		sentence = strings.TrimPrefix(sentence, "\n\n")
+
 	} else {
 		fmt.Println("No choices found in the JSON")
 	}
