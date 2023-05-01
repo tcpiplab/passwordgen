@@ -1329,7 +1329,9 @@ func createGrammaticalPasswordAI(nonSensicalSentence string) string {
 
 	apiKey := os.Getenv("GPT_API_KEY")
 
-	promptSentence := "Change the subject in the following nonsensical sentence so that the subject and verb sound like they belong together: '" + nonSensicalSentence + "'"
+	//promptSentence := "Change the subject in the following nonsensical sentence so that the subject and verb sound like they belong together: '" + nonSensicalSentence + "'"
+
+	promptSentence := "Change the subject in the following nonsensical sentence so that it makes more sense. Change the adverb, adjective, noun, or verb if they don't sound like they belong together: '" + nonSensicalSentence + "'"
 
 	data := CompletionCreateArgs{
 		Model:       "text-davinci-003",
