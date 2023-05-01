@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"github.com/fatih/color"
 	"github.com/jedib0t/go-pretty/v6/table"
-	"github.com/tidwall/gjson"
 	"io/ioutil"
 	"math/rand"
 	"net/http"
@@ -1319,62 +1318,100 @@ func printGrammaticalTable(grammaticalAI bool) []string {
 
 func createGrammaticalPasswordAI(nonSensicalSentence string) string {
 
-	openaiAPIKey := os.Getenv("GPT_API_KEY")
-	// openaiAPIURL := "https://api.openai.com/v1/engines/davinci-codex/completions"
 	openaiAPIURL := "https://api.openai.com/v1/completions"
 
-	type prompt struct {
-		Prompt string `json:"prompt"`
+	type CompletionCreateArgs struct {
+		Model       string  `json:"model"`
+		Prompt      string  `json:"prompt"`
+		MaxTokens   int     `json:"max_tokens"`
+		Temperature float64 `json:"temperature"`
 	}
 
-	//inputSentence := "Rewrite the following sentence in a more meaningful and coherent way: 'Her finished uncle can't manifest'."
+	apiKey := os.Getenv("GPT_API_KEY")
 
-	inputSentence := nonSensicalSentence
+	promptSentence := "Change the subject in the following nonsensical sentence so that the subject and verb sound like they belong together: '" + nonSensicalSentence + "'"
 
-	data := prompt{
-		Prompt: inputSentence,
+	data := CompletionCreateArgs{
+		Model:       "text-davinci-003",
+		Prompt:      promptSentence,
+		MaxTokens:   12,
+		Temperature: 0,
 	}
 
-	requestBody, err := json.Marshal(data)
+	jsonData, err := json.Marshal(data)
 	if err != nil {
-		fmt.Println("Error with the request body: ", err)
-		//return
-		os.Exit(1)
+		fmt.Println("Error marshaling JSON:", err)
+		return "Error marshaling JSON"
 	}
+
+	req, err := http.NewRequest("POST", openaiAPIURL, bytes.NewBuffer(jsonData))
+
+	if err != nil {
+		fmt.Println("Error creating request:", err)
+		return "Error creating request"
+	}
+
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", apiKey))
 
 	client := &http.Client{}
-	request, err := http.NewRequest("POST", openaiAPIURL, bytes.NewBuffer(requestBody))
+	resp, err := client.Do(req)
 	if err != nil {
-		fmt.Println("Error with the POST request: ", err)
-		//return
-		os.Exit(1)
+		fmt.Println("Error making request:", err)
+		return "Error making request"
+	}
+	defer resp.Body.Close()
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Println("Error reading response body:", err)
+		return "Error reading response body"
 	}
 
-	request.Header.Set("Content-Type", "application/json")
-	request.Header.Set("Authorization", "Bearer "+openaiAPIKey)
+	fmt.Println("Response:", string(body))
 
-	response, err := client.Do(request)
-	fmt.Printf("%s\n", response)
-	if err != nil {
-		fmt.Println("Error with the response: ", err)
-		//return
-		os.Exit(1)
-	}
-
-	defer response.Body.Close()
-
-	body, err := ioutil.ReadAll(response.Body)
-	if err != nil {
-		fmt.Println("Error with the response body: ", err)
-		//return
-		os.Exit(1)
-	}
-
-	rewrittenSentence := gjson.Get(string(body), "choices.0.text").String()
-	fmt.Println("Input sentence:", inputSentence)
-	fmt.Println("Rewritten sentence:", rewrittenSentence)
+	rewrittenSentence := extractGPTJson(string(body))
 
 	return rewrittenSentence
+}
+
+func extractGPTJson(jsonData string) string {
+	//jsonData := `{"id":"cmpl-7BE7N12xt4CoVvr18Hl3vboDQvsSp","object":"text_completion","created":1682910233,"model":"text-davinci-003","choices":[{"text":"\n\nSteal someone's jacket.","index":0,"logprobs":null,"finish_reason":"stop"}],"usage":{"prompt_tokens":31,"completion_tokens":8,"total_tokens":39}}`
+
+	var sentence string
+
+	type Response struct {
+		ID      string `json:"id"`
+		Object  string `json:"object"`
+		Created int64  `json:"created"`
+		Model   string `json:"model"`
+		Choices []struct {
+			Text         string      `json:"text"`
+			Index        int         `json:"index"`
+			Logprobs     interface{} `json:"logprobs"`
+			FinishReason string      `json:"finish_reason"`
+		} `json:"choices"`
+		Usage struct {
+			PromptTokens     int `json:"prompt_tokens"`
+			CompletionTokens int `json:"completion_tokens"`
+			TotalTokens      int `json:"total_tokens"`
+		} `json:"usage"`
+	}
+
+	var response Response
+	err := json.Unmarshal([]byte(jsonData), &response)
+	if err != nil {
+		fmt.Println("Error unmarshaling JSON:", err)
+		return "Error unmarshaling JSON"
+	}
+
+	if len(response.Choices) > 0 {
+		sentence = response.Choices[0].Text
+		fmt.Println("Extracted sentence:", sentence)
+	} else {
+		fmt.Println("No choices found in the JSON")
+	}
+	return sentence
 }
 
 // modifyArticle checks if the firstLetter variable is present in the vowels string.
