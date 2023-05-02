@@ -47,68 +47,102 @@ Waiting for 60 seconds before clearing the clipboard.
 █████████████████████████████████████████████████████████████60
 ```
 
-# Examples
-
 ## Usage
 
 ```shell
 $ ./passwordgen -h
 Usage of ./passwordgen:
   -erase
-    	./passwordgen --erase[=false]
-    	 (default true)
+        ./passwordgen --erase[=false]
+         (default true)
   -examples
-    	./passwordgen --examples
-    	
+        ./passwordgen --examples
+        
   -grammatical
-    	./passwordgen --grammatical
-    	
+        ./passwordgen --grammatical
+        
+  -grammatical-ai
+        ./passwordgen --grammatical-ai
+        (Requires an openai.com GPT-4 API key)
   -help
-    	./passwordgen n
-    	Where n is the length of the password.
-    	Length must be the last argument.
-    	
+        ./passwordgen n
+        Where n is the length of the password.
+        Length must be the last argument.
+        
   -hex
-    	./passwordgen --hex
-    	
+        ./passwordgen --hex
+        
   -interactive
-    	./passwordgen --interactive[=false]
-    	 (default true)
+        ./passwordgen --interactive[=false]
+         (default true)
   -memorable
-    	./passwordgen --memorable
-    	
+        ./passwordgen --memorable
+        
   -mixed
-    	./passwordgen --mixed
-    	
+        ./passwordgen --mixed
+        
   -passphrases
-    	./passwordgen --passphrases
-    	
+        ./passwordgen --passphrases
+        
   -random
-    	./passwordgen --random
-    	 (default true)
+        ./passwordgen --random
+         (default true)
   -word-chains
-    	./passwordgen --word-chains
+        ./passwordgen --word-chains
 ```
 
 ## Examples 
 
 ```shell
 $ ./passwordgen --examples 20
-┌───────────────┬────────────────────────────────────────────────┐
-│ --random      │ *aoh%lg)ATxs&VL{#t6^                           │
-├───────────────┼────────────────────────────────────────────────┤
-│ --hex         │ A2DAC12B4E2EF942D0A6                           │
-├───────────────┼────────────────────────────────────────────────┤
-│ --word-chains │ dancing_blob_angular_unison                    │
-├───────────────┼────────────────────────────────────────────────┤
-│ --mixed       │ (tannery-shower)randomnessObject)40                           │
-├───────────────┼────────────────────────────────────────────────┤
-│ --passphrases │ monument corporate confidant salutary aerobics │
-├───────────────┼────────────────────────────────────────────────┤
-│ --memorable   │ [Buttonhole&Fatally&371]                       │
-├───────────────┼────────────────────────────────────────────────┤
-│ --grammatical │ Don't jump your courageous weakness lively.    │
-└───────────────┴────────────────────────────────────────────────┘
+┌──────────────────┬──────────────────────────────────────┐
+│ --random         │ tRrLcl}Y{Mv#Tn4wmiDi                 │
+├──────────────────┼──────────────────────────────────────┤
+│ --hex            │ 67F2B27CE6126C82C55E                 │
+├──────────────────┼──────────────────────────────────────┤
+│ --word-chains    │ mullets\anatomist\sadness            │
+├──────────────────┼──────────────────────────────────────┤
+│ --mixed          │ Necessary/Tone2                      │
+├──────────────────┼──────────────────────────────────────┤
+│ --passphrases    │ dial chamomile trailing sheath straw │
+├──────────────────┼──────────────────────────────────────┤
+│ --memorable      │ {Rearrange|Adventurously|1940}       │
+├──────────────────┼──────────────────────────────────────┤
+│ --grammatical    │ Don't slug the crazy.                │
+├──────────────────┼──────────────────────────────────────┤
+│ --grammatical-ai │ He is like his grandfather.          │
+└──────────────────┴──────────────────────────────────────┘
+
+
+```
+
+## Grammatical and Grammatical-AI
+
+Both `--grammatical` and `grammatical-ai` will generate grammatically correct sentences for use as passphrases. But the AI sentences will make a lot more sense to you. Use of the AI option requires that you have a valid GPT-4 API key in an environment variable named `GPT_API_KEY`.
+
+Also note the usual trailing length integer on the command line. This is required but ignored. It is a bug that needs fixing.
+
+```shell
+/passwordgen --grammatical-ai --interactive=false 20
+┌───┬─────────────────────────────────────────┐
+│ 0 │ Then, they didn't deduce.               │
+├───┼─────────────────────────────────────────┤
+│ 1 │ Is it time to sail?                     │
+├───┼─────────────────────────────────────────┤
+│ 2 │ Help the willing man.                   │
+├───┼─────────────────────────────────────────┤
+│ 3 │ Their impossible series didn't succeed. │
+├───┼─────────────────────────────────────────┤
+│ 4 │ That is through the window.             │
+├───┼─────────────────────────────────────────┤
+│ 5 │ Undermine my assumption.                │
+├───┼─────────────────────────────────────────┤
+│ 6 │ Don't leave their stupidity.            │
+├───┼─────────────────────────────────────────┤
+│ 7 │ He patted her well-worn bottom.         │
+├───┼─────────────────────────────────────────┤
+│ 8 │ Grill a united dish.                    │
+└───┴─────────────────────────────────────────┘
 ```
 
 
@@ -255,8 +289,8 @@ passwordgen --hex 4
 # Building releases for multiple platforms
 
 ```shell
-GOOS=darwin GOARCH=arm64 go build -o Release-Binaries/v1.6.x/passwordgen-v1.6.0-darwin-arm64
-GOOS=darwin GOARCH=amd64 go build -o Release-Binaries/v1.6.x/passwordgen-v1.6.0-darwin-amd64
-GOOS=windows GOARCH=amd64 go build -o Release-Binaries/v1.6.x/passwordgen-v1.6.0-windows-amd64.exe
-GOOS=linux GOARCH=amd64 go build -o Release-Binaries/v1.6.x/passwordgen-v1.6.0-linux-amd64
+GOOS=darwin GOARCH=arm64 go build -o Release-Binaries/v1.7.x/passwordgen-v1.7.0-darwin-arm64
+GOOS=darwin GOARCH=amd64 go build -o Release-Binaries/v1.7.x/passwordgen-v1.7.0-darwin-amd64
+GOOS=windows GOARCH=amd64 go build -o Release-Binaries/v1.7.x/passwordgen-v1.7.0-windows-amd64.exe
+GOOS=linux GOARCH=amd64 go build -o Release-Binaries/v1.7.x/passwordgen-v1.7.0-linux-amd64
 ```

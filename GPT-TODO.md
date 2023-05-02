@@ -26,7 +26,7 @@ import (
 )
 
 const (
-	openaiAPIKey = "your_openai_api_key"
+	openaiAPIKey := os.Getenv("MY_API_KEY")
 	openaiAPIURL = "https://api.openai.com/v1/engines/davinci-codex/completions"
 )
 
@@ -82,3 +82,9 @@ Make sure to replace `your_openai_api_key` with your actual API key from OpenAI.
 This example demonstrates a simple way to call the GPT-3 API to rewrite sentences in a more meaningful and coherent way. The code can be easily integrated into your existing golang application.
 
 Please note that using the GPT-3 API might incur costs, depending on your usage. You can find the pricing details on the OpenAI website: https://openai.com/pricing.
+
+-----------------------------------------
+
+See https://platform.openai.com/docs/api-reference/completions/create
+
+https://platform.openai.com/playground?mode=chat&model=gpt-4
