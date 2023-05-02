@@ -47,8 +47,6 @@ Waiting for 60 seconds before clearing the clipboard.
 █████████████████████████████████████████████████████████████60
 ```
 
-# Examples
-
 ## Usage
 
 ```shell
