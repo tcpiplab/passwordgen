@@ -1334,9 +1334,11 @@ func createGrammaticalPasswordAI(nonSensicalSentence string) string {
 	promptSentence := "Change the subject in the following nonsensical sentence so that it makes more sense. Change the adverb, adjective, noun, or verb if they don't sound like they belong together: '" + nonSensicalSentence + "'"
 
 	data := CompletionCreateArgs{
-		Model:       "text-davinci-003",
-		Prompt:      promptSentence,
-		MaxTokens:   12,
+		Model:  "text-davinci-003",
+		Prompt: promptSentence,
+		// Any amount of tokens > 12 will truncate some sentences.
+		MaxTokens: 12,
+		// The best outcomes seem to be with temperature set to 0.
 		Temperature: 0,
 	}
 
@@ -1370,9 +1372,10 @@ func createGrammaticalPasswordAI(nonSensicalSentence string) string {
 		return "Error reading response body"
 	}
 
-	//fmt.Println("Response:", string(body))
-
 	rewrittenSentence := extractGPTJson(string(body))
+
+	// Remove any surrounding single quotes. This happens sometimes.
+	rewrittenSentence = strings.Trim(rewrittenSentence, "'")
 
 	fmt.Println(nonSensicalSentence)
 	fmt.Println(rewrittenSentence)
