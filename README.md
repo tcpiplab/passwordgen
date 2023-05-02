@@ -97,21 +97,25 @@ Usage of ./passwordgen:
 
 ```shell
 $ ./passwordgen --examples 20
-┌───────────────┬────────────────────────────────────────────────┐
-│ --random      │ *aoh%lg)ATxs&VL{#t6^                           │
-├───────────────┼────────────────────────────────────────────────┤
-│ --hex         │ A2DAC12B4E2EF942D0A6                           │
-├───────────────┼────────────────────────────────────────────────┤
-│ --word-chains │ dancing_blob_angular_unison                    │
-├───────────────┼────────────────────────────────────────────────┤
-│ --mixed       │ (tannery-shower)randomnessObject)40                           │
-├───────────────┼────────────────────────────────────────────────┤
-│ --passphrases │ monument corporate confidant salutary aerobics │
-├───────────────┼────────────────────────────────────────────────┤
-│ --memorable   │ [Buttonhole&Fatally&371]                       │
-├───────────────┼────────────────────────────────────────────────┤
-│ --grammatical │ Don't jump your courageous weakness lively.    │
-└───────────────┴────────────────────────────────────────────────┘
+┌──────────────────┬──────────────────────────────────────┐
+│ --random         │ tRrLcl}Y{Mv#Tn4wmiDi                 │
+├──────────────────┼──────────────────────────────────────┤
+│ --hex            │ 67F2B27CE6126C82C55E                 │
+├──────────────────┼──────────────────────────────────────┤
+│ --word-chains    │ mullets\anatomist\sadness            │
+├──────────────────┼──────────────────────────────────────┤
+│ --mixed          │ Necessary/Tone2                      │
+├──────────────────┼──────────────────────────────────────┤
+│ --passphrases    │ dial chamomile trailing sheath straw │
+├──────────────────┼──────────────────────────────────────┤
+│ --memorable      │ {Rearrange|Adventurously|1940}       │
+├──────────────────┼──────────────────────────────────────┤
+│ --grammatical    │ Don't slug the crazy.                │
+├──────────────────┼──────────────────────────────────────┤
+│ --grammatical-ai │ He is like his grandfather.          │
+└──────────────────┴──────────────────────────────────────┘
+
+
 ```
 
 ## Grammatical and Grammatical-AI
@@ -287,8 +291,8 @@ passwordgen --hex 4
 # Building releases for multiple platforms
 
 ```shell
-GOOS=darwin GOARCH=arm64 go build -o Release-Binaries/v1.6.x/passwordgen-v1.6.0-darwin-arm64
-GOOS=darwin GOARCH=amd64 go build -o Release-Binaries/v1.6.x/passwordgen-v1.6.0-darwin-amd64
-GOOS=windows GOARCH=amd64 go build -o Release-Binaries/v1.6.x/passwordgen-v1.6.0-windows-amd64.exe
-GOOS=linux GOARCH=amd64 go build -o Release-Binaries/v1.6.x/passwordgen-v1.6.0-linux-amd64
+GOOS=darwin GOARCH=arm64 go build -o Release-Binaries/v1.7.x/passwordgen-v1.7.0-darwin-arm64
+GOOS=darwin GOARCH=amd64 go build -o Release-Binaries/v1.7.x/passwordgen-v1.7.0-darwin-amd64
+GOOS=windows GOARCH=amd64 go build -o Release-Binaries/v1.7.x/passwordgen-v1.7.0-windows-amd64.exe
+GOOS=linux GOARCH=amd64 go build -o Release-Binaries/v1.7.x/passwordgen-v1.7.0-linux-amd64
 ```

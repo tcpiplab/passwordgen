@@ -655,50 +655,14 @@ func printPasswordTypesTable() []string {
 			CommandFlag:     "--grammatical",
 		})
 
-	//// Memorable Three example password
-	//memorablePassword = ""
-	//memorableThreeExample := memorableTransformThree(memorablePassword, requestedPasswordLength)
-	//arrayOfPasswordTypes = append(arrayOfPasswordTypes,
-	//	PasswordAndCommandFlag{
-	//		PasswordExample: memorableThreeExample,
-	//		CommandFlag:     "--mem3",
-	//	})
-	//
-	//// Memorable Four example password
-	//memorablePassword = ""
-	//memorableFourExample := memorableTransformFour(memorablePassword, requestedPasswordLength)
-	//arrayOfPasswordTypes = append(arrayOfPasswordTypes,
-	//	PasswordAndCommandFlag{
-	//		PasswordExample: memorableFourExample,
-	//		CommandFlag:     "--mem4",
-	//	})
-	//
-	//// Memorable Five example password
-	//memorablePassword = ""
-	//memorableFiveExample := memorableTransformFive(memorablePassword, requestedPasswordLength)
-	//arrayOfPasswordTypes = append(arrayOfPasswordTypes,
-	//	PasswordAndCommandFlag{
-	//		PasswordExample: memorableFiveExample,
-	//		CommandFlag:     "--mem5",
-	//	})
-	//
-	//// Memorable Six example password
-	//memorablePassword = ""
-	//memorableSixExample := memorableTransformSix(memorablePassword, requestedPasswordLength)
-	//arrayOfPasswordTypes = append(arrayOfPasswordTypes,
-	//	PasswordAndCommandFlag{
-	//		PasswordExample: memorableSixExample,
-	//		CommandFlag:     "--mem6",
-	//	})
-	//
-	//// Memorable Seven example password
-	//memorablePassword = ""
-	//memorableSevenExample := memorableTransformSeven(memorablePassword, requestedPasswordLength)
-	//arrayOfPasswordTypes = append(arrayOfPasswordTypes,
-	//	PasswordAndCommandFlag{
-	//		PasswordExample: memorableSevenExample,
-	//		CommandFlag:     "--mem7",
-	//	})
+	// Grammatical-AI example password
+	nonSensicalSentence := createGrammaticalPassword()
+	grammaticalExampleAI := createGrammaticalPasswordAI(nonSensicalSentence)
+	arrayOfPasswordTypes = append(arrayOfPasswordTypes,
+		PasswordAndCommandFlag{
+			PasswordExample: grammaticalExampleAI,
+			CommandFlag:     "--grammatical-ai",
+		})
 
 	// Print the slice of string pairs
 	for _, pair := range arrayOfPasswordTypes {
