@@ -1331,7 +1331,9 @@ func createGrammaticalPasswordAI(nonSensicalSentence string) string {
 
 	//promptSentence := "Change the subject in the following nonsensical sentence so that the subject and verb sound like they belong together: '" + nonSensicalSentence + "'"
 
-	promptSentence := "Change the subject in the following nonsensical sentence so that it makes more sense. Change the adverb, adjective, noun, or verb if they don't sound like they belong together: '" + nonSensicalSentence + "'"
+	promptSentence := "Change the subject in the following nonsensical sentence so that it makes more sense. " +
+		"Change the adverb, adjective, noun, or verb if they don't sound like they belong together: '" +
+		nonSensicalSentence + "'"
 
 	data := CompletionCreateArgs{
 		Model:  "text-davinci-003",
@@ -1377,6 +1379,12 @@ func createGrammaticalPasswordAI(nonSensicalSentence string) string {
 	// Remove any surrounding single quotes. This happens sometimes.
 	rewrittenSentence = strings.Trim(rewrittenSentence, "'")
 
+	// If the rewrittenSentence is missing a terminating punctuation mark
+	// then add a trailing period character.
+	if !strings.HasSuffix(rewrittenSentence, ".") && !strings.HasSuffix(rewrittenSentence, "?") {
+		rewrittenSentence += "."
+	}
+
 	fmt.Println(nonSensicalSentence)
 	fmt.Println(rewrittenSentence)
 
@@ -1384,7 +1392,6 @@ func createGrammaticalPasswordAI(nonSensicalSentence string) string {
 }
 
 func extractGPTJson(jsonData string) string {
-	//jsonData := `{"id":"cmpl-7BE7N12xt4CoVvr18Hl3vboDQvsSp","object":"text_completion","created":1682910233,"model":"text-davinci-003","choices":[{"text":"\n\nSteal someone's jacket.","index":0,"logprobs":null,"finish_reason":"stop"}],"usage":{"prompt_tokens":31,"completion_tokens":8,"total_tokens":39}}`
 
 	var sentence string
 
