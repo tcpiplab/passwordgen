@@ -1344,7 +1344,7 @@ func createGrammaticalPasswordAI(nonSensicalSentence string) string {
 	data := CompletionCreateArgs{
 		Model:  "text-davinci-003",
 		Prompt: promptSentence,
-		// Any amount of tokens > 12 will truncate some sentences.
+		// Any amount of tokens < 12 will truncate some sentences.
 		MaxTokens: 12,
 		// The best outcomes seem to be with temperature set to 0.
 		Temperature: 0,
