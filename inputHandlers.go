@@ -86,7 +86,7 @@ func argsHandler() (
 	grammaticalAI = flag.Bool(
 		"grammatical-ai",
 		false,
-		"./passwordgen --grammatical-ai\n")
+		"./passwordgen --grammatical-ai\n(Requires an openai.com GPT-4 API key)")
 
 	flag.Parse()
 

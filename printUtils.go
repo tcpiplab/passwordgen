@@ -7,6 +7,7 @@ import (
 	"github.com/fatih/color"
 	"github.com/jedib0t/go-pretty/v6/table"
 	"io/ioutil"
+	"log"
 	"math/rand"
 	"net/http"
 	"os"
@@ -1327,9 +1328,14 @@ func createGrammaticalPasswordAI(nonSensicalSentence string) string {
 		Temperature float64 `json:"temperature"`
 	}
 
-	apiKey := os.Getenv("GPT_API_KEY")
+	//apiKey := os.Getenv("GPT_API_KEY")
 
-	//promptSentence := "Change the subject in the following nonsensical sentence so that the subject and verb sound like they belong together: '" + nonSensicalSentence + "'"
+	apiKey, exists := os.LookupEnv("GPT_API_KEY")
+	if !exists {
+		log.Fatal("Error: Environment variable GPT_API_KEY does not exist.")
+	}
+
+	// Continue execution if the environment variable exists
 
 	promptSentence := "Change the subject in the following nonsensical sentence so that it makes more sense. " +
 		"Change the adverb, adjective, noun, or verb if they don't sound like they belong together: '" +
