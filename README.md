@@ -55,39 +55,42 @@ Waiting for 60 seconds before clearing the clipboard.
 $ ./passwordgen -h
 Usage of ./passwordgen:
   -erase
-    	./passwordgen --erase[=false]
-    	 (default true)
+        ./passwordgen --erase[=false]
+         (default true)
   -examples
-    	./passwordgen --examples
-    	
+        ./passwordgen --examples
+        
   -grammatical
-    	./passwordgen --grammatical
-    	
+        ./passwordgen --grammatical
+        
+  -grammatical-ai
+        ./passwordgen --grammatical-ai
+        (Requires an openai.com GPT-4 API key)
   -help
-    	./passwordgen n
-    	Where n is the length of the password.
-    	Length must be the last argument.
-    	
+        ./passwordgen n
+        Where n is the length of the password.
+        Length must be the last argument.
+        
   -hex
-    	./passwordgen --hex
-    	
+        ./passwordgen --hex
+        
   -interactive
-    	./passwordgen --interactive[=false]
-    	 (default true)
+        ./passwordgen --interactive[=false]
+         (default true)
   -memorable
-    	./passwordgen --memorable
-    	
+        ./passwordgen --memorable
+        
   -mixed
-    	./passwordgen --mixed
-    	
+        ./passwordgen --mixed
+        
   -passphrases
-    	./passwordgen --passphrases
-    	
+        ./passwordgen --passphrases
+        
   -random
-    	./passwordgen --random
-    	 (default true)
+        ./passwordgen --random
+         (default true)
   -word-chains
-    	./passwordgen --word-chains
+        ./passwordgen --word-chains
 ```
 
 ## Examples 
@@ -109,6 +112,35 @@ $ ./passwordgen --examples 20
 ├───────────────┼────────────────────────────────────────────────┤
 │ --grammatical │ Don't jump your courageous weakness lively.    │
 └───────────────┴────────────────────────────────────────────────┘
+```
+
+## Grammatical and Grammatical-AI
+
+Both `--grammatical` and `grammatical-ai` will generate grammatically correct sentences for use as passphrases. But the AI sentences will make a lot more sense to you. Use of the AI option requires that you have a valid GPT-4 API key in an environment variable named `GPT_API_KEY`.
+
+Also note the usual trailing length integer on the command line. This is required but ignored. It is a bug that needs fixing.
+
+```shell
+/passwordgen --grammatical-ai --interactive=false 20
+┌───┬─────────────────────────────────────────┐
+│ 0 │ Then, they didn't deduce.               │
+├───┼─────────────────────────────────────────┤
+│ 1 │ Is it time to sail?                     │
+├───┼─────────────────────────────────────────┤
+│ 2 │ Help the willing man.                   │
+├───┼─────────────────────────────────────────┤
+│ 3 │ Their impossible series didn't succeed. │
+├───┼─────────────────────────────────────────┤
+│ 4 │ That is through the window.             │
+├───┼─────────────────────────────────────────┤
+│ 5 │ Undermine my assumption.                │
+├───┼─────────────────────────────────────────┤
+│ 6 │ Don't leave their stupidity.            │
+├───┼─────────────────────────────────────────┤
+│ 7 │ He patted her well-worn bottom.         │
+├───┼─────────────────────────────────────────┤
+│ 8 │ Grill a united dish.                    │
+└───┴─────────────────────────────────────────┘
 ```
 
 

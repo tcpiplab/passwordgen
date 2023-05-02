@@ -746,7 +746,7 @@ func createGrammaticalPassword() string {
 		// Change "a" to "an" if the following word begins with a vowel
 		article = modifyArticle(noun, article)
 
-		sentenceOne = capitalizeFirstLetter(verb) + " " + article + " " + noun + " " + adverb + ".#1a"
+		sentenceOne = capitalizeFirstLetter(verb) + " " + article + " " + noun + " " + adverb + "."
 
 	} else {
 
@@ -756,7 +756,7 @@ func createGrammaticalPassword() string {
 		article = modifyArticle(adjective, article)
 
 		// Include adjective
-		sentenceOne = capitalizeFirstLetter(verb) + " " + article + " " + adjective + " " + noun + ".#1b"
+		sentenceOne = capitalizeFirstLetter(verb) + " " + article + " " + adjective + " " + noun + "."
 	}
 
 	/* SENTENCE TWO ---------------------------------------------
@@ -779,7 +779,7 @@ func createGrammaticalPassword() string {
 		//sentenceTwo = capitalizeFirstLetter(pronounAndVerbPresent) + " " + adjective + ".#2a"
 
 		// Build the sentence
-		sentenceTwo = pronounAndVerbPresent + " " + adjective + ".#2a"
+		sentenceTwo = pronounAndVerbPresent + " " + adjective + "."
 
 		// 50% chance that it will be prepended with something like, "And then,"
 		// 50% chance it will be unchanged
@@ -794,7 +794,7 @@ func createGrammaticalPassword() string {
 
 		article = modifyArticle(noun, article)
 
-		sentenceTwo = capitalizeFirstLetter(pronounAndVerbPresent) + " " + article + " " + noun + ".#2b"
+		sentenceTwo = capitalizeFirstLetter(pronounAndVerbPresent) + " " + article + " " + noun + "."
 
 	} else {
 
@@ -807,7 +807,7 @@ func createGrammaticalPassword() string {
 		subjectVerbPhrase := strings.Split(pronounAndVerbPresent, " ")
 		verbAndPronounPresent := subjectVerbPhrase[1] + " " + subjectVerbPhrase[0]
 
-		sentenceTwo = capitalizeFirstLetter(verbAndPronounPresent) + " " + article + " " + noun + "?#2c"
+		sentenceTwo = capitalizeFirstLetter(verbAndPronounPresent) + " " + article + " " + noun + "?"
 
 	}
 
@@ -829,7 +829,7 @@ func createGrammaticalPassword() string {
 		// Change "a" to "an" if the following word begins with a vowel
 		article = modifyArticle(noun, article)
 
-		sentenceThree = capitalizeFirstLetter(verb) + " " + preposition + " " + article + " " + noun + ".#3a"
+		sentenceThree = capitalizeFirstLetter(verb) + " " + preposition + " " + article + " " + noun + "."
 
 	} else if randomChoice == 1 {
 
@@ -838,7 +838,7 @@ func createGrammaticalPassword() string {
 		// Change "a" to "an" if the following word begins with a vowel
 		article = modifyArticle(noun, article)
 
-		sentenceThree = capitalizeFirstLetter(pronounAndVerbPresent) + " " + preposition + " " + article + " " + noun + ".#3b"
+		sentenceThree = capitalizeFirstLetter(pronounAndVerbPresent) + " " + preposition + " " + article + " " + noun + "."
 
 	} else {
 
@@ -851,7 +851,7 @@ func createGrammaticalPassword() string {
 		subjectVerbPhrase := strings.Split(pronounAndVerbPresent, " ")
 		verbAndPronounPresent := subjectVerbPhrase[1] + " " + subjectVerbPhrase[0]
 
-		sentenceThree = capitalizeFirstLetter(verbAndPronounPresent) + " " + preposition + " " + article + " " + noun + "?#3c"
+		sentenceThree = capitalizeFirstLetter(verbAndPronounPresent) + " " + preposition + " " + article + " " + noun + "?"
 
 	}
 
@@ -869,13 +869,13 @@ func createGrammaticalPassword() string {
 
 		// TODO: Implement randomized pronouns
 		pronoun := getRandomPronoun()
-		sentenceFour = capitalizeFirstLetter("Didn't") + " " + pronoun + " " + adverb + " " + verb + " " + article + " " + noun + "?#4a"
+		sentenceFour = capitalizeFirstLetter("Didn't") + " " + pronoun + " " + adverb + " " + verb + " " + article + " " + noun + "?"
 	} else {
 		verb, noun, adverb, adjective, article, auxVerb, pronounAndVerbPresent, possessivePronoun, preposition = getVocabWords()
 		// Change "a" to "an" if the following word begins with a vowel
 		article = modifyArticle(noun, article)
 
-		sentenceFour = capitalizeFirstLetter("Don't") + " " + verb + " " + article + " " + noun + ".#4b"
+		sentenceFour = capitalizeFirstLetter("Don't") + " " + verb + " " + article + " " + noun + "."
 	}
 
 	/* SENTENCE FIVE --------------------------------------------
@@ -893,7 +893,7 @@ func createGrammaticalPassword() string {
 		// Change "a" to "an" if the following word begins with a vowel
 		article = modifyArticle(noun, article)
 
-		sentenceFive = capitalizeFirstLetter(article) + " " + noun + " is " + possessivePronoun + ".#5a"
+		sentenceFive = capitalizeFirstLetter(article) + " " + noun + " is " + possessivePronoun + "."
 	} else {
 		verb, noun, adverb, adjective, article, auxVerb, pronounAndVerbPresent, possessivePronoun, preposition = getVocabWords()
 
@@ -903,7 +903,7 @@ func createGrammaticalPassword() string {
 		// Check if it is an irregular verb and change verb tense if auxiliary verb requires it
 		verb = convertIrregularVerb(auxVerb, verb)
 
-		sentenceFive = capitalizeFirstLetter(article) + " " + adjective + " " + noun + " " + auxVerb + " " + verb + ".#5b"
+		sentenceFive = capitalizeFirstLetter(article) + " " + adjective + " " + noun + " " + auxVerb + " " + verb + "."
 	}
 
 	/* SENTENCE SIX ---------------------------------------------
@@ -922,7 +922,7 @@ func createGrammaticalPassword() string {
 		// Check if it is an irregular verb and change verb tense if auxiliary verb requires it
 		verb = convertIrregularVerb(auxVerb, verb)
 
-		sentenceSix = capitalizeFirstLetter(auxVerb) + " " + article + " " + noun + " " + adverb + " " + verb + "?#6a"
+		sentenceSix = capitalizeFirstLetter(auxVerb) + " " + article + " " + noun + " " + adverb + " " + verb + "?"
 	} else {
 		verb, noun, adverb, adjective, article, auxVerb, pronounAndVerbPresent, possessivePronoun, preposition = getVocabWords()
 
@@ -933,7 +933,7 @@ func createGrammaticalPassword() string {
 		verb = convertIrregularVerb(auxVerb, verb)
 
 		// include adjective
-		sentenceSix = capitalizeFirstLetter(auxVerb) + " " + article + " " + adjective + " " + noun + " " + verb + "?#6b"
+		sentenceSix = capitalizeFirstLetter(auxVerb) + " " + article + " " + adjective + " " + noun + " " + verb + "?"
 	}
 
 	/* SENTENCE SEVEN -------------------------------------------
@@ -949,7 +949,7 @@ func createGrammaticalPassword() string {
 		// Change "a" to "an" if the following word begins with a vowel
 		article = modifyArticle(noun, article)
 
-		sentenceSeven = capitalizeFirstLetter(verb) + " " + article + " " + noun + ".#7a"
+		sentenceSeven = capitalizeFirstLetter(verb) + " " + article + " " + noun + "."
 	} else {
 		verb, noun, adverb, adjective, article, auxVerb, pronounAndVerbPresent, possessivePronoun, preposition = getVocabWords()
 
@@ -959,7 +959,7 @@ func createGrammaticalPassword() string {
 		// Check if it is an irregular verb and change verb tense if auxiliary verb requires it
 		verb = convertIrregularVerb(auxVerb, verb)
 
-		sentenceSeven = capitalizeFirstLetter(article) + " " + noun + " " + auxVerb + " " + verb + ".#7b"
+		sentenceSeven = capitalizeFirstLetter(article) + " " + noun + " " + auxVerb + " " + verb + "."
 	}
 
 	/* SENTENCE EIGHT -------------------------------------------
@@ -976,7 +976,7 @@ func createGrammaticalPassword() string {
 		// Change "a" to "an" if the following word begins with a vowel
 		article = modifyArticle(noun, article)
 
-		sentenceEight = capitalizeFirstLetter(verbModifier) + " " + verb + " " + article + " " + noun + ".#8a"
+		sentenceEight = capitalizeFirstLetter(verbModifier) + " " + verb + " " + article + " " + noun + "."
 	} else {
 		verb, noun, adverb, adjective, article, auxVerb, pronounAndVerbPresent, possessivePronoun, preposition = getVocabWords()
 
@@ -989,7 +989,7 @@ func createGrammaticalPassword() string {
 		//sentenceEight = capitalizeFirstLetter(article) + " " + noun + " " + auxVerb + " " + verb + ".#8b"
 
 		// Build the sentence
-		sentenceEight = article + " " + noun + " " + auxVerb + " " + verb + ".#8b"
+		sentenceEight = article + " " + noun + " " + auxVerb + " " + verb + "."
 
 		// 50% chance that it will be prepended with something like, "And then,"
 		// 50% chance it will be unchanged
@@ -1011,14 +1011,14 @@ func createGrammaticalPassword() string {
 		article = modifyArticle(noun, article)
 
 		pronoun := getRandomPronoun()
-		sentenceNine = capitalizeFirstLetter(pronoun) + " " + convertVerbToPastTense(verb) + " " + article + " " + adjective + " " + noun + ".#9a"
+		sentenceNine = capitalizeFirstLetter(pronoun) + " " + convertVerbToPastTense(verb) + " " + article + " " + adjective + " " + noun + "."
 	} else {
 		verb, noun, adverb, adjective, article, auxVerb, pronounAndVerbPresent, possessivePronoun, preposition = getVocabWords()
 		// Change "a" to "an" if the following word begins with a vowel
 		article = modifyArticle(noun, article)
 
 		pronoun := getRandomPronoun()
-		sentenceNine = capitalizeFirstLetter(pronoun) + " " + adverb + " " + convertVerbToPastTense(verb) + " " + article + " " + noun + ".#9b"
+		sentenceNine = capitalizeFirstLetter(pronoun) + " " + adverb + " " + convertVerbToPastTense(verb) + " " + article + " " + noun + "."
 	}
 
 	// TODO: Pluralize noun if auxVerb is were or weren't
@@ -1328,8 +1328,6 @@ func createGrammaticalPasswordAI(nonSensicalSentence string) string {
 		Temperature float64 `json:"temperature"`
 	}
 
-	//apiKey := os.Getenv("GPT_API_KEY")
-
 	apiKey, exists := os.LookupEnv("GPT_API_KEY")
 	if !exists {
 		log.Fatal("Error: Environment variable GPT_API_KEY does not exist.")
@@ -1391,8 +1389,8 @@ func createGrammaticalPasswordAI(nonSensicalSentence string) string {
 		rewrittenSentence += "."
 	}
 
-	fmt.Println(nonSensicalSentence)
-	fmt.Println(rewrittenSentence)
+	//fmt.Println(nonSensicalSentence)
+	//fmt.Println(rewrittenSentence)
 
 	return rewrittenSentence
 }
