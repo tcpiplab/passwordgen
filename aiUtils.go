@@ -126,6 +126,7 @@ func extractGPTJson(jsonData string) string {
 		sentence = strings.TrimPrefix(sentence, "\n\n")
 
 	} else {
+		fmt.Println(response)
 		fmt.Println("No choices found in the JSON")
 	}
 	return sentence
