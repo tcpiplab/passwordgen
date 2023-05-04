@@ -11,20 +11,23 @@ import (
 	"strings"
 )
 
+// CompletionCreateArgs is used for the ChatGPT API.
+// It is defined here at the package level so any function can access it
+type CompletionCreateArgs struct {
+	Model       string  `json:"model"`
+	Prompt      string  `json:"prompt"`
+	MaxTokens   int     `json:"max_tokens"`
+	Temperature float64 `json:"temperature"`
+}
+
 func createGrammaticalPasswordAI(nonSensicalSentence string) string {
 
-	openaiAPIURL := "https://api.openai.com/v1/completions"
+	openaiAPIURL, apiKey := setupChatGPTAPI()
 
-	type CompletionCreateArgs struct {
-		Model       string  `json:"model"`
-		Prompt      string  `json:"prompt"`
-		MaxTokens   int     `json:"max_tokens"`
-		Temperature float64 `json:"temperature"`
-	}
-
-	apiKey, exists := os.LookupEnv("GPT_API_KEY")
-	if !exists {
-		log.Fatal("Error: Environment variable GPT_API_KEY does not exist.")
+	// Check if the API key exists
+	if apiKey == "" {
+		log.Println("Error: API key is missing. Please set the API key and try again.")
+		os.Exit(1)
 	}
 
 	// Continue execution if the environment variable exists
@@ -33,7 +36,7 @@ func createGrammaticalPasswordAI(nonSensicalSentence string) string {
 		"Change the adverb, adjective, noun, or verb if they don't sound like they belong together: '" +
 		nonSensicalSentence + "'"
 
-	data := CompletionCreateArgs{
+	chatGPTRequestData := CompletionCreateArgs{
 		Model:  "text-davinci-003",
 		Prompt: promptSentence,
 		// Any amount of tokens < 12 will truncate some sentences.
@@ -42,7 +45,7 @@ func createGrammaticalPasswordAI(nonSensicalSentence string) string {
 		Temperature: 0,
 	}
 
-	jsonData, err := json.Marshal(data)
+	jsonData, err := json.Marshal(chatGPTRequestData)
 	if err != nil {
 		fmt.Println("Error marshaling JSON:", err)
 		return "Error marshaling JSON"
@@ -87,6 +90,17 @@ func createGrammaticalPasswordAI(nonSensicalSentence string) string {
 	//fmt.Println(rewrittenSentence)
 
 	return rewrittenSentence
+}
+
+func setupChatGPTAPI() (string, string) {
+
+	openaiAPIURL := "https://api.openai.com/v1/completions"
+
+	apiKey, exists := os.LookupEnv("GPT_API_KEY")
+	if !exists {
+		log.Fatal("Error: Environment variable GPT_API_KEY does not exist.")
+	}
+	return openaiAPIURL, apiKey
 }
 
 func extractGPTJson(jsonData string) string {

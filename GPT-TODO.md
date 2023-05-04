@@ -37,11 +37,11 @@ type prompt struct {
 func main() {
 	inputSentence := "Rewrite the following sentence in a more meaningful and coherent way: 'Her finished uncle can't manifest'."
 
-	data := prompt{
+	chatGPTRequestData := prompt{
 		Prompt: inputSentence,
 	}
 
-	requestBody, err := json.Marshal(data)
+	requestBody, err := json.Marshal(chatGPTRequestData)
 	if err != nil {
 		fmt.Println("Error:", err)
 		return
