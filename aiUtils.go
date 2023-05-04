@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -45,37 +46,15 @@ func createGrammaticalPasswordAI(nonSensicalSentence string) string {
 		Temperature: 0,
 	}
 
-	jsonData, err := json.Marshal(chatGPTRequestData)
-	if err != nil {
-		fmt.Println("Error marshaling JSON:", err)
-		return "Error marshaling JSON"
+	// Make the actual API call
+	chatGPTResponseBody, errorString, apiRequestError := makeChatGPTAPIRequest(chatGPTRequestData, openaiAPIURL, apiKey)
+
+	// If the API call returned and error, return the error string
+	if apiRequestError {
+		return errorString
 	}
 
-	req, err := http.NewRequest("POST", openaiAPIURL, bytes.NewBuffer(jsonData))
-
-	if err != nil {
-		fmt.Println("Error creating request:", err)
-		return "Error creating request"
-	}
-
-	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", apiKey))
-
-	client := &http.Client{}
-	resp, err := client.Do(req)
-	if err != nil {
-		fmt.Println("Error making request:", err)
-		return "Error making request"
-	}
-	defer resp.Body.Close()
-
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		fmt.Println("Error reading response body:", err)
-		return "Error reading response body"
-	}
-
-	rewrittenSentence := extractGPTJson(string(body))
+	rewrittenSentence := extractGPTJson(string(chatGPTResponseBody))
 
 	// Remove any surrounding single quotes. This happens sometimes.
 	rewrittenSentence = strings.Trim(rewrittenSentence, "'")
@@ -90,6 +69,52 @@ func createGrammaticalPasswordAI(nonSensicalSentence string) string {
 	//fmt.Println(rewrittenSentence)
 
 	return rewrittenSentence
+}
+
+func makeChatGPTAPIRequest(chatGPTRequestData CompletionCreateArgs, openaiAPIURL string, apiKey string) ([]byte, string, bool) {
+
+	// Convert the struct data into JSON
+	chatGPTRequestJSON, err := json.Marshal(chatGPTRequestData)
+	if err != nil {
+		fmt.Println("Error marshaling JSON:", err)
+		return nil, "Error marshaling JSON", true
+	}
+
+	// Create a new HTTP request using our JSON as the POST body
+	chatGPTRequest, err := http.NewRequest("POST", openaiAPIURL, bytes.NewBuffer(chatGPTRequestJSON))
+
+	if err != nil {
+		fmt.Println("Error creating HTTP request:", err)
+		return nil, "Error creating HTTP request", true
+	}
+
+	// Set up headers for content type and authorization
+	chatGPTRequest.Header.Set("Content-Type", "application/json")
+	chatGPTRequest.Header.Set("Authorization", fmt.Sprintf("Bearer %s", apiKey))
+
+	// Send the HTTP request
+	httpClient := &http.Client{}
+	resp, err := httpClient.Do(chatGPTRequest)
+	if err != nil {
+		fmt.Println("Error making HTTP request:", err)
+		return nil, "Error making HTTP request", true
+	}
+	defer func(Body io.ReadCloser) {
+		err := Body.Close()
+		if err != nil {
+			fmt.Println("Problem closing HTTP response chatGPTResponseBody after read.")
+		}
+	}(resp.Body)
+
+	// Read the HTTP response body
+	chatGPTResponseBody, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Println("Error reading response chatGPTResponseBody:", err)
+		return nil, "Error reading response chatGPTResponseBody", true
+	}
+
+	// return response body, empty error string, and "false" if there were no errors
+	return chatGPTResponseBody, "", false
 }
 
 func setupChatGPTAPI() (string, string) {

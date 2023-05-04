@@ -47,7 +47,7 @@ func main() {
 		return
 	}
 
-	client := &http.Client{}
+	httpClient := &http.Client{}
 	request, err := http.NewRequest("POST", openaiAPIURL, bytes.NewBuffer(requestBody))
 	if err != nil {
 		fmt.Println("Error:", err)
@@ -57,7 +57,7 @@ func main() {
 	request.Header.Set("Content-Type", "application/json")
 	request.Header.Set("Authorization", "Bearer "+openaiAPIKey)
 
-	response, err := client.Do(request)
+	response, err := httpClient.Do(request)
 	if err != nil {
 		fmt.Println("Error:", err)
 		return
@@ -65,13 +65,13 @@ func main() {
 
 	defer response.Body.Close()
 
-	body, err := ioutil.ReadAll(response.Body)
+	chatGPTResponseBody, err := ioutil.ReadAll(response.Body)
 	if err != nil {
 		fmt.Println("Error:", err)
 		return
 	}
 
-	rewrittenSentence := gjson.Get(string(body), "choices.0.text").String()
+	rewrittenSentence := gjson.Get(string(chatGPTResponseBody), "choices.0.text").String()
 	fmt.Println("Input sentence:", inputSentence)
 	fmt.Println("Rewritten sentence:", rewrittenSentence)
 }
