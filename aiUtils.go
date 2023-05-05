@@ -7,9 +7,12 @@ import (
 	"io"
 	"io/ioutil"
 	"log"
+	"math/rand"
 	"net/http"
 	"os"
+	"strconv"
 	"strings"
+	"time"
 )
 
 // CompletionCreateArgs is used for the ChatGPT API.
@@ -21,7 +24,7 @@ type CompletionCreateArgs struct {
 	Temperature float64 `json:"temperature"`
 }
 
-func createGrammaticalPasswordAI(nonSensicalSentence string) string {
+func createGrammaticalPasswordAI(nonSensicalSentence string, grammaticalAIWithNumbers bool) string {
 
 	openaiAPIURL, apiKey := setupChatGPTAPI()
 
@@ -30,20 +33,50 @@ func createGrammaticalPasswordAI(nonSensicalSentence string) string {
 		log.Println("Error: API key is missing. Please set the API key and try again.")
 		os.Exit(1)
 	}
-
 	// Continue execution if the environment variable exists
 
-	promptSentence := "Change the subject in the following nonsensical sentence so that it makes more sense. " +
-		"Change the adverb, adjective, noun, or verb if they don't sound like they belong together: '" +
-		nonSensicalSentence + "'"
+	var promptSentence string
 
-	chatGPTRequestData := CompletionCreateArgs{
-		Model:  "text-davinci-003",
-		Prompt: promptSentence,
-		// Any amount of tokens < 12 will truncate some sentences.
-		MaxTokens: 12,
-		// The best outcomes seem to be with temperature set to 0.
-		Temperature: 0,
+	// Declare a variable of type CompletionCreateArgs that we'll use below
+	var chatGPTRequestData CompletionCreateArgs
+
+	if grammaticalAIWithNumbers == true {
+
+		rand.Seed(time.Now().UnixNano())
+		randomInteger := rand.Intn(101)
+		randomIntegerString := strconv.Itoa(randomInteger)
+
+		// Ask to add a number to the sentence it is rewriting
+		// Note that the nonsensical sentence was actually already rewritten by AI once
+		promptSentence = "Please rewrite this sentence so that it is less nonsensical and more coherent: " +
+			"'" + nonSensicalSentence + "'" + "Also, please add in the digit " + randomIntegerString + " to quantify the subject of the sentence."
+
+		// The sentences will be longer, so we need to allocate more tokens
+		chatGPTRequestData = CompletionCreateArgs{
+			Model:  "text-davinci-003",
+			Prompt: promptSentence,
+			// Any amount of tokens < 12 will truncate some sentences.
+			MaxTokens: 14,
+			// The best outcomes seem to be with temperature set to 0.
+			Temperature: 0,
+		}
+
+	} else if grammaticalAIWithNumbers == false {
+
+		// Just ask it to rewrite the sentence
+		promptSentence = "Change the subject in the following nonsensical sentence so that it makes more sense. " +
+			"Change the adverb, adjective, noun, or verb if they don't sound like they belong together: '" +
+			nonSensicalSentence + "'"
+
+		chatGPTRequestData = CompletionCreateArgs{
+			Model:  "text-davinci-003",
+			Prompt: promptSentence,
+			// Any amount of tokens < 12 will truncate some sentences.
+			MaxTokens: 12,
+			// The best outcomes seem to be with temperature set to 0.
+			Temperature: 0,
+		}
+
 	}
 
 	// Make the actual API call

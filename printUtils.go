@@ -175,7 +175,7 @@ func printPasswordTableWindows(
 // - requestedPasswordLength: an int specifying the length of each password to generate
 // - arrayPasswords: a slice of strings representing the passwords to be populated
 // Returns: nothing
-func printPasswordTableUnix(arrayPasswords []string, randomPasswords bool, wordChains bool, mixedPasswords bool, passPhrases bool, memorable bool, randomHex bool, grammatical bool, grammaticalAI bool) []string {
+func printPasswordTableUnix(arrayPasswords []string, randomPasswords bool, wordChains bool, mixedPasswords bool, passPhrases bool, memorable bool, randomHex bool, grammatical bool, grammaticalAI bool, grammaticalAIWithNumbers bool) []string {
 
 	if passPhrases {
 
@@ -203,11 +203,15 @@ func printPasswordTableUnix(arrayPasswords []string, randomPasswords bool, wordC
 
 	} else if grammatical {
 
-		arrayPasswords = printGrammaticalTable(false)
+		arrayPasswords = printGrammaticalTable(false, false)
 
 	} else if grammaticalAI {
 
-		arrayPasswords = printGrammaticalTable(true)
+		arrayPasswords = printGrammaticalTable(true, false)
+
+	} else if grammaticalAIWithNumbers {
+
+		arrayPasswords = printGrammaticalTable(true, true)
 	}
 
 	return arrayPasswords
@@ -650,7 +654,7 @@ func printPasswordTypesTable() []string {
 
 	// Grammatical-AI example password
 	nonSensicalSentence := createGrammaticalPassword()
-	grammaticalExampleAI := createGrammaticalPasswordAI(nonSensicalSentence)
+	grammaticalExampleAI := createGrammaticalPasswordAI(nonSensicalSentence, false)
 	arrayOfPasswordTypes = append(arrayOfPasswordTypes,
 		PasswordAndCommandFlag{
 			PasswordExample: grammaticalExampleAI,
@@ -680,7 +684,7 @@ func printPasswordTypesTable() []string {
 	return nil
 }
 
-func printGrammaticalTable(grammaticalAI bool) []string {
+func printGrammaticalTable(grammaticalAI bool, grammaticalAIWithNumbers bool) []string {
 
 	var consoleHeight int
 
@@ -707,9 +711,23 @@ func printGrammaticalTable(grammaticalAI bool) []string {
 
 		} else {
 
-			nonSensicalSentence := createGrammaticalPassword()
-			// Use AI to improve the sentence we generated
-			randomSentenceNoColor = createGrammaticalPasswordAI(nonSensicalSentence)
+			if grammaticalAIWithNumbers == true {
+
+				nonSensicalSentence := createGrammaticalPassword()
+
+				// Have AI rewrite the sentence once
+				nonSensicalSentence = createGrammaticalPasswordAI(nonSensicalSentence, false)
+
+				// Then use AI again to improve the sentence we generated but also have it add numbers
+				randomSentenceNoColor = createGrammaticalPasswordAI(nonSensicalSentence, grammaticalAIWithNumbers)
+
+			} else if grammaticalAIWithNumbers == false {
+
+				nonSensicalSentence := createGrammaticalPassword()
+
+				// Use AI to improve the sentence we generated
+				randomSentenceNoColor = createGrammaticalPasswordAI(nonSensicalSentence, grammaticalAIWithNumbers)
+			}
 		}
 
 		// Colorize the random sentences that we're saving to the array
