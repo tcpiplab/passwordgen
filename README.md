@@ -55,6 +55,7 @@ Usage of ./passwordgen:
   -erase
         ./passwordgen --erase[=false]
          (default true)
+
   -examples
         ./passwordgen --examples
         
@@ -64,6 +65,11 @@ Usage of ./passwordgen:
   -grammatical-ai
         ./passwordgen --grammatical-ai
         (Requires an openai.com GPT-4 API key)
+
+  -grammatical-ai-with-numbers
+        ./passwordgen --grammatical-ai-with-numbers
+        (Requires an openai.com GPT-4 API key)
+
   -help
         ./passwordgen n
         Where n is the length of the password.
@@ -75,6 +81,7 @@ Usage of ./passwordgen:
   -interactive
         ./passwordgen --interactive[=false]
          (default true)
+
   -memorable
         ./passwordgen --memorable
         
@@ -87,43 +94,46 @@ Usage of ./passwordgen:
   -random
         ./passwordgen --random
          (default true)
+
   -word-chains
         ./passwordgen --word-chains
 ```
 
 ## Examples 
 
+In the examples below, notice that the trailing digit specifying length (20 in this example) is required for all commands. But the various commands comply with the length specification to varying degrees. Some are absolutely strict, others are approximate, sentences ignore it.
+
 ```shell
 $ ./passwordgen --examples 20
-┌──────────────────┬──────────────────────────────────────┐
-│ --random         │ tRrLcl}Y{Mv#Tn4wmiDi                 │
-├──────────────────┼──────────────────────────────────────┤
-│ --hex            │ 67F2B27CE6126C82C55E                 │
-├──────────────────┼──────────────────────────────────────┤
-│ --word-chains    │ mullets\anatomist\sadness            │
-├──────────────────┼──────────────────────────────────────┤
-│ --mixed          │ Necessary/Tone2                      │
-├──────────────────┼──────────────────────────────────────┤
-│ --passphrases    │ dial chamomile trailing sheath straw │
-├──────────────────┼──────────────────────────────────────┤
-│ --memorable      │ {Rearrange|Adventurously|1940}       │
-├──────────────────┼──────────────────────────────────────┤
-│ --grammatical    │ Don't slug the crazy.                │
-├──────────────────┼──────────────────────────────────────┤
-│ --grammatical-ai │ He is like his grandfather.          │
-└──────────────────┴──────────────────────────────────────┘
-
-
+┌───────────────────────────────┬─────────────────────────────────────────────┐
+│ --random                      │ iB2pTc7xLI[^]EYAAYvA                        │
+├───────────────────────────────┼─────────────────────────────────────────────┤
+│ --hex                         │ 70E6C16D521216796FDC                        │
+├───────────────────────────────┼─────────────────────────────────────────────┤
+│ --word-chains                 │ evaluator-french-slot-rink                  │
+├───────────────────────────────┼─────────────────────────────────────────────┤
+│ --mixed                       │ Measly=Cookie6                              │
+├───────────────────────────────┼─────────────────────────────────────────────┤
+│ --passphrases                 │ botch affidavit chapped oval geometry       │
+├───────────────────────────────┼─────────────────────────────────────────────┤
+│ --memorable                   │ <!546henrys>Bulge                           │
+├───────────────────────────────┼─────────────────────────────────────────────┤
+│ --grammatical                 │ Are they their finish?                      │
+├───────────────────────────────┼─────────────────────────────────────────────┤
+│ --grammatical-ai              │ He is under their supervision.              │
+├───────────────────────────────┼─────────────────────────────────────────────┤
+│ --grammatical-ai-with-numbers │ Don't absolve 99 of their leadership roles. │
+└───────────────────────────────┴─────────────────────────────────────────────┘
 ```
 
 ## Grammatical and Grammatical-AI
 
-Both `--grammatical` and `grammatical-ai` will generate grammatically correct sentences for use as passphrases. But the AI sentences will make a lot more sense to you. Use of the AI option requires that you have a valid GPT-4 API key in an environment variable named `GPT_API_KEY`.
+The `--grammatical`, `grammatical-ai`, and `--grammatical-ai-with-numbers` options will each generate grammatically correct sentences for use as passphrases. But the AI sentences will make a lot more sense to you. Use of the AI options requires that you have a valid GPT-4 API key in an environment variable named `GPT_API_KEY`.
 
 Also note the usual trailing length integer on the command line. This is required but ignored. It is a bug that needs fixing.
 
 ```shell
-/passwordgen --grammatical-ai --interactive=false 20
+./passwordgen --grammatical-ai --interactive=false 20
 ┌───┬─────────────────────────────────────────┐
 │ 0 │ Then, they didn't deduce.               │
 ├───┼─────────────────────────────────────────┤
@@ -145,6 +155,29 @@ Also note the usual trailing length integer on the command line. This is require
 └───┴─────────────────────────────────────────┘
 ```
 
+```shell
+./passwordgen --grammatical-ai-with-numbers --interactive=false 20
+┌───┬──────────────────────────────────────────────────────┐
+│ 0 │ Their score of 77 is not average.                    │
+├───┼──────────────────────────────────────────────────────┤
+│ 1 │ Cook 37 cups of rice happily.                        │
+├───┼──────────────────────────────────────────────────────┤
+│ 2 │ Eleven of them shall crossly brandish their fee.     │
+├───┼──────────────────────────────────────────────────────┤
+│ 3 │ It vehemently condemned the 96 degree climate.       │
+├───┼──────────────────────────────────────────────────────┤
+│ 4 │ Thirteen people encroached on someone's rain.        │
+├───┼──────────────────────────────────────────────────────┤
+│ 5 │ Request his help with the task of 87.                │
+├───┼──────────────────────────────────────────────────────┤
+│ 6 │ At 27 years old, someone's youth is theirs to enjoy. │
+├───┼──────────────────────────────────────────────────────┤
+│ 7 │ The subject is 42 pounds plump.                      │
+├───┼──────────────────────────────────────────────────────┤
+│ 8 │ Conduct 0 operations.                                │
+└───┴──────────────────────────────────────────────────────┘
+
+```
 
 ## Memorable Passwords
 
