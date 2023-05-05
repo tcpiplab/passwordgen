@@ -661,6 +661,15 @@ func printPasswordTypesTable() []string {
 			CommandFlag:     "--grammatical-ai",
 		})
 
+	// Grammatical-AI with numbers example password
+	nonSensicalSentence2 := createGrammaticalPassword()
+	grammaticalExampleAIWithNumbers := createGrammaticalPasswordAI(nonSensicalSentence2, true)
+	arrayOfPasswordTypes = append(arrayOfPasswordTypes,
+		PasswordAndCommandFlag{
+			PasswordExample: grammaticalExampleAIWithNumbers,
+			CommandFlag:     "--grammatical-ai-with-numbers",
+		})
+
 	// Print the slice of string pairs
 	for _, pair := range arrayOfPasswordTypes {
 

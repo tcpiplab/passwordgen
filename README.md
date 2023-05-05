@@ -101,27 +101,29 @@ Usage of ./passwordgen:
 
 ## Examples 
 
+In the examples below, notice that the trailing digit specifying length (20 in this example) is required for all commands. But the various commands comply with the length specification to varying degrees. Some are absolutely strict, others are approximate, sentences ignore it.
+
 ```shell
 $ ./passwordgen --examples 20
-┌──────────────────┬──────────────────────────────────────┐
-│ --random         │ tRrLcl}Y{Mv#Tn4wmiDi                 │
-├──────────────────┼──────────────────────────────────────┤
-│ --hex            │ 67F2B27CE6126C82C55E                 │
-├──────────────────┼──────────────────────────────────────┤
-│ --word-chains    │ mullets\anatomist\sadness            │
-├──────────────────┼──────────────────────────────────────┤
-│ --mixed          │ Necessary/Tone2                      │
-├──────────────────┼──────────────────────────────────────┤
-│ --passphrases    │ dial chamomile trailing sheath straw │
-├──────────────────┼──────────────────────────────────────┤
-│ --memorable      │ {Rearrange|Adventurously|1940}       │
-├──────────────────┼──────────────────────────────────────┤
-│ --grammatical    │ Don't slug the crazy.                │
-├──────────────────┼──────────────────────────────────────┤
-│ --grammatical-ai │ He is like his grandfather.          │
-└──────────────────┴──────────────────────────────────────┘
-
-
+┌───────────────────────────────┬─────────────────────────────────────────────┐
+│ --random                      │ iB2pTc7xLI[^]EYAAYvA                        │
+├───────────────────────────────┼─────────────────────────────────────────────┤
+│ --hex                         │ 70E6C16D521216796FDC                        │
+├───────────────────────────────┼─────────────────────────────────────────────┤
+│ --word-chains                 │ evaluator-french-slot-rink                  │
+├───────────────────────────────┼─────────────────────────────────────────────┤
+│ --mixed                       │ Measly=Cookie6                              │
+├───────────────────────────────┼─────────────────────────────────────────────┤
+│ --passphrases                 │ botch affidavit chapped oval geometry       │
+├───────────────────────────────┼─────────────────────────────────────────────┤
+│ --memorable                   │ <!546henrys>Bulge                           │
+├───────────────────────────────┼─────────────────────────────────────────────┤
+│ --grammatical                 │ Are they their finish?                      │
+├───────────────────────────────┼─────────────────────────────────────────────┤
+│ --grammatical-ai              │ He is under their supervision.              │
+├───────────────────────────────┼─────────────────────────────────────────────┤
+│ --grammatical-ai-with-numbers │ Don't absolve 99 of their leadership roles. │
+└───────────────────────────────┴─────────────────────────────────────────────┘
 ```
 
 ## Grammatical and Grammatical-AI
