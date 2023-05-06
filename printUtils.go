@@ -692,13 +692,14 @@ func printPasswordTypesTable() []string {
 
 	var arrMnemonicPair [2]string
 
+	// The values will be colorized by this function call too.
 	arrMnemonicPair = printMnemonicExampleRow()
 
 	// Prepare color for the command color
 	red := color.New(color.FgHiRed).SprintfFunc()
 
 	// Print the command option and example password
-	tableWriter.AppendRow([]interface{}{red("%s", "--mnemonic"), arrMnemonicPair[0]})
+	tableWriter.AppendRow([]interface{}{red("%s", "--mnemonic"), arrMnemonicPair[0] + "\n" + arrMnemonicPair[1]})
 
 	// Render the table
 	tableWriter.SetStyle(table.StyleLight)
