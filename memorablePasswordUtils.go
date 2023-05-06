@@ -340,22 +340,42 @@ func RandomDelimiter() string {
 // is "Hello 42 worlds!", the output will be "H42w!".
 func createMnemonicFromSentence(sentence string) string {
 
+	// Instantiate a builder object we'll use to build the mnemonic password
 	var result strings.Builder
+
+	// Begin by setting this boolean to true.
+	// It will decide when a character should be added to the mnemonic password
 	shouldAddRune := true
 
+	// Create a placeholder for each char to be evaluated in the next iteration.
+	// This will allow us to grab punctuation.
+	//var previousChar int32
+
+	// Loop through every character in the sentence
 	for _, ch := range sentence {
-		//fmt.Printf("%s", string(ch))
+
 		if shouldAddRune {
 
+			// If the character is not a space
 			if !unicode.IsSpace(ch) {
-				// Do not print spaces
+
+				// Add the character to the mnemonic password
 				result.WriteString(string(ch))
 			}
 
+			//If the current char is a number or space, set the bool to true so that the
+			//next iteration of the loop will add the char to the password.
 			if strings.ContainsRune(",.;?!-0123456789", ch) || unicode.IsNumber(ch) || unicode.IsSpace(ch) {
+
 				shouldAddRune = true
+
 			} else {
+
+				// Tell the next iteration of the loop to not add the next char to the password.
+				// For example if the current char is just a letter, we don't want the next letter.
+				// TODO: This means we will never get punctuation marks
 				shouldAddRune = false
+
 			}
 
 		}
