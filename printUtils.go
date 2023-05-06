@@ -799,7 +799,8 @@ func printMnemonicTable() []string {
 		// Populate a two-element array containing the mnemonic password and the corresponding sentence. Example:
 		// "Ivd79tdI?" and "I verbally described 79 treats, didn't I?"
 		// TODO: create this function
-		arrayMnemonicAndSentence[0] = createMnemonicPasswordAI(randomSentenceNoColor)
+		//arrayMnemonicAndSentence[0] = createMnemonicPasswordAI(randomSentenceNoColor)
+		arrayMnemonicAndSentence[0] = createMnemonicFromSentence(randomSentenceNoColor)
 		arrayMnemonicAndSentence[1] = randomSentenceNoColor
 
 		// Colorize the random sentences that we're saving to the array

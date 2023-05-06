@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"math/rand"
 	"strconv"
+	"strings"
 	"unicode"
 )
 
@@ -331,3 +332,29 @@ func RandomDelimiter() string {
 // That will require making all functions in main and in
 // main_test (the test dir name I should use) be exportable,
 // meaning starting with a capital letter.
+
+// createMnemonicFromSentence uses the strings.FieldsFunc function to split the input sentence
+// into words, considering a space as a separator. Then, it iterates through the
+// words and writes the first letter of each word to a strings.Builder. Finally,
+// it returns the resulting string. In the example given, if the input sentence
+// is "Hello 42 worlds!", the output will be "H42w!".
+func createMnemonicFromSentence(sentence string) string {
+
+	// Split the input sentence into words using spaces
+	words := strings.Fields(sentence)
+
+	var result strings.Builder
+
+	// Iterate through the words and write the first character (including punctuation) of each word to a strings.Builder object
+	for _, word := range words {
+		// Find the first character that is not a space
+		for _, ch := range word {
+			if !unicode.IsSpace(ch) {
+				result.WriteRune(ch)
+				break
+			}
+		}
+	}
+
+	return result.String()
+}
