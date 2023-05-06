@@ -128,7 +128,7 @@ func createMnemonicPasswordAI(randomSentenceNoColor string) string {
 	chatGPTRequestData = CompletionCreateArgs{
 		Model:     "text-davinci-003",
 		Prompt:    promptSentence,
-		MaxTokens: 12,
+		MaxTokens: 13,
 		// The best outcomes seem to be with temperature set to 0.
 		Temperature: 0,
 	}
