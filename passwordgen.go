@@ -34,7 +34,7 @@ func main() {
 
 	OS = detectOS()
 
-	interactive, erase, randomPasswords, wordChains, mixedPasswords, _, passPhrases, memorable, randomHex, examples, grammatical, grammaticalAI, grammaticalAIWithNumbers := argsHandler()
+	interactive, erase, randomPasswords, wordChains, mixedPasswords, _, passPhrases, memorable, randomHex, examples, grammatical, grammaticalAI, grammaticalAIWithNumbers, mnemonic := argsHandler()
 
 	//if *done {
 	//	return
@@ -107,18 +107,21 @@ func main() {
 	if *grammaticalAIWithNumbers {
 		*randomPasswords = false
 	}
+	if *mnemonic {
+		*randomPasswords = false
+	}
 
 	arrayPasswords := make([]string, rows)
 
 	if OS == "darwin" || OS == "linux" || OS == "unix" {
 
 		// Fill the screen with passwords
-		arrayPasswords = printPasswordTableUnix(arrayPasswords, *randomPasswords, *wordChains, *mixedPasswords, *passPhrases, *memorable, *randomHex, *grammatical, *grammaticalAI, *grammaticalAIWithNumbers)
+		arrayPasswords = printPasswordTableUnix(arrayPasswords, *randomPasswords, *wordChains, *mixedPasswords, *passPhrases, *memorable, *randomHex, *grammatical, *grammaticalAI, *grammaticalAIWithNumbers, *mnemonic)
 
 	} else if OS == "windows" {
 
 		// Fill the screen with passwords
-		arrayPasswords = printPasswordTableUnix(arrayPasswords, *randomPasswords, *wordChains, *mixedPasswords, *passPhrases, *memorable, *randomHex, *grammatical, *grammaticalAI, *grammaticalAIWithNumbers)
+		arrayPasswords = printPasswordTableUnix(arrayPasswords, *randomPasswords, *wordChains, *mixedPasswords, *passPhrases, *memorable, *randomHex, *grammatical, *grammaticalAI, *grammaticalAIWithNumbers, *mnemonic)
 	}
 
 	if ifInteractive(interactive, rows) {
