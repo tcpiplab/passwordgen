@@ -340,21 +340,31 @@ func RandomDelimiter() string {
 // is "Hello 42 worlds!", the output will be "H42w!".
 func createMnemonicFromSentence(sentence string) string {
 
-	// Split the input sentence into words using spaces
-	words := strings.Fields(sentence)
-
 	var result strings.Builder
+	shouldAddRune := true
 
-	// Iterate through the words and write the first character (including punctuation) of each word to a strings.Builder object
-	for _, word := range words {
-		// Find the first character that is not a space
-		for _, ch := range word {
+	for _, ch := range sentence {
+		//fmt.Printf("%s", string(ch))
+		if shouldAddRune {
+
 			if !unicode.IsSpace(ch) {
-				result.WriteRune(ch)
-				break
+				// Do not print spaces
+				result.WriteString(string(ch))
 			}
+
+			if strings.ContainsRune(",.;?!-0123456789", ch) || unicode.IsNumber(ch) || unicode.IsSpace(ch) {
+				shouldAddRune = true
+			} else {
+				shouldAddRune = false
+			}
+
+		}
+
+		if unicode.IsSpace(ch) {
+			shouldAddRune = true
 		}
 	}
 
 	return result.String()
+
 }
