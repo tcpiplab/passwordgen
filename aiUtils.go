@@ -104,6 +104,63 @@ func createGrammaticalPasswordAI(nonSensicalSentence string, grammaticalAIWithNu
 	return rewrittenSentence
 }
 
+func createMnemonicPasswordAI(randomSentenceNoColor string) string {
+
+	openaiAPIURL, apiKey := setupChatGPTAPI()
+
+	// Check if the API key exists
+	if apiKey == "" {
+		log.Println("Error: API key is missing. Please set the API key and try again.")
+		os.Exit(1)
+	}
+	// Continue execution if the environment variable exists
+
+	var promptSentence string
+
+	// Declare a variable of type CompletionCreateArgs that we'll use below
+	var chatGPTRequestData CompletionCreateArgs
+
+	// Ask to create a mnemonic password from the given sentence
+	promptSentence = "Please return a mnemonic password based on this sentence: '" + randomSentenceNoColor + "' The mnemonic password should contain at least one lowercase, at least one uppercase, at least one number, and at least one special ascii character."
+
+	//fmt.Printf("Prompt Sentence: %s\n", promptSentence)
+
+	chatGPTRequestData = CompletionCreateArgs{
+		Model:     "text-davinci-003",
+		Prompt:    promptSentence,
+		MaxTokens: 13,
+		// The best outcomes seem to be with temperature set to 0.
+		Temperature: 0,
+	}
+
+	// Make the actual API call
+	chatGPTResponseBody, errorString, apiRequestError := makeChatGPTAPIRequest(chatGPTRequestData, openaiAPIURL, apiKey)
+
+	//fmt.Printf("Response body: %s", chatGPTResponseBody)
+
+	// If the API call returned and error, return the error string
+	if apiRequestError {
+		return errorString
+	}
+
+	mnemonicPasswordValue := extractGPTJson(string(chatGPTResponseBody))
+
+	//// Remove any surrounding single quotes. This happens sometimes.
+	//rewrittenSentence = strings.Trim(rewrittenSentence, "'")
+	//
+	//// If the rewrittenSentence is missing a terminating punctuation mark
+	//// then add a trailing period character.
+	//if !strings.HasSuffix(rewrittenSentence, ".") && !strings.HasSuffix(rewrittenSentence, "?") {
+	//	rewrittenSentence += "."
+	//}
+
+	//fmt.Println(nonSensicalSentence)
+	//fmt.Println(rewrittenSentence)
+
+	//fmt.Printf("Mnemonic password: %s\n", mnemonicPasswordValue)
+	return mnemonicPasswordValue
+}
+
 func makeChatGPTAPIRequest(chatGPTRequestData CompletionCreateArgs, openaiAPIURL string, apiKey string) ([]byte, string, bool) {
 
 	// Convert the struct data into JSON

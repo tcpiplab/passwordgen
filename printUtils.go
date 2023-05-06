@@ -175,7 +175,7 @@ func printPasswordTableWindows(
 // - requestedPasswordLength: an int specifying the length of each password to generate
 // - arrayPasswords: a slice of strings representing the passwords to be populated
 // Returns: nothing
-func printPasswordTableUnix(arrayPasswords []string, randomPasswords bool, wordChains bool, mixedPasswords bool, passPhrases bool, memorable bool, randomHex bool, grammatical bool, grammaticalAI bool, grammaticalAIWithNumbers bool) []string {
+func printPasswordTableUnix(arrayPasswords []string, randomPasswords bool, wordChains bool, mixedPasswords bool, passPhrases bool, memorable bool, randomHex bool, grammatical bool, grammaticalAI bool, grammaticalAIWithNumbers bool, mnemonic bool) []string {
 
 	if passPhrases {
 
@@ -212,6 +212,10 @@ func printPasswordTableUnix(arrayPasswords []string, randomPasswords bool, wordC
 	} else if grammaticalAIWithNumbers {
 
 		arrayPasswords = printGrammaticalTable(true, true)
+
+	} else if mnemonic {
+
+		arrayPasswords = printMnemonicTable()
 	}
 
 	return arrayPasswords
@@ -684,6 +688,20 @@ func printPasswordTypesTable() []string {
 		tableWriter.AppendSeparator()
 	}
 
+	// When the loop is done, print the mnemonic example, which has an extra cell
+
+	var arrMnemonicPair [2]string
+
+	// The values will be colorized by this function call too.
+	arrMnemonicPair = printMnemonicExampleRow()
+
+	// Prepare color for the command color
+	red := color.New(color.FgHiRed).SprintfFunc()
+
+	// Print the command option and example password
+	tableWriter.AppendRow([]interface{}{red("%s", "--mnemonic"), arrMnemonicPair[0] + "\n" + arrMnemonicPair[1]})
+
+	// Render the table
 	tableWriter.SetStyle(table.StyleLight)
 	tableWriter.Render()
 
@@ -707,7 +725,7 @@ func printGrammaticalTable(grammaticalAI bool, grammaticalAIWithNumbers bool) []
 	// Create a new empty array with the same length as the original array
 	// This avoids leftover empty array elements causing clipboard copy
 	// failures later on.
-	arrayOfRandomHex := make([]string, consoleHeight/2)
+	arrayOfGrammatical := make([]string, consoleHeight/2)
 
 	var randomSentenceNoColor string
 
@@ -744,7 +762,7 @@ func printGrammaticalTable(grammaticalAI bool, grammaticalAIWithNumbers bool) []
 		randomSentenceColorized := colorizeCharactersUnix(randomSentenceNoColor, false)
 
 		// Append the random sentence to the array to be used by the clipboard if in interactive mode
-		arrayOfRandomHex[i] = randomSentenceNoColor
+		arrayOfGrammatical[i] = randomSentenceNoColor
 
 		// Prepare color for the index number
 		red := color.New(color.FgHiRed).SprintfFunc()
@@ -759,5 +777,94 @@ func printGrammaticalTable(grammaticalAI bool, grammaticalAIWithNumbers bool) []
 
 	// Return the array because it's needed for the
 	// clipboard functions if we're in interactive mode.
-	return arrayOfRandomHex
+	return arrayOfGrammatical
+}
+
+func printMnemonicTable() []string {
+
+	var consoleHeight int
+
+	// Set the console height
+	consoleHeight = funcName(consoleHeight)
+
+	// Instantiate a new table writer object
+	tableWriter := table.NewWriter()
+	tableWriter.SetOutputMirror(os.Stdout)
+
+	// Create a new empty array with the same length as the original array
+	// This avoids leftover empty array elements causing clipboard copy
+	// failures later on.
+	arrayOfMnemonics := make([]string, consoleHeight/2)
+
+	var randomSentenceNoColor string
+	var arrayMnemonicAndSentence [2]string
+
+	// Loop through the console screen height and print a table of random sentences
+	for i := 0; i < (consoleHeight/2)-1; i++ {
+
+		nonSensicalSentence := createGrammaticalPassword()
+
+		// Have AI rewrite the sentence once
+		nonSensicalSentence = createGrammaticalPasswordAI(nonSensicalSentence, false)
+
+		// Then use AI again to improve the sentence we generated but also have it add numbers
+		randomSentenceNoColor = createGrammaticalPasswordAI(nonSensicalSentence, true)
+
+		// Populate a two-element array containing the mnemonic password and the corresponding sentence. Example:
+		// "Ivd79tdI?" and "I verbally described 79 treats, didn't I?"
+		//
+		//arrayMnemonicAndSentence[0] = createMnemonicPasswordAI(randomSentenceNoColor)
+		arrayMnemonicAndSentence[0] = createMnemonicFromSentence(randomSentenceNoColor)
+		arrayMnemonicAndSentence[1] = randomSentenceNoColor
+
+		// Colorize the random sentences that we're saving to the array
+		// The following works on all platforms but no color renders on Windows
+		randomSentenceColorized := colorizeCharactersUnix(randomSentenceNoColor, false)
+		mnemonicPasswordColorized := colorizeCharactersUnix(arrayMnemonicAndSentence[0], false)
+
+		// TODO: Not sure how to handle the clipboard with this pair of values
+		// Append the random sentence to the array to be used by the clipboard if in interactive mode
+		arrayOfMnemonics[i] = randomSentenceNoColor
+
+		// Prepare color for the index number
+		red := color.New(color.FgHiRed).SprintfFunc()
+
+		// Print the index number, password, and sentence
+		tableWriter.AppendRow([]interface{}{red("%d", i), mnemonicPasswordColorized, randomSentenceColorized})
+
+		tableWriter.AppendSeparator()
+	}
+	tableWriter.SetStyle(table.StyleLight)
+	tableWriter.Render()
+
+	// Return the array because it's needed for the
+	// clipboard functions if we're in interactive mode.
+	return arrayOfMnemonics
+}
+
+func printMnemonicExampleRow() [2]string {
+
+	var randomSentenceNoColor string
+	var arrayMnemonicAndSentence [2]string
+	var arrayMnemonicAndSentenceColorized [2]string
+
+	nonSensicalSentence := createGrammaticalPassword()
+
+	// Have AI rewrite the sentence once
+	nonSensicalSentence = createGrammaticalPasswordAI(nonSensicalSentence, false)
+
+	// Then use AI again to improve the sentence we generated but also have it add numbers
+	randomSentenceNoColor = createGrammaticalPasswordAI(nonSensicalSentence, true)
+
+	// Populate a two-element array containing the mnemonic password and the corresponding sentence. Example:
+	// "Ivd79tdI?" and "I verbally described 79 treats, didn't I?"
+	arrayMnemonicAndSentence[0] = createMnemonicFromSentence(randomSentenceNoColor)
+	arrayMnemonicAndSentence[1] = randomSentenceNoColor
+
+	// Colorize the password and sentence that we're saving to the array
+	// The following works on all platforms but no color renders on Windows
+	arrayMnemonicAndSentenceColorized[1] = colorizeCharactersUnix(randomSentenceNoColor, false)
+	arrayMnemonicAndSentenceColorized[0] = colorizeCharactersUnix(arrayMnemonicAndSentence[0], false)
+
+	return arrayMnemonicAndSentenceColorized
 }

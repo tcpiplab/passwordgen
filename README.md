@@ -87,7 +87,11 @@ Usage of ./passwordgen:
         
   -mixed
         ./passwordgen --mixed
-        
+
+  -mnemonic
+        ./passwordgen --mnemonic
+        (Requires an openai.com GPT-4 API key)
+
   -passphrases
         ./passwordgen --passphrases
         
@@ -105,25 +109,28 @@ In the examples below, notice that the trailing digit specifying length (20 in t
 
 ```shell
 $ ./passwordgen --examples 20
-┌───────────────────────────────┬─────────────────────────────────────────────┐
-│ --random                      │ iB2pTc7xLI[^]EYAAYvA                        │
-├───────────────────────────────┼─────────────────────────────────────────────┤
-│ --hex                         │ 70E6C16D521216796FDC                        │
-├───────────────────────────────┼─────────────────────────────────────────────┤
-│ --word-chains                 │ evaluator-french-slot-rink                  │
-├───────────────────────────────┼─────────────────────────────────────────────┤
-│ --mixed                       │ Measly=Cookie6                              │
-├───────────────────────────────┼─────────────────────────────────────────────┤
-│ --passphrases                 │ botch affidavit chapped oval geometry       │
-├───────────────────────────────┼─────────────────────────────────────────────┤
-│ --memorable                   │ <!546henrys>Bulge                           │
-├───────────────────────────────┼─────────────────────────────────────────────┤
-│ --grammatical                 │ Are they their finish?                      │
-├───────────────────────────────┼─────────────────────────────────────────────┤
-│ --grammatical-ai              │ He is under their supervision.              │
-├───────────────────────────────┼─────────────────────────────────────────────┤
-│ --grammatical-ai-with-numbers │ Don't absolve 99 of their leadership roles. │
-└───────────────────────────────┴─────────────────────────────────────────────┘
+┌───────────────────────────────┬──────────────────────────────────────────────────────┐
+│ --random                      │ xg]6{#WBIlkOue3LOo3)                                 │
+├───────────────────────────────┼──────────────────────────────────────────────────────┤
+│ --hex                         │ 3DE5CF93AACC0BE4E22E                                 │
+├───────────────────────────────┼──────────────────────────────────────────────────────┤
+│ --word-chains                 │ frying&edge&dicing&celestial                         │
+├───────────────────────────────┼──────────────────────────────────────────────────────┤
+│ --mixed                       │ Ready#Remote3                                        │
+├───────────────────────────────┼──────────────────────────────────────────────────────┤
+│ --passphrases                 │ preset decree frame rally aptly                      │
+├───────────────────────────────┼──────────────────────────────────────────────────────┤
+│ --memorable                   │ <Unlucky~1030~Marmalade>                             │
+├───────────────────────────────┼──────────────────────────────────────────────────────┤
+│ --grammatical                 │ Suborn any ambition.                                 │
+├───────────────────────────────┼──────────────────────────────────────────────────────┤
+│ --grammatical-ai              │ Watch the video often.                               │
+├───────────────────────────────┼──────────────────────────────────────────────────────┤
+│ --grammatical-ai-with-numbers │ After 6 sessions with his analyst, he was acquitted. │
+├───────────────────────────────┼──────────────────────────────────────────────────────┤
+│ --mnemonic                    │ Tsslwta75%                                           │
+│                               │ The subject's skill level was tested at 75%.         │
+└───────────────────────────────┴──────────────────────────────────────────────────────┘
 ```
 
 ## Grammatical and Grammatical-AI
@@ -253,6 +260,33 @@ Also note the usual trailing length integer on the command line. This is require
 ├───┼────────────────────────┤
 │ 8 │ Smooth=Arm9            │
 └───┴────────────────────────┘
+```
+
+## Mnemonic passwords
+
+The memorable sentence is generated manually but with random inputs, then improved by ChatGPT-4, which requires an API key. But the resulting mnemonic password is created deterministically by this program.
+
+```shell
+./passwordgen --mnemonic --interactive=false 20
+┌───┬──────────────┬───────────────────────────────────────────────────────────┐
+│ 0 │ Iywoywf14dwt │ If you work on your weaknesses for 14 days, will they.    │
+├───┼──────────────┼───────────────────────────────────────────────────────────┤
+│ 1 │ Nfo64wbataic │ No fortune of 64 will be able to alter its course.        │
+├───┼──────────────┼───────────────────────────────────────────────────────────┤
+│ 2 │ 76soyhsnbf   │ 76 sections of your highway should not be fragmented.     │
+├───┼──────────────┼───────────────────────────────────────────────────────────┤
+│ 3 │ T95-ybwriao  │ The 95-year-old bell will ring in an old.                 │
+├───┼──────────────┼───────────────────────────────────────────────────────────┤
+│ 4 │ G57pt        │ Give 57 people thanks.                                    │
+├───┼──────────────┼───────────────────────────────────────────────────────────┤
+│ 5 │ 14pwns       │ 14 purchases were not successful.                         │
+├───┼──────────────┼───────────────────────────────────────────────────────────┤
+│ 6 │ Hf85%i       │ Hector felt 85% insecure.                                 │
+├───┼──────────────┼───────────────────────────────────────────────────────────┤
+│ 7 │ Sposiist     │ Seventeen percent of someone's income is sometimes taxed. │
+├───┼──────────────┼───────────────────────────────────────────────────────────┤
+│ 8 │ Ismbf25m     │ I snuggled my blanket for 25 minutes.                     │
+└───┴──────────────┴───────────────────────────────────────────────────────────┘
 ```
 
 ## Passphrases
