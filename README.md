@@ -356,8 +356,8 @@ passwordgen --hex 4
 # Building releases for multiple platforms
 
 ```shell
-GOOS=darwin GOARCH=arm64 go build -o Release-Binaries/v1.7.x/passwordgen-v1.7.0-darwin-arm64
-GOOS=darwin GOARCH=amd64 go build -o Release-Binaries/v1.7.x/passwordgen-v1.7.0-darwin-amd64
-GOOS=windows GOARCH=amd64 go build -o Release-Binaries/v1.7.x/passwordgen-v1.7.0-windows-amd64.exe
-GOOS=linux GOARCH=amd64 go build -o Release-Binaries/v1.7.x/passwordgen-v1.7.0-linux-amd64
+GOOS=darwin GOARCH=arm64 go build -o Release-Binaries/v1.8.x/passwordgen-v1.8.0-darwin-arm64
+GOOS=darwin GOARCH=amd64 go build -o Release-Binaries/v1.8.x/passwordgen-v1.8.0-darwin-amd64
+GOOS=windows GOARCH=amd64 go build -o Release-Binaries/v1.8.x/passwordgen-v1.8.0-windows-amd64.exe
+GOOS=linux GOARCH=amd64 go build -o Release-Binaries/v1.8.x/passwordgen-v1.8.0-linux-amd64
 ```
