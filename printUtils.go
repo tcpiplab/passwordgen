@@ -174,7 +174,6 @@ func printPasswordTableWindows(
 // - rows: an int specifying the number of rows to print
 // - requestedPasswordLength: an int specifying the length of each password to generate
 // - arrayPasswords: a slice of strings representing the passwords to be populated
-// Returns: nothing
 func printPasswordTableUnix(arrayPasswords []string, randomPasswords bool, wordChains bool, mixedPasswords bool, passPhrases bool, memorable bool, randomHex bool, grammatical bool, grammaticalAI bool, grammaticalAIWithNumbers bool, mnemonic bool) []string {
 
 	if passPhrases {
@@ -221,6 +220,8 @@ func printPasswordTableUnix(arrayPasswords []string, randomPasswords bool, wordC
 	return arrayPasswords
 }
 
+// colorizeCharactersUnix This function colorizes a given password string
+// according to its characters' ASCII values.
 func colorizeCharactersUnix(password string, print bool) string {
 
 	var coloredCharsString string
@@ -403,6 +404,8 @@ func printWordChainsTable() []string {
 	return arrayOfWordChains
 }
 
+// printMixedPasswordsTable This function prints a table of mixed and random
+// passwords of the specified console height with their indexes.
 func printMixedPasswordsTable(mixedPasswords bool, randomPasswords bool) []string {
 
 	var consoleHeight int
@@ -447,6 +450,8 @@ func printMixedPasswordsTable(mixedPasswords bool, randomPasswords bool) []strin
 	return arrayOfMixedPasswords
 }
 
+// printRandomPasswordsTable This function prints a table of random passwords and
+// returns an array of them to be used for clipboard functions if needed.
 func printRandomPasswordsTable() []string {
 
 	var consoleHeight int
@@ -491,6 +496,8 @@ func printRandomPasswordsTable() []string {
 	return arrayOfRandomPasswords
 }
 
+// printMemorableTable This function prints a table of memorable passwords, which
+// are then stored in an array and returned for further use.
 func printMemorableTable() []string {
 
 	var consoleHeight int
@@ -535,6 +542,8 @@ func printMemorableTable() []string {
 	return arrayOfMemorablePasswords
 }
 
+// printRandomHexTable This function provides an efficient way to generate an
+// array of random hex passwords and print it as a table.
 func printRandomHexTable() []string {
 	// TODO this function could be combined with printRandomPasswordTable() in some way
 
@@ -581,6 +590,8 @@ func printRandomHexTable() []string {
 	return arrayOfRandomHex
 }
 
+// printPasswordTypesTable This function generates a table of example usages for
+// different types of passwords, along with their corresponding command flag.
 func printPasswordTypesTable() []string {
 
 	// Define a struct to hold a string pair
@@ -711,6 +722,9 @@ func printPasswordTypesTable() []string {
 	return nil
 }
 
+// printGrammaticalTable This function generates a table of randomly generated
+// sentences which have been colorized and can be further customized with
+// grammatical AI and numbers.
 func printGrammaticalTable(grammaticalAI bool, grammaticalAIWithNumbers bool) []string {
 
 	var consoleHeight int
@@ -842,6 +856,9 @@ func printMnemonicTable() []string {
 	return arrayOfMnemonics
 }
 
+// printMnemonicExampleRow This function creates a randomly generated mnemonic
+// password and its corresponding sentence, which are both colorized for
+// contrast.
 func printMnemonicExampleRow() [2]string {
 
 	var randomSentenceNoColor string
