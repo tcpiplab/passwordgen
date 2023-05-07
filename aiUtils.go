@@ -182,6 +182,8 @@ func makeChatGPTAPIRequest(chatGPTRequestData CompletionCreateArgs, openaiAPIURL
 	chatGPTRequest.Header.Set("Content-Type", "application/json")
 	chatGPTRequest.Header.Set("Authorization", fmt.Sprintf("Bearer %s", apiKey))
 
+	improvedProgressBar(1)
+
 	// Send the HTTP request
 	httpClient := &http.Client{}
 	resp, err := httpClient.Do(chatGPTRequest)
