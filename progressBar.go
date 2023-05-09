@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"github.com/vbauerster/mpb/v7"
 	"github.com/vbauerster/mpb/v7/decor"
-	"net/http"
 	"time"
 )
 
@@ -105,13 +104,13 @@ func improvedProgressBar(numAPICalls int) {
 	// Simulate API calls
 	for i := 0; i < numAPICalls; i++ {
 		// Make the API call (replace with your actual API call)
-		_, _ = http.Get("https://httpbin.org/delay/1")
+		//_, _ = http.Get("https://httpbin.org/delay/1")
 
 		// Increment the progress bar
 		bar.Increment()
 
 		// Sleep to simulate delay
-		time.Sleep(time.Millisecond * 500)
+		//time.Sleep(time.Millisecond * 500)
 	}
 
 	// Wait for the progress bar to finish rendering
