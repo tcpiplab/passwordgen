@@ -37,6 +37,7 @@ func progressBarUnix(progressBarChannel chan bool) {
 		default:
 
 			// Display a progress bar with 60 steps, each step taking 1 second.
+			//goland:noinspection GrazieInspection,GrazieInspection
 			for i := 0; i <= 60; i++ {
 
 				// For each step,

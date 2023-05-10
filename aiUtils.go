@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"log"
 	"math/rand"
 	"net/http"
@@ -42,8 +41,8 @@ func createGrammaticalPasswordAI(nonSensicalSentence string, grammaticalAIWithNu
 
 	if grammaticalAIWithNumbers == true {
 
-		rand.Seed(time.Now().UnixNano())
-		randomInteger := rand.Intn(101)
+		r := rand.New(rand.NewSource(time.Now().UnixNano()))
+		randomInteger := r.Intn(101)
 		randomIntegerString := strconv.Itoa(randomInteger)
 
 		// Ask to add a number to the sentence it is rewriting
@@ -142,7 +141,7 @@ func makeChatGPTAPIRequest(chatGPTRequestData CompletionCreateArgs, openaiAPIURL
 	}(resp.Body)
 
 	// Read the HTTP response body
-	chatGPTResponseBody, err := ioutil.ReadAll(resp.Body)
+	chatGPTResponseBody, err := io.ReadAll(resp.Body)
 	if err != nil {
 		fmt.Println("Error reading response chatGPTResponseBody:", err)
 		return nil, "Error reading response chatGPTResponseBody", true

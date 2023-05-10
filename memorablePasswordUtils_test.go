@@ -1,11 +1,8 @@
 package main
 
 import (
-	"math/rand"
 	"strings"
 	"testing"
-	"time"
-	"unicode"
 )
 
 //func TestRandomYear(t *testing.T) {
@@ -55,7 +52,7 @@ import (
 //				t.Errorf("memorableTransformFive() returned password with incorrect format: got %s", memorablePassword)
 //			}
 //
-//			// Create a different slice to test this so we don't modify the original password
+//			// Create a different slice to test this, so we don't modify the original password
 //			splitPasswordStripBracketsLeft := splitPassword
 //
 //			// This for loop iterates through each element of the splitPassword slice, applying
@@ -78,15 +75,6 @@ import (
 //		})
 //	}
 //}
-
-func isCapitalized(s string) bool {
-	if len(s) == 0 {
-		return false
-	}
-
-	firstRune := rune(s[0])
-	return unicode.IsUpper(firstRune) && s[1:] == strings.ToLower(s[1:])
-}
 
 func TestCapitalizeFirstLetter(t *testing.T) {
 	tests := []struct {
@@ -136,7 +124,7 @@ func TestCapitalizeFirstLetterOnlyFirstRune(t *testing.T) {
 }
 
 func TestAppendRandomUnit(t *testing.T) {
-	rand.Seed(time.Now().UnixNano())
+	//rand.Seed(time.Now().UnixNano())
 
 	units := []string{
 		"Mhz", "Ghz", "Mbps", "Mph", "Gbps", "Kbps", "inches", "feet", "miles",

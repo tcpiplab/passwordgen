@@ -52,8 +52,11 @@ func getPreposition() string {
 
 func getRandomPronoun() string {
 	pronouns := []string{"he", "she", "they", "it", "I", "you", "we"}
-	rand.Seed(time.Now().UnixNano())
-	randomIndex := rand.Intn(len(pronouns))
+
+	//rand.Seed(time.Now().UnixNano())
+	r := rand.New(rand.NewSource(time.Now().UnixNano()))
+
+	randomIndex := r.Intn(len(pronouns))
 	return pronouns[randomIndex]
 }
 
@@ -495,8 +498,9 @@ func getConjunctiveAdverbialPhrase() string {
 		"For example,",
 	}
 
-	rand.Seed(time.Now().UnixNano())
-	randomIndex := rand.Intn(len(phrases))
+	//rand.Seed(time.Now().UnixNano())
+	r := rand.New(rand.NewSource(time.Now().UnixNano()))
+	randomIndex := r.Intn(len(phrases))
 
 	switch randomIndex {
 	case 0:
@@ -532,8 +536,11 @@ func getConjunctiveAdverbialPhrase() string {
 // the resulting phrase to the input sentence. Otherwise, it returns the original
 // sentence.
 func maybePrependConjAdvPhrase(sentence string) string {
-	rand.Seed(time.Now().UnixNano())
-	shouldModify := rand.Float64()
+
+	//rand.Seed(time.Now().UnixNano())
+	r := rand.New(rand.NewSource(time.Now().UnixNano()))
+
+	shouldModify := r.Float64()
 
 	if shouldModify < 0.5 {
 		return getConjunctiveAdverbialPhrase() + " " + sentence
