@@ -23,6 +23,9 @@ type CompletionCreateArgs struct {
 	Temperature float64 `json:"temperature"`
 }
 
+// createGrammaticalPasswordAI This function uses the OpenAI API to generate a
+// grammatically correct sentence based on the user's definition of
+// 'grammatical.'
 func createGrammaticalPasswordAI(nonSensicalSentence string, grammaticalAIWithNumbers bool) string {
 
 	openaiAPIURL, apiKey := setupChatGPTAPI()
