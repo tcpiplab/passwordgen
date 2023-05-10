@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/fatih/color"
 	"github.com/jedib0t/go-pretty/v6/table"
+	"github.com/vbauerster/mpb/v7"
 	"os"
 	"strings"
 )
@@ -813,6 +814,15 @@ func printMnemonicTable() []string {
 	var randomSentenceNoColor string
 	var arrayMnemonicAndSentence [2]string
 
+	// Define the total number of iterations
+	totalIterations := (consoleHeight / 2) - 1
+
+	// Create a new progress container
+	progressBarContainer := mpb.New()
+
+	// Create a progress bar called progressBar
+	progressBar := createProgressBar(progressBarContainer, totalIterations)
+
 	// Loop through the console screen height and print a table of random sentences
 	for i := 0; i < (consoleHeight/2)-1; i++ {
 
@@ -847,7 +857,14 @@ func printMnemonicTable() []string {
 		tableWriter.AppendRow([]interface{}{red("%d", i), mnemonicPasswordColorized, randomSentenceColorized})
 
 		tableWriter.AppendSeparator()
+
+		// Increment the progress progressBar
+		progressBar.Increment()
 	}
+
+	// Wait for the progress progressBar to finish rendering
+	progressBarContainer.Wait()
+
 	tableWriter.SetStyle(table.StyleLight)
 	tableWriter.Render()
 

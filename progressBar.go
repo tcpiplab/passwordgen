@@ -83,15 +83,10 @@ func progressBarWindows(progressBarChannel chan bool) {
 	}
 }
 
-func improvedProgressBar(numAPICalls int) {
-	// Define the total number of API calls
-	//numAPICalls := 10
-
-	// Create a new progress container
-	progressContainer := mpb.New()
-
-	// Create a progress bar
-	bar := progressContainer.AddBar(int64(numAPICalls),
+// createProgressBar This function creates a progress bar with a name and an
+// iteration counter, as well as a percentage complete indicator.
+func createProgressBar(progressBarContainer *mpb.Progress, totalIterations int) *mpb.Bar {
+	progressBar := progressBarContainer.AddBar(int64(totalIterations),
 		mpb.PrependDecorators(
 			decor.Name("Progress: "),
 			decor.CountersNoUnit("%d/%d", decor.WCSyncSpace),
@@ -100,21 +95,5 @@ func improvedProgressBar(numAPICalls int) {
 			decor.Percentage(decor.WCSyncSpace),
 		),
 	)
-
-	// Simulate API calls
-	for i := 0; i < numAPICalls; i++ {
-		// Make the API call (replace with your actual API call)
-		//_, _ = http.Get("https://httpbin.org/delay/1")
-
-		// Increment the progress bar
-		bar.Increment()
-
-		// Sleep to simulate delay
-		//time.Sleep(time.Millisecond * 500)
-	}
-
-	// Wait for the progress bar to finish rendering
-	progressContainer.Wait()
-
-	fmt.Println("All API calls completed")
+	return progressBar
 }
