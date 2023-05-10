@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/stretchr/testify/assert"
+	"os"
 	"testing"
 )
 
@@ -128,19 +129,41 @@ func Test_makeChatGPTAPIRequest(t *testing.T) {
 	}
 }
 
-func Test_setupChatGPTAPI(t *testing.T) {
-	tests := []struct {
-		name  string
-		want  string
-		want1 string
-	}{
-		// TODO: Add test cases.
+func TestSetupChatGPTAPI(t *testing.T) {
+	// Save the current value of the GPT_API_KEY environment variable
+	originalAPIKey, exists := os.LookupEnv("GPT_API_KEY")
+
+	// Set a dummy API key for the test
+	err1 := os.Setenv("GPT_API_KEY", "dummy_key")
+	if err1 != nil {
+		return
 	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			got, got1 := setupChatGPTAPI()
-			assert.Equalf(t, tt.want, got, "setupChatGPTAPI()")
-			assert.Equalf(t, tt.want1, got1, "setupChatGPTAPI()")
-		})
+
+	// Run the function
+	openaiAPIURL, apiKey := setupChatGPTAPI()
+
+	// Check if the returned URL is correct
+	expectedURL := "https://api.openai.com/v1/completions"
+	if openaiAPIURL != expectedURL {
+		t.Errorf("Expected URL '%s', got '%s'", expectedURL, openaiAPIURL)
+	}
+
+	// Check if the returned API key is correct
+	expectedAPIKey := "dummy_key"
+	if apiKey != expectedAPIKey {
+		t.Errorf("Expected API key '%s', got '%s'", expectedAPIKey, apiKey)
+	}
+
+	// Restore the original value of the GPT_API_KEY environment variable
+	if exists {
+		err2 := os.Setenv("GPT_API_KEY", originalAPIKey)
+		if err2 != nil {
+			return
+		}
+	} else {
+		err3 := os.Unsetenv("GPT_API_KEY")
+		if err3 != nil {
+			return
+		}
 	}
 }
