@@ -29,9 +29,13 @@ func randStringPassword(lengthOfRandString int, hexOnly bool) string {
 	listOfInt32Characters := make([]int32, lengthOfRandString)
 
 	// Seed the randomness
+	r := rand.New(rand.NewSource(time.Now().UnixNano()))
+
+	// TODO: Can we delete this if/else here? Test on Windows.
 	if OS == "linux" || OS == "darwin" || OS == "unix" {
 
-		rand.Seed(time.Now().UnixNano())
+		//rand.Seed(time.Now().UnixNano())
+		//r := rand.New(rand.NewSource(time.Now().UnixNano()))
 
 	} else if OS == "windows" {
 
@@ -47,7 +51,7 @@ func randStringPassword(lengthOfRandString int, hexOnly bool) string {
 	for i := range listOfInt32Characters {
 
 		// Grab random chars and put them in the list. But only from the set of allowed characters
-		listOfInt32Characters[i] = allowedCharacters[rand.Intn(len(allowedCharacters))]
+		listOfInt32Characters[i] = allowedCharacters[r.Intn(len(allowedCharacters))]
 	}
 
 	// Return a new random password string
@@ -59,8 +63,9 @@ func trimPassword(password string, requestedPasswordLength int) string {
 		return password
 	}
 
-	rand.Seed(time.Now().UnixNano())
-	trimPosition := rand.Intn(len(password) - requestedPasswordLength + 1)
+	//rand.Seed(time.Now().UnixNano())
+	r := rand.New(rand.NewSource(time.Now().UnixNano()))
+	trimPosition := r.Intn(len(password) - requestedPasswordLength + 1)
 
 	switch trimPosition {
 	case 0:

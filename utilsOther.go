@@ -156,12 +156,3 @@ func isHighEntropy(s string) bool {
 	// Check if the entropy is high enough
 	return entropy >= math.Log2(float64(len(s)))-1
 }
-
-func testForEntropy() {
-	s := "123123123" // Replace with the string you want to test
-	if isHighEntropy(s) {
-		println("The string has high entropy")
-	} else {
-		println("The string does not have high entropy")
-	}
-}

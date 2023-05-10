@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"github.com/vbauerster/mpb/v7"
+	"github.com/vbauerster/mpb/v7/decor"
 	"time"
 )
 
@@ -35,6 +37,7 @@ func progressBarUnix(progressBarChannel chan bool) {
 		default:
 
 			// Display a progress bar with 60 steps, each step taking 1 second.
+			//goland:noinspection GrazieInspection,GrazieInspection
 			for i := 0; i <= 60; i++ {
 
 				// For each step,
@@ -79,4 +82,19 @@ func progressBarWindows(progressBarChannel chan bool) {
 			}
 		}
 	}
+}
+
+// createProgressBar This function creates a progress bar with a name and an
+// iteration counter, as well as a percentage complete indicator.
+func createProgressBar(progressBarContainer *mpb.Progress, totalIterations int) *mpb.Bar {
+	progressBar := progressBarContainer.AddBar(int64(totalIterations),
+		mpb.PrependDecorators(
+			decor.Name("Progress: "),
+			decor.CountersNoUnit("%d/%d", decor.WCSyncSpace),
+		),
+		mpb.AppendDecorators(
+			decor.Percentage(decor.WCSyncSpace),
+		),
+	)
+	return progressBar
 }

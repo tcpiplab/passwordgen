@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"github.com/fatih/color"
 	"github.com/jedib0t/go-pretty/v6/table"
+	"github.com/vbauerster/mpb/v7"
 	"os"
-	"strings"
 )
 
 // printPasswordTableWindows prints a table of randomized passwords with index numbers to the terminal screen.
@@ -21,146 +21,6 @@ import (
 // - requestedPasswordLength: an int specifying the length of each password to generate
 // - arrayPasswords: a slice of strings representing the passwords to be populated
 // Returns: nothing
-func printPasswordTableWindows(
-	rows int,
-	requestedPasswordLength int,
-	arrayPasswords []string,
-	randomPasswords bool,
-	wordChains bool,
-	mixedPasswords bool,
-	passPhrases bool) []string {
-
-	grey := color.New(color.FgCyan, color.Faint).SprintfFunc()
-
-	underline := grey("─")
-
-	if !passPhrases && !wordChains && !mixedPasswords && !randomPasswords {
-		fmt.Printf(
-			"%s%s%s\n",
-			grey("+────+"),
-			strings.Repeat(underline, requestedPasswordLength+2),
-			grey("+"),
-		)
-	}
-
-	// Loop to print rows of index numbers and passwords to the terminal screen
-	for rowNumber := 0; rowNumber < ((rows / 2) - 1); rowNumber++ {
-
-		if !passPhrases && !wordChains && !mixedPasswords && !randomPasswords {
-
-			// TODO: Get colors working on Windows
-			//red := color.New(color.FgHiRed).SprintFunc()
-
-			rowNumberString := fmt.Sprintf("%02d", rowNumber)
-
-			fmt.Printf("%s ", grey("│"))
-
-			// Print index number in HiRed
-			color.NoColor = false
-			redIndexNumberWindows := color.New(color.FgHiRed).PrintfFunc()
-			redIndexNumberWindows(rowNumberString)
-			color.NoColor = true
-
-			fmt.Printf(" %s ", grey("│"))
-
-		}
-
-		if randomPasswords {
-
-			break
-
-			//// Fetch a new randomized password string of the specified length
-			//password := randStringPassword(requestedPasswordLength)
-			//
-			//arrayPasswords[rowNumber] = password
-			//
-			//// Colorize and print the password
-			//colorizeCharactersWindows(requestedPasswordLength, password)
-
-		} else if wordChains {
-
-			//password := createWordChain(requestedPasswordLength)
-			//
-			//arrayPasswords[rowNumber] = password
-
-			break
-
-		} else if mixedPasswords {
-
-			password := createMixedPassword(mixedPasswords, randomPasswords, rows)
-
-			arrayPasswords[rowNumber] = password
-
-			break
-
-			//password := createMixedPassword(mixedPasswords, randomPasswords, rows)
-			//
-			//arrayPasswords[rowNumber] = password
-
-			// Colorize and print the password
-			//colorizeCharactersWindows(requestedPasswordLength, password)
-
-		} else if passPhrases {
-
-			password := createPassphrase()
-
-			arrayPasswords[rowNumber] = password
-
-			break
-		}
-
-		// Vertical line after the password
-		fmt.Printf(" %s", grey("│"))
-
-		// Newline at end of row
-		fmt.Printf("\n")
-
-		//fmt.Printf("%s of %s %s\n", rowNumber, rows, len(arrayPasswords))
-
-		// If it's the final line we're printing
-		if rowNumber == (len(arrayPasswords) - 9) {
-
-			// └
-			fmt.Print(grey("+"))
-		} else if rowNumber >= 0 {
-
-			// Beginning of row line, middle of table ├
-			fmt.Print(grey("+"))
-		}
-
-		// Line under password index number, then cross line character ┼
-		fmt.Printf("%s%s", strings.Repeat(underline, 4), grey("+"))
-
-		// Line between rows
-		fmt.Printf("%s", strings.Repeat(underline, requestedPasswordLength+2))
-
-		// End of row line ┤
-		fmt.Printf("%s", grey("+"))
-
-		// Newline at end of row line
-		fmt.Printf("\n")
-
-	}
-	if passPhrases {
-
-		arrayPasswords = printPassphraseTable()
-
-	} else if wordChains {
-
-		arrayPasswords = printWordChainsTable()
-
-	} else if mixedPasswords {
-
-		arrayPasswords = printMixedPasswordsTable(mixedPasswords, randomPasswords)
-
-	} else if randomPasswords {
-
-		arrayPasswords = printRandomPasswordsTable()
-
-	}
-
-	return arrayPasswords
-}
 
 // printPasswordTableUnix prints a table of randomized passwords with index numbers to the terminal screen.
 //
@@ -813,6 +673,15 @@ func printMnemonicTable() []string {
 	var randomSentenceNoColor string
 	var arrayMnemonicAndSentence [2]string
 
+	// Define the total number of iterations
+	totalIterations := (consoleHeight / 2) - 1
+
+	// Create a new progress container
+	progressBarContainer := mpb.New()
+
+	// Create a progress bar called progressBar
+	progressBar := createProgressBar(progressBarContainer, totalIterations)
+
 	// Loop through the console screen height and print a table of random sentences
 	for i := 0; i < (consoleHeight/2)-1; i++ {
 
@@ -847,7 +716,14 @@ func printMnemonicTable() []string {
 		tableWriter.AppendRow([]interface{}{red("%d", i), mnemonicPasswordColorized, randomSentenceColorized})
 
 		tableWriter.AppendSeparator()
+
+		// Increment the progress progressBar
+		progressBar.Increment()
 	}
+
+	// Wait for the progress progressBar to finish rendering
+	progressBarContainer.Wait()
+
 	tableWriter.SetStyle(table.StyleLight)
 	tableWriter.Render()
 

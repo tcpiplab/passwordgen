@@ -64,10 +64,11 @@ func getWordFromCompressedDictionary(dictionaryData string) string {
 	lines := strings.Split(string(uncompressed), "\n")
 
 	// Seed the random number generator.
-	rand.Seed(time.Now().UnixNano())
+	//rand.Seed(time.Now().UnixNano())
+	r := rand.New(rand.NewSource(time.Now().UnixNano()))
 
 	// Select a random word.
-	index := rand.Intn(len(lines) - 1)
+	index := r.Intn(len(lines) - 1)
 
 	randomWordIndexed := lines[index]
 
@@ -90,7 +91,8 @@ func getWordFromCompressedDictionary(dictionaryData string) string {
 func getArrayFromCompressedDictionary(numWordsRequested int) []string {
 
 	// seed the random number generator
-	rand.Seed(time.Now().UnixNano())
+	//rand.Seed(time.Now().UnixNano())
+	//r := rand.New(rand.NewSource(time.Now().UnixNano()))
 
 	// select numWordsRequested random words of at least three characters in length
 	var arrOfRandomWords []string
