@@ -582,9 +582,11 @@ func printPasswordTypesTable() []string {
 	return nil
 }
 
-// printGrammaticalTable This function generates a table of randomly generated
-// sentences which have been colorized and can be further customized with
-// grammatical AI and numbers.
+// printGrammaticalTable generates and prints a table of randomly generated
+// sentences which have been colorized and can optionally be improved with AI
+// and the AI sentences can optionally contain numbers. Currently, there is no
+// option for non-AI sentences containing numbers. The function returns an array
+// containing the generated sentences.
 func printGrammaticalTable(grammaticalAI bool, grammaticalAIWithNumbers bool) []string {
 
 	var consoleHeight int
@@ -602,6 +604,15 @@ func printGrammaticalTable(grammaticalAI bool, grammaticalAIWithNumbers bool) []
 	arrayOfGrammatical := make([]string, consoleHeight/2)
 
 	var randomSentenceNoColor string
+
+	// Define the total number of iterations. This will be used by the progress bar
+	totalIterations := (consoleHeight / 2) - 1
+
+	// Create a new progress bar container
+	progressBarContainer := mpb.New()
+
+	// Create a progress bar called progressBar
+	progressBar := createProgressBar(progressBarContainer, totalIterations)
 
 	// Loop through the console screen height and print a table of random sentences
 	for i := 0; i < (consoleHeight/2)-1; i++ {
@@ -645,7 +656,14 @@ func printGrammaticalTable(grammaticalAI bool, grammaticalAIWithNumbers bool) []
 		tableWriter.AppendRow([]interface{}{red("%d", i), randomSentenceColorized})
 
 		tableWriter.AppendSeparator()
+
+		// Increment the progress progressBar
+		progressBar.Increment()
 	}
+
+	// Wait for the progress progressBar to finish rendering
+	progressBarContainer.Wait()
+
 	tableWriter.SetStyle(table.StyleLight)
 	tableWriter.Render()
 
