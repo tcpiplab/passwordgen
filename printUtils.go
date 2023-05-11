@@ -450,22 +450,45 @@ func printRandomHexTable() []string {
 	return arrayOfRandomHex
 }
 
-// printPasswordTypesTable This function generates a table of example usages for
+// printPasswordExamplesTable This function generates a table of example usages for
 // different types of passwords, along with their corresponding command flag.
-func printPasswordTypesTable() []string {
+func printPasswordExamplesTable() []string {
 
-	// Define a struct to hold a string pair
+	/*---------------------------------------------------------------------------
+	Set up the progress bar
+	---------------------------------------------------------------------------*/
+
+	// Define the total number of iterations. This will be used by the progress bar
+	// Here it is hardcoded for the number of password examples printed
+	totalIterations := 10
+
+	// Create a new progress bar container
+	progressBarContainer := mpb.New()
+
+	// Create a progress bar called progressBar
+	progressBar := createProgressBar(progressBarContainer, totalIterations)
+
+	/*---------------------------------------------------------------------------
+	Set up the table to be printed and data structures to populate it
+	---------------------------------------------------------------------------*/
+
+	// Define a struct to hold a string pair that will populate each row of the table
 	type PasswordAndCommandFlag struct {
 		PasswordExample string
 		CommandFlag     string
 	}
 
+	// Create a slice of PasswordAndCommandFlag structs
+	var arrayOfPasswordTypes []PasswordAndCommandFlag
+
 	// Instantiate a new table writer object
 	tableWriter := table.NewWriter()
 	tableWriter.SetOutputMirror(os.Stdout)
 
-	// Create a slice of PasswordAndCommandFlag structs
-	var arrayOfPasswordTypes []PasswordAndCommandFlag
+	/*---------------------------------------------------------------------------
+	Create pairs of each password type and its corresponding command flag.
+	Increment the progress bar each time
+	---------------------------------------------------------------------------*/
 
 	// Random non-hex example password
 	randStringPasswordExample := randStringPassword(requestedPasswordLength, false)
@@ -474,6 +497,8 @@ func printPasswordTypesTable() []string {
 			PasswordExample: randStringPasswordExample,
 			CommandFlag:     "--random",
 		})
+	// Increment the progress progressBar
+	progressBar.Increment()
 
 	// Random hex example password
 	randHexPasswordExample := randStringPassword(requestedPasswordLength, true)
@@ -482,6 +507,8 @@ func printPasswordTypesTable() []string {
 			PasswordExample: randHexPasswordExample,
 			CommandFlag:     "--hex",
 		})
+	// Increment the progress progressBar
+	progressBar.Increment()
 
 	// Word chain example password
 	wordChainPasswordExample := createWordChain(requestedPasswordLength)
@@ -490,6 +517,8 @@ func printPasswordTypesTable() []string {
 			PasswordExample: wordChainPasswordExample,
 			CommandFlag:     "--word-chains",
 		})
+	// Increment the progress progressBar
+	progressBar.Increment()
 
 	// TODO: This errors out if rows is < 8
 	// Mixed password example password
@@ -499,6 +528,8 @@ func printPasswordTypesTable() []string {
 			PasswordExample: mixedPasswordExample,
 			CommandFlag:     "--mixed",
 		})
+	// Increment the progress progressBar
+	progressBar.Increment()
 
 	// Passphrase example password
 	passphraseExample := createPassphrase()
@@ -507,6 +538,8 @@ func printPasswordTypesTable() []string {
 			PasswordExample: passphraseExample,
 			CommandFlag:     "--passphrases",
 		})
+	// Increment the progress progressBar
+	progressBar.Increment()
 
 	// Memorable password example password
 	var memorablePassword string
@@ -517,6 +550,8 @@ func printPasswordTypesTable() []string {
 			PasswordExample: memorableExample,
 			CommandFlag:     "--memorable",
 		})
+	// Increment the progress progressBar
+	progressBar.Increment()
 
 	// Grammatical example password
 	//memorablePassword = ""
@@ -526,6 +561,8 @@ func printPasswordTypesTable() []string {
 			PasswordExample: grammaticalExample,
 			CommandFlag:     "--grammatical",
 		})
+	// Increment the progress progressBar
+	progressBar.Increment()
 
 	// Grammatical-AI example password
 	nonSensicalSentence := createGrammaticalPassword()
@@ -535,6 +572,8 @@ func printPasswordTypesTable() []string {
 			PasswordExample: grammaticalExampleAI,
 			CommandFlag:     "--grammatical-ai",
 		})
+	// Increment the progress progressBar
+	progressBar.Increment()
 
 	// Grammatical-AI with numbers example password
 	nonSensicalSentence2 := createGrammaticalPassword()
@@ -544,6 +583,12 @@ func printPasswordTypesTable() []string {
 			PasswordExample: grammaticalExampleAIWithNumbers,
 			CommandFlag:     "--grammatical-ai-with-numbers",
 		})
+	// Increment the progress progressBar
+	progressBar.Increment()
+
+	/*---------------------------------------------------------------------------
+	Print the table
+	---------------------------------------------------------------------------*/
 
 	// Print the slice of string pairs
 	for _, pair := range arrayOfPasswordTypes {
@@ -559,18 +604,26 @@ func printPasswordTypesTable() []string {
 		tableWriter.AppendSeparator()
 	}
 
-	// When the loop is done, print the mnemonic example, which has an extra cell
+	/*---------------------------------------------------------------------------
+	When the loop is done, print the mnemonic example, which has an extra cell
+	---------------------------------------------------------------------------*/
 
 	var arrMnemonicPair [2]string
 
 	// The values will be colorized by this function call too.
 	arrMnemonicPair = printMnemonicExampleRow()
 
+	// Increment the progress progressBar
+	progressBar.Increment()
+
 	// Prepare color for the command color
 	red := color.New(color.FgHiRed).SprintfFunc()
 
 	// Print the command option and example password
 	tableWriter.AppendRow([]interface{}{red("%s", "--mnemonic"), arrMnemonicPair[0] + "\n" + arrMnemonicPair[1]})
+
+	// Wait for the progress progressBar to finish rendering
+	progressBarContainer.Wait()
 
 	// Render the table
 	tableWriter.SetStyle(table.StyleLight)
