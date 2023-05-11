@@ -1,16 +1,19 @@
 # How to create a progress bar
 
-Do this inside of the print function where you want a progress bar to print before the table renders.
+Do this inside of the print function where you want a progress bar to print before the table renders. Place this just before the for loop that builds the table to be printed.
 
 ```go
-// Create a new progress container
+// Define the total number of iterations. This will be used by the progress bar
+totalIterations := (consoleHeight / 2) - 1
+
+// Create a new progress bar container
 progressBarContainer := mpb.New()
 
 // Create a progress bar called progressBar
 progressBar := createProgressBar(progressBarContainer, totalIterations)
 ```
 
-Then, inside the printing loop:
+Then, inside the printing loop, just before the end of the loop:
 
 ```go
 // Increment the progress progressBar
