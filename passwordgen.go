@@ -95,7 +95,7 @@ func main() {
 	if *examples {
 
 		*randomPasswords = false
-		printPasswordTypesTable()
+		printPasswordExamplesTable()
 		os.Exit(0)
 	}
 	if *grammatical {
