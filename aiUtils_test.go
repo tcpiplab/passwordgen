@@ -1,7 +1,10 @@
 package main
 
 import (
-	"github.com/stretchr/testify/assert"
+	"encoding/json"
+	"io"
+	"net/http"
+	"net/http/httptest"
 	"os"
 	"testing"
 )
@@ -104,28 +107,64 @@ func TestExtractGPTJson(t *testing.T) {
 	}
 }
 
-func Test_makeChatGPTAPIRequest(t *testing.T) {
-	type args struct {
-		chatGPTRequestData CompletionCreateArgs
-		openaiAPIURL       string
-		apiKey             string
+type Response struct {
+	ID     string `json:"id"`
+	Object string `json:"object"`
+}
+
+// TestMakeChatGPTAPIRequest This function tests that the makeChatGPTAPIRequest()
+// function is sending a readable request with an accurate response. It sets up a
+// test server that returns a dummy response, creates a dummy
+// CompletionCreateArgs struct, and calls the makeChatGPTAPIRequest function with
+// the test server's URL and a dummy API key. The test function then checks if
+// there were any errors and if the returned response matches the expected
+// values.
+func TestMakeChatGPTAPIRequest(t *testing.T) {
+	// Create a test server that returns a dummy response
+	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		response := Response{
+			ID:     "test_id",
+			Object: "test_object",
+		}
+		jsonResponse, _ := json.Marshal(response)
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		_, err := io.WriteString(w, string(jsonResponse))
+		if err != nil {
+			return
+		}
+	}))
+	defer testServer.Close()
+
+	// Create a dummy CompletionCreateArgs
+	chatGPTRequestData := CompletionCreateArgs{
+		Model:       "text-davinci-003",
+		Prompt:      "Test prompt",
+		MaxTokens:   10,
+		Temperature: 0,
 	}
-	tests := []struct {
-		name  string
-		args  args
-		want  []byte
-		want1 string
-		want2 bool
-	}{
-		// TODO: Add test cases.
+
+	// Call the function with the test server URL and a dummy API key
+	chatGPTResponseBody, errorString, apiRequestError := makeChatGPTAPIRequest(chatGPTRequestData, testServer.URL, "dummy_key")
+
+	// Check if there was an error
+	if apiRequestError {
+		t.Errorf("Expected no error, got error: %s", errorString)
 	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			got, got1, got2 := makeChatGPTAPIRequest(tt.args.chatGPTRequestData, tt.args.openaiAPIURL, tt.args.apiKey)
-			assert.Equalf(t, tt.want, got, "makeChatGPTAPIRequest(%v, %v, %v)", tt.args.chatGPTRequestData, tt.args.openaiAPIURL, tt.args.apiKey)
-			assert.Equalf(t, tt.want1, got1, "makeChatGPTAPIRequest(%v, %v, %v)", tt.args.chatGPTRequestData, tt.args.openaiAPIURL, tt.args.apiKey)
-			assert.Equalf(t, tt.want2, got2, "makeChatGPTAPIRequest(%v, %v, %v)", tt.args.chatGPTRequestData, tt.args.openaiAPIURL, tt.args.apiKey)
-		})
+
+	// Unmarshal the response and check if it matches the expected values
+	var response Response
+	err := json.Unmarshal(chatGPTResponseBody, &response)
+	if err != nil {
+		t.Errorf("Error unmarshaling JSON: %s", err)
+	}
+
+	if response.ID != "test_id" {
+		t.Errorf("Expected ID 'test_id', got '%s'", response.ID)
+	}
+
+	if response.Object != "test_object" {
+		t.Errorf("Expected Object 'test_object', got '%s'", response.Object)
 	}
 }
 
