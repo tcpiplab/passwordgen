@@ -92,6 +92,10 @@ func main() {
 	}
 	if *examples {
 
+		for i := 0; i < 10; i++ {
+			createBetterMemorablePassword()
+		}
+
 		*randomPasswords = false
 		printPasswordExamplesTable()
 		os.Exit(0)
