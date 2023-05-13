@@ -78,6 +78,11 @@ func printPasswordTableUnix(arrayPasswords []string, randomPasswords bool, wordC
 
 	} else if memorable3 {
 
+		// TODO: Update --examples to show --memorable-3
+		// TODO: Change --mixed to --memorable-2
+		// TODO: Change --memorable to --memorable-1
+		// TODO: Reorder --examples to sort memorable options in order
+		// TODO: Update readme to show all three types of memorable passwords
 		arrayPasswords = printMemorableTable(3)
 	}
 
