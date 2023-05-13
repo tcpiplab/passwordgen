@@ -3,8 +3,6 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/fatih/color"
-	"os"
 )
 
 func argsHandler() (
@@ -103,11 +101,12 @@ func argsHandler() (
 	flag.Parse()
 
 	// TODO: For now the length is mandatory and must be the last arg
-	if len(os.Args) < 2 {
+	//if len(os.Args) < 2 {
+	//
+	//	color.HiRed("\nPlease provide a password length as the last argument\nOr -h for help.\n")
+	//	return nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil
+	//}
 
-		color.HiRed("\nPlease provide a password length as the last argument\nOr -h for help.\n")
-		return nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil
-	}
 	return interactive, erase, randomPasswords, wordChains, mixedPasswords, nil, passPhrases, memorable, randomHex, examples, grammatical, grammaticalAI, grammaticalAIWithNumbers, mnemonic
 }
 
