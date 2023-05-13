@@ -158,7 +158,7 @@ func TestIfMixedPasswords(t *testing.T) {
 }
 
 func TestCreatePassphrase(t *testing.T) {
-	passphrase := createPassphrase()
+	passphrase := createPassphrase(5)
 	words := strings.Split(passphrase, " ")
 	if len(words) != 5 {
 		t.Errorf("Expected 5 words in passphrase, but got %d", len(words))

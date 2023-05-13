@@ -58,7 +58,7 @@ func createGrammaticalPasswordAI(nonSensicalSentence string, grammaticalAIWithNu
 			Model:  "text-davinci-003",
 			Prompt: promptSentence,
 			// Any amount of tokens < 12 will truncate some sentences.
-			MaxTokens: 16,
+			MaxTokens: 17,
 			// The best outcomes seem to be with temperature set to 0.
 			Temperature: 0,
 		}
@@ -74,7 +74,7 @@ func createGrammaticalPasswordAI(nonSensicalSentence string, grammaticalAIWithNu
 			Model:  "text-davinci-003",
 			Prompt: promptSentence,
 			// Any amount of tokens < 12 will truncate some sentences.
-			MaxTokens: 13,
+			MaxTokens: 14,
 			// The best outcomes seem to be with temperature set to 0.
 			Temperature: 0,
 		}

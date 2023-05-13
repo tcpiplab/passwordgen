@@ -34,6 +34,19 @@ func RandomYearOrFloat() string {
 	}
 }
 
+// TODO: Improve memorable passwords. For example:
+/*
+JellyDonut$2023
+PurplePenguin#45
+SunnyDay@Beach2023
+MountainHiking!79
+CrispyBacon&Toast
+SnowyWinter$December
+TravelWorld@2024
+ChocolateCake#Yum
+MusicLover@77Jazz
+FitnessGoal!10kRun
+*/
 func createMemorablePassword(requestedPasswordLength int) string {
 
 	var memorablePassword string
