@@ -20,6 +20,7 @@ func argsHandler() (
 	grammaticalAI *bool,
 	grammaticalAIWithNumbers *bool,
 	mnemonic *bool,
+	memorable3 *bool,
 ) {
 	help = flag.Bool(
 		"help",
@@ -29,7 +30,7 @@ func argsHandler() (
 
 	if *help {
 		flag.Usage()
-		return nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil
+		return nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil
 	}
 
 	// Interactive mode is the default
@@ -98,16 +99,14 @@ func argsHandler() (
 		false,
 		"./passwordgen --mnemonic\n(Requires an openai.com GPT-4 API key)\n")
 
+	memorable3 = flag.Bool(
+		"memorable-3",
+		false,
+		"./passwordgen --memorable-3\n")
+
 	flag.Parse()
 
-	// TODO: For now the length is mandatory and must be the last arg
-	//if len(os.Args) < 2 {
-	//
-	//	color.HiRed("\nPlease provide a password length as the last argument\nOr -h for help.\n")
-	//	return nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil
-	//}
-
-	return interactive, erase, randomPasswords, wordChains, mixedPasswords, nil, passPhrases, memorable, randomHex, examples, grammatical, grammaticalAI, grammaticalAIWithNumbers, mnemonic
+	return interactive, erase, randomPasswords, wordChains, mixedPasswords, nil, passPhrases, memorable, randomHex, examples, grammatical, grammaticalAI, grammaticalAIWithNumbers, mnemonic, memorable3
 }
 
 func ifInteractive(interactive *bool, rows int) bool {

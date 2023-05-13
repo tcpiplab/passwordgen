@@ -34,7 +34,7 @@ import (
 // - rows: an int specifying the number of rows to print
 // - requestedPasswordLength: an int specifying the length of each password to generate
 // - arrayPasswords: a slice of strings representing the passwords to be populated
-func printPasswordTableUnix(arrayPasswords []string, randomPasswords bool, wordChains bool, mixedPasswords bool, passPhrases bool, memorable bool, randomHex bool, grammatical bool, grammaticalAI bool, grammaticalAIWithNumbers bool, mnemonic bool) []string {
+func printPasswordTableUnix(arrayPasswords []string, randomPasswords bool, wordChains bool, mixedPasswords bool, passPhrases bool, memorable bool, randomHex bool, grammatical bool, grammaticalAI bool, grammaticalAIWithNumbers bool, mnemonic bool, memorable3 bool) []string {
 
 	if passPhrases {
 
@@ -54,7 +54,7 @@ func printPasswordTableUnix(arrayPasswords []string, randomPasswords bool, wordC
 
 	} else if memorable {
 
-		arrayPasswords = printMemorableTable()
+		arrayPasswords = printMemorableTable(1)
 
 	} else if randomHex {
 
@@ -75,6 +75,10 @@ func printPasswordTableUnix(arrayPasswords []string, randomPasswords bool, wordC
 	} else if mnemonic {
 
 		arrayPasswords = printMnemonicTable()
+
+	} else if memorable3 {
+
+		arrayPasswords = printMemorableTable(3)
 	}
 
 	return arrayPasswords
@@ -358,7 +362,7 @@ func printRandomPasswordsTable() []string {
 
 // printMemorableTable This function prints a table of memorable passwords, which
 // are then stored in an array and returned for further use.
-func printMemorableTable() []string {
+func printMemorableTable(memorableType int) []string {
 
 	var consoleHeight int
 
@@ -374,10 +378,19 @@ func printMemorableTable() []string {
 	// failures later on.
 	arrayOfMemorablePasswords := make([]string, consoleHeight/2)
 
+	var memorablePasswordNoColor string
+
 	// Loop through the console screen height and print a table of memorable passwords
 	for i := 0; i < (consoleHeight/2)-1; i++ {
 
-		memorablePasswordNoColor := createMemorablePassword(requestedPasswordLength)
+		if memorableType == 1 {
+
+			memorablePasswordNoColor = createMemorablePassword(requestedPasswordLength)
+
+		} else if memorableType == 3 {
+
+			memorablePasswordNoColor = createBetterMemorablePassword()
+		}
 
 		// Colorize the word chain that we're saving to the array
 		// The following works on all platforms but no color renders on Windows
