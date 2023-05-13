@@ -40,17 +40,15 @@ func main() {
 	//	return
 	//}
 
-	if !*passPhrases {
+	if !*grammatical && !*grammaticalAI && !*grammaticalAIWithNumbers && !*mnemonic {
 
 		// Convert the requested length from string to int
 		// Length must be the last argument
 		requestedPasswordLength, _ = strconv.Atoi(os.Args[len(os.Args)-1])
 
-		// Check for password length and return errors if needed
-		// For now the length is mandatory and must be the last arg
-		if checkPasswordLength(requestedPasswordLength, randomHex) {
-			return
-		}
+		// Check for password length and return defaults if needed
+		// TODO: add an optional length arg to --passphrases and --word-chains to specify the number of words
+		requestedPasswordLength = checkPasswordLength(requestedPasswordLength, randomHex, passPhrases, wordChains)
 	}
 
 	// Get the height and width of the console
@@ -97,6 +95,7 @@ func main() {
 		*randomPasswords = false
 		printPasswordExamplesTable()
 		os.Exit(0)
+
 	}
 	if *grammatical {
 		*randomPasswords = false

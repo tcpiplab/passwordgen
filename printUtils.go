@@ -38,7 +38,7 @@ func printPasswordTableUnix(arrayPasswords []string, randomPasswords bool, wordC
 
 	if passPhrases {
 
-		arrayPasswords = printPassphraseTable()
+		arrayPasswords = printPassphraseTable(requestedPasswordLength)
 
 	} else if wordChains {
 
@@ -160,7 +160,7 @@ func colorizeCharactersUnix(password string, print bool) string {
 //
 //	Returns:
 //	 - An array of strings
-func printPassphraseTable() []string {
+func printPassphraseTable(requestedPasswordLength int) []string {
 
 	var consoleHeight int
 
@@ -179,7 +179,7 @@ func printPassphraseTable() []string {
 	// Loop through the console screen height and print a table of passphrases
 	for i := 0; i < (consoleHeight/2)-1; i++ {
 
-		passphrase := createPassphrase()
+		passphrase := createPassphrase(requestedPasswordLength)
 
 		// Colorize the passphrase that we're saving to the array
 		// The following works on all platforms but no color renders on Windows
@@ -531,8 +531,8 @@ func printPasswordExamplesTable() []string {
 	// Increment the progress progressBar
 	progressBar.Increment()
 
-	// Passphrase example password
-	passphraseExample := createPassphrase()
+	// Passphrase example is hardcoded to 5 here to match its default value
+	passphraseExample := createPassphrase(5)
 	arrayOfPasswordTypes = append(arrayOfPasswordTypes,
 		PasswordAndCommandFlag{
 			PasswordExample: passphraseExample,

@@ -266,11 +266,9 @@ func randomDelimiterAppendOrPrepend(inputStr string) string {
 	return inputStr
 }
 
-func createPassphrase() string {
+func createPassphrase(requestedPasswordLength int) string {
 
-	// TODO: Allow for input for length of passphrases
-	// For now this is hardcoded at 5
-	arrOfRandomWords := getArrayFromCompressedDictionary(5)
+	arrOfRandomWords := getArrayFromCompressedDictionary(requestedPasswordLength)
 
 	// Join the array into a single string with a comma separator
 	passphrase := strings.Join(arrOfRandomWords[:], " ")

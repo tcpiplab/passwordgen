@@ -111,22 +111,42 @@ func detectOS() string {
 //
 //	Returns:
 //	  - a boolean value indicating if the password length is valid or not
-func checkPasswordLength(requestedPasswordLength int, randomHex *bool) bool {
+func checkPasswordLength(requestedPasswordLength int, randomHex *bool, passphrases *bool, wordChains *bool) int {
 
 	if *randomHex {
 
 		if int(requestedPasswordLength) < 4 {
 
-			color.HiRed("\nHex PIN length must be 4 or longer.\n\n")
-			return true
+			// --hex defaults to 4 characters
+			color.HiRed("\nHex PIN length defaults to 4 characters if you don't specify a length as the last argument.\n\n")
+			return 4
 		}
 
-	} else if !*randomHex {
+	} else if *passphrases || *wordChains {
 
+		if int(requestedPasswordLength) <= 0 {
+
+			// return what the user asked for
+			return requestedPasswordLength
+
+		} else if *passphrases {
+
+			// --passphrases defaults to 5 words
+			color.HiRed("\nPassphrase length defaults to 5 words if you don't specify a length as the last argument.\n\n")
+			return 5
+		}
+	} else if *wordChains {
+
+		// --word-chains defaults to 5 words
+		color.HiRed("\nWord chain length defaults to 5 words if you don't specify a length as the last argument.\n\n")
+		return 5
+
+	} else {
+		// For other password types, default to 8
 		if int(requestedPasswordLength) < 8 {
 
-			color.HiRed("\nPassword length must be 8 or longer.\n\n")
-			return true
+			color.HiRed("\nPassword length defaults to 8 characters if you don't specify a length as the last argument.\n\n")
+			return 8
 		}
 	}
 
@@ -135,7 +155,8 @@ func checkPasswordLength(requestedPasswordLength int, randomHex *bool) bool {
 	//	requestedPasswordLength = 10
 	//}
 
-	return false
+	// If we get here just return the length the user asked for
+	return requestedPasswordLength
 }
 
 func isHighEntropy(s string) bool {
