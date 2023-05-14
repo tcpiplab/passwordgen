@@ -22,10 +22,11 @@ func argsHandler() (
 	mnemonic *bool,
 	memorable3 *bool,
 ) {
+	// FIXME: Only -h works, not -help or --help
 	help = flag.Bool(
 		"help",
 		false,
-		"./passwordgen n\nWhere n is the length of the password.\nLength must be the last argument.\n",
+		"./passwordgen -h",
 	)
 
 	if *help {
@@ -37,72 +38,72 @@ func argsHandler() (
 	interactive = flag.Bool(
 		"interactive",
 		true,
-		"./passwordgen --interactive[=false]\n")
+		"./passwordgen --interactive[=false]")
 
 	erase = flag.Bool(
 		"erase",
 		true,
-		"./passwordgen --erase[=false]\n")
+		"./passwordgen --erase[=false]")
 
 	randomPasswords = flag.Bool(
 		"random",
 		true,
-		"./passwordgen --random\n")
+		"./passwordgen --random")
 
 	wordChains = flag.Bool(
 		"word-chains",
 		false,
-		"./passwordgen --word-chains\n")
-
-	memorable2 = flag.Bool(
-		"memorable-2",
-		false,
-		"./passwordgen --memorable-2\n")
+		"./passwordgen --word-chains")
 
 	passPhrases = flag.Bool(
 		"passphrases",
 		false,
-		"./passwordgen --passphrases\n")
+		"./passwordgen --passphrases")
 
 	memorable = flag.Bool(
 		"memorable",
 		false,
-		"./passwordgen --memorable\n")
+		"./passwordgen --memorable")
 
-	randomHex = flag.Bool(
-		"hex",
+	memorable2 = flag.Bool(
+		"memorable-2",
 		false,
-		"./passwordgen --hex\n")
-
-	examples = flag.Bool(
-		"examples",
-		false,
-		"./passwordgen --examples\n")
-
-	grammatical = flag.Bool(
-		"grammatical",
-		false,
-		"./passwordgen --grammatical\n")
-
-	grammaticalAI = flag.Bool(
-		"grammatical-ai",
-		false,
-		"./passwordgen --grammatical-ai\n(Requires an openai.com GPT-4 API key)\n")
-
-	grammaticalAIWithNumbers = flag.Bool(
-		"grammatical-ai-with-numbers",
-		false,
-		"./passwordgen --grammatical-ai-with-numbers\n(Requires an openai.com GPT-4 API key)\n")
-
-	mnemonic = flag.Bool(
-		"mnemonic",
-		false,
-		"./passwordgen --mnemonic\n(Requires an openai.com GPT-4 API key)\n")
+		"./passwordgen --memorable-2")
 
 	memorable3 = flag.Bool(
 		"memorable-3",
 		false,
-		"./passwordgen --memorable-3\n")
+		"./passwordgen --memorable-3")
+
+	randomHex = flag.Bool(
+		"hex",
+		false,
+		"./passwordgen --hex")
+
+	examples = flag.Bool(
+		"examples",
+		false,
+		"./passwordgen --examples")
+
+	grammatical = flag.Bool(
+		"grammatical",
+		false,
+		"./passwordgen --grammatical")
+
+	grammaticalAI = flag.Bool(
+		"grammatical-ai",
+		false,
+		"./passwordgen --grammatical-ai  (Requires an openai.com GPT-4 API key)")
+
+	grammaticalAIWithNumbers = flag.Bool(
+		"grammatical-ai-with-numbers",
+		false,
+		"./passwordgen --grammatical-ai-with-numbers  (Requires an openai.com GPT-4 API key)")
+
+	mnemonic = flag.Bool(
+		"mnemonic",
+		false,
+		"./passwordgen --mnemonic  (Requires an openai.com GPT-4 API key)")
 
 	flag.Parse()
 
