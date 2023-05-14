@@ -78,9 +78,7 @@ func printPasswordTableUnix(arrayPasswords []string, randomPasswords bool, wordC
 
 	} else if memorable3 {
 
-		// TODO: Update --examples to show --memorable-3
 		// TODO: Change --memorable to --memorable-1
-		// TODO: Reorder --examples to sort memorable options in order
 		// TODO: Update readme to show all three types of memorable passwords
 		arrayPasswords = printMemorableTable(3)
 	}
@@ -393,7 +391,7 @@ func printMemorableTable(memorableType int) []string {
 
 		} else if memorableType == 3 {
 
-			memorablePasswordNoColor = createBetterMemorablePassword()
+			memorablePasswordNoColor = createMemorable3Password()
 		}
 
 		// Colorize the word chain that we're saving to the array
@@ -507,7 +505,7 @@ func printPasswordExamplesTable() []string {
 	Increment the progress bar each time
 	---------------------------------------------------------------------------*/
 
-	// Random non-hex example password
+	// Random non-hex example password ----------------------------------------
 	randStringPasswordExample := randStringPassword(requestedPasswordLength, false)
 	arrayOfPasswordTypes = append(arrayOfPasswordTypes,
 		PasswordAndCommandFlag{
@@ -517,7 +515,7 @@ func printPasswordExamplesTable() []string {
 	// Increment the progress progressBar
 	progressBar.Increment()
 
-	// Random hex example password
+	// Random hex example password --------------------------------------------
 	randHexPasswordExample := randStringPassword(requestedPasswordLength, true)
 	arrayOfPasswordTypes = append(arrayOfPasswordTypes,
 		PasswordAndCommandFlag{
@@ -527,7 +525,7 @@ func printPasswordExamplesTable() []string {
 	// Increment the progress progressBar
 	progressBar.Increment()
 
-	// Word chain example password
+	// Word chain example password --------------------------------------------
 	wordChainPasswordExample := createWordChain(requestedPasswordLength)
 	arrayOfPasswordTypes = append(arrayOfPasswordTypes,
 		PasswordAndCommandFlag{
@@ -537,18 +535,8 @@ func printPasswordExamplesTable() []string {
 	// Increment the progress progressBar
 	progressBar.Increment()
 
-	// TODO: This errors out if rows is < 8
-	// Memorable2 password example password
-	memorable2PasswordExample := createMemorable2Password(true, false, 8)
-	arrayOfPasswordTypes = append(arrayOfPasswordTypes,
-		PasswordAndCommandFlag{
-			PasswordExample: memorable2PasswordExample,
-			CommandFlag:     "--memorable-2",
-		})
-	// Increment the progress progressBar
-	progressBar.Increment()
-
-	// Passphrase example is hardcoded to 5 here to match its default value
+	// Passphrase example -----------------------------------------------------
+	// is hardcoded to 5 here to match its default value
 	passphraseExample := createPassphrase(5)
 	arrayOfPasswordTypes = append(arrayOfPasswordTypes,
 		PasswordAndCommandFlag{
@@ -558,7 +546,7 @@ func printPasswordExamplesTable() []string {
 	// Increment the progress progressBar
 	progressBar.Increment()
 
-	// Memorable password example password
+	// Memorable password example password ------------------------------------
 	var memorablePassword string
 	//memorableExample := memorableTransformOne(memorablePassword, requestedPasswordLength)
 	memorableExample := chooseMemorableTransform(memorablePassword, requestedPasswordLength)
@@ -570,7 +558,28 @@ func printPasswordExamplesTable() []string {
 	// Increment the progress progressBar
 	progressBar.Increment()
 
-	// Grammatical example password
+	// TODO: This errors out if rows is < 8
+	// Memorable2 password example password -----------------------------------
+	memorable2PasswordExample := createMemorable2Password(true, false, 8)
+	arrayOfPasswordTypes = append(arrayOfPasswordTypes,
+		PasswordAndCommandFlag{
+			PasswordExample: memorable2PasswordExample,
+			CommandFlag:     "--memorable-2",
+		})
+	// Increment the progress progressBar
+	progressBar.Increment()
+
+	// Memorable3 password example password -----------------------------------
+	memorable3PasswordExample := createMemorable3Password()
+	arrayOfPasswordTypes = append(arrayOfPasswordTypes,
+		PasswordAndCommandFlag{
+			PasswordExample: memorable3PasswordExample,
+			CommandFlag:     "--memorable-3",
+		})
+	// Increment the progress progressBar
+	progressBar.Increment()
+
+	// Grammatical example password -------------------------------------------
 	//memorablePassword = ""
 	grammaticalExample := createGrammaticalPassword()
 	arrayOfPasswordTypes = append(arrayOfPasswordTypes,
@@ -581,7 +590,7 @@ func printPasswordExamplesTable() []string {
 	// Increment the progress progressBar
 	progressBar.Increment()
 
-	// Grammatical-AI example password
+	// Grammatical-AI example password ----------------------------------------
 	nonSensicalSentence := createGrammaticalPassword()
 	grammaticalExampleAI := createGrammaticalPasswordAI(nonSensicalSentence, false)
 	arrayOfPasswordTypes = append(arrayOfPasswordTypes,
@@ -592,7 +601,7 @@ func printPasswordExamplesTable() []string {
 	// Increment the progress progressBar
 	progressBar.Increment()
 
-	// Grammatical-AI with numbers example password
+	// Grammatical-AI with numbers example password ---------------------------
 	nonSensicalSentence2 := createGrammaticalPassword()
 	grammaticalExampleAIWithNumbers := createGrammaticalPasswordAI(nonSensicalSentence2, true)
 	arrayOfPasswordTypes = append(arrayOfPasswordTypes,

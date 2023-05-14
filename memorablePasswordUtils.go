@@ -96,7 +96,7 @@ func randomDoubledDigit() string {
 	return fmt.Sprintf("%02d", intBetween0and9*11)
 }
 
-// createBetterMemorablePassword This function creates a more memorable password
+// createMemorable3Password This function creates a more memorable password
 // by combining randomly chosen adjective/noun pairs with a special character and a year or integer.
 // For example:
 //
@@ -110,20 +110,15 @@ func randomDoubledDigit() string {
 //	ChocolateCake#Yum
 //	MusicLover@77Jazz
 //	FitnessGoal!10kRun
-func createBetterMemorablePassword() string {
+func createMemorable3Password() string {
 
 	var (
-		_, noun, _, adjective, article, _,
+		_, noun, _, adjective, _, _,
 		_, _,
 		_ = getVocabWords()
 	)
 
-	// Change "a" to "an" if the following word begins with a vowel
-	article = modifyArticle(noun, article)
-
 	adjectiveNounYear := capitalizeFirstLetter(adjective) + capitalizeFirstLetter(noun) + getRandomSpecialChar(true) + RandomYearOrInt()
-
-	fmt.Println(adjectiveNounYear)
 
 	return adjectiveNounYear
 }

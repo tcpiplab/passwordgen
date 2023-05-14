@@ -87,8 +87,8 @@ Usage of ./passwordgen:
   -memorable
         ./passwordgen --memorable
         
-  -mixed
-        ./passwordgen --mixed
+  -memorable2
+        ./passwordgen --memorable-2
 
   -mnemonic
         ./passwordgen --mnemonic
