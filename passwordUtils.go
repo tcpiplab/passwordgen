@@ -171,22 +171,22 @@ func shuffleStringTransforms(str string) string {
 	return str
 }
 
-// createMixedPassword() generates a mixed password if mixedPasswords is true, and random passwords otherwise.
+// createMemorable2Password() generates a memorable password if memorable2 is true, and random passwords otherwise.
 //
 //	Parameters:
-//	  mixedPasswords: A boolean indicating whether mixed passwords are requested.
+//	  memorable2: A boolean indicating whether memorable2 passwords are requested.
 //	  randomPasswords: A boolean indicating whether random passwords are requested.
 //	  rows: An integer specifying the number of rows in the output.
 //
 //	Returns:
 //	  A string containing the generated password.
-func createMixedPassword(mixedPasswords bool, randomPasswords bool, rows int) string {
+func createMemorable2Password(memorable2 bool, randomPasswords bool, rows int) string {
 
-	var mixedPassword string
+	var memorable2Password string
 
-	if mixedPasswords {
+	if memorable2 {
 
-		// Need to do this for mixed passwords to work
+		// Need to do this for memorable2 passwords to work
 		randomPasswords = false
 
 		arrWords := getArrayFromCompressedDictionary(rows / 2)
@@ -217,11 +217,11 @@ func createMixedPassword(mixedPasswords bool, randomPasswords bool, rows int) st
 				capitalizeFirstLetter(arrWords[0]) + randomDelimiter + capitalizeFirstLetter(arrWords[1]) + randomDelimiter + capitalizeFirstLetter(arrWords[2]))
 		}
 
-		//mixedPassword = shuffleStringTransforms(inputStr)
-		mixedPassword = inputStr
+		//memorable2Password = shuffleStringTransforms(inputStr)
+		memorable2Password = inputStr
 
 	}
-	return mixedPassword
+	return memorable2Password
 }
 
 func randomDigitAppendOrPrepend(inputStr string) string {

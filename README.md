@@ -55,52 +55,33 @@ Waiting for 60 seconds before clearing the clipboard.
 $ ./passwordgen -h
 Usage of ./passwordgen:
   -erase
-        ./passwordgen --erase[=false]
-         (default true)
-
+        ./passwordgen --erase[=false] (default true)
   -examples
         ./passwordgen --examples
-        
   -grammatical
         ./passwordgen --grammatical
-        
   -grammatical-ai
-        ./passwordgen --grammatical-ai
-        (Requires an openai.com GPT-4 API key)
-
+        ./passwordgen --grammatical-ai  (Requires an openai.com GPT-4 API key)
   -grammatical-ai-with-numbers
-        ./passwordgen --grammatical-ai-with-numbers
-        (Requires an openai.com GPT-4 API key)
-
+        ./passwordgen --grammatical-ai-with-numbers  (Requires an openai.com GPT-4 API key)
   -help
-        ./passwordgen n
-        Where n is the length of the password.
-        Length must be the last argument.
-        
+        ./passwordgen -h
   -hex
         ./passwordgen --hex
-        
   -interactive
-        ./passwordgen --interactive[=false]
-         (default true)
-
+        ./passwordgen --interactive[=false] (default true)
   -memorable
         ./passwordgen --memorable
-        
-  -mixed
-        ./passwordgen --mixed
-
+  -memorable-2
+        ./passwordgen --memorable-2
+  -memorable-3
+        ./passwordgen --memorable-3
   -mnemonic
-        ./passwordgen --mnemonic
-        (Requires an openai.com GPT-4 API key)
-
+        ./passwordgen --mnemonic  (Requires an openai.com GPT-4 API key)
   -passphrases
         ./passwordgen --passphrases
-        
   -random
-        ./passwordgen --random
-         (default true)
-
+        ./passwordgen --random (default true)
   -word-chains
         ./passwordgen --word-chains
 ```
@@ -110,39 +91,40 @@ Usage of ./passwordgen:
 In the examples below, notice that the trailing digit specifying length (20 in this example) is required for all commands. But the various commands comply with the length specification to varying degrees. Some are absolutely strict, others are approximate, sentences ignore it.
 
 ```shell
-$ ./passwordgen --examples 20
-┌───────────────────────────────┬──────────────────────────────────────────────────────┐
-│ --random                      │ xg]6{#WBIlkOue3LOo3)                                 │
-├───────────────────────────────┼──────────────────────────────────────────────────────┤
-│ --hex                         │ 3DE5CF93AACC0BE4E22E                                 │
-├───────────────────────────────┼──────────────────────────────────────────────────────┤
-│ --word-chains                 │ frying&edge&dicing&celestial                         │
-├───────────────────────────────┼──────────────────────────────────────────────────────┤
-│ --mixed                       │ Ready#Remote3                                        │
-├───────────────────────────────┼──────────────────────────────────────────────────────┤
-│ --passphrases                 │ preset decree frame rally aptly                      │
-├───────────────────────────────┼──────────────────────────────────────────────────────┤
-│ --memorable                   │ <Unlucky~1030~Marmalade>                             │
-├───────────────────────────────┼──────────────────────────────────────────────────────┤
-│ --grammatical                 │ Suborn any ambition.                                 │
-├───────────────────────────────┼──────────────────────────────────────────────────────┤
-│ --grammatical-ai              │ Watch the video often.                               │
-├───────────────────────────────┼──────────────────────────────────────────────────────┤
-│ --grammatical-ai-with-numbers │ After 6 sessions with his analyst, he was acquitted. │
-├───────────────────────────────┼──────────────────────────────────────────────────────┤
-│ --mnemonic                    │ Tsslwta75%                                           │
-│                               │ The subject's skill level was tested at 75%.         │
-└───────────────────────────────┴──────────────────────────────────────────────────────┘
+$ ./passwordgen --examples 12
+
+┌───────────────────────────────┬────────────────────────────────────────────────────────────┐
+│ --random                      │ {ZmmQY1)PeuL                                               │
+├───────────────────────────────┼────────────────────────────────────────────────────────────┤
+│ --hex                         │ C53FBB1D0BE5                                               │
+├───────────────────────────────┼────────────────────────────────────────────────────────────┤
+│ --word-chains                 │ shorthand*certainty                                        │
+├───────────────────────────────┼────────────────────────────────────────────────────────────┤
+│ --passphrases                 │ daisy chewing smashup hungry fanfare                       │
+├───────────────────────────────┼────────────────────────────────────────────────────────────┤
+│ --memorable                   │ {Stonewall/1065/Galley}                                    │
+├───────────────────────────────┼────────────────────────────────────────────────────────────┤
+│ --memorable-2                 │ 8Webbed:Role                                               │
+├───────────────────────────────┼────────────────────────────────────────────────────────────┤
+│ --memorable-3                 │ StormyJuice$2023                                           │
+├───────────────────────────────┼────────────────────────────────────────────────────────────┤
+│ --grammatical                 │ Didn't you correctly broaden one touch?                    │
+├───────────────────────────────┼────────────────────────────────────────────────────────────┤
+│ --grammatical-ai              │ Is it the picture frame?                                   │
+├───────────────────────────────┼────────────────────────────────────────────────────────────┤
+│ --grammatical-ai-with-numbers │ She eloped with my 79-year-old junior ice skating partner. │
+├───────────────────────────────┼────────────────────────────────────────────────────────────┤
+│ --mnemonic                    │ Ia52itts                                                   │
+│                               │ I am 52 inches taller than someone.                        │
+└───────────────────────────────┴────────────────────────────────────────────────────────────┘
 ```
 
-## Grammatical and Grammatical-AI
+## Grammatical vs Grammatical-AI
 
-The `--grammatical`, `grammatical-ai`, and `--grammatical-ai-with-numbers` options will each generate grammatically correct sentences for use as passphrases. But the AI sentences will make a lot more sense to you. Use of the AI options requires that you have a valid GPT-4 API key in an environment variable named `GPT_API_KEY`.
-
-Also note the usual trailing length integer on the command line. This is required but ignored. It is a bug that needs fixing.
+The `--grammatical`, `grammatical-ai`,`--grammatical-ai-with-numbers`, and `--mnemonic` options will each generate grammatically correct sentences for use as passphrases. But the latter three options use AI to improve the sentences and will make a lot more sense to you. Use of the AI options requires that you have a valid GPT-4 API key in an environment variable named `GPT_API_KEY`.
 
 ```shell
-./passwordgen --grammatical-ai --interactive=false 20
+./passwordgen --grammatical-ai --interactive=false
 ┌───┬─────────────────────────────────────────┐
 │ 0 │ Then, they didn't deduce.               │
 ├───┼─────────────────────────────────────────┤
@@ -165,7 +147,7 @@ Also note the usual trailing length integer on the command line. This is require
 ```
 
 ```shell
-./passwordgen --grammatical-ai-with-numbers --interactive=false 20
+./passwordgen --grammatical-ai-with-numbers --interactive=false
 ┌───┬──────────────────────────────────────────────────────┐
 │ 0 │ Their score of 77 is not average.                    │
 ├───┼──────────────────────────────────────────────────────┤
@@ -185,10 +167,38 @@ Also note the usual trailing length integer on the command line. This is require
 ├───┼──────────────────────────────────────────────────────┤
 │ 8 │ Conduct 0 operations.                                │
 └───┴──────────────────────────────────────────────────────┘
+```
 
+## Hexadecimal PINs
+
+Hex pins must be 4 or more characters long.
+
+```shell
+passwordgen --hex 4
+┌───┬──────┐
+│ 0 │ FC70 │
+├───┼──────┤
+│ 1 │ DA10 │
+├───┼──────┤
+│ 2 │ 2DB6 │
+├───┼──────┤
+│ 3 │ C314 │
+├───┼──────┤
+│ 4 │ D186 │
+├───┼──────┤
+│ 5 │ 5139 │
+├───┼──────┤
+│ 6 │ D760 │
+├───┼──────┤
+│ 7 │ 5B32 │
+├───┼──────┤
+│ 8 │ 48F4 │
+└───┴──────┘
 ```
 
 ## Memorable Passwords
+
+For `--memorable` passwords, the length is only a rough guide, not deterministic. Values longer than 12 will tend to create passwords that include more than one word.
 
 ```shell
 /passwordgen --memorable 12
@@ -213,36 +223,12 @@ Also note the usual trailing length integer on the command line. This is require
 └───┴───────────────┘
 ```
 
+## Memorable-2 Passwords
 
-## Password Chains
-
-```shell
-./passwordgen -word-chains 32
-┌───┬──────────────────────────────────────────────┐
-│ 0 │ washable_breeder_plexiglas_savage_fritter    │
-├───┼──────────────────────────────────────────────┤
-│ 1 │ panther^repossess^shifter^gopher^yield       │
-├───┼──────────────────────────────────────────────┤
-│ 2 │ bleep+footprint+culminate+cavalier+factsheet │
-├───┼──────────────────────────────────────────────┤
-│ 3 │ conform#powwow#flashback#acronym#reburial    │
-├───┼──────────────────────────────────────────────┤
-│ 4 │ unexpired|glutinous|grape|fructose|comic     │
-├───┼──────────────────────────────────────────────┤
-│ 5 │ aeration$finisher$unmade$naturist$paradox    │
-├───┼──────────────────────────────────────────────┤
-│ 6 │ wistful&translate&sherry&selection&engulf    │
-├───┼──────────────────────────────────────────────┤
-│ 7 │ anatomy/slicing/upfront/engraved/haunt       │
-├───┼──────────────────────────────────────────────┤
-│ 8 │ yield\grant\myspace\dusk\skylight\subsoil    │
-└───┴──────────────────────────────────────────────┘
-```
-
-## Mixed Passwords
+For `--memorable-2` passwords, the length is only a rough guide, not deterministic. Values longer than 12 will tend to create passwords that include more than one word.
 
 ```shell
-./passwordgen --mixed --interactive=false 20
+./passwordgen --memorable-2 --interactive=false 20
 ┌───┬────────────────────────┐
 │ 0 │ 3Avaricious|Cousin     │
 ├───┼────────────────────────┤
@@ -264,12 +250,43 @@ Also note the usual trailing length integer on the command line. This is require
 └───┴────────────────────────┘
 ```
 
+## Memorable-3 passwords
+
+```shell
+./passwordgen --memorable-3 --interactive=false
+┌────┬─────────────────────────┐
+│ 0  │ ExtrovertedClue$1918    │
+├────┼─────────────────────────┤
+│ 1  │ DevotedRole*12          │
+├────┼─────────────────────────┤
+│ 2  │ UnnaturalRoof_2015      │
+├────┼─────────────────────────┤
+│ 3  │ BlandSituation%00       │
+├────┼─────────────────────────┤
+│ 4  │ DisfiguredHoliday,2023  │
+├────┼─────────────────────────┤
+│ 5  │ UglySpeaker/1908        │
+├────┼─────────────────────────┤
+│ 6  │ IllegalTitle_99         │
+├────┼─────────────────────────┤
+│ 7  │ BlaringHome?11          │
+├────┼─────────────────────────┤
+│ 8  │ SubduedMethod@1941      │
+├────┼─────────────────────────┤
+│ 9  │ RegularEngineering?1976 │
+├────┼─────────────────────────┤
+│ 10 │ NovelNecessary;2023     │
+├────┼─────────────────────────┤
+│ 11 │ UnconsciousEqual'99     │
+└────┴─────────────────────────┘
+```
+
 ## Mnemonic passwords
 
 The memorable sentence is generated manually but with random inputs, then improved by ChatGPT-4, which requires an API key. But the resulting mnemonic password is created deterministically by this program.
 
 ```shell
-./passwordgen --mnemonic --interactive=false 20
+./passwordgen --mnemonic --interactive=false
 ┌───┬──────────────┬───────────────────────────────────────────────────────────┐
 │ 0 │ Iywoywf14dwt │ If you work on your weaknesses for 14 days, will they.    │
 ├───┼──────────────┼───────────────────────────────────────────────────────────┤
@@ -328,32 +345,33 @@ PS C:\Users\somebody\Downloads> .\passwordgen-v1.3.0-windows-amd64.exe -passphra
 └────┴───────────────────────────────────────────────┘
 ```
 
-## Hexadecimal PINs
+## Word Chains
 
-Hex pins may be 4 or more characters long.
+The `--word-chains` flag requires an argument for how long the passwords will be. Each resulting password will be approximate, depending on the length of the words it is composed of. The length argument must be the last value on the command line.
 
 ```shell
-passwordgen --hex 4
-┌───┬──────┐
-│ 0 │ FC70 │
-├───┼──────┤
-│ 1 │ DA10 │
-├───┼──────┤
-│ 2 │ 2DB6 │
-├───┼──────┤
-│ 3 │ C314 │
-├───┼──────┤
-│ 4 │ D186 │
-├───┼──────┤
-│ 5 │ 5139 │
-├───┼──────┤
-│ 6 │ D760 │
-├───┼──────┤
-│ 7 │ 5B32 │
-├───┼──────┤
-│ 8 │ 48F4 │
-└───┴──────┘
+./passwordgen -word-chains 20
+┌───┬──────────────────────────────┐
+│ 0 │ obsolete+falsify+tapping     │
+├───┼──────────────────────────────┤
+│ 1 │ batch=ecosystem=tribune      │
+├───┼──────────────────────────────┤
+│ 2 │ opponent#kindly#flagstone    │
+├───┼──────────────────────────────┤
+│ 3 │ comply_footwork_account      │
+├───┼──────────────────────────────┤
+│ 4 │ coronary+certainly+discard   │
+├───┼──────────────────────────────┤
+│ 5 │ pedigree&batboy&italicize    │
+├───┼──────────────────────────────┤
+│ 6 │ poise|unbridle|hunchback     │
+├───┼──────────────────────────────┤
+│ 7 │ swipe:iciness:clip:doozy     │
+├───┼──────────────────────────────┤
+│ 8 │ device-dreary-ranch-linoleum │
+└───┴──────────────────────────────┘
 ```
+
 
 # Building releases for multiple platforms
 

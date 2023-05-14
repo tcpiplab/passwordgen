@@ -34,7 +34,7 @@ import (
 // - rows: an int specifying the number of rows to print
 // - requestedPasswordLength: an int specifying the length of each password to generate
 // - arrayPasswords: a slice of strings representing the passwords to be populated
-func printPasswordTableUnix(arrayPasswords []string, randomPasswords bool, wordChains bool, mixedPasswords bool, passPhrases bool, memorable bool, randomHex bool, grammatical bool, grammaticalAI bool, grammaticalAIWithNumbers bool, mnemonic bool) []string {
+func printPasswordTableUnix(arrayPasswords []string, randomPasswords bool, wordChains bool, memorable2 bool, passPhrases bool, memorable bool, randomHex bool, grammatical bool, grammaticalAI bool, grammaticalAIWithNumbers bool, mnemonic bool, memorable3 bool) []string {
 
 	if passPhrases {
 
@@ -44,9 +44,9 @@ func printPasswordTableUnix(arrayPasswords []string, randomPasswords bool, wordC
 
 		arrayPasswords = printWordChainsTable()
 
-	} else if mixedPasswords {
+	} else if memorable2 {
 
-		arrayPasswords = printMixedPasswordsTable(mixedPasswords, randomPasswords)
+		arrayPasswords = printMemorable2Table(memorable2, randomPasswords)
 
 	} else if randomPasswords {
 
@@ -54,7 +54,7 @@ func printPasswordTableUnix(arrayPasswords []string, randomPasswords bool, wordC
 
 	} else if memorable {
 
-		arrayPasswords = printMemorableTable()
+		arrayPasswords = printMemorableTable(1)
 
 	} else if randomHex {
 
@@ -75,6 +75,12 @@ func printPasswordTableUnix(arrayPasswords []string, randomPasswords bool, wordC
 	} else if mnemonic {
 
 		arrayPasswords = printMnemonicTable()
+
+	} else if memorable3 {
+
+		// TODO: Change --memorable to --memorable-1
+		// TODO: Update readme to show all three types of memorable passwords
+		arrayPasswords = printMemorableTable(3)
 	}
 
 	return arrayPasswords
@@ -264,9 +270,9 @@ func printWordChainsTable() []string {
 	return arrayOfWordChains
 }
 
-// printMixedPasswordsTable This function prints a table of mixed and random
+// printMemorable2Table This function prints a table of memorable and random
 // passwords of the specified console height with their indexes.
-func printMixedPasswordsTable(mixedPasswords bool, randomPasswords bool) []string {
+func printMemorable2Table(memorable2 bool, randomPasswords bool) []string {
 
 	var consoleHeight int
 
@@ -280,25 +286,25 @@ func printMixedPasswordsTable(mixedPasswords bool, randomPasswords bool) []strin
 	// Create a new empty array with the same length as the original array
 	// This avoids leftover empty array elements causing clipboard copy
 	// failures later on.
-	arrayOfMixedPasswords := make([]string, consoleHeight/2)
+	arrayOfMemorable2Passwords := make([]string, consoleHeight/2)
 
-	// Loop through the console screen height and print a table of mixed passwords
+	// Loop through the console screen height and print a table of memorable2 passwords
 	for i := 0; i < (consoleHeight/2)-1; i++ {
 
-		mixedPasswordNoColor := createMixedPassword(mixedPasswords, randomPasswords, consoleHeight)
+		memorable2PasswordNoColor := createMemorable2Password(memorable2, randomPasswords, consoleHeight)
 
-		// Colorize the mixed password that we're saving to the array
+		// Colorize the memorable2 password that we're saving to the array
 		// The following works on all platforms but no color renders on Windows
-		mixedPasswordColorized := colorizeCharactersUnix(mixedPasswordNoColor, false)
+		memorable2PasswordColorized := colorizeCharactersUnix(memorable2PasswordNoColor, false)
 
-		// Append the mixed password to the array to be used by the clipboard if in interactive mode
-		arrayOfMixedPasswords[i] = mixedPasswordNoColor
+		// Append the memorable2 password to the array to be used by the clipboard if in interactive mode
+		arrayOfMemorable2Passwords[i] = memorable2PasswordNoColor
 
 		// Prepare color for the index number
 		red := color.New(color.FgHiRed).SprintfFunc()
 
 		// Print the index number and current element of the array
-		tableWriter.AppendRow([]interface{}{red("%d", i), mixedPasswordColorized})
+		tableWriter.AppendRow([]interface{}{red("%d", i), memorable2PasswordColorized})
 
 		tableWriter.AppendSeparator()
 	}
@@ -307,7 +313,7 @@ func printMixedPasswordsTable(mixedPasswords bool, randomPasswords bool) []strin
 
 	// Return the array because it's needed for the
 	// clipboard functions if we're in interactive mode.
-	return arrayOfMixedPasswords
+	return arrayOfMemorable2Passwords
 }
 
 // printRandomPasswordsTable This function prints a table of random passwords and
@@ -358,7 +364,7 @@ func printRandomPasswordsTable() []string {
 
 // printMemorableTable This function prints a table of memorable passwords, which
 // are then stored in an array and returned for further use.
-func printMemorableTable() []string {
+func printMemorableTable(memorableType int) []string {
 
 	var consoleHeight int
 
@@ -374,10 +380,19 @@ func printMemorableTable() []string {
 	// failures later on.
 	arrayOfMemorablePasswords := make([]string, consoleHeight/2)
 
+	var memorablePasswordNoColor string
+
 	// Loop through the console screen height and print a table of memorable passwords
 	for i := 0; i < (consoleHeight/2)-1; i++ {
 
-		memorablePasswordNoColor := createMemorablePassword(requestedPasswordLength)
+		if memorableType == 1 {
+
+			memorablePasswordNoColor = createMemorablePassword(requestedPasswordLength)
+
+		} else if memorableType == 3 {
+
+			memorablePasswordNoColor = createMemorable3Password()
+		}
 
 		// Colorize the word chain that we're saving to the array
 		// The following works on all platforms but no color renders on Windows
@@ -490,7 +505,7 @@ func printPasswordExamplesTable() []string {
 	Increment the progress bar each time
 	---------------------------------------------------------------------------*/
 
-	// Random non-hex example password
+	// Random non-hex example password ----------------------------------------
 	randStringPasswordExample := randStringPassword(requestedPasswordLength, false)
 	arrayOfPasswordTypes = append(arrayOfPasswordTypes,
 		PasswordAndCommandFlag{
@@ -500,7 +515,7 @@ func printPasswordExamplesTable() []string {
 	// Increment the progress progressBar
 	progressBar.Increment()
 
-	// Random hex example password
+	// Random hex example password --------------------------------------------
 	randHexPasswordExample := randStringPassword(requestedPasswordLength, true)
 	arrayOfPasswordTypes = append(arrayOfPasswordTypes,
 		PasswordAndCommandFlag{
@@ -510,7 +525,7 @@ func printPasswordExamplesTable() []string {
 	// Increment the progress progressBar
 	progressBar.Increment()
 
-	// Word chain example password
+	// Word chain example password --------------------------------------------
 	wordChainPasswordExample := createWordChain(requestedPasswordLength)
 	arrayOfPasswordTypes = append(arrayOfPasswordTypes,
 		PasswordAndCommandFlag{
@@ -520,18 +535,8 @@ func printPasswordExamplesTable() []string {
 	// Increment the progress progressBar
 	progressBar.Increment()
 
-	// TODO: This errors out if rows is < 8
-	// Mixed password example password
-	mixedPasswordExample := createMixedPassword(true, false, 8)
-	arrayOfPasswordTypes = append(arrayOfPasswordTypes,
-		PasswordAndCommandFlag{
-			PasswordExample: mixedPasswordExample,
-			CommandFlag:     "--mixed",
-		})
-	// Increment the progress progressBar
-	progressBar.Increment()
-
-	// Passphrase example is hardcoded to 5 here to match its default value
+	// Passphrase example -----------------------------------------------------
+	// is hardcoded to 5 here to match its default value
 	passphraseExample := createPassphrase(5)
 	arrayOfPasswordTypes = append(arrayOfPasswordTypes,
 		PasswordAndCommandFlag{
@@ -541,7 +546,7 @@ func printPasswordExamplesTable() []string {
 	// Increment the progress progressBar
 	progressBar.Increment()
 
-	// Memorable password example password
+	// Memorable password example password ------------------------------------
 	var memorablePassword string
 	//memorableExample := memorableTransformOne(memorablePassword, requestedPasswordLength)
 	memorableExample := chooseMemorableTransform(memorablePassword, requestedPasswordLength)
@@ -553,7 +558,28 @@ func printPasswordExamplesTable() []string {
 	// Increment the progress progressBar
 	progressBar.Increment()
 
-	// Grammatical example password
+	// TODO: This errors out if rows is < 8
+	// Memorable2 password example password -----------------------------------
+	memorable2PasswordExample := createMemorable2Password(true, false, 8)
+	arrayOfPasswordTypes = append(arrayOfPasswordTypes,
+		PasswordAndCommandFlag{
+			PasswordExample: memorable2PasswordExample,
+			CommandFlag:     "--memorable-2",
+		})
+	// Increment the progress progressBar
+	progressBar.Increment()
+
+	// Memorable3 password example password -----------------------------------
+	memorable3PasswordExample := createMemorable3Password()
+	arrayOfPasswordTypes = append(arrayOfPasswordTypes,
+		PasswordAndCommandFlag{
+			PasswordExample: memorable3PasswordExample,
+			CommandFlag:     "--memorable-3",
+		})
+	// Increment the progress progressBar
+	progressBar.Increment()
+
+	// Grammatical example password -------------------------------------------
 	//memorablePassword = ""
 	grammaticalExample := createGrammaticalPassword()
 	arrayOfPasswordTypes = append(arrayOfPasswordTypes,
@@ -564,7 +590,7 @@ func printPasswordExamplesTable() []string {
 	// Increment the progress progressBar
 	progressBar.Increment()
 
-	// Grammatical-AI example password
+	// Grammatical-AI example password ----------------------------------------
 	nonSensicalSentence := createGrammaticalPassword()
 	grammaticalExampleAI := createGrammaticalPasswordAI(nonSensicalSentence, false)
 	arrayOfPasswordTypes = append(arrayOfPasswordTypes,
@@ -575,7 +601,7 @@ func printPasswordExamplesTable() []string {
 	// Increment the progress progressBar
 	progressBar.Increment()
 
-	// Grammatical-AI with numbers example password
+	// Grammatical-AI with numbers example password ---------------------------
 	nonSensicalSentence2 := createGrammaticalPassword()
 	grammaticalExampleAIWithNumbers := createGrammaticalPasswordAI(nonSensicalSentence2, true)
 	arrayOfPasswordTypes = append(arrayOfPasswordTypes,

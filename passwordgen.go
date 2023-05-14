@@ -34,13 +34,9 @@ func main() {
 
 	OS = detectOS()
 
-	interactive, erase, randomPasswords, wordChains, mixedPasswords, _, passPhrases, memorable, randomHex, examples, grammatical, grammaticalAI, grammaticalAIWithNumbers, mnemonic := argsHandler()
+	interactive, erase, randomPasswords, wordChains, memorable2, _, passPhrases, memorable, randomHex, examples, grammatical, grammaticalAI, grammaticalAIWithNumbers, mnemonic, memorable3 := argsHandler()
 
-	//if *done {
-	//	return
-	//}
-
-	if !*grammatical && !*grammaticalAI && !*grammaticalAIWithNumbers && !*mnemonic {
+	if !*grammatical && !*grammaticalAI && !*grammaticalAIWithNumbers && !*mnemonic && !*memorable3 {
 
 		// Convert the requested length from string to int
 		// Length must be the last argument
@@ -74,7 +70,7 @@ func main() {
 
 		*randomPasswords = false
 	}
-	if *mixedPasswords {
+	if *memorable2 {
 
 		*randomPasswords = false
 	}
@@ -91,6 +87,10 @@ func main() {
 		*randomPasswords = false
 	}
 	if *examples {
+
+		//for i := 0; i < 10; i++ {
+		//	createMemorable3Password()
+		//}
 
 		*randomPasswords = false
 		printPasswordExamplesTable()
@@ -109,18 +109,21 @@ func main() {
 	if *mnemonic {
 		*randomPasswords = false
 	}
+	if *memorable3 {
+		*randomPasswords = false
+	}
 
 	arrayPasswords := make([]string, rows)
 
 	if OS == "darwin" || OS == "linux" || OS == "unix" {
 
 		// Fill the screen with passwords
-		arrayPasswords = printPasswordTableUnix(arrayPasswords, *randomPasswords, *wordChains, *mixedPasswords, *passPhrases, *memorable, *randomHex, *grammatical, *grammaticalAI, *grammaticalAIWithNumbers, *mnemonic)
+		arrayPasswords = printPasswordTableUnix(arrayPasswords, *randomPasswords, *wordChains, *memorable2, *passPhrases, *memorable, *randomHex, *grammatical, *grammaticalAI, *grammaticalAIWithNumbers, *mnemonic, *memorable3)
 
 	} else if OS == "windows" {
 
 		// Fill the screen with passwords
-		arrayPasswords = printPasswordTableUnix(arrayPasswords, *randomPasswords, *wordChains, *mixedPasswords, *passPhrases, *memorable, *randomHex, *grammatical, *grammaticalAI, *grammaticalAIWithNumbers, *mnemonic)
+		arrayPasswords = printPasswordTableUnix(arrayPasswords, *randomPasswords, *wordChains, *memorable2, *passPhrases, *memorable, *randomHex, *grammatical, *grammaticalAI, *grammaticalAIWithNumbers, *mnemonic, *memorable3)
 	}
 
 	if ifInteractive(interactive, rows) {

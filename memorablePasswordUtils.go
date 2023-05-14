@@ -5,9 +5,12 @@ import (
 	"math/rand"
 	"strconv"
 	"strings"
+	"time"
 	"unicode"
 )
 
+// RandomYearOrFloat This function generates either a random year or float with a
+// 33% chance of producing either result.
 func RandomYearOrFloat() string {
 
 	// If Seed is not called, the generator is seeded randomly at program startup.
@@ -34,19 +37,116 @@ func RandomYearOrFloat() string {
 	}
 }
 
-// TODO: Improve memorable passwords. For example:
-/*
-JellyDonut$2023
-PurplePenguin#45
-SunnyDay@Beach2023
-MountainHiking!79
-CrispyBacon&Toast
-SnowyWinter$December
-TravelWorld@2024
-ChocolateCake#Yum
-MusicLover@77Jazz
-FitnessGoal!10kRun
-*/
+// RandomYearOrInt This function randomly returns a year, int, the current year,
+// or a double-digit from globally initialized pseudo-random generators.
+func RandomYearOrInt() string {
+
+	// initialize global pseudo random generator
+	r := rand.New(rand.NewSource(time.Now().UnixNano()))
+
+	// Randomly decide between year, int, current year, or double digit
+	yearOrInt := r.Intn(4)
+
+	minYear := 1900
+	maxYear := time.Now().Year()
+
+	// Return a year 25% of the time
+	if yearOrInt == 0 {
+
+		// initialize global pseudo random generator
+		r0 := rand.New(rand.NewSource(time.Now().UnixNano()))
+
+		// Generate and return random year as a string
+		randomYear := r0.Intn(maxYear-minYear+1) + minYear
+		return strconv.Itoa(randomYear)
+
+	} else if yearOrInt == 1 {
+
+		// initialize global pseudo random generator
+		r1 := rand.New(rand.NewSource(time.Now().UnixNano()))
+
+		// generates a random number between 0 and 99
+		randomInt := r1.Intn(100)
+
+		return fmt.Sprintf("%d", randomInt)
+
+	} else if yearOrInt == 2 {
+
+		currentYear := time.Now().Year()
+
+		// Return the current year
+		return strconv.Itoa(currentYear)
+
+	} else {
+
+		return randomDoubledDigit()
+	}
+}
+
+// randomDoubledDigit This function generates a random double-digit string using
+// the pseudo random generator and formatting it for output.
+func randomDoubledDigit() string {
+
+	// initialize global pseudo random generator
+	r := rand.New(rand.NewSource(time.Now().UnixNano()))
+
+	// generates a random number between 0 and 9
+	intBetween0and9 := r.Intn(10)
+
+	return fmt.Sprintf("%02d", intBetween0and9*11)
+}
+
+// createMemorable3Password This function creates a more memorable password
+// by combining randomly chosen adjective/noun pairs with a special character and a year or integer.
+// For example:
+//
+//	JellyDonut$2023
+//	PurplePenguin#45
+//	SunnyDay@Beach2023
+//	MountainHiking!79
+//	CrispyBacon&Toast
+//	SnowyWinter$December
+//	TravelWorld@2024
+//	ChocolateCake#Yum
+//	MusicLover@77Jazz
+//	FitnessGoal!10kRun
+func createMemorable3Password() string {
+
+	var (
+		_, noun, _, adjective, _, _,
+		_, _,
+		_ = getVocabWords()
+	)
+
+	adjectiveNounYear := capitalizeFirstLetter(adjective) + capitalizeFirstLetter(noun) + getRandomSpecialChar(true) + RandomYearOrInt()
+
+	return adjectiveNounYear
+}
+
+// getRandomSpecialChar This function returns a random special character.
+// If noBrackets is true it will not return any chars that are part of bracket pairs.
+func getRandomSpecialChar(noBrackets bool) string {
+
+	var specialCharacters string
+
+	if noBrackets == false {
+
+		specialCharacters = "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~"
+
+	} else if noBrackets == true {
+
+		specialCharacters = "!\"#$%&'*+,-./:;=?@^_`|~"
+	}
+
+	// initialize global pseudo random generator
+	r := rand.New(rand.NewSource(time.Now().UnixNano()))
+
+	return string(specialCharacters[r.Intn(len(specialCharacters))])
+}
+
+// createMemorablePassword This function creates a secure and memorable password
+// to help keep your data secure. This function is deprecated because the passwords
+// are not very memorable.
 func createMemorablePassword(requestedPasswordLength int) string {
 
 	var memorablePassword string
@@ -56,6 +156,8 @@ func createMemorablePassword(requestedPasswordLength int) string {
 	return memorablePassword
 }
 
+// chooseMemorableTransform This function provides a selection of different
+// transformations to choose from in order to create a memorable password.
 func chooseMemorableTransform(memorablePassword string, requestedPasswordLength int) string {
 
 	// If Seed is not called, the generator is seeded randomly at program startup.
@@ -85,6 +187,9 @@ func chooseMemorableTransform(memorablePassword string, requestedPasswordLength 
 	return memorablePassword
 }
 
+// memorableTransformOne This function creates a memorable password by combining
+// a random word with a randomly generated year or float and optionally appending
+// a unit.
 func memorableTransformOne(memorablePassword string, requestedPasswordLength int) string {
 
 	randomWord := getWordFromCompressedDictionary(dictionaryData)
@@ -123,6 +228,9 @@ func memorableTransformOne(memorablePassword string, requestedPasswordLength int
 
 }
 
+// memorableTransformTwo This function generates a memorable password with a
+// chosen length, by combining a random year or a year and a unit, with a random
+// word and ensuring the first letter of the word is capitalised.
 func memorableTransformTwo(memorablePassword string, requestedPasswordLength int) string {
 
 	randomWord := getWordFromCompressedDictionary(dictionaryData)
@@ -161,6 +269,8 @@ func memorableTransformTwo(memorablePassword string, requestedPasswordLength int
 
 }
 
+// memorableTransformThree This function creates strong, memorable passwords by
+// combining random words with random years or years with units.
 func memorableTransformThree(memorablePassword string, requestedPasswordLength int) string {
 
 	randomWord := getWordFromCompressedDictionary(dictionaryData)
@@ -193,6 +303,8 @@ func memorableTransformThree(memorablePassword string, requestedPasswordLength i
 	return memorablePassword
 }
 
+// memorableTransformFour This function can be used to generate a memorable
+// password through the use of a random year, word, and delimiter.
 func memorableTransformFour(memorablePassword string, requestedPasswordLength int) string {
 
 	randomWord := getWordFromCompressedDictionary(dictionaryData)
@@ -225,6 +337,9 @@ func memorableTransformFour(memorablePassword string, requestedPasswordLength in
 	return memorablePassword
 }
 
+// memorableTransformFive This function generates a memorable password that
+// combines elements of the two random words, the random year (or year and unit)
+// and the random delimiter.
 func memorableTransformFive(memorablePassword string, requestedPasswordLength int) string {
 
 	randomWordOne := getWordFromCompressedDictionary(dictionaryData)
@@ -248,6 +363,8 @@ func memorableTransformFive(memorablePassword string, requestedPasswordLength in
 	return memorablePassword
 }
 
+// memorableTransformSix This function creates a memorable password by appending
+// a word pair and a year or year unit to a memorable password.
 func memorableTransformSix(memorablePassword string, requestedPasswordLength int) string {
 
 	randomAdjective := getEnglishVocabWord("adjective")
@@ -271,6 +388,8 @@ func memorableTransformSix(memorablePassword string, requestedPasswordLength int
 	return memorablePassword
 }
 
+// memorableTransformSeven This function transforms a memorable password using an
+// english vocabulary word, a random year or float, and optionally a random unit.
 func memorableTransformSeven(memorablePassword string, requestedPasswordLength int) string {
 
 	randomVerb := getEnglishVocabWord("verb")
@@ -294,6 +413,7 @@ func memorableTransformSeven(memorablePassword string, requestedPasswordLength i
 	return memorablePassword
 }
 
+// capitalizeFirstLetter This function capitalizes the first letter of a given string.
 func capitalizeFirstLetter(s string) string {
 	if len(s) == 0 {
 		return s

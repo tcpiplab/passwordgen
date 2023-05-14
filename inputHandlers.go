@@ -10,7 +10,7 @@ func argsHandler() (
 	erase *bool,
 	randomPasswords *bool,
 	wordChains *bool,
-	mixedPasswords *bool,
+	memorable2 *bool,
 	help *bool,
 	passPhrases *bool,
 	memorable *bool,
@@ -20,94 +20,94 @@ func argsHandler() (
 	grammaticalAI *bool,
 	grammaticalAIWithNumbers *bool,
 	mnemonic *bool,
+	memorable3 *bool,
 ) {
+	// FIXME: Only -h works, not -help or --help
 	help = flag.Bool(
 		"help",
 		false,
-		"./passwordgen n\nWhere n is the length of the password.\nLength must be the last argument.\n",
+		"./passwordgen -h",
 	)
 
 	if *help {
 		flag.Usage()
-		return nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil
+		return nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil
 	}
 
 	// Interactive mode is the default
 	interactive = flag.Bool(
 		"interactive",
 		true,
-		"./passwordgen --interactive[=false]\n")
+		"./passwordgen --interactive[=false]")
 
 	erase = flag.Bool(
 		"erase",
 		true,
-		"./passwordgen --erase[=false]\n")
+		"./passwordgen --erase[=false]")
 
 	randomPasswords = flag.Bool(
 		"random",
 		true,
-		"./passwordgen --random\n")
+		"./passwordgen --random")
 
 	wordChains = flag.Bool(
 		"word-chains",
 		false,
-		"./passwordgen --word-chains\n")
-
-	mixedPasswords = flag.Bool(
-		"mixed",
-		false,
-		"./passwordgen --mixed\n")
+		"./passwordgen --word-chains")
 
 	passPhrases = flag.Bool(
 		"passphrases",
 		false,
-		"./passwordgen --passphrases\n")
+		"./passwordgen --passphrases")
 
 	memorable = flag.Bool(
 		"memorable",
 		false,
-		"./passwordgen --memorable\n")
+		"./passwordgen --memorable")
+
+	memorable2 = flag.Bool(
+		"memorable-2",
+		false,
+		"./passwordgen --memorable-2")
+
+	memorable3 = flag.Bool(
+		"memorable-3",
+		false,
+		"./passwordgen --memorable-3")
 
 	randomHex = flag.Bool(
 		"hex",
 		false,
-		"./passwordgen --hex\n")
+		"./passwordgen --hex")
 
 	examples = flag.Bool(
 		"examples",
 		false,
-		"./passwordgen --examples\n")
+		"./passwordgen --examples")
 
 	grammatical = flag.Bool(
 		"grammatical",
 		false,
-		"./passwordgen --grammatical\n")
+		"./passwordgen --grammatical")
 
 	grammaticalAI = flag.Bool(
 		"grammatical-ai",
 		false,
-		"./passwordgen --grammatical-ai\n(Requires an openai.com GPT-4 API key)\n")
+		"./passwordgen --grammatical-ai  (Requires an openai.com GPT-4 API key)")
 
 	grammaticalAIWithNumbers = flag.Bool(
 		"grammatical-ai-with-numbers",
 		false,
-		"./passwordgen --grammatical-ai-with-numbers\n(Requires an openai.com GPT-4 API key)\n")
+		"./passwordgen --grammatical-ai-with-numbers  (Requires an openai.com GPT-4 API key)")
 
 	mnemonic = flag.Bool(
 		"mnemonic",
 		false,
-		"./passwordgen --mnemonic\n(Requires an openai.com GPT-4 API key)\n")
+		"./passwordgen --mnemonic  (Requires an openai.com GPT-4 API key)")
 
 	flag.Parse()
 
-	// TODO: For now the length is mandatory and must be the last arg
-	//if len(os.Args) < 2 {
-	//
-	//	color.HiRed("\nPlease provide a password length as the last argument\nOr -h for help.\n")
-	//	return nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil
-	//}
-
-	return interactive, erase, randomPasswords, wordChains, mixedPasswords, nil, passPhrases, memorable, randomHex, examples, grammatical, grammaticalAI, grammaticalAIWithNumbers, mnemonic
+	return interactive, erase, randomPasswords, wordChains, memorable2, nil, passPhrases, memorable, randomHex, examples, grammatical, grammaticalAI, grammaticalAIWithNumbers, mnemonic, memorable3
 }
 
 func ifInteractive(interactive *bool, rows int) bool {
