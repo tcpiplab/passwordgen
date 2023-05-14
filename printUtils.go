@@ -46,7 +46,7 @@ func printPasswordTableUnix(arrayPasswords []string, randomPasswords bool, wordC
 
 	} else if memorable2 {
 
-		arrayPasswords = printMixedPasswordsTable(memorable2, randomPasswords)
+		arrayPasswords = printMemorable2Table(memorable2, randomPasswords)
 
 	} else if randomPasswords {
 
@@ -79,7 +79,6 @@ func printPasswordTableUnix(arrayPasswords []string, randomPasswords bool, wordC
 	} else if memorable3 {
 
 		// TODO: Update --examples to show --memorable-3
-		// TODO: Change --mixed to --memorable-2
 		// TODO: Change --memorable to --memorable-1
 		// TODO: Reorder --examples to sort memorable options in order
 		// TODO: Update readme to show all three types of memorable passwords
@@ -273,9 +272,9 @@ func printWordChainsTable() []string {
 	return arrayOfWordChains
 }
 
-// printMixedPasswordsTable This function prints a table of mixed and random
+// printMemorable2Table This function prints a table of memorable and random
 // passwords of the specified console height with their indexes.
-func printMixedPasswordsTable(mixedPasswords bool, randomPasswords bool) []string {
+func printMemorable2Table(memorable2 bool, randomPasswords bool) []string {
 
 	var consoleHeight int
 
@@ -289,25 +288,25 @@ func printMixedPasswordsTable(mixedPasswords bool, randomPasswords bool) []strin
 	// Create a new empty array with the same length as the original array
 	// This avoids leftover empty array elements causing clipboard copy
 	// failures later on.
-	arrayOfMixedPasswords := make([]string, consoleHeight/2)
+	arrayOfMemorable2Passwords := make([]string, consoleHeight/2)
 
-	// Loop through the console screen height and print a table of mixed passwords
+	// Loop through the console screen height and print a table of memorable2 passwords
 	for i := 0; i < (consoleHeight/2)-1; i++ {
 
-		mixedPasswordNoColor := createMixedPassword(mixedPasswords, randomPasswords, consoleHeight)
+		memorable2PasswordNoColor := createMemorable2Password(memorable2, randomPasswords, consoleHeight)
 
-		// Colorize the mixed password that we're saving to the array
+		// Colorize the memorable2 password that we're saving to the array
 		// The following works on all platforms but no color renders on Windows
-		mixedPasswordColorized := colorizeCharactersUnix(mixedPasswordNoColor, false)
+		memorable2PasswordColorized := colorizeCharactersUnix(memorable2PasswordNoColor, false)
 
-		// Append the mixed password to the array to be used by the clipboard if in interactive mode
-		arrayOfMixedPasswords[i] = mixedPasswordNoColor
+		// Append the memorable2 password to the array to be used by the clipboard if in interactive mode
+		arrayOfMemorable2Passwords[i] = memorable2PasswordNoColor
 
 		// Prepare color for the index number
 		red := color.New(color.FgHiRed).SprintfFunc()
 
 		// Print the index number and current element of the array
-		tableWriter.AppendRow([]interface{}{red("%d", i), mixedPasswordColorized})
+		tableWriter.AppendRow([]interface{}{red("%d", i), memorable2PasswordColorized})
 
 		tableWriter.AppendSeparator()
 	}
@@ -316,7 +315,7 @@ func printMixedPasswordsTable(mixedPasswords bool, randomPasswords bool) []strin
 
 	// Return the array because it's needed for the
 	// clipboard functions if we're in interactive mode.
-	return arrayOfMixedPasswords
+	return arrayOfMemorable2Passwords
 }
 
 // printRandomPasswordsTable This function prints a table of random passwords and
@@ -539,12 +538,12 @@ func printPasswordExamplesTable() []string {
 	progressBar.Increment()
 
 	// TODO: This errors out if rows is < 8
-	// Mixed password example password
-	mixedPasswordExample := createMixedPassword(true, false, 8)
+	// Memorable2 password example password
+	memorable2PasswordExample := createMemorable2Password(true, false, 8)
 	arrayOfPasswordTypes = append(arrayOfPasswordTypes,
 		PasswordAndCommandFlag{
-			PasswordExample: mixedPasswordExample,
-			CommandFlag:     "--mixed",
+			PasswordExample: memorable2PasswordExample,
+			CommandFlag:     "--memorable-2",
 		})
 	// Increment the progress progressBar
 	progressBar.Increment()
