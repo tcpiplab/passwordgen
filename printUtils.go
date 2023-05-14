@@ -34,7 +34,7 @@ import (
 // - rows: an int specifying the number of rows to print
 // - requestedPasswordLength: an int specifying the length of each password to generate
 // - arrayPasswords: a slice of strings representing the passwords to be populated
-func printPasswordTableUnix(arrayPasswords []string, randomPasswords bool, wordChains bool, mixedPasswords bool, passPhrases bool, memorable bool, randomHex bool, grammatical bool, grammaticalAI bool, grammaticalAIWithNumbers bool, mnemonic bool, memorable3 bool) []string {
+func printPasswordTableUnix(arrayPasswords []string, randomPasswords bool, wordChains bool, memorable2 bool, passPhrases bool, memorable bool, randomHex bool, grammatical bool, grammaticalAI bool, grammaticalAIWithNumbers bool, mnemonic bool, memorable3 bool) []string {
 
 	if passPhrases {
 
@@ -44,9 +44,9 @@ func printPasswordTableUnix(arrayPasswords []string, randomPasswords bool, wordC
 
 		arrayPasswords = printWordChainsTable()
 
-	} else if mixedPasswords {
+	} else if memorable2 {
 
-		arrayPasswords = printMixedPasswordsTable(mixedPasswords, randomPasswords)
+		arrayPasswords = printMixedPasswordsTable(memorable2, randomPasswords)
 
 	} else if randomPasswords {
 

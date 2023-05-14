@@ -10,7 +10,7 @@ func argsHandler() (
 	erase *bool,
 	randomPasswords *bool,
 	wordChains *bool,
-	mixedPasswords *bool,
+	memorable2 *bool,
 	help *bool,
 	passPhrases *bool,
 	memorable *bool,
@@ -54,10 +54,10 @@ func argsHandler() (
 		false,
 		"./passwordgen --word-chains\n")
 
-	mixedPasswords = flag.Bool(
-		"mixed",
+	memorable2 = flag.Bool(
+		"memorable-2",
 		false,
-		"./passwordgen --mixed\n")
+		"./passwordgen --memorable-2\n")
 
 	passPhrases = flag.Bool(
 		"passphrases",
@@ -106,7 +106,7 @@ func argsHandler() (
 
 	flag.Parse()
 
-	return interactive, erase, randomPasswords, wordChains, mixedPasswords, nil, passPhrases, memorable, randomHex, examples, grammatical, grammaticalAI, grammaticalAIWithNumbers, mnemonic, memorable3
+	return interactive, erase, randomPasswords, wordChains, memorable2, nil, passPhrases, memorable, randomHex, examples, grammatical, grammaticalAI, grammaticalAIWithNumbers, mnemonic, memorable3
 }
 
 func ifInteractive(interactive *bool, rows int) bool {
