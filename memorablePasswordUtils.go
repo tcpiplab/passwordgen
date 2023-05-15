@@ -147,20 +147,19 @@ func createMemorable3Password() string {
 
 	} else if lexicalChoice == 1 {
 
-		// createVerbAdvPassword()
 		memorable3Password = createVerbAdvPassword(memorable3Password, adverb, verb, specialChar, randomYear)
 
 	} else if lexicalChoice == 2 {
 
-		// createPronounNounPassword()
+		// TODO: createPronounNounPassword()
 
 	} else if lexicalChoice == 3 {
 
-		// createPronounVerbPassword()
+		// TODO: createPronounVerbPassword()
 
 	} else if lexicalChoice == 4 {
 
-		// createPossessiveNounPassword()
+		// TODO: createPossessiveNounPassword()
 	}
 
 	return memorable3Password
