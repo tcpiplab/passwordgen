@@ -118,9 +118,34 @@ func createMemorable3Password() string {
 		_ = getVocabWords()
 	)
 
-	adjectiveNounYear := capitalizeFirstLetter(adjective) + capitalizeFirstLetter(noun) + getRandomSpecialChar(true) + RandomYearOrInt()
+	var memorable3Password string
 
-	return adjectiveNounYear
+	adjective = capitalizeFirstLetter(adjective)
+	noun = capitalizeFirstLetter(noun)
+	specialChar := getRandomSpecialChar(true)
+	randomYear := RandomYearOrInt()
+
+	// initialize global pseudo random generator
+	r := rand.New(rand.NewSource(time.Now().UnixNano()))
+
+	// generates a random number between 0 and 3
+	intBetween0and3 := r.Intn(4)
+
+	// Half the time, FeistySample|2023 because it reads easier
+	if intBetween0and3 == 0 || intBetween0and3 == 3 {
+
+		memorable3Password = adjective + noun + specialChar + randomYear
+
+	} else if intBetween0and3 == 1 {
+
+		memorable3Password = randomYear + specialChar + adjective + noun
+
+	} else if intBetween0and3 == 2 {
+
+		memorable3Password = adjective + randomYear + specialChar + noun
+	}
+
+	return memorable3Password
 }
 
 // getRandomSpecialChar This function returns a random special character.
