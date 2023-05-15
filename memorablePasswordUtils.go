@@ -112,26 +112,72 @@ func randomDoubledDigit() string {
 //	FitnessGoal!10kRun
 func createMemorable3Password() string {
 
+	//var (
+	//	_, noun, _, adjective, _, _,
+	//	_, _,
+	//	_ = getVocabWords()
+	//)
+
+	//var (
+	//	verb, noun, adverb, adjective, article, auxVerb, pronounAndVerbPresent, possessivePronoun, preposition = getVocabWords()
+	//)
+
 	var (
-		_, noun, _, adjective, _, _,
-		_, _,
-		_ = getVocabWords()
+		verb, noun, adverb, adjective, _, _, _, _, _ = getVocabWords()
 	)
 
 	var memorable3Password string
 
 	adjective = capitalizeFirstLetter(adjective)
 	noun = capitalizeFirstLetter(noun)
+	verb = capitalizeFirstLetter(verb)
+	adverb = capitalizeFirstLetter(adverb)
 	specialChar := getRandomSpecialChar(true)
 	randomYear := RandomYearOrInt()
 
 	// initialize global pseudo random generator
-	r := rand.New(rand.NewSource(time.Now().UnixNano()))
+	r1 := rand.New(rand.NewSource(time.Now().UnixNano()))
+
+	// generates a random number between 0 and 1
+	lexicalChoice := r1.Intn(2)
+
+	if lexicalChoice == 0 {
+
+		memorable3Password = createNounAdjPassword(memorable3Password, adjective, noun, specialChar, randomYear)
+
+	} else if lexicalChoice == 1 {
+
+		// createVerbAdvPassword()
+		memorable3Password = createVerbAdvPassword(memorable3Password, adverb, verb, specialChar, randomYear)
+
+	} else if lexicalChoice == 2 {
+
+		// createPronounNounPassword()
+
+	} else if lexicalChoice == 3 {
+
+		// createPronounVerbPassword()
+
+	} else if lexicalChoice == 4 {
+
+		// createPossessiveNounPassword()
+	}
+
+	return memorable3Password
+}
+
+// createNounAdjPassword This function creates a memorable noun-adjective
+// password using random numbers, adjectives, nouns, special characters and
+// years.
+func createNounAdjPassword(memorable3Password string, adjective string, noun string, specialChar string, randomYear string) string {
+
+	// initialize global pseudo random generator
+	r2 := rand.New(rand.NewSource(time.Now().UnixNano()))
 
 	// generates a random number between 0 and 3
-	intBetween0and3 := r.Intn(4)
+	intBetween0and3 := r2.Intn(4)
 
-	// Half the time, FeistySample|2023 because it reads easier
+	// Half the time, choose the pattern like "FeistySample|2023" because it reads easier
 	if intBetween0and3 == 0 || intBetween0and3 == 3 {
 
 		memorable3Password = adjective + noun + specialChar + randomYear
@@ -144,7 +190,32 @@ func createMemorable3Password() string {
 
 		memorable3Password = adjective + randomYear + specialChar + noun
 	}
+	return memorable3Password
+}
 
+// createVerbAdvPassword This function creates a secure yet memorable password by
+// randomly combining a verb, adverb, special character and a random year.
+func createVerbAdvPassword(memorable3Password string, adverb string, verb string, specialChar string, randomYear string) string {
+
+	// initialize global pseudo random generator
+	r2 := rand.New(rand.NewSource(time.Now().UnixNano()))
+
+	// generates a random number between 0 and 3
+	intBetween0and3 := r2.Intn(4)
+
+	// Half the time, choose the pattern like "FeistySample|2023" because it reads easier
+	if intBetween0and3 == 0 || intBetween0and3 == 3 {
+
+		memorable3Password = verb + adverb + specialChar + randomYear
+
+	} else if intBetween0and3 == 1 {
+
+		memorable3Password = randomYear + specialChar + verb + adverb
+
+	} else if intBetween0and3 == 2 {
+
+		memorable3Password = verb + randomYear + specialChar + adverb
+	}
 	return memorable3Password
 }
 

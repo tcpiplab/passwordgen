@@ -21,7 +21,7 @@ func getVocabWords() (string, string, string, string, string, string, string, st
 }
 
 func getPreposition() string {
-	randomInt := rand.Intn(10) // Generate a random integer between 0 and 9
+	randomInt := rand.Intn(12) // Generate a random integer between 0 and 11
 
 	var preposition string
 
@@ -46,6 +46,10 @@ func getPreposition() string {
 		preposition = "after"
 	case 9:
 		preposition = "through"
+	case 10:
+		preposition = "near"
+	case 11:
+		preposition = "somewhere"
 	}
 	return preposition
 }
