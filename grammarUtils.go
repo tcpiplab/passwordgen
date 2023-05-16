@@ -130,7 +130,7 @@ func getPronounAndVerbPresent() string {
 // depending on the third-person singular pronoun used.
 func appendSIfThirdPerson(verb string, pronoun string) string {
 
-	thirdPersonSingularPronouns := []string{"he", "she", "it", "that"}
+	thirdPersonSingularPronouns := []string{"he", "she", "it", "that", "this"}
 
 	for _, p := range thirdPersonSingularPronouns {
 		if strings.EqualFold(pronoun, p) {

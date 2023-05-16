@@ -44,8 +44,8 @@ func RandomYearOrInt() string {
 	// initialize global pseudo random generator
 	r := rand.New(rand.NewSource(time.Now().UnixNano()))
 
-	// Randomly decide between year, int, current year, or double digit
-	yearOrInt := r.Intn(4)
+	// Randomly decide between year, int, current year, or double-digit
+	yearOrInt := r.Intn(5)
 
 	minYear := 1900
 	maxYear := time.Now().Year()
@@ -60,13 +60,14 @@ func RandomYearOrInt() string {
 		randomYear := r0.Intn(maxYear-minYear+1) + minYear
 		return strconv.Itoa(randomYear)
 
-	} else if yearOrInt == 1 {
+		// 40% of the time it will return a single digit
+	} else if yearOrInt == 1 || yearOrInt == 4 {
 
 		// initialize global pseudo random generator
 		r1 := rand.New(rand.NewSource(time.Now().UnixNano()))
 
-		// generates a random number between 0 and 99
-		randomInt := r1.Intn(100)
+		// generates a random number between 0 and 9
+		randomInt := r1.Intn(10)
 
 		return fmt.Sprintf("%d", randomInt)
 
@@ -157,7 +158,7 @@ func createMemorable3Password() string {
 
 	} else if lexicalChoice == 3 {
 
-		// TODO: createPronounVerbPassword()
+		// TODO: Some other grammatical variation
 
 	} else if lexicalChoice == 4 {
 
