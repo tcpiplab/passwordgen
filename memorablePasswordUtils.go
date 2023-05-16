@@ -134,12 +134,14 @@ func createMemorable3Password() string {
 	adverb = capitalizeFirstLetter(adverb)
 	specialChar := getRandomSpecialChar(true)
 	randomYear := RandomYearOrInt()
+	pronoun := getPronoun()
+	pronoun = capitalizeFirstLetter(pronoun)
 
 	// initialize global pseudo random generator
 	r1 := rand.New(rand.NewSource(time.Now().UnixNano()))
 
-	// generates a random number between 0 and 1
-	lexicalChoice := r1.Intn(2)
+	// generates a random number between 0 and 2
+	lexicalChoice := r1.Intn(3)
 
 	if lexicalChoice == 0 {
 
@@ -151,7 +153,7 @@ func createMemorable3Password() string {
 
 	} else if lexicalChoice == 2 {
 
-		// TODO: createPronounNounPassword()
+		memorable3Password = createPronounVerbPassword(memorable3Password, pronoun, verb, specialChar, randomYear)
 
 	} else if lexicalChoice == 3 {
 
@@ -160,6 +162,36 @@ func createMemorable3Password() string {
 	} else if lexicalChoice == 4 {
 
 		// TODO: createPossessiveNounPassword()
+	}
+
+	return memorable3Password
+}
+
+// createPronounVerbPassword This function generates a secure yet memorable
+// 3-part password utilizing pronoun, verb, special character, and random year.
+func createPronounVerbPassword(memorable3Password string, pronoun string, verb string, specialChar string, randomYear string) string {
+
+	// Append "s" to the verb if the pronoun is "he", "she", "it", or "that"
+	verb = appendSIfThirdPerson(verb, pronoun)
+
+	// initialize global pseudo random generator
+	r := rand.New(rand.NewSource(time.Now().UnixNano()))
+
+	// generates a random number between 0 and 3
+	intBetween0and3 := r.Intn(4)
+
+	// Half the time, choose the pattern like "YouListen%1960" because it reads easier
+	if intBetween0and3 == 0 || intBetween0and3 == 3 {
+
+		memorable3Password = pronoun + verb + specialChar + randomYear
+
+	} else if intBetween0and3 == 1 {
+
+		memorable3Password = randomYear + specialChar + pronoun + verb
+
+	} else if intBetween0and3 == 2 {
+
+		memorable3Password = pronoun + randomYear + specialChar + verb
 	}
 
 	return memorable3Password
