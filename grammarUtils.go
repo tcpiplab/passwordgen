@@ -21,7 +21,7 @@ func getVocabWords() (string, string, string, string, string, string, string, st
 }
 
 func getPreposition() string {
-	randomInt := rand.Intn(10) // Generate a random integer between 0 and 9
+	randomInt := rand.Intn(12) // Generate a random integer between 0 and 11
 
 	var preposition string
 
@@ -46,6 +46,10 @@ func getPreposition() string {
 		preposition = "after"
 	case 9:
 		preposition = "through"
+	case 10:
+		preposition = "near"
+	case 11:
+		preposition = "somewhere"
 	}
 	return preposition
 }
@@ -120,6 +124,72 @@ func getPronounAndVerbPresent() string {
 		pronounAndVerbPresent = "I am"
 	}
 	return pronounAndVerbPresent
+}
+
+// appendSIfThirdPerson This function appends "s", "es", or "ies" to verbs
+// depending on the third-person singular pronoun used.
+func appendSIfThirdPerson(verb string, pronoun string) string {
+
+	thirdPersonSingularPronouns := []string{"he", "she", "it", "that", "this"}
+
+	for _, p := range thirdPersonSingularPronouns {
+		if strings.EqualFold(pronoun, p) {
+
+			if strings.HasSuffix(verb, "y") &&
+				!strings.HasSuffix(verb, "ay") &&
+				!strings.HasSuffix(verb, "ey") &&
+				!strings.HasSuffix(verb, "oy") &&
+				!strings.HasSuffix(verb, "uy") &&
+				!strings.HasSuffix(verb, "iy") {
+				return verb[:len(verb)-1] + "ies"
+
+			} else if strings.HasSuffix(verb, "s") ||
+				strings.HasSuffix(verb, "x") ||
+				strings.HasSuffix(verb, "z") ||
+				strings.HasSuffix(verb, "ch") ||
+				strings.HasSuffix(verb, "sh") {
+				return verb + "es"
+
+			} else {
+
+				return verb + "s"
+			}
+		}
+	}
+
+	return verb
+}
+
+// getPronoun This function chooses a pronoun at random.
+func getPronoun() string {
+	// Choose a pronoun at random
+	randomInt := rand.Intn(10) // Generate a random integer between 0 and 9
+
+	var pronoun string
+
+	switch randomInt {
+	case 0:
+		pronoun = "it"
+	case 1:
+		pronoun = "that"
+	case 2:
+		pronoun = "those"
+	case 3:
+		pronoun = "this"
+	case 4:
+		pronoun = "he"
+	case 5:
+		pronoun = "she"
+	case 6:
+		pronoun = "they"
+	case 7:
+		pronoun = "we"
+	case 8:
+		pronoun = "you"
+	case 9:
+		pronoun = "I"
+	}
+	return pronoun
 }
 
 func getVerbModifier(r *rand.Rand) string {
