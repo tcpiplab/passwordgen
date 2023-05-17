@@ -372,6 +372,85 @@ The `--word-chains` flag requires an argument for how long the passwords will be
 └───┴──────────────────────────────┘
 ```
 
+# Setting the `GPT_API_KEY` environment variable 
+
+
+
+This is optional. But some of the most interesting features of this tool require this environment variable in order to make calls to the ChatGPT-4 API. Without it these features won't work:
+
+- `--examples`
+- `--grammatical-ai`
+- `--grammatical-ai-with-numbers`
+- `--mnemonic`
+
+## Linux, Unix, and Mac OS
+
+The examples below are for if you're using the `zsh` shell. If you're not using the `zsh` shell, the `~/.zshrc` file should be replaced with whichever file is appropriate for the shell you're using and how your shell is set up. If you're using the `zsh` shell, then just follow the example below. If you're using the `bash` shell then here's the rule of thumb:
+
+- If you want your changes to be available in all shell sessions (both login and non-login), place them in `~/.bashrc` and make sure that your `~/.bash_profile` sources your `~/.bashrc` file. This is usually already set up for you by the OS install scripts.
+- If you want your changes to only apply to login shells (like when you ssh into your machine), put them in `~/.bash_profile`.
+
+If you're using another shell like `ksh`, `tcsh`, `csh`, or `sh`, then I'm sure you know exactly what you're doing and can figure out how to set environment variables with no problem.
+
+#### User level and persistent
+
+
+```shell
+echo 'export GPT_API_KEY=xx-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx' >> ~/.zshrc
+source ~/.zshrc
+```
+
+#### System level and persistent
+
+You'll have to do this as root or use `sudo`. Either way, I assume that you know what you're doing if you have this level of authorization.
+
+```shell
+sudo echo 'export GPT_API_KEY=xx-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx' > /etc/profile.d/myenvvars.sh
+```
+
+## Windows
+
+### Windows Powershell
+
+#### User level and persistent
+
+To set a permanent environment variable that persists across sessions and reboots, you can use the `[System.Environment]::SetEnvironmentVariable()` method. For example, to set a user-level environment variable use the following command but replace the `xx-xxxxxxxx...` key value with your own key value. Leave the `User` field just like you see below:
+
+```shell
+[System.Environment]::SetEnvironmentVariable("GPT_API_KEY", "xx-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", "User")
+```
+
+After setting this permanent environment variable, you need to restart your PowerShell session for the changes to take effect.
+
+#### Machine level and persistent
+
+To set a machine-level (system-wide) environment variable you need to run PowerShell with administrative privileges. Leave the `Machine` field just like you see below:
+
+```shell
+[System.Environment]::SetEnvironmentVariable("GPT_API_KEY", "xx-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", "Machine")
+```
+
+Now restart your computer for the changes to take effect.
+
+### Windows cmd shell
+
+#### User level and persistent
+
+```shell
+setx GPT_API_KEY "xx-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+```
+
+Now close your `cmd` window and open another one. 
+
+#### Machine level and persistent
+
+To set a system-wide environment variable (as opposed to a user-specific one), you need to run the `cmd` shell as an administrator and use the `/M` switch:
+
+```shell
+setx /M GPT_API_KEY "xx-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+```
+
+Now close your `cmd` window and open another one. For other users to use the environment variable you may have to reboot.
 
 # Building releases for multiple platforms
 
