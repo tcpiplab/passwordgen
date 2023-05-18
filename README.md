@@ -1,10 +1,41 @@
 # passwordgen
 
-A command line password generator written in Golang with optional use of the [ChatGPT-4 API](https://platform.openai.com/docs/api-reference). Works on Mac, Linux, Unix, or Windows. 
+This Golang-based command-line password generator with optional use of the [ChatGPT-4 API](https://platform.openai.com/docs/api-reference), generates secure passwords as well as memorable, AI-enhanced passphrases and sentences in English. These unique features provide a balance between memorability and security. The tool is cross-platform, working on Mac, Linux, Unix, and Windows.
 
 |                                             Language                                             |                                                                                                                                                 Operating Systems                                                                                                                                                 |                                                                                                                                                                            Shell Support                                                                                                                                                                             |
 |:------------------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
 | ![Go](https://img.shields.io/badge/go-%2300ADD8.svg?style=for-the-badge&logo=go&logoColor=white) | ![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)![macOS](https://img.shields.io/badge/mac%20os-000000?style=for-the-badge&logo=macos&logoColor=F0F0F0) ![Windows](https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white) | ![Bash](https://img.shields.io/badge/GNU%20Bash-4EAA25?style=for-the-badge&logo=GNU%20Bash&logoColor=white)![Windows Terminal](https://img.shields.io/badge/windows%20terminal-4D4D4D?style=for-the-badge&logo=windows%20terminal&logoColor=white) ![Powershell](https://img.shields.io/badge/powershell-5391FE?style=for-the-badge&logo=powershell&logoColor=white) |
+
+Table of Contents
+=================
+
+* [passwordgen](#passwordgen)
+    * [Just download a binary for your platform](#just-download-a-binary-for-your-platform)
+    * [Or build it from source](#or-build-it-from-source)
+    * [Run](#run)
+    * [Usage](#usage)
+    * [Examples](#examples)
+    * [Grammatical vs Grammatical-AI](#grammatical-vs-grammatical-ai)
+    * [Hexadecimal PINs](#hexadecimal-pins)
+    * [Memorable Passwords](#memorable-passwords)
+    * [Memorable-2 Passwords](#memorable-2-passwords)
+    * [Memorable-3 passwords](#memorable-3-passwords)
+    * [Mnemonic passwords](#mnemonic-passwords)
+    * [Passphrases](#passphrases)
+    * [Word Chains](#word-chains)
+* [Signing up for a ChatGPT-4 API key](#signing-up-for-a-chatgpt-4-api-key)
+* [Setting the GPT_API_KEY environment variable](#setting-the-gpt_api_key-environment-variable)
+    * [Linux, Unix, and Mac OS](#linux-unix-and-mac-os)
+      * [User level and persistent](#user-level-and-persistent)
+      * [System level and persistent](#system-level-and-persistent)
+    * [Windows](#windows)
+        * [Windows Powershell](#windows-powershell)
+            * [User level and persistent](#user-level-and-persistent-1)
+            * [Machine level and persistent](#machine-level-and-persistent)
+        * [Windows cmd shell](#windows-cmd-shell)
+            * [User level and persistent](#user-level-and-persistent-2)
+            * [Machine level and persistent](#machine-level-and-persistent-1)
+* [Building releases for multiple platforms](#building-releases-for-multiple-platforms)
 
 ## Just download a binary for your platform
 
@@ -372,9 +403,12 @@ The `--word-chains` flag requires an argument for how long the passwords will be
 └───┴──────────────────────────────┘
 ```
 
+# Signing up for a ChatGPT-4 API key
+
+You can sign up for a ChatGPT-4 API key [here](https://platform.openai.com/signup). It will cost you a little bit of money each time you use it. At the time of this writing it is pretty cheap. For example, so far it has cost me less than $3.00 to develop and test all the AI features of this program. And they allow you to set soft and hard limits so that you don't accidentally spend to much money.
+
+
 # Setting the `GPT_API_KEY` environment variable 
-
-
 
 This is optional. But some of the most interesting features of this tool require this environment variable in order to make calls to the ChatGPT-4 API. Without it these features won't work:
 
