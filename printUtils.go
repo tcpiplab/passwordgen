@@ -469,6 +469,8 @@ func printRandomHexTable() []string {
 // different types of passwords, along with their corresponding command flag.
 func printPasswordExamplesTable() []string {
 
+	// TODO: Alphabetize the output, sorted by option name
+
 	/*---------------------------------------------------------------------------
 	Set up the progress bar
 	---------------------------------------------------------------------------*/
