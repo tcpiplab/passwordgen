@@ -24,6 +24,7 @@ Table of Contents
     * [Memorable Passwords](#memorable-passwords)
     * [Memorable-2 Passwords](#memorable-2-passwords)
     * [Memorable-3 passwords](#memorable-3-passwords)
+    * [Memorable-4 passwords](#memorable-4-passwords)
     * [Mnemonic passwords](#mnemonic-passwords)
     * [Passphrases](#passphrases)
     * [Word Chains](#word-chains)
