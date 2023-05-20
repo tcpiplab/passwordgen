@@ -34,7 +34,7 @@ import (
 // - rows: an int specifying the number of rows to print
 // - requestedPasswordLength: an int specifying the length of each password to generate
 // - arrayPasswords: a slice of strings representing the passwords to be populated
-func printPasswordTableUnix(arrayPasswords []string, randomPasswords bool, wordChains bool, memorable2 bool, passPhrases bool, memorable bool, randomHex bool, grammatical bool, grammaticalAI bool, grammaticalAIWithNumbers bool, mnemonic bool, memorable3 bool) []string {
+func printPasswordTableUnix(arrayPasswords []string, randomPasswords bool, wordChains bool, memorable2 bool, passPhrases bool, memorable bool, randomHex bool, grammatical bool, grammaticalAI bool, grammaticalAIWithNumbers bool, mnemonic bool, memorable3 bool, memorable4 bool) []string {
 
 	if passPhrases {
 
@@ -79,6 +79,10 @@ func printPasswordTableUnix(arrayPasswords []string, randomPasswords bool, wordC
 	} else if memorable3 {
 
 		arrayPasswords = printMemorableTable(3)
+
+	} else if memorable4 {
+
+		arrayPasswords = printMemorableTable(4)
 	}
 
 	return arrayPasswords
@@ -390,6 +394,11 @@ func printMemorableTable(memorableType int) []string {
 		} else if memorableType == 3 {
 
 			memorablePasswordNoColor = createMemorable3Password()
+
+		} else if memorableType == 4 {
+
+			fmt.Println("Calling createMemorablePasswordAI()")
+			memorablePasswordNoColor = createMemorablePasswordAI()
 		}
 
 		// Colorize the word chain that we're saving to the array

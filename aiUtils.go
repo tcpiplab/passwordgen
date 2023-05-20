@@ -106,6 +106,54 @@ func createGrammaticalPasswordAI(nonSensicalSentence string, grammaticalAIWithNu
 	return rewrittenSentence
 }
 
+func createMemorablePasswordAI() string {
+
+	openaiAPIURL, apiKey := setupChatGPTAPI()
+
+	// Check if the API key exists
+	if apiKey == "" {
+		log.Println("Error: API key is missing. Please set the API key and try again.")
+		os.Exit(1)
+	}
+	// Continue execution if the environment variable exists
+
+	var promptSentence string
+
+	// Declare a variable of type CompletionCreateArgs that we'll use below
+	var chatGPTRequestData CompletionCreateArgs
+
+	promptSentence = "Please return two nouns that are related to each other, " +
+		"and one adjective that is related to at least one of the nouns. " +
+		"Put them in a simple list, separated by commas. And don't include anything else."
+
+	chatGPTRequestData = CompletionCreateArgs{
+		Model:  "text-davinci-003",
+		Prompt: promptSentence,
+		// Any amount of tokens < 12 will truncate some sentences.
+		MaxTokens: 12,
+		// The best outcomes seem to be with temperature set to 0.8 for this prompt.
+		// Otherwise you get duplicate answers.
+		Temperature: 0.8,
+	}
+
+	// Make the actual API call
+	chatGPTResponseBody, errorString, apiRequestError := makeChatGPTAPIRequest(chatGPTRequestData, openaiAPIURL, apiKey)
+
+	// If the API call returned and error, return the error string
+	if apiRequestError {
+		return errorString
+	}
+
+	commaSeparatedWords := extractGPTJson(string(chatGPTResponseBody))
+
+	// Remove any surrounding single quotes. This happens sometimes.
+	commaSeparatedWords = strings.Trim(commaSeparatedWords, "'")
+
+	fmt.Println(commaSeparatedWords)
+
+	return commaSeparatedWords
+}
+
 func makeChatGPTAPIRequest(chatGPTRequestData CompletionCreateArgs, openaiAPIURL string, apiKey string) ([]byte, string, bool) {
 
 	// Convert the struct data into JSON
