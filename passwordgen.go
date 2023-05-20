@@ -34,9 +34,9 @@ func main() {
 
 	OS = detectOS()
 
-	interactive, erase, randomPasswords, wordChains, memorable2, _, passPhrases, memorable, randomHex, examples, grammatical, grammaticalAI, grammaticalAIWithNumbers, mnemonic, memorable3 := argsHandler()
+	interactive, erase, randomPasswords, wordChains, memorable2, _, passPhrases, memorable, randomHex, examples, grammatical, grammaticalAI, grammaticalAIWithNumbers, mnemonic, memorable3, memorable4 := argsHandler()
 
-	if !*grammatical && !*grammaticalAI && !*grammaticalAIWithNumbers && !*mnemonic && !*memorable3 {
+	if !*grammatical && !*grammaticalAI && !*grammaticalAIWithNumbers && !*mnemonic && !*memorable3 && !*memorable4 {
 
 		// Convert the requested length from string to int
 		// Length must be the last argument
@@ -112,18 +112,21 @@ func main() {
 	if *memorable3 {
 		*randomPasswords = false
 	}
+	if *memorable4 {
+		*randomPasswords = false
+	}
 
 	arrayPasswords := make([]string, rows)
 
 	if OS == "darwin" || OS == "linux" || OS == "unix" {
 
 		// Fill the screen with passwords
-		arrayPasswords = printPasswordTableUnix(arrayPasswords, *randomPasswords, *wordChains, *memorable2, *passPhrases, *memorable, *randomHex, *grammatical, *grammaticalAI, *grammaticalAIWithNumbers, *mnemonic, *memorable3)
+		arrayPasswords = printPasswordTableUnix(arrayPasswords, *randomPasswords, *wordChains, *memorable2, *passPhrases, *memorable, *randomHex, *grammatical, *grammaticalAI, *grammaticalAIWithNumbers, *mnemonic, *memorable3, *memorable4)
 
 	} else if OS == "windows" {
 
 		// Fill the screen with passwords
-		arrayPasswords = printPasswordTableUnix(arrayPasswords, *randomPasswords, *wordChains, *memorable2, *passPhrases, *memorable, *randomHex, *grammatical, *grammaticalAI, *grammaticalAIWithNumbers, *mnemonic, *memorable3)
+		arrayPasswords = printPasswordTableUnix(arrayPasswords, *randomPasswords, *wordChains, *memorable2, *passPhrases, *memorable, *randomHex, *grammatical, *grammaticalAI, *grammaticalAIWithNumbers, *mnemonic, *memorable3, *memorable4)
 	}
 
 	if ifInteractive(interactive, rows) {

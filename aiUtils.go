@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"github.com/jinzhu/inflection"
 	"io"
 	"log"
 	"math/rand"
@@ -104,6 +105,100 @@ func createGrammaticalPasswordAI(nonSensicalSentence string, grammaticalAIWithNu
 	//fmt.Println(rewrittenSentence)
 
 	return rewrittenSentence
+}
+
+func createMemorablePasswordAI() string {
+
+	openaiAPIURL, apiKey := setupChatGPTAPI()
+
+	// Check if the API key exists
+	if apiKey == "" {
+		log.Println("Error: API key is missing. Please set the API key and try again.")
+		os.Exit(1)
+	}
+	// Continue execution if the environment variable exists
+
+	var promptSentence string
+
+	// Declare a variable of type CompletionCreateArgs that we'll use below
+	var chatGPTRequestData CompletionCreateArgs
+
+	promptSentence = "Please return two nouns that are related to each other, " +
+		"and one adjective that is related to at least one of the nouns. " +
+		"Put them in a simple list, separated by commas. And don't include anything else."
+
+	chatGPTRequestData = CompletionCreateArgs{
+		Model:  "text-davinci-003",
+		Prompt: promptSentence,
+		// Any amount of tokens < 12 will truncate some sentences.
+		MaxTokens: 12,
+		// The best outcomes seem to be with temperature set to 0.8 for this prompt.
+		// Otherwise you get duplicate answers.
+		Temperature: 1.3,
+	}
+
+	// Make the actual API call
+	chatGPTResponseBody, errorString, apiRequestError := makeChatGPTAPIRequest(chatGPTRequestData, openaiAPIURL, apiKey)
+
+	// If the API call returned and error, return the error string
+	if apiRequestError {
+		return errorString
+	}
+
+	commaSeparatedWords := extractGPTJson(string(chatGPTResponseBody))
+
+	// Remove any surrounding single quotes. This happens sometimes.
+	commaSeparatedWords = strings.Trim(commaSeparatedWords, "'")
+
+	// Split the string on the comma and space.
+	separatedWords := strings.Split(commaSeparatedWords, ", ")
+
+	// FIXME: Create fallback lookups from local dictionary. If these are missing it errors out.
+	noun1 := separatedWords[0]
+	noun2 := separatedWords[1]
+	adjective := separatedWords[2]
+
+	noun1 = strings.TrimSpace(noun1)
+	noun2 = strings.TrimSpace(noun2)
+	adjective = strings.TrimSpace(adjective)
+
+	noun1 = capitalizeFirstLetter(noun1)
+	noun2 = capitalizeFirstLetter(noun2)
+	adjective = capitalizeFirstLetter(adjective)
+
+	noun1Plural := inflection.Plural(noun1)
+	noun2Plural := inflection.Plural(noun2)
+
+	// initialize global pseudo random generator
+	r := rand.New(rand.NewSource(time.Now().UnixNano()))
+
+	delimiter := RandomDelimiter()
+
+	digit := strconv.Itoa(r.Intn(10))
+
+	// Use the plural versions of the nouns unless the digit is 1
+	if digit != "1" {
+
+		noun1 = noun1Plural
+		noun2 = noun2Plural
+	}
+
+	// Randomly decide between variations in word order
+	wordOrder := r.Intn(3)
+
+	if wordOrder == 0 {
+
+		return adjective + noun1 + delimiter + digit + noun2
+
+	} else if wordOrder == 1 {
+
+		return digit + noun1 + delimiter + adjective + noun2
+
+	} else {
+
+		return noun1 + delimiter + digit + noun2 + "," + adjective
+	}
+
 }
 
 func makeChatGPTAPIRequest(chatGPTRequestData CompletionCreateArgs, openaiAPIURL string, apiKey string) ([]byte, string, bool) {

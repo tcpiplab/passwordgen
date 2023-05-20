@@ -21,6 +21,7 @@ func argsHandler() (
 	grammaticalAIWithNumbers *bool,
 	mnemonic *bool,
 	memorable3 *bool,
+	memorable4 *bool,
 ) {
 	// FIXME: Only -h works, not -help or --help
 	help = flag.Bool(
@@ -31,7 +32,7 @@ func argsHandler() (
 
 	if *help {
 		flag.Usage()
-		return nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil
+		return nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil
 	}
 
 	// Interactive mode is the default
@@ -75,6 +76,11 @@ func argsHandler() (
 		false,
 		"./passwordgen --memorable-3")
 
+	memorable4 = flag.Bool(
+		"memorable-4",
+		false,
+		"./passwordgen --memorable-4")
+
 	randomHex = flag.Bool(
 		"hex",
 		false,
@@ -107,7 +113,7 @@ func argsHandler() (
 
 	flag.Parse()
 
-	return interactive, erase, randomPasswords, wordChains, memorable2, nil, passPhrases, memorable, randomHex, examples, grammatical, grammaticalAI, grammaticalAIWithNumbers, mnemonic, memorable3
+	return interactive, erase, randomPasswords, wordChains, memorable2, nil, passPhrases, memorable, randomHex, examples, grammatical, grammaticalAI, grammaticalAIWithNumbers, mnemonic, memorable3, memorable4
 }
 
 func ifInteractive(interactive *bool, rows int) bool {
