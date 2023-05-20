@@ -151,7 +151,7 @@ func createMemorablePasswordAI() string {
 	commaSeparatedWords = strings.Trim(commaSeparatedWords, "'")
 
 	// Split the string on the comma and space.
-	separatedWords := strings.Split(commaSeparatedWords, ", ")
+	separatedWords := strings.Split(commaSeparatedWords, ",")
 
 	// FIXME: Create fallback lookups from local dictionary. If these are missing it errors out.
 	noun1 := separatedWords[0]
