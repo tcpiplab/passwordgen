@@ -128,30 +128,32 @@ In the examples below, notice that the trailing digit specifying length (20 in t
 ```shell
 $ ./passwordgen --examples 15
 
-┌───────────────────────────────┬─────────────────────────────────────────┐
-│ --grammatical                 │ Jell one point.                         │
-├───────────────────────────────┼─────────────────────────────────────────┤
-│ --grammatical-ai              │ This is magnificent.                    │
-├───────────────────────────────┼─────────────────────────────────────────┤
-│ --grammatical-ai-with-numbers │ They called 56 times for the dog.       │
-├───────────────────────────────┼─────────────────────────────────────────┤
-│ --hex                         │ 74679FFAFE28F65                         │
-├───────────────────────────────┼─────────────────────────────────────────┤
-│ --memorable                   │ (Similarly#)444                         │
-├───────────────────────────────┼─────────────────────────────────────────┤
-│ --memorable-2                 │ 2Pointless^Grand                        │
-├───────────────────────────────┼─────────────────────────────────────────┤
-│ --memorable-3                 │ PersuadeNicely;22                       │
-├───────────────────────────────┼─────────────────────────────────────────┤
-│ --mnemonic                    │ D28gcgi                                 │
-│                               │ Did 28 global commands get implemented? │
-├───────────────────────────────┼─────────────────────────────────────────┤
-│ --passphrases                 │ swoop backpedal diligent frugally neon  │
-├───────────────────────────────┼─────────────────────────────────────────┤
-│ --random                      │ J0vFe{pNTs^uz@Z                         │
-├───────────────────────────────┼─────────────────────────────────────────┤
-│ --word-chains                 │ plated~posing~stingy                    │
-└───────────────────────────────┴─────────────────────────────────────────┘
+┌───────────────────────────────┬────────────────────────────────────────────────────┐
+│ --grammatical                 │ Didn't we unbearably water any opinion?            │
+├───────────────────────────────┼────────────────────────────────────────────────────┤
+│ --grammatical-ai              │ Don't succumb to his pressure.                     │
+├───────────────────────────────┼────────────────────────────────────────────────────┤
+│ --grammatical-ai-with-numbers │ Their 0 monstrous vehicles didn't cause any cases. │
+├───────────────────────────────┼────────────────────────────────────────────────────┤
+│ --hex                         │ 7C326D21                                           │
+├───────────────────────────────┼────────────────────────────────────────────────────┤
+│ --memorable                   │ {%1337}Paradox                                     │
+├───────────────────────────────┼────────────────────────────────────────────────────┤
+│ --memorable-2                 │ =Spinner7                                          │
+├───────────────────────────────┼────────────────────────────────────────────────────┤
+│ --memorable-3                 │ 4?ThatOrganises                                    │
+├───────────────────────────────┼────────────────────────────────────────────────────┤
+│ --memorable-4                 │ ShinyPaintbrushes~5Easels                          │
+├───────────────────────────────┼────────────────────────────────────────────────────┤
+│ --mnemonic                    │ Tswi28plim                                         │
+│                               │ This script, which is 28 pages long, is mine.      │
+├───────────────────────────────┼────────────────────────────────────────────────────┤
+│ --passphrases                 │ playoff august uninstall lid tricking              │
+├───────────────────────────────┼────────────────────────────────────────────────────┤
+│ --random                      │ ^OV2oDK1                                           │
+├───────────────────────────────┼────────────────────────────────────────────────────┤
+│ --word-chains                 │ evolve*jeeringly                                   │
+└───────────────────────────────┴────────────────────────────────────────────────────┘
 ```
 
 ## Grammatical vs Grammatical-AI
@@ -316,6 +318,33 @@ For `--memorable-2` passwords, the length is only a rough guide, not determinist
 └────┴─────────────────────────┘
 ```
 
+## Memorable-4 passwords
+
+These are perhaps the most memorable type of passwords offered by this program. The constituent words are chosen by the ChatGPT-4 API. Then this program optionally pluralizes one noun, depending on the random digit generated, and adds a delimiter before concatenating it all into a password.
+
+```shell
+/passwordgen --memorable-4
+┌───┬─────────────────────────────┐
+│ 0 │ Trees%5Roots,Ominous        │
+├───┼─────────────────────────────┤
+│ 1 │ Drums%2Cymbals,Metallic     │
+├───┼─────────────────────────────┤
+│ 2 │ Orchid!1Petal,Fragrant      │
+├───┼─────────────────────────────┤
+│ 3 │ 4Clarets-ExquisiteDecanters │
+├───┼─────────────────────────────┤
+│ 4 │ DisgustingCats-0Litterboxes │
+├───┼─────────────────────────────┤
+│ 5 │ Car#1Wheel,Rotating         │
+├───┼─────────────────────────────┤
+│ 6 │ 3Pianos_GrandBenches        │
+├───┼─────────────────────────────┤
+│ 7 │ CreativeDirectors.4Actors   │
+├───┼─────────────────────────────┤
+│ 8 │ 5Boats:SecludedHarbors      │
+└───┴─────────────────────────────┘
+```
+
 ## Mnemonic passwords
 
 The memorable sentence is generated manually but with random inputs, then improved by ChatGPT-4, which requires an API key. But the resulting mnemonic password is created deterministically by this program.
@@ -419,6 +448,7 @@ This is optional. But some of the most interesting features of this tool require
 - `--examples`
 - `--grammatical-ai`
 - `--grammatical-ai-with-numbers`
+- `--memorable-4`
 - `--mnemonic`
 
 ## Linux, Unix, and Mac OS

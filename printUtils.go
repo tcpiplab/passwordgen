@@ -397,7 +397,6 @@ func printMemorableTable(memorableType int) []string {
 
 		} else if memorableType == 4 {
 
-			fmt.Println("Calling createMemorablePasswordAI()")
 			memorablePasswordNoColor = createMemorablePasswordAI()
 		}
 
@@ -582,6 +581,16 @@ func printPasswordExamplesTable() []string {
 		PasswordAndCommandFlag{
 			PasswordExample: memorable3PasswordExample,
 			CommandFlag:     "--memorable-3",
+		})
+	progressBar.Increment()
+	// --------------------------------------------------------------------------
+
+	// --memorable-4 ------------------------------------------------------------
+	memorable4PasswordExample := createMemorablePasswordAI()
+	arrayOfPasswordTypes = append(arrayOfPasswordTypes,
+		PasswordAndCommandFlag{
+			PasswordExample: memorable4PasswordExample,
+			CommandFlag:     "--memorable-4",
 		})
 	progressBar.Increment()
 	// --------------------------------------------------------------------------

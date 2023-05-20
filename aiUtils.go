@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"github.com/jinzhu/inflection"
 	"io"
 	"log"
 	"math/rand"
@@ -133,7 +134,7 @@ func createMemorablePasswordAI() string {
 		MaxTokens: 12,
 		// The best outcomes seem to be with temperature set to 0.8 for this prompt.
 		// Otherwise you get duplicate answers.
-		Temperature: 0.8,
+		Temperature: 1.3,
 	}
 
 	// Make the actual API call
@@ -149,9 +150,55 @@ func createMemorablePasswordAI() string {
 	// Remove any surrounding single quotes. This happens sometimes.
 	commaSeparatedWords = strings.Trim(commaSeparatedWords, "'")
 
-	fmt.Println(commaSeparatedWords)
+	// Split the string on the comma and space.
+	separatedWords := strings.Split(commaSeparatedWords, ", ")
 
-	return commaSeparatedWords
+	// FIXME: Create fallback lookups from local dictionary. If these are missing it errors out.
+	noun1 := separatedWords[0]
+	noun2 := separatedWords[1]
+	adjective := separatedWords[2]
+
+	noun1 = strings.TrimSpace(noun1)
+	noun2 = strings.TrimSpace(noun2)
+	adjective = strings.TrimSpace(adjective)
+
+	noun1 = capitalizeFirstLetter(noun1)
+	noun2 = capitalizeFirstLetter(noun2)
+	adjective = capitalizeFirstLetter(adjective)
+
+	noun1Plural := inflection.Plural(noun1)
+	noun2Plural := inflection.Plural(noun2)
+
+	// initialize global pseudo random generator
+	r := rand.New(rand.NewSource(time.Now().UnixNano()))
+
+	delimiter := RandomDelimiter()
+
+	digit := strconv.Itoa(r.Intn(10))
+
+	// Use the plural versions of the nouns unless the digit is 1
+	if digit != "1" {
+
+		noun1 = noun1Plural
+		noun2 = noun2Plural
+	}
+
+	// Randomly decide between variations in word order
+	wordOrder := r.Intn(3)
+
+	if wordOrder == 0 {
+
+		return adjective + noun1 + delimiter + digit + noun2
+
+	} else if wordOrder == 1 {
+
+		return digit + noun1 + delimiter + adjective + noun2
+
+	} else {
+
+		return noun1 + delimiter + digit + noun2 + "," + adjective
+	}
+
 }
 
 func makeChatGPTAPIRequest(chatGPTRequestData CompletionCreateArgs, openaiAPIURL string, apiKey string) ([]byte, string, bool) {
