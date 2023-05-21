@@ -268,6 +268,14 @@ func randomDelimiterAppendOrPrepend(inputStr string) string {
 
 func createPassphrase(requestedPasswordLength int) string {
 
+	// fmt.Printf("requestedPasswordLength == '%d'", requestedPasswordLength)
+
+	//if requestedPasswordLength == 0 {
+	//
+	//	// Hardcode this default if none is supplied at the command line
+	//	requestedPasswordLength = 5
+	//}
+
 	arrOfRandomWords := getArrayFromCompressedDictionary(requestedPasswordLength)
 
 	// Join the array into a single string with a comma separator
