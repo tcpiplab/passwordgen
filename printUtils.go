@@ -364,8 +364,8 @@ func printRandomPasswordsTable() []string {
 	return arrayOfRandomPasswords
 }
 
-// printMemorableTable This function prints a table of memorable passwords, which
-// are then stored in an array and returned for further use.
+// printMemorableTable This function prints a table of memorable passwords
+// of types 3 or 4, which are then stored in an array and returned for further use.
 func printMemorableTable(memorableType int) []string {
 
 	var consoleHeight int
@@ -383,6 +383,15 @@ func printMemorableTable(memorableType int) []string {
 	arrayOfMemorablePasswords := make([]string, consoleHeight/2)
 
 	var memorablePasswordNoColor string
+
+	// Define the total number of iterations. This will be used by the progress bar
+	totalIterations := (consoleHeight / 2) - 1
+
+	// Create a new progress bar container
+	progressBarContainer := mpb.New()
+
+	// Create a progress bar called progressBar
+	progressBar := createProgressBar(progressBarContainer, totalIterations)
 
 	// Loop through the console screen height and print a table of memorable passwords
 	for i := 0; i < (consoleHeight/2)-1; i++ {
@@ -414,7 +423,14 @@ func printMemorableTable(memorableType int) []string {
 		tableWriter.AppendRow([]interface{}{red("%d", i), memorablePasswordColorized})
 
 		tableWriter.AppendSeparator()
+
+		// Increment the progress progressBar
+		progressBar.Increment()
 	}
+
+	// Wait for the progress progressBar to finish rendering
+	progressBarContainer.Wait()
+
 	tableWriter.SetStyle(table.StyleLight)
 	tableWriter.Render()
 
