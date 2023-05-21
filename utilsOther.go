@@ -131,14 +131,17 @@ func checkPasswordLength(requestedPasswordLength int, randomHex *bool, passphras
 				// --passphrases defaults to 5 words
 				color.HiRed("\nPassphrase length defaults to 5 words if you don't specify a length as the last argument.\n\n")
 
+				// Hardcode the default to 5
+				requestedPasswordLength = 5
+
 			} else if *wordChains {
 
-				// --word-chains defaults to 5 words
-				color.HiRed("\nWord chain length defaults to 5 words if you don't specify a length as the last argument.\n\n")
-			}
+				// --word-chains defaults to 3 words
+				color.HiRed("\nWord chain length defaults to 3 words if you don't specify a length as the last argument.\n\n")
 
-			// Hardcode the default to 5
-			requestedPasswordLength = 5
+				// Hardcode the default to 3
+				requestedPasswordLength = 3
+			}
 
 			return requestedPasswordLength
 

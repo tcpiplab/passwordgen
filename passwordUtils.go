@@ -96,7 +96,8 @@ func createWordChain(requestedPasswordLength int) string {
 
 	var word string
 
-	for i := 0; i < requestedPasswordLength; i += len(word) {
+	//for i := 0; i < requestedPasswordLength; i += len(word) {
+	for i := 0; i < requestedPasswordLength; i++ {
 
 		// Grab a word from the compressed dictionary
 		word = getWordFromCompressedDictionary(dictionaryData)

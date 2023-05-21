@@ -244,6 +244,8 @@ func printWordChainsTable() []string {
 	// failures later on.
 	arrayOfWordChains := make([]string, consoleHeight/2)
 
+	//fmt.Printf("In printWordChainsTable() before loop.\nrequestedPasswordLength == '%d'\n", requestedPasswordLength)
+
 	// Loop through the console screen height and print a table of word chains
 	for i := 0; i < (consoleHeight/2)-1; i++ {
 
