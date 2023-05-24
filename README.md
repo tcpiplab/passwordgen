@@ -439,7 +439,7 @@ The `--word-chains` flag requires an argument for how long the passwords will be
 
 # Signing up for a ChatGPT-4 API key
 
-You can sign up for a ChatGPT-4 API key [here](https://platform.openai.com/signup). It will cost you a little bit of money each time you use it. At the time of this writing it is pretty cheap. For example, so far it has cost me less than $3.00 to develop and test all the AI features of this program. And they allow you to set soft and hard limits so that you don't accidentally spend to much money.
+You can sign up for a ChatGPT-4 API key [here](https://platform.openai.com/signup). It will cost you a little bit of money each time you use it. At the time of this writing it is pretty cheap. For example, so far it has cost me less than $3.00 to develop and test all the AI features of this program. And they allow you to set soft and hard limits so that you don't accidentally spend too much money.
 
 
 # Setting the `GPT_API_KEY` environment variable 
@@ -465,7 +465,7 @@ If you're using another shell like `ksh`, `tcsh`, `csh`, or `sh`, then I'm sure 
 
 
 ```shell
-echo 'export GPT_API_KEY=xx-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx' >> ~/.zshrc
+echo 'export GPT_API_KEY="xx-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"' >> ~/.zshrc
 source ~/.zshrc
 ```
 
@@ -474,7 +474,7 @@ source ~/.zshrc
 You'll have to do this as root or use `sudo`. Either way, I assume that you know what you're doing if you have this level of authorization.
 
 ```shell
-sudo echo 'export GPT_API_KEY=xx-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx' > /etc/profile.d/myenvvars.sh
+sudo echo 'export GPT_API_KEY="xx-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"' > /etc/profile.d/myenvvars.sh
 ```
 
 ## Windows
